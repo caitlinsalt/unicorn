@@ -5,4 +5,6 @@ This repository contains various libraries with PDF writing functionality, along
 
 ## External dependencies
 
-The only external dependency at present is [SharpZipLib](https://github.com/icsharpcode/SharpZipLib), used to compress PDF datastreams on write.
+The only external dependency used for PDF reading and writing is [SharpZipLib](https://github.com/icsharpcode/SharpZipLib), used to compress PDF datastreams.
+
+The command-line tools in the repository also use [CommandLineParser](https://github.com/commandlineparser/commandline) for option parsing.
