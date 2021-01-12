@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.CoreTypes", "Unicor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn", "Unicorn\Unicorn.csproj", "{07F67EF4-5262-43D4-B7B5-4FC9B84025A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.FontTools.OpenType", "Unicorn.FontTools.OpenType\Unicorn.FontTools.OpenType.csproj", "{487631E5-2C80-4A1D-A643-598F5853688F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{07F67EF4-5262-43D4-B7B5-4FC9B84025A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07F67EF4-5262-43D4-B7B5-4FC9B84025A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07F67EF4-5262-43D4-B7B5-4FC9B84025A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{487631E5-2C80-4A1D-A643-598F5853688F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{487631E5-2C80-4A1D-A643-598F5853688F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{487631E5-2C80-4A1D-A643-598F5853688F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{487631E5-2C80-4A1D-A643-598F5853688F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
