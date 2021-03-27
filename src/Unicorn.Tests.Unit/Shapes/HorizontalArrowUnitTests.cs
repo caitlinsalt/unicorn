@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 using Unicorn.Shapes;
 
 namespace Unicorn.Tests.Unit.Shapes

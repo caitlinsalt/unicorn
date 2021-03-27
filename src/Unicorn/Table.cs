@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 
 namespace Unicorn
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 using Unicorn.Writer.Extensions;
 
 namespace Unicorn.Writer.Primitives

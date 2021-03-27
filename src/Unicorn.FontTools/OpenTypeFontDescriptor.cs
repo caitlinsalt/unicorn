@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 using Unicorn.FontTools.CharacterEncoding;
 using Unicorn.FontTools.Extensions;
 using Unicorn.FontTools.OpenType;
@@ -73,34 +73,34 @@ namespace Unicorn.FontTools
         /// <summary>
         /// Flags describing this font's visual style.
         /// </summary>
-        public CoreTypes.FontProperties Flags
+        public Base.FontProperties Flags
         {
             get
             {
-                CoreTypes.FontProperties output;
+                Base.FontProperties output;
                 if (CalculationStyle == CalculationStyle.Windows)
                 {
                     bool isSymbolic = _underlyingFont.CharacterMapping.SelectExactMapping(PlatformId.Windows, 0) != null;
                     output = _underlyingFont.OS2Metrics.FontSelection.ToFontDescriptorFlags(isSymbolic, _underlyingFont.PostScriptData.IsFixedPitch);
                     if (_underlyingFont.OS2Metrics.IBMFontFamily >= IBMFamily.OldstyleSerif_None && _underlyingFont.OS2Metrics.IBMFontFamily < IBMFamily.SansSerif_None)
                     {
-                        output |= CoreTypes.FontProperties.Serif;
+                        output |= Base.FontProperties.Serif;
                     }
                     if (_underlyingFont.OS2Metrics.IBMFontFamily >= IBMFamily.Scripts_None && _underlyingFont.OS2Metrics.IBMFontFamily < IBMFamily.Symbolic_None)
                     {
-                        output |= CoreTypes.FontProperties.Script;
+                        output |= Base.FontProperties.Script;
                     }
                 }
                 else
                 {
-                    output = CoreTypes.FontProperties.Nonsymbolic;
+                    output = Base.FontProperties.Nonsymbolic;
                     if (_underlyingFont.Header.StyleFlags.HasFlag(MacStyleProperties.Italic))
                     {
-                        output |= CoreTypes.FontProperties.Italic;
+                        output |= Base.FontProperties.Italic;
                     }
                     if (_underlyingFont.PostScriptData.IsFixedPitch)
                     {
-                        output |= CoreTypes.FontProperties.FixedPitch;
+                        output |= Base.FontProperties.FixedPitch;
                     }
                 }
                 return output;

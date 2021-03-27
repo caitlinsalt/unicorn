@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Globalization;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Primitives;
 

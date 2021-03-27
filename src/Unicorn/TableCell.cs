@@ -1,4 +1,4 @@
-﻿using Unicorn.CoreTypes;
+﻿using Unicorn.Base;
 
 namespace Unicorn
 {
