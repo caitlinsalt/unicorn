@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 
 namespace Unicorn.Shapes
 {

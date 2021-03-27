@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tests.Utility.Providers;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 using Unicorn.Tests.Unit.TestHelpers;
 
 namespace Unicorn.Tests.Unit
