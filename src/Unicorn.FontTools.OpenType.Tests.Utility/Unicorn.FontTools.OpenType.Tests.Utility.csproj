@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tests.Utility\Tests.Utility.csproj" />
-    <ProjectReference Include="..\Unicorn.FontTools.OpenType\Unicorn.FontTools.OpenType.csproj" />
+    <ProjectReference Include="..\Unicorn.FontTools\Unicorn.FontTools.csproj" />
   </ItemGroup>
 
 </Project>

@@ -43,7 +43,7 @@ namespace Unicorn.FontTools.Afm
 
         /// <summary>
         /// Ligatures in which this character is the first of the pair of source characters.  Not populated unless 
-        /// <see cref="Character.ProcessLigatures(IDictionary{string, Character})" /> has been called.
+        /// <see cref="ProcessLigatures(IDictionary{string, Character})" /> has been called.
         /// </summary>
         public LigatureSetCollection Ligatures { get; private set; }
 

@@ -2,13 +2,13 @@
 
 namespace Unicorn.FontTools.Afm
 {
-    internal struct InitialLigatureSet
+    public struct InitialLigatureSet
     {
-        internal string Second { get; private set; }
+        public string Second { get; private set; }
 
-        internal string Ligature { get; private set; }
+        public string Ligature { get; private set; }
 
-        internal InitialLigatureSet(string second, string resultingLigature)
+        public InitialLigatureSet(string second, string resultingLigature)
         {
             if (second is null)
             {
