@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.FontTools.OpenType"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.FontTools", "Unicorn.FontTools\Unicorn.FontTools.csproj", "{5C4406E6-FAF8-44B6-9B91-242A969FCD3F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Writer", "Unicorn.Writer\Unicorn.Writer.csproj", "{4F748E6E-53EB-43BC-8637-9C3F766B439E}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Generation", "Code Generation", "{52657D17-2866-4E5A-9EBE-A78357BCCC6C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.FontTools.Afm2Cs", "Unicorn.FontTools.Afm2Cs\Unicorn.FontTools.Afm2Cs.csproj", "{81E09E34-8DC8-4A54-85AF-A2E096265FA3}"
@@ -39,8 +37,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.FontTools.OpenType.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Tests.Unit", "Unicorn.Tests.Unit\Unicorn.Tests.Unit.csproj", "{C54494C1-D445-4C88-9A7B-037491C88FD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.Writer.Tests.Unit", "Unicorn.Writer.Tests.Unit\Unicorn.Writer.Tests.Unit.csproj", "{AAA91A17-BFBD-4E36-8E1C-4BFE4F1F80BD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,10 +59,6 @@ Global
 		{5C4406E6-FAF8-44B6-9B91-242A969FCD3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C4406E6-FAF8-44B6-9B91-242A969FCD3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C4406E6-FAF8-44B6-9B91-242A969FCD3F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4F748E6E-53EB-43BC-8637-9C3F766B439E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F748E6E-53EB-43BC-8637-9C3F766B439E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F748E6E-53EB-43BC-8637-9C3F766B439E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F748E6E-53EB-43BC-8637-9C3F766B439E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{81E09E34-8DC8-4A54-85AF-A2E096265FA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81E09E34-8DC8-4A54-85AF-A2E096265FA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81E09E34-8DC8-4A54-85AF-A2E096265FA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -99,10 +91,6 @@ Global
 		{C54494C1-D445-4C88-9A7B-037491C88FD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C54494C1-D445-4C88-9A7B-037491C88FD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C54494C1-D445-4C88-9A7B-037491C88FD2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AAA91A17-BFBD-4E36-8E1C-4BFE4F1F80BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AAA91A17-BFBD-4E36-8E1C-4BFE4F1F80BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AAA91A17-BFBD-4E36-8E1C-4BFE4F1F80BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AAA91A17-BFBD-4E36-8E1C-4BFE4F1F80BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,7 +106,6 @@ Global
 		{3CEB8BF0-6B26-428C-B422-A80DE823C49E} = {02FA682A-A079-4F2A-9C26-FA856FD76C98}
 		{984E7BEB-09E2-48A0-BFB7-6A20118C3504} = {AAE79437-B436-422E-8837-C440A2BBC2B0}
 		{C54494C1-D445-4C88-9A7B-037491C88FD2} = {AAE79437-B436-422E-8837-C440A2BBC2B0}
-		{AAA91A17-BFBD-4E36-8E1C-4BFE4F1F80BD} = {AAE79437-B436-422E-8837-C440A2BBC2B0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {96DF63C8-CE73-4BC5-B6B4-8C976B590604}
