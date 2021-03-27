@@ -4,6 +4,14 @@
     <TargetFramework>net5.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <Version>0.1.0</Version>
+
+    <Authors>Caitlin Salt</Authors>
+
+    <Product>Unicorn</Product>
+
+    <Copyright>Copyright © 2019-2021 Caitlin Salt</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
