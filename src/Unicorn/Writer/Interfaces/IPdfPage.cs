@@ -1,4 +1,4 @@
-﻿using Unicorn.CoreTypes;
+﻿using Unicorn.Base;
 using Unicorn.Writer.Primitives;
 using Unicorn.Writer.Structural;
 

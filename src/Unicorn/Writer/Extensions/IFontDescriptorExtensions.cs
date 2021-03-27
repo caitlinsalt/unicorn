@@ -1,5 +1,5 @@
 ﻿using System;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 using Unicorn.FontTools;
 using Unicorn.Writer.Primitives;
 

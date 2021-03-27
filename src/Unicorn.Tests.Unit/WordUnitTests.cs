@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 
 namespace Unicorn.Tests.Unit
 {

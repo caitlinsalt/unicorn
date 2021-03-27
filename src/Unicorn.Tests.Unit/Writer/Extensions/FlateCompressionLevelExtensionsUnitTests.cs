@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Tests.Utility.Providers;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 using Unicorn.Writer.Extensions;
 
 namespace Unicorn.Tests.Unit.Writer.Extensions
