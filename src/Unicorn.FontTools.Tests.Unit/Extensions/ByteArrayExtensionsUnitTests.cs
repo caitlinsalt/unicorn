@@ -2,10 +2,9 @@
 using System;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
-using Unicorn.FontTools.OpenType;
 using Unicorn.FontTools.Extensions;
 
-namespace Unicorn.FontTools.OpenType.Tests.Unit.Extensions
+namespace Unicorn.FontTools.Tests.Unit.Extensions
 {
     [TestClass]
     public class ByteArrayExtensionsUnitTests
@@ -468,7 +467,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit.Extensions
         {
             byte[] testParam0 = new byte[_rnd.Next(4, 64)];
             int testParam1 = _rnd.Next(testParam0.Length - 3);
-            uint expectedValue = ((uint)_rnd.Next()) * 2 + (uint)_rnd.Next(2);
+            uint expectedValue = (uint)_rnd.Next() * 2 + (uint)_rnd.Next(2);
             testParam0[testParam1] = (byte)((expectedValue & 0xff000000) >> 24);
             testParam0[testParam1 + 1] = (byte)((expectedValue & 0xff0000) >> 16);
             testParam0[testParam1 + 2] = (byte)((expectedValue & 0xff00) >> 8);
@@ -818,7 +817,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit.Extensions
             ushort valueData1 = _rnd.NextUShort();
             byte[] testParam0 = new byte[_rnd.Next(4, 64)];
             int testParam1 = _rnd.Next(testParam0.Length - 3);
-            decimal expectedValue = valueData0 + (valueData1 / 65536m);
+            decimal expectedValue = valueData0 + valueData1 / 65536m;
             testParam0[testParam1] = (byte)((valueData0 & 0xff00) >> 8);
             testParam0[testParam1 + 1] = (byte)(valueData0 & 0xff);
             testParam0[testParam1 + 2] = (byte)((valueData1 & 0xff00) >> 8);
@@ -1017,7 +1016,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit.Extensions
         {
             byte[] testParam0 = new byte[_rnd.Next(8, 64)];
             int testParam1 = _rnd.Next(testParam0.Length - 7);
-            long expectedValue = (long)_rnd.Next(byte.MaxValue);
+            long expectedValue = _rnd.Next(byte.MaxValue);
             testParam0[testParam1 + 7] = (byte)(expectedValue & 0xff);
 
             long testOutput = testParam0.ToLong(testParam1);
@@ -1030,7 +1029,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit.Extensions
         {
             byte[] testParam0 = new byte[_rnd.Next(8, 64)];
             int testParam1 = _rnd.Next(testParam0.Length - 7);
-            long expectedValue = (long)_rnd.Next(short.MaxValue);
+            long expectedValue = _rnd.Next(short.MaxValue);
             testParam0[testParam1 + 6] = (byte)((expectedValue & 0xff00) >> 8);
             testParam0[testParam1 + 7] = (byte)(expectedValue & 0xff);
 
@@ -1044,7 +1043,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit.Extensions
         {
             byte[] testParam0 = new byte[_rnd.Next(8, 64)];
             int testParam1 = _rnd.Next(testParam0.Length - 7);
-            long expectedValue = (long)_rnd.Next();
+            long expectedValue = _rnd.Next();
             testParam0[testParam1 + 4] = (byte)((expectedValue & 0xff000000) >> 24);
             testParam0[testParam1 + 5] = (byte)((expectedValue & 0xff0000) >> 16);
             testParam0[testParam1 + 6] = (byte)((expectedValue & 0xff00) >> 8);
