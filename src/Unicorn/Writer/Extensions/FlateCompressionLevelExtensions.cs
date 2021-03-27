@@ -1,5 +1,5 @@
 ﻿using ICSharpCode.SharpZipLib.Zip.Compression;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 
 namespace Unicorn.Writer.Extensions
 {

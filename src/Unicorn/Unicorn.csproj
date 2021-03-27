@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Unicorn.CoreTypes\Unicorn.CoreTypes.csproj" />
     <ProjectReference Include="..\Unicorn.FontTools\Unicorn.FontTools.csproj" />
   </ItemGroup>
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.MemoryMappedFiles;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 using Unicorn.FontTools.OpenType;
 
 namespace Unicorn.FontTools

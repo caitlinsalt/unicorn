@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tests.Utility.Providers;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 
 namespace Unicorn.Tests.Unit.TestHelpers
 {
