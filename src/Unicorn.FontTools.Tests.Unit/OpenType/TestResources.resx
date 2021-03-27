@@ -117,25 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AfmFontMetrics_FromLines_IncorrectStart" xml:space="preserve">
-    <value>Error loading font metrics: font did not start with {0}.</value>
+  <data name="Mocks_MockCharacterMapping_NotImplementedError" xml:space="preserve">
+    <value>This method is not implemented.  This mock class is provided in order to unit test its base class's constructor; other functionality is not supported.</value>
   </data>
-  <data name="AfmFontMetrics_MoveNextHelper_UnexpectedEnd" xml:space="preserve">
-    <value>Unexpected end of font metrics data.</value>
-  </data>
-  <data name="DirectionMetrics_FromLines_CharWidthClashesWithIsFixedWidth" xml:space="preserve">
-    <value>Error loading direction-specific data: CharWidth and IsFixedWidth values are inconsistent.</value>
-  </data>
-  <data name="Extensions_ByteArrayExtensions_ToDateTime_OutOfRangeError" xml:space="preserve">
-    <value>Encoded value is too large to be converted to a timestamp.</value>
-  </data>
-  <data name="PdfStandardFontDescriptor_GetByName_EmptyStringParameter" xml:space="preserve">
-    <value>No font name specified.</value>
-  </data>
-  <data name="PdfStandardFontDescriptor_GetByName_FontNotFoundByReflection" xml:space="preserve">
-    <value>Built-in font property StandardFontMetrics.{0} not found.</value>
-  </data>
-  <data name="SpaceCharacter" xml:space="preserve">
-    <value> </value>
+  <data name="Mocks_MockTable_NotImplementedError" xml:space="preserve">
+    <value>This method is not implemented.  This mock class is provided in order to unit test its base class's constructor; other functionality is not supported.</value>
   </data>
 </root>

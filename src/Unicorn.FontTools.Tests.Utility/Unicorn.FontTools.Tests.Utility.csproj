@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tests.Utility\Tests.Utility.csproj" />
+    <ProjectReference Include="..\Unicorn.FontTools\Unicorn.FontTools.csproj" />
+  </ItemGroup>
+
+</Project>

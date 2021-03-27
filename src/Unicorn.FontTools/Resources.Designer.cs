@@ -88,6 +88,15 @@ namespace Unicorn.FontTools {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Encoded value is too large to be converted to a timestamp..
+        /// </summary>
+        internal static string Extensions_ByteArrayExtensions_ToDateTime_OutOfRangeError {
+            get {
+                return ResourceManager.GetString("Extensions_ByteArrayExtensions_ToDateTime_OutOfRangeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No font name specified..
         /// </summary>
         internal static string PdfStandardFontDescriptor_GetByName_EmptyStringParameter {
