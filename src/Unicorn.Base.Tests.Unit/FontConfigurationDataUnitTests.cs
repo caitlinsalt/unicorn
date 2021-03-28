@@ -11,6 +11,8 @@ namespace Unicorn.Base.Tests.Unit
     {
         private static readonly Random _rnd = RandomProvider.Default;
 
+#pragma warning disable CA5394 // Do not use insecure randomness
+
         private static FontConfigurationData GetTestValue()
         {
             return new FontConfigurationData(_rnd.NextString(_rnd.Next(20)), _rnd.NextUniFontStyles(), _rnd.NextString(_rnd.Next(128)));
@@ -29,7 +31,7 @@ namespace Unicorn.Base.Tests.Unit
         [TestMethod]
         public void FontConfigurationDataStruct_ParameterlessConstructor_SetsStylePropertyToZero()
         {
-            FontConfigurationData testOutput = new FontConfigurationData();
+            FontConfigurationData testOutput = new();
 
             Assert.AreEqual((UniFontStyles)0, testOutput.Style);
         }
@@ -37,7 +39,7 @@ namespace Unicorn.Base.Tests.Unit
         [TestMethod]
         public void FontConfigurationDataStruct_ParameterlessConstructor_SetsFilenamePropertyToNull()
         {
-            FontConfigurationData testOutput = new FontConfigurationData();
+            FontConfigurationData testOutput = new ();
 
             Assert.IsNull(testOutput.Filename);
         }
@@ -49,7 +51,7 @@ namespace Unicorn.Base.Tests.Unit
             UniFontStyles testParam1 = _rnd.NextUniFontStyles();
             string testParam2 = _rnd.NextString(_rnd.Next(128));
 
-            FontConfigurationData testOutput = new FontConfigurationData(testParam0, testParam1, testParam2);
+            FontConfigurationData testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam0, testOutput.Name);
         }
@@ -61,7 +63,7 @@ namespace Unicorn.Base.Tests.Unit
             UniFontStyles testParam1 = _rnd.NextUniFontStyles();
             string testParam2 = _rnd.NextString(_rnd.Next(128));
 
-            FontConfigurationData testOutput = new FontConfigurationData(testParam0, testParam1, testParam2);
+            FontConfigurationData testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam1, testOutput.Style);
         }
@@ -73,7 +75,7 @@ namespace Unicorn.Base.Tests.Unit
             UniFontStyles testParam1 = _rnd.NextUniFontStyles();
             string testParam2 = _rnd.NextString(_rnd.Next(128));
 
-            FontConfigurationData testOutput = new FontConfigurationData(testParam0, testParam1, testParam2);
+            FontConfigurationData testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam2, testOutput.Filename);
         }
@@ -92,7 +94,7 @@ namespace Unicorn.Base.Tests.Unit
         public void FontConfigurationDataStruct_EqualsMethodWithFontConfigurationDataParameter_ReturnsTrue_IfParameterIsConstructedFromSameData()
         {
             FontConfigurationData testValue = GetTestValue();
-            FontConfigurationData testParam = new FontConfigurationData(testValue.Name, testValue.Style, testValue.Filename);
+            FontConfigurationData testParam = new(testValue.Name, testValue.Style, testValue.Filename);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -108,7 +110,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextString(_rnd.Next(40));
             } while (constrParam == testValue.Name);
-            FontConfigurationData testParam = new FontConfigurationData(constrParam, testValue.Style, testValue.Filename);
+            FontConfigurationData testParam = new(constrParam, testValue.Style, testValue.Filename);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -124,7 +126,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextUniFontStyles();
             } while (constrParam == testValue.Style);
-            FontConfigurationData testParam = new FontConfigurationData(testValue.Name, constrParam, testValue.Filename);
+            FontConfigurationData testParam = new(testValue.Name, constrParam, testValue.Filename);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -140,7 +142,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextString(_rnd.Next(40));
             } while (constrParam == testValue.Filename);
-            FontConfigurationData testParam = new FontConfigurationData(testValue.Name, testValue.Style, constrParam);
+            FontConfigurationData testParam = new(testValue.Name, testValue.Style, constrParam);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -161,7 +163,7 @@ namespace Unicorn.Base.Tests.Unit
         public void FontConfigurationDataStruct_EqualsMethodWithObjectParameter_ReturnsTrue_IfParameterIsConstructedFromSameData()
         {
             FontConfigurationData testValue = GetTestValue();
-            FontConfigurationData testParam = new FontConfigurationData(testValue.Name, testValue.Style, testValue.Filename);
+            FontConfigurationData testParam = new(testValue.Name, testValue.Style, testValue.Filename);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -177,7 +179,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextString(_rnd.Next(40));
             } while (constrParam == testValue.Name);
-            FontConfigurationData testParam = new FontConfigurationData(constrParam, testValue.Style, testValue.Filename);
+            FontConfigurationData testParam = new(constrParam, testValue.Style, testValue.Filename);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -193,7 +195,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextUniFontStyles();
             } while (constrParam == testValue.Style);
-            FontConfigurationData testParam = new FontConfigurationData(testValue.Name, constrParam, testValue.Filename);
+            FontConfigurationData testParam = new(testValue.Name, constrParam, testValue.Filename);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -209,7 +211,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextString(_rnd.Next(40));
             } while (constrParam == testValue.Filename);
-            FontConfigurationData testParam = new FontConfigurationData(testValue.Name, testValue.Style, constrParam);
+            FontConfigurationData testParam = new(testValue.Name, testValue.Style, constrParam);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -231,7 +233,7 @@ namespace Unicorn.Base.Tests.Unit
         public void FontConfigurationDataStruct_GetHashCodeMethod_ReturnsSameValue_IfCalledTwiceOnSameValue()
         {
             FontConfigurationData testValue0 = GetTestValue();
-            FontConfigurationData testValue1 = new FontConfigurationData(testValue0.Name, testValue0.Style, testValue0.Filename);
+            FontConfigurationData testValue1 = new(testValue0.Name, testValue0.Style, testValue0.Filename);
 
             int testOutput0 = testValue0.GetHashCode();
             int testOutput1 = testValue1.GetHashCode();
@@ -255,7 +257,7 @@ namespace Unicorn.Base.Tests.Unit
         public void FontConfigurationDataStruct_EqualityOperator_ReturnsTrue_IfOperandsAreConstructedFromSameData()
         {
             FontConfigurationData testValue = GetTestValue();
-            FontConfigurationData testParam = new FontConfigurationData(testValue.Name, testValue.Style, testValue.Filename);
+            FontConfigurationData testParam = new(testValue.Name, testValue.Style, testValue.Filename);
 
             bool testOutput = testValue == testParam;
 
@@ -271,7 +273,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextString(_rnd.Next(40));
             } while (constrParam == testValue.Name);
-            FontConfigurationData testParam = new FontConfigurationData(constrParam, testValue.Style, testValue.Filename);
+            FontConfigurationData testParam = new(constrParam, testValue.Style, testValue.Filename);
 
             bool testOutput = testValue == testParam;
 
@@ -287,7 +289,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextUniFontStyles();
             } while (constrParam == testValue.Style);
-            FontConfigurationData testParam = new FontConfigurationData(testValue.Name, constrParam, testValue.Filename);
+            FontConfigurationData testParam = new(testValue.Name, constrParam, testValue.Filename);
 
             bool testOutput = testValue == testParam;
 
@@ -303,7 +305,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextString(_rnd.Next(40));
             } while (constrParam == testValue.Filename);
-            FontConfigurationData testParam = new FontConfigurationData(testValue.Name, testValue.Style, constrParam);
+            FontConfigurationData testParam = new(testValue.Name, testValue.Style, constrParam);
 
             bool testOutput = testValue == testParam;
 
@@ -326,7 +328,7 @@ namespace Unicorn.Base.Tests.Unit
         public void FontConfigurationDataStruct_InequalityOperator_ReturnsFalse_IfOperandsAreConstructedFromSameData()
         {
             FontConfigurationData testValue = GetTestValue();
-            FontConfigurationData testParam = new FontConfigurationData(testValue.Name, testValue.Style, testValue.Filename);
+            FontConfigurationData testParam = new(testValue.Name, testValue.Style, testValue.Filename);
 
             bool testOutput = testValue != testParam;
 
@@ -342,7 +344,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextString(_rnd.Next(40));
             } while (constrParam == testValue.Name);
-            FontConfigurationData testParam = new FontConfigurationData(constrParam, testValue.Style, testValue.Filename);
+            FontConfigurationData testParam = new(constrParam, testValue.Style, testValue.Filename);
 
             bool testOutput = testValue != testParam;
 
@@ -358,7 +360,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextUniFontStyles();
             } while (constrParam == testValue.Style);
-            FontConfigurationData testParam = new FontConfigurationData(testValue.Name, constrParam, testValue.Filename);
+            FontConfigurationData testParam = new(testValue.Name, constrParam, testValue.Filename);
 
             bool testOutput = testValue != testParam;
 
@@ -374,7 +376,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextString(_rnd.Next(40));
             } while (constrParam == testValue.Filename);
-            FontConfigurationData testParam = new FontConfigurationData(testValue.Name, testValue.Style, constrParam);
+            FontConfigurationData testParam = new(testValue.Name, testValue.Style, constrParam);
 
             bool testOutput = testValue != testParam;
 
@@ -382,6 +384,7 @@ namespace Unicorn.Base.Tests.Unit
         }
 
 #pragma warning restore CA1707 // Identifiers should not contain underscores
+#pragma warning restore CA5394 // Do not use insecure randomness
 
     }
 }
