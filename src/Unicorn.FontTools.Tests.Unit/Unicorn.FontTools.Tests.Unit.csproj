@@ -1,9 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-
+    <Version>0.1.0</Version>
+    <Authors>Will Salt</Authors>
+    <Product>Unicorn</Product>
+    <Copyright>Copyright © 2020-2021 Will Salt</Copyright>
     <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <NeutralLanguage>en-GB</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>

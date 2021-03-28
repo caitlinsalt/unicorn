@@ -20,7 +20,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             int count = _rnd.Next(1, 20);
             KerningPair[] output = new KerningPair[count];
-            List<string> secondPropertyNames = new List<string>();
+            List<string> secondPropertyNames = new();
             for (int i = 0; i < count; ++i)
             {
                 output[i] = _rnd.NextAfmKerningPair(secondPropertyNames);
@@ -34,7 +34,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void KerningPairCollection_ParameterlessConstructor_CreatesObjectWithCountPropertyEqualToZero()
         {
-            KerningPairCollection testObject = new KerningPairCollection();
+            KerningPairCollection testObject = new();
 
             Assert.AreEqual(0, testObject.Count);
         }
@@ -44,7 +44,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             IEnumerable<KerningPair> testParam = null;
 
-            KerningPairCollection testObject = new KerningPairCollection(testParam);
+            KerningPairCollection testObject = new(testParam);
 
             Assert.AreEqual(0, testObject.Count);
         }
@@ -54,7 +54,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             IList<KerningPair> testParam = GetTestData();
 
-            KerningPairCollection testObject = new KerningPairCollection(testParam);
+            KerningPairCollection testObject = new(testParam);
 
             Assert.AreEqual(testParam.Count, testObject.Count);
         }
@@ -63,7 +63,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         public void KerningPairCollection_IndexerWithIntParameter_ReturnsExpectedItems()
         {
             IList<KerningPair> constrParam = GetTestData();
-            KerningPairCollection testObject = new KerningPairCollection(constrParam);
+            KerningPairCollection testObject = new(constrParam);
 
             for (int i = 0; i < constrParam.Count; ++i)
             {
@@ -76,7 +76,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         public void KerningPairCollectionClass_IndexerWithIntParameter_ThrowsArgumentOutOfRangeException_IfParameterIsNegative()
         {
             IList<KerningPair> constrParam = GetTestData();
-            KerningPairCollection testObject = new KerningPairCollection(constrParam);
+            KerningPairCollection testObject = new(constrParam);
             int testParam0 = -_rnd.Next();
 
             _ = testObject[testParam0];
@@ -89,7 +89,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         public void KerningPairCollectionClass_IndexerWithIntParameter_ThrowsArgumentOutOfRangeException_IfParameterEqualsCountProperty()
         {
             IList<KerningPair> constrParam = GetTestData();
-            KerningPairCollection testObject = new KerningPairCollection(constrParam);
+            KerningPairCollection testObject = new(constrParam);
 
             _ = testObject[testObject.Count];
 
@@ -101,7 +101,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         public void KerningPairCollectionClass_IndexerWithIntParameter_ThrowsArgumentOutOfRangeException_IfParameterIsGreaterThanCountProperty()
         {
             IList<KerningPair> constrParam = GetTestData();
-            KerningPairCollection testObject = new KerningPairCollection(constrParam);
+            KerningPairCollection testObject = new(constrParam);
             int testParam0 = _rnd.Next(testObject.Count + 1, int.MaxValue);
 
             _ = testObject[testParam0];
@@ -113,7 +113,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         public void KerningPairCollectionClass_GetEnumeratorMethod_ReturnsEnumeratorWhichReturnsItemsInCorrectSequence()
         {
             IList<KerningPair> constrParam = GetTestData();
-            KerningPairCollection testObject = new KerningPairCollection(constrParam);
+            KerningPairCollection testObject = new(constrParam);
 
             IEnumerator<KerningPair> testOutput = testObject.GetEnumerator();
 
@@ -128,7 +128,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         public void KerningPairCollectionClass_IndexerWithStringParameter_ReturnsExpectedItem_IfItemWithSecondPropertyWithNamePropertyEqualToParameterExistsInCollection()
         {
             IList<KerningPair> constrParam = GetTestData();
-            KerningPairCollection testObject = new KerningPairCollection(constrParam);
+            KerningPairCollection testObject = new(constrParam);
             int selectedIndex = _rnd.Next(constrParam.Count);
             string testParam = constrParam[selectedIndex].Second.Name;
 
@@ -141,7 +141,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         public void KerningPairCollectionClass_IndexerWithStringParameter_ReturnsNull_IfNoItemsWithSecondPropertyWithNamePropertyEqualToParameterExistInCollection()
         {
             IList<KerningPair> constrParam = GetTestData();
-            KerningPairCollection testObject = new KerningPairCollection(constrParam);
+            KerningPairCollection testObject = new(constrParam);
             string testParam;
             do
             {
@@ -157,7 +157,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         public void KerningPairCollectionClass_AddMethod_IncreasesCountPropertyByOne()
         {
             IList<KerningPair> constrParam = GetTestData();
-            KerningPairCollection testObject = new KerningPairCollection(constrParam);
+            KerningPairCollection testObject = new(constrParam);
             int expectedValue = testObject.Count + 1;
             KerningPair testParam = _rnd.NextAfmKerningPair(null);
 
@@ -170,7 +170,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         public void KerningPairCollectionClass_AddMethod_AddsItemToEndOfCollection()
         {
             IList<KerningPair> constrParam = GetTestData();
-            KerningPairCollection testObject = new KerningPairCollection(constrParam);
+            KerningPairCollection testObject = new(constrParam);
             KerningPair testParam = _rnd.NextAfmKerningPair(null);
 
             testObject.Add(testParam);

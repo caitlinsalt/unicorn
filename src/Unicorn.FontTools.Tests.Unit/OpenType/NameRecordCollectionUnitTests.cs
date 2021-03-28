@@ -30,7 +30,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void NameRecordCollectionClass_Constructor_ReturnsObjectWithCountPropertyEqualToZero_IfParameterIsNull()
         {
-            NameRecordCollection testObject = new NameRecordCollection(null);
+            NameRecordCollection testObject = new(null);
 
             Assert.AreEqual(0, testObject.Count);
         }
@@ -40,7 +40,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             IEnumerable<NameRecord> testParam = Array.Empty<NameRecord>();
 
-            NameRecordCollection testObject = new NameRecordCollection(testParam);
+            NameRecordCollection testObject = new(testParam);
 
             Assert.AreEqual(0, testObject.Count);
         }
@@ -50,7 +50,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             NameRecord[] testParam = GetTestData();
 
-            NameRecordCollection testOutput = new NameRecordCollection(testParam);
+            NameRecordCollection testOutput = new(testParam);
 
             Assert.AreEqual(testParam.Length, testOutput.Count);
         }
@@ -59,7 +59,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void NameRecordCollectionClass_Indexer_ReturnsCorrectItems()
         {
             NameRecord[] testParam = GetTestData();
-            NameRecordCollection testObject = new NameRecordCollection(testParam);
+            NameRecordCollection testObject = new(testParam);
 
             for (int i = 0; i < testObject.Count; ++i)
             {
@@ -71,7 +71,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void NameRecordCollectionClass_Enumerator_ReturnsItemsInCorrectOrder()
         {
             NameRecord[] testParam = GetTestData();
-            NameRecordCollection testObject = new NameRecordCollection(testParam);
+            NameRecordCollection testObject = new(testParam);
             int idx = 0;
 
             IEnumerator<NameRecord> testEnumerator = testObject.GetEnumerator();

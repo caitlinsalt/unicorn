@@ -24,7 +24,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             string testParam4 = _rnd.NextString(_rnd.Next(100));
             bool testParam5 = _rnd.NextBoolean();
 
-            NameRecord testOutput = new NameRecord(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            NameRecord testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam0, testOutput.PlatformId);
         }
@@ -39,7 +39,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             string testParam4 = _rnd.NextString(_rnd.Next(100));
             bool testParam5 = _rnd.NextBoolean();
 
-            NameRecord testOutput = new NameRecord(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            NameRecord testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam1, testOutput.EncodingId);
         }
@@ -54,7 +54,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             string testParam4 = _rnd.NextString(_rnd.Next(100));
             bool testParam5 = _rnd.NextBoolean();
 
-            NameRecord testOutput = new NameRecord(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            NameRecord testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam2, testOutput.LanguageId);
         }
@@ -69,7 +69,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             string testParam4 = _rnd.NextString(_rnd.Next(100));
             bool testParam5 = _rnd.NextBoolean();
 
-            NameRecord testOutput = new NameRecord(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            NameRecord testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam3, testOutput.NameId);
         }
@@ -84,7 +84,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             string testParam4 = _rnd.NextString(_rnd.Next(100));
             bool testParam5 = _rnd.NextBoolean();
 
-            NameRecord testOutput = new NameRecord(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            NameRecord testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam4, testOutput.Content);
         }
@@ -99,7 +99,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             string testParam4 = _rnd.NextString(_rnd.Next(100));
             bool testParam5 = _rnd.NextBoolean();
 
-            NameRecord testOutput = new NameRecord(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            NameRecord testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam5, testOutput.FillerContent);
         }

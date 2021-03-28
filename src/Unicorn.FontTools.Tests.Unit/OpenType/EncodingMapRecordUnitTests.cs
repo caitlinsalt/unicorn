@@ -30,7 +30,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             ushort testParam1 = _rnd.NextUShort();
             Encoding testParam2 = GetRandomEncoding();
 
-            EncodingMapRecord testOutput = new EncodingMapRecord(testParam0, testParam1, testParam2);
+            EncodingMapRecord testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam0, testOutput.Platform);
         }
@@ -42,7 +42,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             ushort testParam1 = _rnd.NextUShort();
             Encoding testParam2 = GetRandomEncoding();
 
-            EncodingMapRecord testOutput = new EncodingMapRecord(testParam0, testParam1, testParam2);
+            EncodingMapRecord testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam1, testOutput.EncodingId);
         }
@@ -54,7 +54,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             ushort testParam1 = _rnd.NextUShort();
             Encoding testParam2 = GetRandomEncoding();
 
-            EncodingMapRecord testOutput = new EncodingMapRecord(testParam0, testParam1, testParam2);
+            EncodingMapRecord testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam2, testOutput.Encoding);
         }

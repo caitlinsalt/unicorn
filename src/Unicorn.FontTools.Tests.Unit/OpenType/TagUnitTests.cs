@@ -16,7 +16,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void TagStruct_ParameterlessConstructor_CreatesValueWithValuePropertyNull()
         {
-            Tag testOutput = new Tag();
+            Tag testOutput = new();
 
             Assert.IsNull(testOutput.Value);
         }
@@ -66,7 +66,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             string testData = _rnd.NextString(4);
             byte[] testParam = Encoding.ASCII.GetBytes(testData);
 
-            Tag testOutput = new Tag(testParam);
+            Tag testOutput = new(testParam);
 
             Assert.AreEqual(testData, testOutput.Value);
         }
@@ -76,7 +76,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             string testData = _rnd.NextString(4);
             byte[] constrParam = Encoding.ASCII.GetBytes(testData);
-            Tag testObject = new Tag(constrParam);
+            Tag testObject = new(constrParam);
 
             bool testOutput = testObject.Equals(testObject);
 
@@ -88,8 +88,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             string testData = _rnd.NextString(4);
             byte[] constrParam = Encoding.ASCII.GetBytes(testData);
-            Tag testObject = new Tag(constrParam);
-            Tag testParam = new Tag(constrParam);
+            Tag testObject = new(constrParam);
+            Tag testParam = new(constrParam);
 
             bool testOutput = testObject.Equals(testParam);
 
@@ -105,8 +105,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 testData1 = _rnd.NextString(4);
             } while (testData1 == testData0);
-            Tag testObject = new Tag(Encoding.ASCII.GetBytes(testData0));
-            Tag testParam = new Tag(Encoding.ASCII.GetBytes(testData1));
+            Tag testObject = new(Encoding.ASCII.GetBytes(testData0));
+            Tag testParam = new(Encoding.ASCII.GetBytes(testData1));
 
             bool testOutput = testObject.Equals(testParam);
 
@@ -118,7 +118,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             string testData = _rnd.NextString(4);
             byte[] constrParam = Encoding.ASCII.GetBytes(testData);
-            Tag testObject = new Tag(constrParam);
+            Tag testObject = new(constrParam);
 
             bool testOutput = testObject.Equals((object)testObject);
 
@@ -130,8 +130,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             string testData = _rnd.NextString(4);
             byte[] constrParam = Encoding.ASCII.GetBytes(testData);
-            Tag testObject = new Tag(constrParam);
-            Tag testParam = new Tag(constrParam);
+            Tag testObject = new(constrParam);
+            Tag testParam = new(constrParam);
 
             bool testOutput = testObject.Equals((object)testParam);
 
@@ -147,8 +147,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 testData1 = _rnd.NextString(4);
             } while (testData1 == testData0);
-            Tag testObject = new Tag(Encoding.ASCII.GetBytes(testData0));
-            Tag testParam = new Tag(Encoding.ASCII.GetBytes(testData1));
+            Tag testObject = new(Encoding.ASCII.GetBytes(testData0));
+            Tag testParam = new(Encoding.ASCII.GetBytes(testData1));
 
             bool testOutput = testObject.Equals((object)testParam);
 
@@ -160,7 +160,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             string testData = _rnd.NextString(4);
             byte[] constrParam = Encoding.ASCII.GetBytes(testData);
-            Tag testObject = new Tag(constrParam);
+            Tag testObject = new(constrParam);
 
             bool testOutput = testObject.Equals(testData);
 
@@ -172,8 +172,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             string testData = _rnd.NextString(4);
             byte[] constrParam = Encoding.ASCII.GetBytes(testData);
-            Tag testObject0 = new Tag(constrParam);
-            Tag testObject1 = new Tag(constrParam);
+            Tag testObject0 = new(constrParam);
+            Tag testObject1 = new(constrParam);
 
             int testOutput0 = testObject0.GetHashCode();
             int testOutput1 = testObject1.GetHashCode();
@@ -186,7 +186,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             string testData = _rnd.NextString(4);
             byte[] constrParam = Encoding.ASCII.GetBytes(testData);
-            Tag testObject = new Tag(constrParam);
+            Tag testObject = new(constrParam);
 
 #pragma warning disable CS1718 // Comparison made to same variable
             bool testOutput = testObject == testObject;
@@ -200,8 +200,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             string testData = _rnd.NextString(4);
             byte[] constrParam = Encoding.ASCII.GetBytes(testData);
-            Tag testObject0 = new Tag(constrParam);
-            Tag testObject1 = new Tag(constrParam);
+            Tag testObject0 = new(constrParam);
+            Tag testObject1 = new(constrParam);
 
             bool testOutput = testObject0 == testObject1;
 
@@ -217,8 +217,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 testData1 = _rnd.NextString(4);
             } while (testData1 == testData0);
-            Tag testObject0 = new Tag(Encoding.ASCII.GetBytes(testData0));
-            Tag testObject1 = new Tag(Encoding.ASCII.GetBytes(testData1));
+            Tag testObject0 = new(Encoding.ASCII.GetBytes(testData0));
+            Tag testObject1 = new(Encoding.ASCII.GetBytes(testData1));
 
             bool testOutput = testObject0 == testObject1;
 
@@ -230,7 +230,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             string testData = _rnd.NextString(4);
             byte[] constrParam = Encoding.ASCII.GetBytes(testData);
-            Tag testObject = new Tag(constrParam);
+            Tag testObject = new(constrParam);
 
 #pragma warning disable CS1718 // Comparison made to same variable
             bool testOutput = testObject != testObject;
@@ -244,8 +244,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             string testData = _rnd.NextString(4);
             byte[] constrParam = Encoding.ASCII.GetBytes(testData);
-            Tag testObject0 = new Tag(constrParam);
-            Tag testObject1 = new Tag(constrParam);
+            Tag testObject0 = new(constrParam);
+            Tag testObject1 = new(constrParam);
 
             bool testOutput = testObject0 != testObject1;
 
@@ -261,8 +261,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 testData1 = _rnd.NextString(4);
             } while (testData1 == testData0);
-            Tag testObject0 = new Tag(Encoding.ASCII.GetBytes(testData0));
-            Tag testObject1 = new Tag(Encoding.ASCII.GetBytes(testData1));
+            Tag testObject0 = new(Encoding.ASCII.GetBytes(testData0));
+            Tag testObject1 = new(Encoding.ASCII.GetBytes(testData1));
 
             bool testOutput = testObject0 != testObject1;
 

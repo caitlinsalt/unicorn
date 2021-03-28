@@ -12,15 +12,14 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 
 #pragma warning disable CA5394 // Do not use insecure randomness
 
-        private static SegmentSubheaderRecord GetTestValue()
-            => new SegmentSubheaderRecord(_rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextShort(), _rnd.Next());
+        private static SegmentSubheaderRecord GetTestValue() => new(_rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextShort(), _rnd.Next());
 
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 
         [TestMethod]
         public void SegmentSubheaderRecord_ParameterlessConstructor_SetsStartCodePropertyToZero()
         {
-            SegmentSubheaderRecord testOutput = new SegmentSubheaderRecord();
+            SegmentSubheaderRecord testOutput = new();
 
             Assert.AreEqual((ushort)0, testOutput.StartCode);
         }
@@ -28,7 +27,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void SegmentSubheaderRecord_ParameterlessConstructor_SetsEndCodePropertyToZero()
         {
-            SegmentSubheaderRecord testOutput = new SegmentSubheaderRecord();
+            SegmentSubheaderRecord testOutput = new();
 
             Assert.AreEqual((ushort)0, testOutput.EndCode);
         }
@@ -36,7 +35,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void SegmentSubheaderRecord_ParameterlessConstructor_SetsIdDeltaPropertyToZero()
         {
-            SegmentSubheaderRecord testOutput = new SegmentSubheaderRecord();
+            SegmentSubheaderRecord testOutput = new();
 
             Assert.AreEqual((short)0, testOutput.IdDelta);
         }
@@ -44,7 +43,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void SegmentSubheaderRecord_ParameterlessConstructor_SetsStartOffsetPropertyToZero()
         {
-            SegmentSubheaderRecord testOutput = new SegmentSubheaderRecord();
+            SegmentSubheaderRecord testOutput = new();
 
             Assert.AreEqual(0, testOutput.StartOffset);
         }
@@ -57,7 +56,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam2 = _rnd.NextShort();
             int testParam3 = _rnd.Next();
 
-            SegmentSubheaderRecord testOutput = new SegmentSubheaderRecord(testParam0, testParam1, testParam2, testParam3);
+            SegmentSubheaderRecord testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(testParam0, testOutput.StartCode);
         }
@@ -70,7 +69,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam2 = _rnd.NextShort();
             int testParam3 = _rnd.Next();
 
-            SegmentSubheaderRecord testOutput = new SegmentSubheaderRecord(testParam0, testParam1, testParam2, testParam3);
+            SegmentSubheaderRecord testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(testParam1, testOutput.EndCode);
         }
@@ -83,7 +82,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam2 = _rnd.NextShort();
             int testParam3 = _rnd.Next();
 
-            SegmentSubheaderRecord testOutput = new SegmentSubheaderRecord(testParam0, testParam1, testParam2, testParam3);
+            SegmentSubheaderRecord testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(testParam2, testOutput.IdDelta);
         }
@@ -96,7 +95,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam2 = _rnd.NextShort();
             int testParam3 = _rnd.Next();
 
-            SegmentSubheaderRecord testOutput = new SegmentSubheaderRecord(testParam0, testParam1, testParam2, testParam3);
+            SegmentSubheaderRecord testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(testParam3, testOutput.StartOffset);
         }
@@ -115,7 +114,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void SegmentSubheaderRecord_EqualsMethodWithSegmentSubheaderRecordParameter_ReturnsTrue_IfParameterIsConstructedFromSameData()
         {
             SegmentSubheaderRecord testValue = GetTestValue();
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(testValue.StartCode, testValue.EndCode, testValue.IdDelta, testValue.StartOffset);
+            SegmentSubheaderRecord testParam = new(testValue.StartCode, testValue.EndCode, testValue.IdDelta, testValue.StartOffset);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -131,7 +130,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUShort();
             } while (constrParam == testValue.StartCode);
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(constrParam, testValue.EndCode, testValue.IdDelta, testValue.StartOffset);
+            SegmentSubheaderRecord testParam = new(constrParam, testValue.EndCode, testValue.IdDelta, testValue.StartOffset);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -147,7 +146,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUShort();
             } while (constrParam == testValue.EndCode);
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(testValue.StartCode, constrParam, testValue.IdDelta, testValue.StartOffset);
+            SegmentSubheaderRecord testParam = new(testValue.StartCode, constrParam, testValue.IdDelta, testValue.StartOffset);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -163,7 +162,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextShort();
             } while (constrParam == testValue.IdDelta);
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(testValue.StartCode, testValue.EndCode, constrParam, testValue.StartOffset);
+            SegmentSubheaderRecord testParam = new(testValue.StartCode, testValue.EndCode, constrParam, testValue.StartOffset);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -179,7 +178,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.Next();
             } while (constrParam == testValue.StartCode);
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(testValue.StartCode, testValue.EndCode, testValue.IdDelta, constrParam);
+            SegmentSubheaderRecord testParam = new(testValue.StartCode, testValue.EndCode, testValue.IdDelta, constrParam);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -200,7 +199,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void SegmentSubheaderRecord_EqualsMethodWithObjectParameter_ReturnsTrue_IfParameterIsConstructedFromSameData()
         {
             SegmentSubheaderRecord testValue = GetTestValue();
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(testValue.StartCode, testValue.EndCode, testValue.IdDelta, testValue.StartOffset);
+            SegmentSubheaderRecord testParam = new(testValue.StartCode, testValue.EndCode, testValue.IdDelta, testValue.StartOffset);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -216,7 +215,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUShort();
             } while (constrParam == testValue.StartCode);
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(constrParam, testValue.EndCode, testValue.IdDelta, testValue.StartOffset);
+            SegmentSubheaderRecord testParam = new(constrParam, testValue.EndCode, testValue.IdDelta, testValue.StartOffset);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -232,7 +231,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUShort();
             } while (constrParam == testValue.EndCode);
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(testValue.StartCode, constrParam, testValue.IdDelta, testValue.StartOffset);
+            SegmentSubheaderRecord testParam = new(testValue.StartCode, constrParam, testValue.IdDelta, testValue.StartOffset);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -248,7 +247,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextShort();
             } while (constrParam == testValue.IdDelta);
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(testValue.StartCode, testValue.EndCode, constrParam, testValue.StartOffset);
+            SegmentSubheaderRecord testParam = new(testValue.StartCode, testValue.EndCode, constrParam, testValue.StartOffset);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -264,7 +263,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.Next();
             } while (constrParam == testValue.StartCode);
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(testValue.StartCode, testValue.EndCode, testValue.IdDelta, constrParam);
+            SegmentSubheaderRecord testParam = new(testValue.StartCode, testValue.EndCode, testValue.IdDelta, constrParam);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -286,7 +285,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void SegmentSubheaderRecord_GetHashCodeMethod_ReturnsSameValue_IfCalledTwiceOnSameValue()
         {
             SegmentSubheaderRecord testValue0 = GetTestValue();
-            SegmentSubheaderRecord testValue1 = new SegmentSubheaderRecord(testValue0.StartCode, testValue0.EndCode, testValue0.IdDelta, testValue0.StartOffset);
+            SegmentSubheaderRecord testValue1 = new(testValue0.StartCode, testValue0.EndCode, testValue0.IdDelta, testValue0.StartOffset);
 
             int testOutput0 = testValue0.GetHashCode();
             int testOutput1 = testValue1.GetHashCode();
@@ -310,7 +309,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void SegmentSubheaderRecord_EqualityOperator_ReturnsTrue_IfOperandsAreConstructedFromSameData()
         {
             SegmentSubheaderRecord testValue = GetTestValue();
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(testValue.StartCode, testValue.EndCode, testValue.IdDelta, testValue.StartOffset);
+            SegmentSubheaderRecord testParam = new(testValue.StartCode, testValue.EndCode, testValue.IdDelta, testValue.StartOffset);
 
             bool testOutput = testValue == testParam;
 
@@ -326,7 +325,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUShort();
             } while (constrParam == testValue.StartCode);
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(constrParam, testValue.EndCode, testValue.IdDelta, testValue.StartOffset);
+            SegmentSubheaderRecord testParam = new(constrParam, testValue.EndCode, testValue.IdDelta, testValue.StartOffset);
 
             bool testOutput = testValue == testParam;
 
@@ -342,7 +341,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUShort();
             } while (constrParam == testValue.EndCode);
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(testValue.StartCode, constrParam, testValue.IdDelta, testValue.StartOffset);
+            SegmentSubheaderRecord testParam = new(testValue.StartCode, constrParam, testValue.IdDelta, testValue.StartOffset);
 
             bool testOutput = testValue == testParam;
 
@@ -358,7 +357,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextShort();
             } while (constrParam == testValue.IdDelta);
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(testValue.StartCode, testValue.EndCode, constrParam, testValue.StartOffset);
+            SegmentSubheaderRecord testParam = new(testValue.StartCode, testValue.EndCode, constrParam, testValue.StartOffset);
 
             bool testOutput = testValue == testParam;
 
@@ -374,7 +373,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.Next();
             } while (constrParam == testValue.StartCode);
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(testValue.StartCode, testValue.EndCode, testValue.IdDelta, constrParam);
+            SegmentSubheaderRecord testParam = new(testValue.StartCode, testValue.EndCode, testValue.IdDelta, constrParam);
 
             bool testOutput = testValue == testParam;
 
@@ -397,7 +396,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void SegmentSubheaderRecord_InequalityOperator_ReturnsFalse_IfOperandsAreConstructedFromSameData()
         {
             SegmentSubheaderRecord testValue = GetTestValue();
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(testValue.StartCode, testValue.EndCode, testValue.IdDelta, testValue.StartOffset);
+            SegmentSubheaderRecord testParam = new(testValue.StartCode, testValue.EndCode, testValue.IdDelta, testValue.StartOffset);
 
             bool testOutput = testValue != testParam;
 
@@ -413,7 +412,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUShort();
             } while (constrParam == testValue.StartCode);
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(constrParam, testValue.EndCode, testValue.IdDelta, testValue.StartOffset);
+            SegmentSubheaderRecord testParam = new(constrParam, testValue.EndCode, testValue.IdDelta, testValue.StartOffset);
 
             bool testOutput = testValue != testParam;
 
@@ -429,7 +428,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUShort();
             } while (constrParam == testValue.EndCode);
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(testValue.StartCode, constrParam, testValue.IdDelta, testValue.StartOffset);
+            SegmentSubheaderRecord testParam = new(testValue.StartCode, constrParam, testValue.IdDelta, testValue.StartOffset);
 
             bool testOutput = testValue != testParam;
 
@@ -445,7 +444,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextShort();
             } while (constrParam == testValue.IdDelta);
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(testValue.StartCode, testValue.EndCode, constrParam, testValue.StartOffset);
+            SegmentSubheaderRecord testParam = new(testValue.StartCode, testValue.EndCode, constrParam, testValue.StartOffset);
 
             bool testOutput = testValue != testParam;
 
@@ -461,7 +460,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.Next();
             } while (constrParam == testValue.StartCode);
-            SegmentSubheaderRecord testParam = new SegmentSubheaderRecord(testValue.StartCode, testValue.EndCode, testValue.IdDelta, constrParam);
+            SegmentSubheaderRecord testParam = new(testValue.StartCode, testValue.EndCode, testValue.IdDelta, constrParam);
 
             bool testOutput = testValue != testParam;
 

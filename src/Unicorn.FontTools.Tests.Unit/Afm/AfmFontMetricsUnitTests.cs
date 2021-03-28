@@ -44,9 +44,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam00, testOutput.FontName);
         }
@@ -79,9 +79,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam01, testOutput.FullName);
         }
@@ -114,9 +114,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam02, testOutput.FamilyName);
         }
@@ -149,9 +149,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam03, testOutput.Weight);
         }
@@ -184,9 +184,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam04, testOutput.FontBoundingBox);
         }
@@ -219,9 +219,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam05, testOutput.Version);
         }
@@ -254,9 +254,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam06, testOutput.Notice);
         }
@@ -289,9 +289,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam07, testOutput.EncodingScheme);
         }
@@ -324,9 +324,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam08, testOutput.MappingScheme);
         }
@@ -359,9 +359,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam09, testOutput.EscapeCharacter);
         }
@@ -394,9 +394,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam10, testOutput.CharacterSet);
         }
@@ -429,9 +429,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam11, testOutput.CharacterCount);
         }
@@ -464,9 +464,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam12, testOutput.IsBaseFont);
         }
@@ -499,9 +499,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.IsTrue(testOutput.IsBaseFont);
         }
@@ -534,9 +534,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam13, testOutput.VVector);
         }
@@ -569,9 +569,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam14, testOutput.IsFixedV);
         }
@@ -604,9 +604,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam15, testOutput.IsCIDFont);
         }
@@ -639,9 +639,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.IsFalse(testOutput.IsCIDFont);
         }
@@ -674,9 +674,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam16, testOutput.CapHeight);
         }
@@ -709,9 +709,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam17, testOutput.XHeight);
         }
@@ -744,9 +744,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam18, testOutput.Ascender);
         }
@@ -779,9 +779,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam19, testOutput.Descender);
         }
@@ -814,9 +814,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam20, testOutput.StdHW);
         }
@@ -849,9 +849,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam21, testOutput.StdVW);
         }
@@ -884,9 +884,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam22, testOutput.Direction0Metrics);
         }
@@ -919,9 +919,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             DirectionMetrics? testParam22 = _rnd.NextNullableAfmDirectionMetrics();
             DirectionMetrics? testParam23 = _rnd.NextNullableAfmDirectionMetrics();
 
-            AfmFontMetrics testOutput = new AfmFontMetrics(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07,
-                testParam08, testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18,
-                testParam19, testParam20, testParam21, testParam22, testParam23);
+            AfmFontMetrics testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17, testParam18, testParam19, 
+                testParam20, testParam21, testParam22, testParam23);
 
             Assert.AreEqual(testParam23, testOutput.Direction1Metrics);
         }

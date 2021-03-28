@@ -35,8 +35,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(new Tag("head"), testOutput.TableTag);
         }
@@ -63,8 +63,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam0, testOutput.MajorVersion);
         }
@@ -91,8 +91,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam1, testOutput.MinorVersion);
         }
@@ -119,8 +119,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam2, testOutput.Revision);
         }
@@ -147,8 +147,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam3, testOutput.ChecksumAdjustment);
         }
@@ -175,8 +175,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam4, testOutput.Magic);
         }
@@ -203,8 +203,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam5, testOutput.Flags);
         }
@@ -231,8 +231,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam6, testOutput.FontUnitScale);
         }
@@ -259,8 +259,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam7, testOutput.Created);
         }
@@ -287,8 +287,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam8, testOutput.Modified);
         }
@@ -315,8 +315,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam9, testOutput.XMin);
         }
@@ -343,8 +343,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam10, testOutput.YMin);
         }
@@ -371,8 +371,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam11, testOutput.XMax);
         }
@@ -399,8 +399,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam12, testOutput.YMax);
         }
@@ -427,8 +427,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam13, testOutput.StyleFlags);
         }
@@ -455,8 +455,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam14, testOutput.SmallestReadablePixelSize);
         }
@@ -483,8 +483,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam15, testOutput.DirectionHint);
         }
@@ -511,8 +511,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam16, testOutput.UseLongOffsets);
         }
@@ -539,8 +539,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             bool testParam16 = _rnd.NextBoolean();
             short testParam17 = _rnd.NextShort();
 
-            HeaderTable testOutput = new HeaderTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9, testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
+            HeaderTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9, 
+                testParam10, testParam11, testParam12, testParam13, testParam14, testParam15, testParam16, testParam17);
 
             Assert.AreEqual(testParam17, testOutput.GlyphDataFormat);
         }

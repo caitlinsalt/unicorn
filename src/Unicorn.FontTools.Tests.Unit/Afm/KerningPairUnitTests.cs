@@ -61,14 +61,14 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             return $"{code} {char1} {char2} {x}";
         }
 
-        private static string HexCode(short val) => "<" + val.ToString("X4", CultureInfo.InvariantCulture) + ">";
+        private static string HexCode(short val) => $"<{val.ToString("X4", CultureInfo.InvariantCulture)}>";
 
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 
         [TestMethod]
         public void KerningPairStruct_ParameterlessConstructor_SetsFirstPropertyToNull()
         {
-            KerningPair testOutput = new KerningPair();
+            KerningPair testOutput = new();
 
             Assert.IsNull(testOutput.First);
         }
@@ -76,7 +76,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void KerningPairStruct_ParameterlessConstructor_SetsSecondPropertyToNull()
         {
-            KerningPair testOutput = new KerningPair();
+            KerningPair testOutput = new();
 
             Assert.IsNull(testOutput.Second);
         }
@@ -84,7 +84,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void KerningPairStruct_ParameterlessConstructor_SetsKerningVectorPropertyToDefaultValue()
         {
-            KerningPair testOutput = new KerningPair();
+            KerningPair testOutput = new();
 
             Assert.AreEqual(default, testOutput.KerningVector);
         }
@@ -96,7 +96,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character testParam1 = _rnd.NextAfmCharacter();
             Vector testParam2 = _rnd.NextAfmVector();
 
-            KerningPair testOutput = new KerningPair(testParam0, testParam1, testParam2);
+            KerningPair testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreSame(testParam0, testOutput.First);
         }
@@ -108,7 +108,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character testParam1 = _rnd.NextAfmCharacter();
             Vector testParam2 = _rnd.NextAfmVector();
 
-            KerningPair testOutput = new KerningPair(testParam0, testParam1, testParam2);
+            KerningPair testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreSame(testParam1, testOutput.Second);
         }
@@ -120,7 +120,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character testParam1 = _rnd.NextAfmCharacter();
             Vector testParam2 = _rnd.NextAfmVector();
 
-            KerningPair testOutput = new KerningPair(testParam0, testParam1, testParam2);
+            KerningPair testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam2, testOutput.KerningVector);
         }
@@ -131,7 +131,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
-            KerningPair testObject = new KerningPair(constrParam0, constrParam1, constrParam2);
+            KerningPair testObject = new(constrParam0, constrParam1, constrParam2);
 
             bool testOutput = testObject.Equals(testObject);
 
@@ -144,8 +144,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
-            KerningPair testObject = new KerningPair(constrParam0, constrParam1, constrParam2);
-            KerningPair testParam = new KerningPair(testObject.First, testObject.Second, testObject.KerningVector);
+            KerningPair testObject = new(constrParam0, constrParam1, constrParam2);
+            KerningPair testParam = new(testObject.First, testObject.Second, testObject.KerningVector);
 
             bool testOutput = testObject.Equals(testParam);
 
@@ -158,8 +158,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
-            KerningPair testObject = new KerningPair(constrParam0, constrParam1, constrParam2);
-            KerningPair testParam = new KerningPair(_rnd.NextAfmCharacter(), testObject.Second, testObject.KerningVector);
+            KerningPair testObject = new(constrParam0, constrParam1, constrParam2);
+            KerningPair testParam = new(_rnd.NextAfmCharacter(), testObject.Second, testObject.KerningVector);
 
             bool testOutput = testObject.Equals(testParam);
 
@@ -172,8 +172,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
-            KerningPair testObject = new KerningPair(constrParam0, constrParam1, constrParam2);
-            KerningPair testParam = new KerningPair(testObject.First, _rnd.NextAfmCharacter(), testObject.KerningVector);
+            KerningPair testObject = new(constrParam0, constrParam1, constrParam2);
+            KerningPair testParam = new(testObject.First, _rnd.NextAfmCharacter(), testObject.KerningVector);
 
             bool testOutput = testObject.Equals(testParam);
 
@@ -186,13 +186,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
-            KerningPair testObject = new KerningPair(constrParam0, constrParam1, constrParam2);
+            KerningPair testObject = new(constrParam0, constrParam1, constrParam2);
             Vector constrParam3;
             do
             {
                 constrParam3 = _rnd.NextAfmVector();
             } while (constrParam3 == testObject.KerningVector);
-            KerningPair testParam = new KerningPair(testObject.First, testObject.Second, constrParam3);
+            KerningPair testParam = new(testObject.First, testObject.Second, constrParam3);
 
             bool testOutput = testObject.Equals(testParam);
 
@@ -205,7 +205,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
-            KerningPair testObject = new KerningPair(constrParam0, constrParam1, constrParam2);
+            KerningPair testObject = new(constrParam0, constrParam1, constrParam2);
 
             bool testOutput = testObject.Equals((object)testObject);
 
@@ -218,8 +218,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
-            KerningPair testObject = new KerningPair(constrParam0, constrParam1, constrParam2);
-            KerningPair testParam = new KerningPair(testObject.First, testObject.Second, testObject.KerningVector);
+            KerningPair testObject = new(constrParam0, constrParam1, constrParam2);
+            KerningPair testParam = new(testObject.First, testObject.Second, testObject.KerningVector);
 
             bool testOutput = testObject.Equals((object)testParam);
 
@@ -232,8 +232,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
-            KerningPair testObject = new KerningPair(constrParam0, constrParam1, constrParam2);
-            KerningPair testParam = new KerningPair(_rnd.NextAfmCharacter(), testObject.Second, testObject.KerningVector);
+            KerningPair testObject = new(constrParam0, constrParam1, constrParam2);
+            KerningPair testParam = new(_rnd.NextAfmCharacter(), testObject.Second, testObject.KerningVector);
 
             bool testOutput = testObject.Equals((object)testParam);
 
@@ -246,8 +246,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
-            KerningPair testObject = new KerningPair(constrParam0, constrParam1, constrParam2);
-            KerningPair testParam = new KerningPair(testObject.First, _rnd.NextAfmCharacter(), testObject.KerningVector);
+            KerningPair testObject = new(constrParam0, constrParam1, constrParam2);
+            KerningPair testParam = new(testObject.First, _rnd.NextAfmCharacter(), testObject.KerningVector);
 
             bool testOutput = testObject.Equals((object)testParam);
 
@@ -260,13 +260,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
-            KerningPair testObject = new KerningPair(constrParam0, constrParam1, constrParam2);
+            KerningPair testObject = new(constrParam0, constrParam1, constrParam2);
             Vector constrParam3;
             do
             {
                 constrParam3 = _rnd.NextAfmVector();
             } while (constrParam3 == testObject.KerningVector);
-            KerningPair testParam = new KerningPair(testObject.First, testObject.Second, constrParam3);
+            KerningPair testParam = new(testObject.First, testObject.Second, constrParam3);
 
             bool testOutput = testObject.Equals((object)testParam);
 
@@ -279,7 +279,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
-            KerningPair testObject = new KerningPair(constrParam0, constrParam1, constrParam2);
+            KerningPair testObject = new(constrParam0, constrParam1, constrParam2);
             string testParam = _rnd.NextString(_rnd.Next(20));
 
             bool testOutput = testObject.Equals(testParam);
@@ -293,8 +293,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
-            KerningPair testObject0 = new KerningPair(constrParam0, constrParam1, constrParam2);
-            KerningPair testObject1 = new KerningPair(constrParam0, constrParam1, constrParam2);
+            KerningPair testObject0 = new(constrParam0, constrParam1, constrParam2);
+            KerningPair testObject1 = new(constrParam0, constrParam1, constrParam2);
 
             int testOutput0 = testObject0.GetHashCode();
             int testOutput1 = testObject1.GetHashCode();
@@ -308,7 +308,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
-            KerningPair testOperand0 = new KerningPair(constrParam0, constrParam1, constrParam2);
+            KerningPair testOperand0 = new(constrParam0, constrParam1, constrParam2);
 
 #pragma warning disable CS1718 // Comparison made to same variable
             bool testOutput = testOperand0 == testOperand0;
@@ -323,8 +323,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
-            KerningPair testOperand0 = new KerningPair(constrParam0, constrParam1, constrParam2);
-            KerningPair testOperand1 = new KerningPair(constrParam0, constrParam1, constrParam2);
+            KerningPair testOperand0 = new(constrParam0, constrParam1, constrParam2);
+            KerningPair testOperand1 = new(constrParam0, constrParam1, constrParam2);
 
             bool testOutput = testOperand0 == testOperand1;
 
@@ -338,8 +338,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
             Character constrParam3 = _rnd.NextAfmCharacter();
-            KerningPair testOperand0 = new KerningPair(constrParam0, constrParam1, constrParam2);
-            KerningPair testOperand1 = new KerningPair(constrParam3, constrParam1, constrParam2);
+            KerningPair testOperand0 = new(constrParam0, constrParam1, constrParam2);
+            KerningPair testOperand1 = new(constrParam3, constrParam1, constrParam2);
 
             bool testOutput = testOperand0 == testOperand1;
 
@@ -353,8 +353,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
             Character constrParam3 = _rnd.NextAfmCharacter();
-            KerningPair testOperand0 = new KerningPair(constrParam0, constrParam1, constrParam2);
-            KerningPair testOperand1 = new KerningPair(constrParam0, constrParam3, constrParam2);
+            KerningPair testOperand0 = new(constrParam0, constrParam1, constrParam2);
+            KerningPair testOperand1 = new(constrParam0, constrParam3, constrParam2);
 
             bool testOutput = testOperand0 == testOperand1;
 
@@ -372,8 +372,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             {
                 constrParam3 = _rnd.NextAfmVector();
             } while (constrParam3 == constrParam2);
-            KerningPair testOperand0 = new KerningPair(constrParam0, constrParam1, constrParam2);
-            KerningPair testOperand1 = new KerningPair(constrParam0, constrParam1, constrParam3);
+            KerningPair testOperand0 = new(constrParam0, constrParam1, constrParam2);
+            KerningPair testOperand1 = new(constrParam0, constrParam1, constrParam3);
 
             bool testOutput = testOperand0 == testOperand1;
 
@@ -386,7 +386,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
-            KerningPair testOperand0 = new KerningPair(constrParam0, constrParam1, constrParam2);
+            KerningPair testOperand0 = new(constrParam0, constrParam1, constrParam2);
 
 #pragma warning disable CS1718 // Comparison made to same variable
             bool testOutput = testOperand0 != testOperand0;
@@ -401,8 +401,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
-            KerningPair testOperand0 = new KerningPair(constrParam0, constrParam1, constrParam2);
-            KerningPair testOperand1 = new KerningPair(constrParam0, constrParam1, constrParam2);
+            KerningPair testOperand0 = new(constrParam0, constrParam1, constrParam2);
+            KerningPair testOperand1 = new(constrParam0, constrParam1, constrParam2);
 
             bool testOutput = testOperand0 != testOperand1;
 
@@ -416,8 +416,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
             Character constrParam3 = _rnd.NextAfmCharacter();
-            KerningPair testOperand0 = new KerningPair(constrParam0, constrParam1, constrParam2);
-            KerningPair testOperand1 = new KerningPair(constrParam3, constrParam1, constrParam2);
+            KerningPair testOperand0 = new(constrParam0, constrParam1, constrParam2);
+            KerningPair testOperand1 = new (constrParam3, constrParam1, constrParam2);
 
             bool testOutput = testOperand0 != testOperand1;
 
@@ -431,8 +431,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam1 = _rnd.NextAfmCharacter();
             Vector constrParam2 = _rnd.NextAfmVector();
             Character constrParam3 = _rnd.NextAfmCharacter();
-            KerningPair testOperand0 = new KerningPair(constrParam0, constrParam1, constrParam2);
-            KerningPair testOperand1 = new KerningPair(constrParam0, constrParam3, constrParam2);
+            KerningPair testOperand0 = new(constrParam0, constrParam1, constrParam2);
+            KerningPair testOperand1 = new(constrParam0, constrParam3, constrParam2);
 
             bool testOutput = testOperand0 != testOperand1;
 
@@ -450,8 +450,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             {
                 constrParam3 = _rnd.NextAfmVector();
             } while (constrParam3 == constrParam2);
-            KerningPair testOperand0 = new KerningPair(constrParam0, constrParam1, constrParam2);
-            KerningPair testOperand1 = new KerningPair(constrParam0, constrParam1, constrParam3);
+            KerningPair testOperand0 = new(constrParam0, constrParam1, constrParam2);
+            KerningPair testOperand1 = new(constrParam0, constrParam1, constrParam3);
 
             bool testOutput = testOperand0 != testOperand1;
 

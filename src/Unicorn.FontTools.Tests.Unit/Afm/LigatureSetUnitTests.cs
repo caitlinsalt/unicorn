@@ -17,7 +17,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void LigatureSetStruct_ParameterlessConstructor_SetsFirstPropertyToNull()
         {
-            LigatureSet testOutput = new LigatureSet();
+            LigatureSet testOutput = new();
 
             Assert.IsNull(testOutput.First);
         }
@@ -25,7 +25,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void LigatureSetStruct_ParameterlessConstructor_SetsSecondPropertyToNull()
         {
-            LigatureSet testOutput = new LigatureSet();
+            LigatureSet testOutput = new();
 
             Assert.IsNull(testOutput.Second);
         }
@@ -33,7 +33,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void LigatureSetStruct_ParameterlessConstructor_SetsLigaturePropertyToNull()
         {
-            LigatureSet testOutput = new LigatureSet();
+            LigatureSet testOutput = new();
 
             Assert.IsNull(testOutput.Ligature);
         }
@@ -45,7 +45,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character testParam1 = _rnd.NextAfmCharacter();
             Character testParam2 = _rnd.NextAfmCharacter();
 
-            LigatureSet testOutput = new LigatureSet(testParam0, testParam1, testParam2);
+            LigatureSet testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreSame(testParam0, testOutput.First);
         }
@@ -57,7 +57,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character testParam1 = _rnd.NextAfmCharacter();
             Character testParam2 = _rnd.NextAfmCharacter();
 
-            LigatureSet testOutput = new LigatureSet(testParam0, testParam1, testParam2);
+            LigatureSet testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreSame(testParam1, testOutput.Second);
         }
@@ -69,7 +69,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character testParam1 = _rnd.NextAfmCharacter();
             Character testParam2 = _rnd.NextAfmCharacter();
 
-            LigatureSet testOutput = new LigatureSet(testParam0, testParam1, testParam2);
+            LigatureSet testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreSame(testParam2, testOutput.Ligature);
         }
@@ -80,7 +80,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue = new LigatureSet(constrParam0, constrParam1, constrParam2);
+            LigatureSet testValue = new(constrParam0, constrParam1, constrParam2);
 
             bool testOutput = testValue.Equals(testValue);
 
@@ -93,8 +93,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue = new LigatureSet(constrParam0, constrParam1, constrParam2);
-            LigatureSet testParam0 = new LigatureSet(testValue.First, testValue.Second, testValue.Ligature);
+            LigatureSet testValue = new(constrParam0, constrParam1, constrParam2);
+            LigatureSet testParam0 = new(testValue.First, testValue.Second, testValue.Ligature);
 
             bool testOutput = testValue.Equals(testParam0);
 
@@ -107,8 +107,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue = new LigatureSet(constrParam0, constrParam1, constrParam2);
-            LigatureSet testParam0 = new LigatureSet(_rnd.NextAfmCharacter(), testValue.Second, testValue.Ligature);
+            LigatureSet testValue = new(constrParam0, constrParam1, constrParam2);
+            LigatureSet testParam0 = new(_rnd.NextAfmCharacter(), testValue.Second, testValue.Ligature);
 
             bool testOutput = testValue.Equals(testParam0);
 
@@ -121,8 +121,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue = new LigatureSet(constrParam0, constrParam1, constrParam2);
-            LigatureSet testParam0 = new LigatureSet(testValue.First, _rnd.NextAfmCharacter(), testValue.Ligature);
+            LigatureSet testValue = new(constrParam0, constrParam1, constrParam2);
+            LigatureSet testParam0 = new(testValue.First, _rnd.NextAfmCharacter(), testValue.Ligature);
 
             bool testOutput = testValue.Equals(testParam0);
 
@@ -135,8 +135,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue = new LigatureSet(constrParam0, constrParam1, constrParam2);
-            LigatureSet testParam0 = new LigatureSet(testValue.First, testValue.Second, _rnd.NextAfmCharacter());
+            LigatureSet testValue = new(constrParam0, constrParam1, constrParam2);
+            LigatureSet testParam0 = new(testValue.First, testValue.Second, _rnd.NextAfmCharacter());
 
             bool testOutput = testValue.Equals(testParam0);
 
@@ -149,7 +149,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue = new LigatureSet(constrParam0, constrParam1, constrParam2);
+            LigatureSet testValue = new(constrParam0, constrParam1, constrParam2);
 
             bool testOutput = testValue.Equals((object)testValue);
 
@@ -162,8 +162,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue = new LigatureSet(constrParam0, constrParam1, constrParam2);
-            LigatureSet testParam0 = new LigatureSet(testValue.First, testValue.Second, testValue.Ligature);
+            LigatureSet testValue = new(constrParam0, constrParam1, constrParam2);
+            LigatureSet testParam0 = new(testValue.First, testValue.Second, testValue.Ligature);
 
             bool testOutput = testValue.Equals((object)testParam0);
 
@@ -176,8 +176,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue = new LigatureSet(constrParam0, constrParam1, constrParam2);
-            LigatureSet testParam0 = new LigatureSet(_rnd.NextAfmCharacter(), testValue.Second, testValue.Ligature);
+            LigatureSet testValue = new(constrParam0, constrParam1, constrParam2);
+            LigatureSet testParam0 = new(_rnd.NextAfmCharacter(), testValue.Second, testValue.Ligature);
 
             bool testOutput = testValue.Equals((object)testParam0);
 
@@ -190,8 +190,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue = new LigatureSet(constrParam0, constrParam1, constrParam2);
-            LigatureSet testParam0 = new LigatureSet(testValue.First, _rnd.NextAfmCharacter(), testValue.Ligature);
+            LigatureSet testValue = new(constrParam0, constrParam1, constrParam2);
+            LigatureSet testParam0 = new(testValue.First, _rnd.NextAfmCharacter(), testValue.Ligature);
 
             bool testOutput = testValue.Equals((object)testParam0);
 
@@ -204,8 +204,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue = new LigatureSet(constrParam0, constrParam1, constrParam2);
-            LigatureSet testParam0 = new LigatureSet(testValue.First, testValue.Second, _rnd.NextAfmCharacter());
+            LigatureSet testValue = new(constrParam0, constrParam1, constrParam2);
+            LigatureSet testParam0 = new(testValue.First, testValue.Second, _rnd.NextAfmCharacter());
 
             bool testOutput = testValue.Equals((object)testParam0);
 
@@ -220,7 +220,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue = new LigatureSet(constrParam0, constrParam1, constrParam2);
+            LigatureSet testValue = new(constrParam0, constrParam1, constrParam2);
             string testParam0 = _rnd.NextString(_rnd.Next(255));
 
             bool testOutput = testValue.Equals(testParam0);
@@ -236,8 +236,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue0 = new LigatureSet(constrParam0, constrParam1, constrParam2);
-            LigatureSet testValue1 = new LigatureSet(testValue0.First, testValue0.Second, testValue0.Ligature);
+            LigatureSet testValue0 = new(constrParam0, constrParam1, constrParam2);
+            LigatureSet testValue1 = new(testValue0.First, testValue0.Second, testValue0.Ligature);
 
             int testOutput0 = testValue0.GetHashCode();
             int testOutput1 = testValue1.GetHashCode();
@@ -251,7 +251,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue = new LigatureSet(constrParam0, constrParam1, constrParam2);
+            LigatureSet testValue = new(constrParam0, constrParam1, constrParam2);
 
 #pragma warning disable CS1718 // Comparison made to same variable
             bool testOutput = testValue == testValue;
@@ -266,8 +266,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue0 = new LigatureSet(constrParam0, constrParam1, constrParam2);
-            LigatureSet testValue1 = new LigatureSet(testValue0.First, testValue0.Second, testValue0.Ligature);
+            LigatureSet testValue0 = new(constrParam0, constrParam1, constrParam2);
+            LigatureSet testValue1 = new(testValue0.First, testValue0.Second, testValue0.Ligature);
 
             bool testOutput = testValue0 == testValue1;
 
@@ -280,8 +280,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue0 = new LigatureSet(constrParam0, constrParam1, constrParam2);
-            LigatureSet testValue1 = new LigatureSet(_rnd.NextAfmCharacter(), testValue0.Second, testValue0.Ligature);
+            LigatureSet testValue0 = new(constrParam0, constrParam1, constrParam2);
+            LigatureSet testValue1 = new(_rnd.NextAfmCharacter(), testValue0.Second, testValue0.Ligature);
 
             bool testOutput = testValue0 == testValue1;
 
@@ -294,8 +294,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue0 = new LigatureSet(constrParam0, constrParam1, constrParam2);
-            LigatureSet testValue1 = new LigatureSet(testValue0.First, _rnd.NextAfmCharacter(), testValue0.Ligature);
+            LigatureSet testValue0 = new(constrParam0, constrParam1, constrParam2);
+            LigatureSet testValue1 = new(testValue0.First, _rnd.NextAfmCharacter(), testValue0.Ligature);
 
             bool testOutput = testValue0 == testValue1;
 
@@ -308,8 +308,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue0 = new LigatureSet(constrParam0, constrParam1, constrParam2);
-            LigatureSet testValue1 = new LigatureSet(testValue0.First, testValue0.Second, _rnd.NextAfmCharacter());
+            LigatureSet testValue0 = new(constrParam0, constrParam1, constrParam2);
+            LigatureSet testValue1 = new(testValue0.First, testValue0.Second, _rnd.NextAfmCharacter());
 
             bool testOutput = testValue0 == testValue1;
 
@@ -322,7 +322,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue = new LigatureSet(constrParam0, constrParam1, constrParam2);
+            LigatureSet testValue = new(constrParam0, constrParam1, constrParam2);
 
 #pragma warning disable CS1718 // Comparison made to same variable
             bool testOutput = testValue != testValue;
@@ -337,8 +337,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue0 = new LigatureSet(constrParam0, constrParam1, constrParam2);
-            LigatureSet testValue1 = new LigatureSet(testValue0.First, testValue0.Second, testValue0.Ligature);
+            LigatureSet testValue0 = new(constrParam0, constrParam1, constrParam2);
+            LigatureSet testValue1 = new(testValue0.First, testValue0.Second, testValue0.Ligature);
 
             bool testOutput = testValue0 != testValue1;
 
@@ -351,8 +351,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue0 = new LigatureSet(constrParam0, constrParam1, constrParam2);
-            LigatureSet testValue1 = new LigatureSet(_rnd.NextAfmCharacter(), testValue0.Second, testValue0.Ligature);
+            LigatureSet testValue0 = new(constrParam0, constrParam1, constrParam2);
+            LigatureSet testValue1 = new(_rnd.NextAfmCharacter(), testValue0.Second, testValue0.Ligature);
 
             bool testOutput = testValue0 != testValue1;
 
@@ -365,8 +365,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue0 = new LigatureSet(constrParam0, constrParam1, constrParam2);
-            LigatureSet testValue1 = new LigatureSet(testValue0.First, _rnd.NextAfmCharacter(), testValue0.Ligature);
+            LigatureSet testValue0 = new(constrParam0, constrParam1, constrParam2);
+            LigatureSet testValue1 = new(testValue0.First, _rnd.NextAfmCharacter(), testValue0.Ligature);
 
             bool testOutput = testValue0 != testValue1;
 
@@ -379,8 +379,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character constrParam0 = _rnd.NextAfmCharacter();
             Character constrParam1 = _rnd.NextAfmCharacter();
             Character constrParam2 = _rnd.NextAfmCharacter();
-            LigatureSet testValue0 = new LigatureSet(constrParam0, constrParam1, constrParam2);
-            LigatureSet testValue1 = new LigatureSet(testValue0.First, testValue0.Second, _rnd.NextAfmCharacter());
+            LigatureSet testValue0 = new(constrParam0, constrParam1, constrParam2);
+            LigatureSet testValue1 = new(testValue0.First, testValue0.Second, _rnd.NextAfmCharacter());
 
             bool testOutput = testValue0 != testValue1;
 

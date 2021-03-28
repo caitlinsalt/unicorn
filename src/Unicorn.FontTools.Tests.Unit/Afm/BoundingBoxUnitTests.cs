@@ -17,7 +17,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void BoundingBoxStruct_ParameterlessConstructor_SetsLeftPropertyToZero()
         {
-            BoundingBox testOutput = new BoundingBox();
+            BoundingBox testOutput = new();
 
             Assert.AreEqual(0, testOutput.Left);
         }
@@ -25,7 +25,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void BoundingBoxStruct_ParameterlessConstructor_SetsRightPropertyToZero()
         {
-            BoundingBox testOutput = new BoundingBox();
+            BoundingBox testOutput = new();
 
             Assert.AreEqual(0, testOutput.Right);
         }
@@ -33,7 +33,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void BoundingBoxStruct_ParameterlessConstructor_SetsBottomPropertyToZero()
         {
-            BoundingBox testOutput = new BoundingBox();
+            BoundingBox testOutput = new();
 
             Assert.AreEqual(0, testOutput.Bottom);
         }
@@ -41,7 +41,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void BoundingBoxStruct_ParameterlessConstructor_SetsTopPropertyToZero()
         {
-            BoundingBox testOutput = new BoundingBox();
+            BoundingBox testOutput = new();
 
             Assert.AreEqual(0, testOutput.Top);
         }
@@ -54,7 +54,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
 
-            BoundingBox testOutput = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(testParam0, testOutput.Left);
         }
@@ -67,7 +67,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
 
-            BoundingBox testOutput = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(testParam1, testOutput.Bottom);
         }
@@ -80,7 +80,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
 
-            BoundingBox testOutput = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(testParam2, testOutput.Right);
         }
@@ -93,7 +93,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
 
-            BoundingBox testOutput = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(testParam3, testOutput.Top);
         }
@@ -105,7 +105,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject = new(testParam0, testParam1, testParam2, testParam3);
 
             bool testOutput = testObject.Equals(testObject);
 
@@ -119,8 +119,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
-            BoundingBox other = new BoundingBox(testObject.Left, testObject.Bottom, testObject.Right, testObject.Top);
+            BoundingBox testObject = new(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox other = new(testObject.Left, testObject.Bottom, testObject.Right, testObject.Top);
 
             bool testOutput = testObject.Equals(other);
 
@@ -134,13 +134,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject = new(testParam0, testParam1, testParam2, testParam3);
             decimal testParam4;
             do
             {
                 testParam4 = _rnd.NextDecimal();
             } while (testParam4 == testObject.Left);
-            BoundingBox other = new BoundingBox(testParam4, testObject.Bottom, testObject.Right, testObject.Top);
+            BoundingBox other = new(testParam4, testObject.Bottom, testObject.Right, testObject.Top);
 
             bool testOutput = testObject.Equals(other);
 
@@ -154,13 +154,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject = new(testParam0, testParam1, testParam2, testParam3);
             decimal testParam4;
             do
             {
                 testParam4 = _rnd.NextDecimal();
             } while (testParam4 == testObject.Bottom);
-            BoundingBox other = new BoundingBox(testObject.Left, testParam4, testObject.Right, testObject.Top);
+            BoundingBox other = new(testObject.Left, testParam4, testObject.Right, testObject.Top);
 
             bool testOutput = testObject.Equals(other);
 
@@ -174,13 +174,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject = new(testParam0, testParam1, testParam2, testParam3);
             decimal testParam4;
             do
             {
                 testParam4 = _rnd.NextDecimal();
             } while (testParam4 == testObject.Right);
-            BoundingBox other = new BoundingBox(testObject.Left, testObject.Bottom, testParam4, testObject.Top);
+            BoundingBox other = new(testObject.Left, testObject.Bottom, testParam4, testObject.Top);
 
             bool testOutput = testObject.Equals(other);
 
@@ -194,13 +194,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject = new(testParam0, testParam1, testParam2, testParam3);
             decimal testParam4;
             do
             {
                 testParam4 = _rnd.NextDecimal();
             } while (testParam4 == testObject.Top);
-            BoundingBox other = new BoundingBox(testObject.Left, testObject.Bottom, testObject.Right, testParam4);
+            BoundingBox other = new(testObject.Left, testObject.Bottom, testObject.Right, testParam4);
 
             bool testOutput = testObject.Equals(other);
 
@@ -214,7 +214,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject = new(testParam0, testParam1, testParam2, testParam3);
 
             bool testOutput = testObject.Equals((object)testObject);
 
@@ -228,8 +228,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
-            BoundingBox other = new BoundingBox(testObject.Left, testObject.Bottom, testObject.Right, testObject.Top);
+            BoundingBox testObject = new(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox other = new(testObject.Left, testObject.Bottom, testObject.Right, testObject.Top);
 
             bool testOutput = testObject.Equals((object)other);
 
@@ -243,13 +243,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject = new(testParam0, testParam1, testParam2, testParam3);
             decimal testParam4;
             do
             {
                 testParam4 = _rnd.NextDecimal();
             } while (testParam4 == testObject.Left);
-            BoundingBox other = new BoundingBox(testParam4, testObject.Bottom, testObject.Right, testObject.Top);
+            BoundingBox other = new(testParam4, testObject.Bottom, testObject.Right, testObject.Top);
 
             bool testOutput = testObject.Equals((object)other);
 
@@ -263,13 +263,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject = new(testParam0, testParam1, testParam2, testParam3);
             decimal testParam4;
             do
             {
                 testParam4 = _rnd.NextDecimal();
             } while (testParam4 == testObject.Bottom);
-            BoundingBox other = new BoundingBox(testObject.Left, testParam4, testObject.Right, testObject.Top);
+            BoundingBox other = new(testObject.Left, testParam4, testObject.Right, testObject.Top);
 
             bool testOutput = testObject.Equals((object)other);
 
@@ -283,13 +283,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject = new(testParam0, testParam1, testParam2, testParam3);
             decimal testParam4;
             do
             {
                 testParam4 = _rnd.NextDecimal();
             } while (testParam4 == testObject.Right);
-            BoundingBox other = new BoundingBox(testObject.Left, testObject.Bottom, testParam4, testObject.Top);
+            BoundingBox other = new(testObject.Left, testObject.Bottom, testParam4, testObject.Top);
 
             bool testOutput = testObject.Equals((object)other);
 
@@ -303,13 +303,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject = new(testParam0, testParam1, testParam2, testParam3);
             decimal testParam4;
             do
             {
                 testParam4 = _rnd.NextDecimal();
             } while (testParam4 == testObject.Top);
-            BoundingBox other = new BoundingBox(testObject.Left, testObject.Bottom, testObject.Right, testParam4);
+            BoundingBox other = new(testObject.Left, testObject.Bottom, testObject.Right, testParam4);
 
             bool testOutput = testObject.Equals((object)other);
 
@@ -323,7 +323,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject = new(testParam0, testParam1, testParam2, testParam3);
             string other = testObject.ToString();
 
             bool testOutput = testObject.Equals(other);
@@ -338,8 +338,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
-            BoundingBox other = new BoundingBox(testObject.Left, testObject.Bottom, testObject.Right, testObject.Top);
+            BoundingBox testObject = new(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox other = new(testObject.Left, testObject.Bottom, testObject.Right, testObject.Top);
 
             int testOutput0 = testObject.GetHashCode();
             int testOutput1 = other.GetHashCode();
@@ -354,7 +354,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject = new(testParam0, testParam1, testParam2, testParam3);
             string expectedOutput = testParam0.ToString(CultureInfo.InvariantCulture) + " " + testParam1.ToString(CultureInfo.InvariantCulture) + " " + 
                 testParam2.ToString(CultureInfo.InvariantCulture) + " " + testParam3.ToString(CultureInfo.InvariantCulture);
 
@@ -370,7 +370,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject = new(testParam0, testParam1, testParam2, testParam3);
 
 #pragma warning disable CS1718 // Comparison made to same variable
             bool testOutput = testObject == testObject;
@@ -386,8 +386,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject0 = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
-            BoundingBox testObject1 = new BoundingBox(testObject0.Left, testObject0.Bottom, testObject0.Right, testObject0.Top);
+            BoundingBox testObject0 = new(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject1 = new(testObject0.Left, testObject0.Bottom, testObject0.Right, testObject0.Top);
 
             bool testOutput = testObject0 == testObject1;
 
@@ -401,13 +401,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject0 = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject0 = new(testParam0, testParam1, testParam2, testParam3);
             decimal testParam4;
             do
             {
                 testParam4 = _rnd.NextDecimal();
             } while (testParam4 == testObject0.Left);
-            BoundingBox testObject1 = new BoundingBox(testParam4, testObject0.Bottom, testObject0.Right, testObject0.Top);
+            BoundingBox testObject1 = new(testParam4, testObject0.Bottom, testObject0.Right, testObject0.Top);
 
             bool testOutput = testObject0 == testObject1;
 
@@ -421,13 +421,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject0 = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject0 = new(testParam0, testParam1, testParam2, testParam3);
             decimal testParam4;
             do
             {
                 testParam4 = _rnd.NextDecimal();
             } while (testParam4 == testObject0.Bottom);
-            BoundingBox testObject1 = new BoundingBox(testObject0.Left, testParam4, testObject0.Right, testObject0.Top);
+            BoundingBox testObject1 = new(testObject0.Left, testParam4, testObject0.Right, testObject0.Top);
 
             bool testOutput = testObject0 == testObject1;
 
@@ -441,13 +441,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject0 = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject0 = new(testParam0, testParam1, testParam2, testParam3);
             decimal testParam4;
             do
             {
                 testParam4 = _rnd.NextDecimal();
             } while (testParam4 == testObject0.Right);
-            BoundingBox testObject1 = new BoundingBox(testObject0.Left, testObject0.Bottom, testParam4, testObject0.Top);
+            BoundingBox testObject1 = new(testObject0.Left, testObject0.Bottom, testParam4, testObject0.Top);
 
             bool testOutput = testObject0 == testObject1;
 
@@ -461,13 +461,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject0 = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject0 = new(testParam0, testParam1, testParam2, testParam3);
             decimal testParam4;
             do
             {
                 testParam4 = _rnd.NextDecimal();
             } while (testParam4 == testObject0.Top);
-            BoundingBox testObject1 = new BoundingBox(testObject0.Left, testObject0.Bottom, testObject0.Right, testParam4);
+            BoundingBox testObject1 = new(testObject0.Left, testObject0.Bottom, testObject0.Right, testParam4);
 
             bool testOutput = testObject0 == testObject1;
 
@@ -481,7 +481,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject = new(testParam0, testParam1, testParam2, testParam3);
 
 #pragma warning disable CS1718 // Comparison made to same variable
             bool testOutput = testObject != testObject;
@@ -497,8 +497,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject0 = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
-            BoundingBox testObject1 = new BoundingBox(testObject0.Left, testObject0.Bottom, testObject0.Right, testObject0.Top);
+            BoundingBox testObject0 = new(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject1 = new(testObject0.Left, testObject0.Bottom, testObject0.Right, testObject0.Top);
 
             bool testOutput = testObject0 != testObject1;
 
@@ -512,13 +512,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject0 = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject0 = new(testParam0, testParam1, testParam2, testParam3);
             decimal testParam4;
             do
             {
                 testParam4 = _rnd.NextDecimal();
             } while (testParam4 == testObject0.Left);
-            BoundingBox testObject1 = new BoundingBox(testParam4, testObject0.Bottom, testObject0.Right, testObject0.Top);
+            BoundingBox testObject1 = new(testParam4, testObject0.Bottom, testObject0.Right, testObject0.Top);
 
             bool testOutput = testObject0 != testObject1;
 
@@ -532,13 +532,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject0 = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject0 = new(testParam0, testParam1, testParam2, testParam3);
             decimal testParam4;
             do
             {
                 testParam4 = _rnd.NextDecimal();
             } while (testParam4 == testObject0.Bottom);
-            BoundingBox testObject1 = new BoundingBox(testObject0.Left, testParam4, testObject0.Right, testObject0.Top);
+            BoundingBox testObject1 = new(testObject0.Left, testParam4, testObject0.Right, testObject0.Top);
 
             bool testOutput = testObject0 != testObject1;
 
@@ -552,13 +552,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject0 = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject0 = new(testParam0, testParam1, testParam2, testParam3);
             decimal testParam4;
             do
             {
                 testParam4 = _rnd.NextDecimal();
             } while (testParam4 == testObject0.Right);
-            BoundingBox testObject1 = new BoundingBox(testObject0.Left, testObject0.Bottom, testParam4, testObject0.Top);
+            BoundingBox testObject1 = new(testObject0.Left, testObject0.Bottom, testParam4, testObject0.Top);
 
             bool testOutput = testObject0 != testObject1;
 
@@ -572,13 +572,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam1 = _rnd.NextDecimal();
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
-            BoundingBox testObject0 = new BoundingBox(testParam0, testParam1, testParam2, testParam3);
+            BoundingBox testObject0 = new(testParam0, testParam1, testParam2, testParam3);
             decimal testParam4;
             do
             {
                 testParam4 = _rnd.NextDecimal();
             } while (testParam4 == testObject0.Top);
-            BoundingBox testObject1 = new BoundingBox(testObject0.Left, testObject0.Bottom, testObject0.Right, testParam4);
+            BoundingBox testObject1 = new(testObject0.Left, testObject0.Bottom, testObject0.Right, testParam4);
 
             bool testOutput = testObject0 != testObject1;
 

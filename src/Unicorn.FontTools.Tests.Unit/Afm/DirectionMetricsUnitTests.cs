@@ -18,7 +18,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void DirectionMetricsStruct_ParameterlessConstructor_SetsUnderlinePositionPropertyToNull()
         {
-            DirectionMetrics testOutput = new DirectionMetrics();
+            DirectionMetrics testOutput = new();
 
             Assert.IsNull(testOutput.UnderlinePosition);
         }
@@ -26,7 +26,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void DirectionMetricsStruct_ParameterlessConstructor_SetsUnderlineThicknessPropertyToNull()
         {
-            DirectionMetrics testOutput = new DirectionMetrics();
+            DirectionMetrics testOutput = new();
 
             Assert.IsNull(testOutput.UnderlineThickness);
         }
@@ -34,7 +34,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void DirectionMetricsStruct_ParameterlessConstructor_SetsItalicAnglePropertyToNull()
         {
-            DirectionMetrics testOutput = new DirectionMetrics();
+            DirectionMetrics testOutput = new();
 
             Assert.IsNull(testOutput.ItalicAngle);
         }
@@ -42,7 +42,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void DirectionMetricsStruct_ParameterlessConstructor_SetsCharWidthPropertyToNull()
         {
-            DirectionMetrics testOutput = new DirectionMetrics();
+            DirectionMetrics testOutput = new();
 
             Assert.IsNull(testOutput.CharWidth);
         }
@@ -50,7 +50,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void DirectionMetricsStruct_ParameterlessConstructor_SetsIsFixedWidthPropertyToFalse()
         {
-            DirectionMetrics testOutput = new DirectionMetrics();
+            DirectionMetrics testOutput = new();
 
             Assert.IsFalse(testOutput.IsFixedPitch);
         }
@@ -64,7 +64,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Vector? testParam3 = _rnd.NextNullableAfmVector();
             bool? testParam4 = _rnd.NextNullableBoolean();
 
-            DirectionMetrics testOutput = new DirectionMetrics(testParam0, testParam1, testParam2, testParam3, testParam4);
+            DirectionMetrics testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4);
 
             Assert.AreEqual(testParam0, testOutput.UnderlinePosition);
         }
@@ -78,7 +78,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Vector? testParam3 = _rnd.NextNullableAfmVector();
             bool? testParam4 = _rnd.NextNullableBoolean();
 
-            DirectionMetrics testOutput = new DirectionMetrics(testParam0, testParam1, testParam2, testParam3, testParam4);
+            DirectionMetrics testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4);
 
             Assert.AreEqual(testParam1, testOutput.UnderlineThickness);
         }
@@ -92,7 +92,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Vector? testParam3 = _rnd.NextNullableAfmVector();
             bool? testParam4 = _rnd.NextNullableBoolean();
 
-            DirectionMetrics testOutput = new DirectionMetrics(testParam0, testParam1, testParam2, testParam3, testParam4);
+            DirectionMetrics testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4);
 
             Assert.AreEqual(testParam2, testOutput.ItalicAngle);
         }
@@ -106,7 +106,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Vector? testParam3 = _rnd.NextNullableAfmVector();
             bool? testParam4 = _rnd.NextNullableBoolean();
 
-            DirectionMetrics testOutput = new DirectionMetrics(testParam0, testParam1, testParam2, testParam3, testParam4);
+            DirectionMetrics testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4);
 
             Assert.AreEqual(testParam3, testOutput.CharWidth);
         }
@@ -120,7 +120,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Vector? testParam3 = _rnd.NextNullableAfmVector();
             bool? testParam4 = _rnd.NextBoolean();
 
-            DirectionMetrics testOutput = new DirectionMetrics(testParam0, testParam1, testParam2, testParam3, testParam4);
+            DirectionMetrics testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4);
 
             Assert.AreEqual(testParam4.Value, testOutput.IsFixedPitch);
         }
@@ -134,7 +134,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Vector? testParam3 = null;
             bool? testParam4 = null;
 
-            DirectionMetrics testOutput = new DirectionMetrics(testParam0, testParam1, testParam2, testParam3, testParam4);
+            DirectionMetrics testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4);
 
             Assert.IsFalse(testOutput.IsFixedPitch);
         }
@@ -148,7 +148,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Vector? testParam3 = _rnd.NextAfmVector();
             bool? testParam4 = null;
 
-            DirectionMetrics testOutput = new DirectionMetrics(testParam0, testParam1, testParam2, testParam3, testParam4);
+            DirectionMetrics testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4);
 
             Assert.IsTrue(testOutput.IsFixedPitch);
         }
@@ -161,7 +161,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
 
             bool testOutput = testObject.Equals(testObject);
 
@@ -176,8 +176,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle,
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle,
                 testObject.CharWidth, constrParam4);
 
             bool testOutput = testObject.Equals(testParam);
@@ -193,13 +193,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             decimal? constrParam5;
             do
             {
                 constrParam5 = _rnd.NextNullableDecimal();
             } while (constrParam5 == testObject.UnderlinePosition);
-            DirectionMetrics testParam = new DirectionMetrics(constrParam5, testObject.UnderlineThickness, testObject.ItalicAngle, testObject.CharWidth, constrParam4);
+            DirectionMetrics testParam = new(constrParam5, testObject.UnderlineThickness, testObject.ItalicAngle, testObject.CharWidth, constrParam4);
 
             bool testOutput = testObject.Equals(testParam);
 
@@ -214,13 +214,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             decimal? constrParam5;
             do
             {
                 constrParam5 = _rnd.NextNullableDecimal();
             } while (constrParam5 == testObject.UnderlineThickness);
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, constrParam5, testObject.ItalicAngle, testObject.CharWidth, constrParam4);
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, constrParam5, testObject.ItalicAngle, testObject.CharWidth, constrParam4);
 
             bool testOutput = testObject.Equals(testParam);
 
@@ -235,13 +235,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             decimal? constrParam5;
             do
             {
                 constrParam5 = _rnd.NextNullableDecimal();
             } while (constrParam5 == testObject.ItalicAngle);
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, testObject.UnderlineThickness, constrParam5, testObject.CharWidth, 
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, testObject.UnderlineThickness, constrParam5, testObject.CharWidth, 
                 constrParam4);
 
             bool testOutput = testObject.Equals(testParam);
@@ -257,13 +257,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             Vector? constrParam5;
             do
             {
                 constrParam5 = _rnd.NextNullableAfmVector();
             } while (constrParam5 == testObject.CharWidth);
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle, constrParam5, 
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle, constrParam5, 
                 constrParam4);
 
             bool testOutput = testObject.Equals(testParam);
@@ -279,9 +279,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool constrParam4 = _rnd.NextBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             bool constrParam5 = !constrParam4;
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle, testObject.CharWidth, 
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle, testObject.CharWidth, 
                 constrParam5);
 
             bool testOutput = testObject.Equals(testParam);
@@ -297,7 +297,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
 
             bool testOutput = testObject.Equals((object)testObject);
 
@@ -312,8 +312,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle,
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle,
                 testObject.CharWidth, constrParam4);
 
             bool testOutput = testObject.Equals((object)testParam);
@@ -329,13 +329,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             decimal? constrParam5;
             do
             {
                 constrParam5 = _rnd.NextNullableDecimal();
             } while (constrParam5 == testObject.UnderlinePosition);
-            DirectionMetrics testParam = new DirectionMetrics(constrParam5, testObject.UnderlineThickness, testObject.ItalicAngle, testObject.CharWidth, constrParam4);
+            DirectionMetrics testParam = new(constrParam5, testObject.UnderlineThickness, testObject.ItalicAngle, testObject.CharWidth, constrParam4);
 
             bool testOutput = testObject.Equals((object)testParam);
 
@@ -350,13 +350,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             decimal? constrParam5;
             do
             {
                 constrParam5 = _rnd.NextNullableDecimal();
             } while (constrParam5 == testObject.UnderlineThickness);
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, constrParam5, testObject.ItalicAngle, testObject.CharWidth, constrParam4);
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, constrParam5, testObject.ItalicAngle, testObject.CharWidth, constrParam4);
 
             bool testOutput = testObject.Equals((object)testParam);
 
@@ -371,13 +371,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             decimal? constrParam5;
             do
             {
                 constrParam5 = _rnd.NextNullableDecimal();
             } while (constrParam5 == testObject.ItalicAngle);
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, testObject.UnderlineThickness, constrParam5, testObject.CharWidth,
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, testObject.UnderlineThickness, constrParam5, testObject.CharWidth,
                 constrParam4);
 
             bool testOutput = testObject.Equals((object)testParam);
@@ -393,13 +393,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             Vector? constrParam5;
             do
             {
                 constrParam5 = _rnd.NextNullableAfmVector();
             } while (constrParam5 == testObject.CharWidth);
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle, constrParam5,
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle, constrParam5,
                 constrParam4);
 
             bool testOutput = testObject.Equals((object)testParam);
@@ -415,9 +415,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool constrParam4 = _rnd.NextBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             bool constrParam5 = !constrParam4;
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle, testObject.CharWidth,
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle, testObject.CharWidth,
                 constrParam5);
 
             bool testOutput = testObject.Equals((object)testParam);
@@ -435,7 +435,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool constrParam4 = _rnd.NextBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             string testParam = _rnd.NextString(_rnd.Next(1, 20));
 
             bool testOutput = testObject.Equals(testParam);
@@ -453,8 +453,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool constrParam4 = _rnd.NextBoolean();
-            DirectionMetrics testObject0 = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
-            DirectionMetrics testObject1 = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject0 = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject1 = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
 
             int testOutput0 = testObject0.GetHashCode();
             int testOutput1 = testObject1.GetHashCode();
@@ -470,7 +470,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
 
 #pragma warning disable CS1718 // Comparison made to same variable
             bool testOutput = testObject == testObject;
@@ -487,8 +487,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle,
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle,
                 testObject.CharWidth, constrParam4);
 
             bool testOutput = testObject == testParam;
@@ -504,13 +504,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             decimal? constrParam5;
             do
             {
                 constrParam5 = _rnd.NextNullableDecimal();
             } while (constrParam5 == testObject.UnderlinePosition);
-            DirectionMetrics testParam = new DirectionMetrics(constrParam5, testObject.UnderlineThickness, testObject.ItalicAngle, testObject.CharWidth, constrParam4);
+            DirectionMetrics testParam = new(constrParam5, testObject.UnderlineThickness, testObject.ItalicAngle, testObject.CharWidth, constrParam4);
 
             bool testOutput = testObject == testParam;
 
@@ -525,13 +525,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             decimal? constrParam5;
             do
             {
                 constrParam5 = _rnd.NextNullableDecimal();
             } while (constrParam5 == testObject.UnderlineThickness);
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, constrParam5, testObject.ItalicAngle, testObject.CharWidth, constrParam4);
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, constrParam5, testObject.ItalicAngle, testObject.CharWidth, constrParam4);
 
             bool testOutput = testObject == testParam;
 
@@ -546,13 +546,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             decimal? constrParam5;
             do
             {
                 constrParam5 = _rnd.NextNullableDecimal();
             } while (constrParam5 == testObject.ItalicAngle);
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, testObject.UnderlineThickness, constrParam5, testObject.CharWidth,
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, testObject.UnderlineThickness, constrParam5, testObject.CharWidth,
                 constrParam4);
 
             bool testOutput = testObject == testParam;
@@ -568,13 +568,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             Vector? constrParam5;
             do
             {
                 constrParam5 = _rnd.NextNullableAfmVector();
             } while (constrParam5 == testObject.CharWidth);
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle, constrParam5,
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle, constrParam5,
                 constrParam4);
 
             bool testOutput = testObject == testParam;
@@ -590,9 +590,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool constrParam4 = _rnd.NextBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             bool constrParam5 = !constrParam4;
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle, testObject.CharWidth,
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle, testObject.CharWidth,
                 constrParam5);
 
             bool testOutput = testObject == testParam;
@@ -608,7 +608,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
 
 #pragma warning disable CS1718 // Comparison made to same variable
             bool testOutput = testObject != testObject;
@@ -625,8 +625,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle,
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle,
                 testObject.CharWidth, constrParam4);
 
             bool testOutput = testObject != testParam;
@@ -642,13 +642,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             decimal? constrParam5;
             do
             {
                 constrParam5 = _rnd.NextNullableDecimal();
             } while (constrParam5 == testObject.UnderlinePosition);
-            DirectionMetrics testParam = new DirectionMetrics(constrParam5, testObject.UnderlineThickness, testObject.ItalicAngle, testObject.CharWidth, constrParam4);
+            DirectionMetrics testParam = new(constrParam5, testObject.UnderlineThickness, testObject.ItalicAngle, testObject.CharWidth, constrParam4);
 
             bool testOutput = testObject != testParam;
 
@@ -663,13 +663,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             decimal? constrParam5;
             do
             {
                 constrParam5 = _rnd.NextNullableDecimal();
             } while (constrParam5 == testObject.UnderlineThickness);
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, constrParam5, testObject.ItalicAngle, testObject.CharWidth, constrParam4);
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, constrParam5, testObject.ItalicAngle, testObject.CharWidth, constrParam4);
 
             bool testOutput = testObject != testParam;
 
@@ -684,13 +684,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             decimal? constrParam5;
             do
             {
                 constrParam5 = _rnd.NextNullableDecimal();
             } while (constrParam5 == testObject.ItalicAngle);
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, testObject.UnderlineThickness, constrParam5, testObject.CharWidth,
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, testObject.UnderlineThickness, constrParam5, testObject.CharWidth,
                 constrParam4);
 
             bool testOutput = testObject != testParam;
@@ -706,13 +706,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool? constrParam4 = _rnd.NextNullableBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             Vector? constrParam5;
             do
             {
                 constrParam5 = _rnd.NextNullableAfmVector();
             } while (constrParam5 == testObject.CharWidth);
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle, constrParam5,
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle, constrParam5,
                 constrParam4);
 
             bool testOutput = testObject != testParam;
@@ -728,9 +728,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal? constrParam2 = _rnd.NextDecimal();
             Vector? constrParam3 = _rnd.NextAfmVector();
             bool constrParam4 = _rnd.NextBoolean();
-            DirectionMetrics testObject = new DirectionMetrics(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
+            DirectionMetrics testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4);
             bool constrParam5 = !constrParam4;
-            DirectionMetrics testParam = new DirectionMetrics(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle, testObject.CharWidth,
+            DirectionMetrics testParam = new(testObject.UnderlinePosition, testObject.UnderlineThickness, testObject.ItalicAngle, testObject.CharWidth,
                 constrParam5);
 
             bool testOutput = testObject != testParam;
