@@ -32,7 +32,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void SegmentSubheaderRecordCollectionClass_Constructor_ReturnsObjectWithCountPropertyEqualToZero_IfParameterIsNull()
         {
-            SegmentSubheaderRecordCollection testObject = new SegmentSubheaderRecordCollection(null);
+            SegmentSubheaderRecordCollection testObject = new(null);
 
             Assert.AreEqual(0, testObject.Count);
         }
@@ -42,7 +42,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             IEnumerable<SegmentSubheaderRecord> testParam = Array.Empty<SegmentSubheaderRecord>();
 
-            SegmentSubheaderRecordCollection testObject = new SegmentSubheaderRecordCollection(testParam);
+            SegmentSubheaderRecordCollection testObject = new(testParam);
 
             Assert.AreEqual(0, testObject.Count);
         }
@@ -52,7 +52,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             SegmentSubheaderRecord[] testParam = GetTestData();
 
-            SegmentSubheaderRecordCollection testOutput = new SegmentSubheaderRecordCollection(testParam);
+            SegmentSubheaderRecordCollection testOutput = new(testParam);
 
             Assert.AreEqual(testParam.Length, testOutput.Count);
         }
@@ -61,7 +61,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void SegmentSubheaderRecordCollectionClass_Indexer_ReturnsCorrectItems()
         {
             SegmentSubheaderRecord[] testParam = GetTestData();
-            SegmentSubheaderRecordCollection testObject = new SegmentSubheaderRecordCollection(testParam);
+            SegmentSubheaderRecordCollection testObject = new(testParam);
 
             for (int i = 0; i < testObject.Count; ++i)
             {
@@ -73,7 +73,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void SegmentSubheaderRecordCollectionClass_Enumerator_ReturnsItemsInCorrectOrder()
         {
             SegmentSubheaderRecord[] testParam = GetTestData();
-            SegmentSubheaderRecordCollection testObject = new SegmentSubheaderRecordCollection(testParam);
+            SegmentSubheaderRecordCollection testObject = new(testParam);
             int idx = 0;
 
             IEnumerator<SegmentSubheaderRecord> testEnumerator = testObject.GetEnumerator();

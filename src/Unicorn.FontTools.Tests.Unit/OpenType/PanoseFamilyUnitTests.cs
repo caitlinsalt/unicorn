@@ -14,27 +14,15 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 #pragma warning disable CA5394 // Do not use insecure randomness
 
         private static PanoseFamily GetTestObject()
-        {
-            byte testParam0 = _rnd.NextByte();
-            byte testParam1 = _rnd.NextByte();
-            byte testParam2 = _rnd.NextByte();
-            byte testParam3 = _rnd.NextByte();
-            byte testParam4 = _rnd.NextByte();
-            byte testParam5 = _rnd.NextByte();
-            byte testParam6 = _rnd.NextByte();
-            byte testParam7 = _rnd.NextByte();
-            byte testParam8 = _rnd.NextByte();
-            byte testParam9 = _rnd.NextByte();
-
-            return new PanoseFamily(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
-        }
+            => new(_rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(), 
+                    _rnd.NextByte(), _rnd.NextByte());
 
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 
         [TestMethod]
         public void PanoseFamilyStruct_ParameterlessConstructor_SetsFamilyTypePropertyToZero()
         {
-            PanoseFamily testOutput = new PanoseFamily();
+            PanoseFamily testOutput = new();
 
             Assert.AreEqual((byte)0, testOutput.FamilyType);
         }
@@ -42,7 +30,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void PanoseFamilyStruct_ParameterlessConstructor_SetsSerifStylePropertyToZero()
         {
-            PanoseFamily testOutput = new PanoseFamily();
+            PanoseFamily testOutput = new();
 
             Assert.AreEqual((byte)0, testOutput.SerifStyle);
         }
@@ -50,7 +38,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void PanoseFamilyStruct_ParameterlessConstructor_SetsWeightPropertyToZero()
         {
-            PanoseFamily testOutput = new PanoseFamily();
+            PanoseFamily testOutput = new();
 
             Assert.AreEqual((byte)0, testOutput.Weight);
         }
@@ -58,7 +46,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void PanoseFamilyStruct_ParameterlessConstructor_SetsProportionPropertyToZero()
         {
-            PanoseFamily testOutput = new PanoseFamily();
+            PanoseFamily testOutput = new();
 
             Assert.AreEqual((byte)0, testOutput.Proportion);
         }
@@ -66,7 +54,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void PanoseFamilyStruct_ParameterlessConstructor_SetsContrastPropertyToZero()
         {
-            PanoseFamily testOutput = new PanoseFamily();
+            PanoseFamily testOutput = new();
 
             Assert.AreEqual((byte)0, testOutput.Contrast);
         }
@@ -74,7 +62,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void PanoseFamilyStruct_ParameterlessConstructor_SetsStrokeVariationPropertyToZero()
         {
-            PanoseFamily testOutput = new PanoseFamily();
+            PanoseFamily testOutput = new();
 
             Assert.AreEqual((byte)0, testOutput.StrokeVariation);
         }
@@ -82,7 +70,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void PanoseFamilyStruct_ParameterlessConstructor_SetsArmStylePropertyToZero()
         {
-            PanoseFamily testOutput = new PanoseFamily();
+            PanoseFamily testOutput = new();
 
             Assert.AreEqual((byte)0, testOutput.ArmStyle);
         }
@@ -90,7 +78,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void PanoseFamilyStruct_ParameterlessConstructor_SetsLetterformPropertyToZero()
         {
-            PanoseFamily testOutput = new PanoseFamily();
+            PanoseFamily testOutput = new();
 
             Assert.AreEqual((byte)0, testOutput.Letterform);
         }
@@ -98,7 +86,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void PanoseFamilyStruct_ParameterlessConstructor_SetsMidlinePropertyToZero()
         {
-            PanoseFamily testOutput = new PanoseFamily();
+            PanoseFamily testOutput = new();
 
             Assert.AreEqual((byte)0, testOutput.Midline);
         }
@@ -106,7 +94,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void PanoseFamilyStruct_ParameterlessConstructor_SetsXHeightPropertyToZero()
         {
-            PanoseFamily testOutput = new PanoseFamily();
+            PanoseFamily testOutput = new();
 
             Assert.AreEqual((byte)0, testOutput.XHeight);
         }
@@ -125,8 +113,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             byte testParam8 = _rnd.NextByte();
             byte testParam9 = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PanoseFamily testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam0, testOutput.FamilyType);
         }
@@ -145,8 +132,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             byte testParam8 = _rnd.NextByte();
             byte testParam9 = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PanoseFamily testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam1, testOutput.SerifStyle);
         }
@@ -165,8 +151,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             byte testParam8 = _rnd.NextByte();
             byte testParam9 = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PanoseFamily testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam2, testOutput.Weight);
         }
@@ -185,8 +170,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             byte testParam8 = _rnd.NextByte();
             byte testParam9 = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PanoseFamily testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam3, testOutput.Proportion);
         }
@@ -205,8 +189,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             byte testParam8 = _rnd.NextByte();
             byte testParam9 = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PanoseFamily testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam4, testOutput.Contrast);
         }
@@ -225,8 +208,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             byte testParam8 = _rnd.NextByte();
             byte testParam9 = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PanoseFamily testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam5, testOutput.StrokeVariation);
         }
@@ -245,8 +227,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             byte testParam8 = _rnd.NextByte();
             byte testParam9 = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PanoseFamily testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam6, testOutput.ArmStyle);
         }
@@ -265,8 +246,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             byte testParam8 = _rnd.NextByte();
             byte testParam9 = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PanoseFamily testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam7, testOutput.Letterform);
         }
@@ -285,8 +265,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             byte testParam8 = _rnd.NextByte();
             byte testParam9 = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PanoseFamily testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam8, testOutput.Midline);
         }
@@ -305,8 +284,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             byte testParam8 = _rnd.NextByte();
             byte testParam9 = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PanoseFamily testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam9, testOutput.XHeight);
         }
@@ -376,7 +354,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             testParam0[testParam1 + 8] = _rnd.NextByte();
             testParam0[testParam1 + 9] = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1);
+            PanoseFamily testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0[testParam1], testOutput.FamilyType);
         }
@@ -397,7 +375,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             testParam0[testParam1 + 8] = _rnd.NextByte();
             testParam0[testParam1 + 9] = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1);
+            PanoseFamily testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0[testParam1 + 1], testOutput.SerifStyle);
         }
@@ -418,7 +396,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             testParam0[testParam1 + 8] = _rnd.NextByte();
             testParam0[testParam1 + 9] = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1);
+            PanoseFamily testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0[testParam1 + 2], testOutput.Weight);
         }
@@ -439,7 +417,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             testParam0[testParam1 + 8] = _rnd.NextByte();
             testParam0[testParam1 + 9] = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1);
+            PanoseFamily testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0[testParam1 + 3], testOutput.Proportion);
         }
@@ -460,7 +438,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             testParam0[testParam1 + 8] = _rnd.NextByte();
             testParam0[testParam1 + 9] = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1);
+            PanoseFamily testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0[testParam1 + 4], testOutput.Contrast);
         }
@@ -481,7 +459,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             testParam0[testParam1 + 8] = _rnd.NextByte();
             testParam0[testParam1 + 9] = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1);
+            PanoseFamily testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0[testParam1 + 5], testOutput.StrokeVariation);
         }
@@ -502,7 +480,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             testParam0[testParam1 + 8] = _rnd.NextByte();
             testParam0[testParam1 + 9] = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1);
+            PanoseFamily testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0[testParam1 + 6], testOutput.ArmStyle);
         }
@@ -523,7 +501,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             testParam0[testParam1 + 8] = _rnd.NextByte();
             testParam0[testParam1 + 9] = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1);
+            PanoseFamily testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0[testParam1 + 7], testOutput.Letterform);
         }
@@ -544,7 +522,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             testParam0[testParam1 + 8] = _rnd.NextByte();
             testParam0[testParam1 + 9] = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1);
+            PanoseFamily testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0[testParam1 + 8], testOutput.Midline);
         }
@@ -565,7 +543,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             testParam0[testParam1 + 8] = _rnd.NextByte();
             testParam0[testParam1 + 9] = _rnd.NextByte();
 
-            PanoseFamily testOutput = new PanoseFamily(testParam0, testParam1);
+            PanoseFamily testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0[testParam1 + 9], testOutput.XHeight);
         }
@@ -599,7 +577,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void PanoseFamilyStruct_EqualsMethodWithPanoseFamilyParameter_ReturnsTrue_IfParameterIsConstructedFromSameData()
         {
             PanoseFamily testObject = GetTestObject();
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast, 
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals(testParam);
@@ -616,7 +594,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.FamilyType);
-            PanoseFamily testParam = new PanoseFamily(constrParam, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(constrParam, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals(testParam);
@@ -633,7 +611,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.SerifStyle);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, constrParam, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, constrParam, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals(testParam);
@@ -650,7 +628,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Weight);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, constrParam, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, constrParam, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals(testParam);
@@ -667,7 +645,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Proportion);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, constrParam, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, constrParam, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals(testParam);
@@ -684,7 +662,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Contrast);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, constrParam,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, constrParam,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals(testParam);
@@ -701,8 +679,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.StrokeVariation);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
-                constrParam, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast, constrParam, 
+                testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals(testParam);
 
@@ -718,7 +696,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.ArmStyle);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, constrParam, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals(testParam);
@@ -735,7 +713,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Letterform);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, constrParam, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals(testParam);
@@ -752,7 +730,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Midline);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, constrParam, testObject.XHeight);
 
             bool testOutput = testObject.Equals(testParam);
@@ -769,7 +747,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.XHeight);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, constrParam);
 
             bool testOutput = testObject.Equals(testParam);
@@ -791,7 +769,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void PanoseFamilyStruct_EqualsMethodWithObjectParameter_ReturnsTrue_IfParameterIsConstructedFromSameData()
         {
             PanoseFamily testObject = GetTestObject();
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals((object)testParam);
@@ -808,7 +786,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.FamilyType);
-            PanoseFamily testParam = new PanoseFamily(constrParam, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(constrParam, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals((object)testParam);
@@ -825,7 +803,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.SerifStyle);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, constrParam, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, constrParam, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals((object)testParam);
@@ -842,7 +820,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Weight);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, constrParam, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, constrParam, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals((object)testParam);
@@ -859,7 +837,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Proportion);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, constrParam, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, constrParam, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals((object)testParam);
@@ -876,7 +854,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Contrast);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, constrParam,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, constrParam,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals((object)testParam);
@@ -893,7 +871,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.StrokeVariation);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 constrParam, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals((object)testParam);
@@ -910,7 +888,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.ArmStyle);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, constrParam, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals((object)testParam);
@@ -927,7 +905,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Letterform);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, constrParam, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals((object)testParam);
@@ -944,7 +922,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Midline);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, constrParam, testObject.XHeight);
 
             bool testOutput = testObject.Equals((object)testParam);
@@ -961,7 +939,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.XHeight);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, constrParam);
 
             bool testOutput = testObject.Equals((object)testParam);
@@ -996,7 +974,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void PanoseFamilyStruct_EqualityOperator_ReturnsTrue_IfOperandsAreConstructedFromSameData()
         {
             PanoseFamily testObject = GetTestObject();
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject == testParam;
@@ -1013,7 +991,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.FamilyType);
-            PanoseFamily testParam = new PanoseFamily(constrParam, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(constrParam, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject == testParam;
@@ -1030,7 +1008,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.SerifStyle);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, constrParam, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, constrParam, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject == testParam;
@@ -1047,7 +1025,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Weight);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, constrParam, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, constrParam, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject == testParam;
@@ -1064,7 +1042,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Proportion);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, constrParam, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, constrParam, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject == testParam;
@@ -1081,7 +1059,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Contrast);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, constrParam,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, constrParam,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject == testParam;
@@ -1098,7 +1076,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.StrokeVariation);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 constrParam, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject == testParam;
@@ -1115,7 +1093,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.ArmStyle);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, constrParam, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject == testParam;
@@ -1132,7 +1110,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Letterform);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, constrParam, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject == testParam;
@@ -1149,7 +1127,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Midline);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, constrParam, testObject.XHeight);
 
             bool testOutput = testObject == testParam;
@@ -1166,7 +1144,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.XHeight);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, constrParam);
 
             bool testOutput = testObject == testParam;
@@ -1190,7 +1168,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void PanoseFamilyStruct_InequalityOperator_ReturnsFalse_IfOperandsAreConstructedFromSameData()
         {
             PanoseFamily testObject = GetTestObject();
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject != testParam;
@@ -1207,7 +1185,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.FamilyType);
-            PanoseFamily testParam = new PanoseFamily(constrParam, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(constrParam, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject != testParam;
@@ -1224,7 +1202,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.SerifStyle);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, constrParam, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, constrParam, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject != testParam;
@@ -1241,7 +1219,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Weight);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, constrParam, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, constrParam, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject != testParam;
@@ -1258,7 +1236,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Proportion);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, constrParam, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, constrParam, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject != testParam;
@@ -1275,7 +1253,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Contrast);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, constrParam,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, constrParam,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject != testParam;
@@ -1292,8 +1270,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.StrokeVariation);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
-                constrParam, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast, constrParam, 
+                testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject != testParam;
 
@@ -1309,7 +1287,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.ArmStyle);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, constrParam, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject != testParam;
@@ -1326,7 +1304,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Letterform);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, constrParam, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject != testParam;
@@ -1343,7 +1321,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.Midline);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, constrParam, testObject.XHeight);
 
             bool testOutput = testObject != testParam;
@@ -1360,7 +1338,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.XHeight);
-            PanoseFamily testParam = new PanoseFamily(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, constrParam);
 
             bool testOutput = testObject != testParam;
@@ -1372,7 +1350,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void PanoseFamilyStruct_GetHashCodeMethod_ReturnsSameValue_IfCalledTwiceOnSameValue()
         {
             PanoseFamily testObject0 = GetTestObject();
-            PanoseFamily testObject1 = new PanoseFamily(testObject0.FamilyType, testObject0.SerifStyle, testObject0.Weight, testObject0.Proportion, 
+            PanoseFamily testObject1 = new(testObject0.FamilyType, testObject0.SerifStyle, testObject0.Weight, testObject0.Proportion, 
                 testObject0.Contrast, testObject0.StrokeVariation, testObject0.ArmStyle, testObject0.Letterform, testObject0.Midline, testObject0.XHeight);
 
             int testOutput0 = testObject0.GetHashCode();

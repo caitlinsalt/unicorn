@@ -20,7 +20,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             int count = _rnd.Next(1, 20);
             LigatureSet[] output = new LigatureSet[count];
-            List<string> secondPropertyNames = new List<string>();
+            List<string> secondPropertyNames = new();
             for (int i = 0; i < count; ++i)
             {
                 output[i] = _rnd.NextAfmLigatureSet(secondPropertyNames);
@@ -34,7 +34,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void LigatureSetCollectionClass_Constructor_CreatesObjectWithCountPropertyEqualToZero_IfParameterIsNull()
         {
-            LigatureSetCollection testOutput = new LigatureSetCollection(null);
+            LigatureSetCollection testOutput = new(null);
 
             Assert.AreEqual(0, testOutput.Count);
         }
@@ -44,7 +44,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             IList<LigatureSet> testParam0 = GetTestData();
 
-            LigatureSetCollection testOutput = new LigatureSetCollection(testParam0);
+            LigatureSetCollection testOutput = new(testParam0);
 
             Assert.AreEqual(testParam0.Count, testOutput.Count);
         }
@@ -53,7 +53,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         public void LigatureSetCollectionClass_IndexerWithIntParameter_ReturnsExpectedItems()
         {
             IList<LigatureSet> constrParam = GetTestData();
-            LigatureSetCollection testObject = new LigatureSetCollection(constrParam);
+            LigatureSetCollection testObject = new(constrParam);
 
             for (int i = 0; i < testObject.Count; ++i)
             {
@@ -66,7 +66,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         public void LigatureSetCollectionClass_IndexerWithIntParameter_ThrowsIndexOutOfRangeException_IfParameterIsNegative()
         {
             IList<LigatureSet> constrParam = GetTestData();
-            LigatureSetCollection testObject = new LigatureSetCollection(constrParam);
+            LigatureSetCollection testObject = new(constrParam);
             int testParam0 = -_rnd.Next();
             
             _ = testObject[testParam0];
@@ -79,7 +79,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         public void LigatureSetCollectionClass_IndexerWithIntParameter_ThrowsIndexOutOfRangeException_IfParameterEqualsCountProperty()
         {
             IList<LigatureSet> constrParam = GetTestData();
-            LigatureSetCollection testObject = new LigatureSetCollection(constrParam);
+            LigatureSetCollection testObject = new(constrParam);
 
             _ = testObject[testObject.Count];
 
@@ -91,7 +91,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         public void LigatureSetCollectionClass_IndexerWithIntParameter_ThrowsIndexOutOfRangeException_IfParameterIsGreaterThanCountProperty()
         {
             IList<LigatureSet> constrParam = GetTestData();
-            LigatureSetCollection testObject = new LigatureSetCollection(constrParam);
+            LigatureSetCollection testObject = new(constrParam);
             int testParam0 = _rnd.Next(testObject.Count + 1, int.MaxValue);
 
             _ = testObject[testParam0];
@@ -103,7 +103,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         public void LigatureSetCollectionClass_GetEnumeratorMethod_ReturnsEnumeratorWhichReturnsItemsInCorrectSequence()
         {
             IList<LigatureSet> constrParam = GetTestData();
-            LigatureSetCollection testObject = new LigatureSetCollection(constrParam);
+            LigatureSetCollection testObject = new(constrParam);
 
             IEnumerator<LigatureSet> testOutput = testObject.GetEnumerator();
 
@@ -118,7 +118,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         public void LigatureSetCollectionClass_IndexerWithStringParameter_ReturnsExpectedItem_IfItemWithSecondPropertyWithNamePropertyEqualToParameterExistsInCollection()
         {
             IList<LigatureSet> constrParam = GetTestData();
-            LigatureSetCollection testObject = new LigatureSetCollection(constrParam);
+            LigatureSetCollection testObject = new(constrParam);
             int selectedIndex = _rnd.Next(constrParam.Count);
             string testParam = constrParam[selectedIndex].Second.Name;
 
@@ -131,7 +131,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         public void LigatureSetCollectionClass_IndexerWithStringParameter_ReturnsNull_IfNoItemsWithSecondPropertyWithNamePropertyEqualToParameterExistInCollection()
         {
             IList<LigatureSet> constrParam = GetTestData();
-            LigatureSetCollection testObject = new LigatureSetCollection(constrParam);
+            LigatureSetCollection testObject = new(constrParam);
             string testParam;
             do
             {

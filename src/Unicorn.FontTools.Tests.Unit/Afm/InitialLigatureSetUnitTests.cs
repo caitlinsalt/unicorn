@@ -16,7 +16,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void InitialLigatureSetStruct_ParameterlessConstructor_SetsSecondPropertyToNull()
         {
-            InitialLigatureSet testOutput = new InitialLigatureSet();
+            InitialLigatureSet testOutput = new();
 
             Assert.IsNull(testOutput.Second);
         }
@@ -24,7 +24,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void InitialLigatureSetStructor_ParameterlessConstructor_SetsLigaturePropertyToNull()
         {
-            InitialLigatureSet testOutput = new InitialLigatureSet();
+            InitialLigatureSet testOutput = new();
 
             Assert.IsNull(testOutput.Ligature);
         }
@@ -37,7 +37,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             string testParam0 = _rnd.NextString(_rnd.Next(1, 20));
             string testParam1 = _rnd.NextString(_rnd.Next(1, 20));
 
-            InitialLigatureSet testOutput = new InitialLigatureSet(testParam0, testParam1);
+            InitialLigatureSet testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0, testOutput.Second);
         }
@@ -48,7 +48,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             string testParam0 = _rnd.NextString(_rnd.Next(1, 20));
             string testParam1 = _rnd.NextString(_rnd.Next(1, 20));
 
-            InitialLigatureSet testOutput = new InitialLigatureSet(testParam0, testParam1);
+            InitialLigatureSet testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam1, testOutput.Ligature);
         }
