@@ -13,14 +13,14 @@ namespace Unicorn.Base.Tests.Unit
 
 #pragma warning disable CA5394 // Do not use insecure randomness
 
-        private static UniRectangle GetTestValue() => new UniRectangle(_rnd.NextDouble() * 1000, _rnd.NextDouble() * 1000, _rnd.NextUniSize());
+        private static UniRectangle GetTestValue() => new(_rnd.NextDouble() * 1000, _rnd.NextDouble() * 1000, _rnd.NextUniSize());
 
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 
         [TestMethod]
         public void UniRectangleStruct_ParameterlessConstructor_SetsMinXPropertyToZero()
         {
-            UniRectangle testValue = new UniRectangle();
+            UniRectangle testValue = new();
 
             Assert.AreEqual(0d, testValue.MinX);
         }
@@ -28,7 +28,7 @@ namespace Unicorn.Base.Tests.Unit
         [TestMethod]
         public void UniRectangleStruct_ParameterlessConstructor_SetsMinYPropertyToZero()
         {
-            UniRectangle testValue = new UniRectangle();
+            UniRectangle testValue = new();
 
             Assert.AreEqual(0d, testValue.MinY);
         }
@@ -36,7 +36,7 @@ namespace Unicorn.Base.Tests.Unit
         [TestMethod]
         public void UniRectangleStruct_ParameterlessConstructor_SetsSizePropertyToDefaultValue()
         {
-            UniRectangle testValue = new UniRectangle();
+            UniRectangle testValue = new();
 
             Assert.AreEqual(default, testValue.Size);
         }
@@ -44,7 +44,7 @@ namespace Unicorn.Base.Tests.Unit
         [TestMethod]
         public void UniRectangleStruct_ParameterlessConstructor_SetsWidthPropertyToZero()
         {
-            UniRectangle testValue = new UniRectangle();
+            UniRectangle testValue = new();
 
             Assert.AreEqual(0d, testValue.Width);
         }
@@ -52,7 +52,7 @@ namespace Unicorn.Base.Tests.Unit
         [TestMethod]
         public void UniRectangleStruct_ParameterlessConstructor_SetsHeightPropertyToZero()
         {
-            UniRectangle testValue = new UniRectangle();
+            UniRectangle testValue = new();
 
             Assert.AreEqual(0d, testValue.Height);
         }
@@ -65,7 +65,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam2 = _rnd.NextDouble() * 1000;
             double testParam3 = _rnd.NextDouble() * 1000;
 
-            UniRectangle testOutput = new UniRectangle(testParam0, testParam1, testParam2, testParam3);
+            UniRectangle testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(testParam0, testOutput.MinX);
         }
@@ -78,7 +78,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam2 = _rnd.NextDouble() * 1000;
             double testParam3 = _rnd.NextDouble() * 1000;
 
-            UniRectangle testOutput = new UniRectangle(testParam0, testParam1, testParam2, testParam3);
+            UniRectangle testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(testParam1, testOutput.MinY);
         }
@@ -91,7 +91,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam2 = _rnd.NextDouble() * 1000;
             double testParam3 = _rnd.NextDouble() * 1000;
 
-            UniRectangle testOutput = new UniRectangle(testParam0, testParam1, testParam2, testParam3);
+            UniRectangle testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(testParam2, testOutput.Width);
         }
@@ -104,7 +104,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam2 = _rnd.NextDouble() * 1000;
             double testParam3 = _rnd.NextDouble() * 1000;
 
-            UniRectangle testOutput = new UniRectangle(testParam0, testParam1, testParam2, testParam3);
+            UniRectangle testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(testParam3, testOutput.Height);
         }
@@ -117,7 +117,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam2 = _rnd.NextDouble() * 1000;
             double testParam3 = _rnd.NextDouble() * 1000;
 
-            UniRectangle testOutput = new UniRectangle(testParam0, testParam1, testParam2, testParam3);
+            UniRectangle testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(new UniSize(testParam2, testParam3), testOutput.Size);
         }
@@ -130,7 +130,7 @@ namespace Unicorn.Base.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
 
-            UniRectangle testOutput = new UniRectangle(testParam0, testParam1, testParam2, testParam3);
+            UniRectangle testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual((double)testParam0, testOutput.MinX);
         }
@@ -143,7 +143,7 @@ namespace Unicorn.Base.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
 
-            UniRectangle testOutput = new UniRectangle(testParam0, testParam1, testParam2, testParam3);
+            UniRectangle testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual((double)testParam1, testOutput.MinY);
         }
@@ -156,7 +156,7 @@ namespace Unicorn.Base.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
 
-            UniRectangle testOutput = new UniRectangle(testParam0, testParam1, testParam2, testParam3);
+            UniRectangle testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual((double)testParam2, testOutput.Width);
         }
@@ -169,7 +169,7 @@ namespace Unicorn.Base.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
 
-            UniRectangle testOutput = new UniRectangle(testParam0, testParam1, testParam2, testParam3);
+            UniRectangle testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual((double)testParam3, testOutput.Height);
         }
@@ -182,7 +182,7 @@ namespace Unicorn.Base.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             decimal testParam3 = _rnd.NextDecimal();
 
-            UniRectangle testOutput = new UniRectangle(testParam0, testParam1, testParam2, testParam3);
+            UniRectangle testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(new UniSize(testParam2, testParam3), testOutput.Size);
         }
@@ -194,7 +194,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam1 = _rnd.NextDouble() * 1000;
             UniSize testParam2 = _rnd.NextUniSize();
 
-            UniRectangle testOutput = new UniRectangle(testParam0, testParam1, testParam2);
+            UniRectangle testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam0, testOutput.MinX);
         }
@@ -206,7 +206,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam1 = _rnd.NextDouble() * 1000;
             UniSize testParam2 = _rnd.NextUniSize();
 
-            UniRectangle testOutput = new UniRectangle(testParam0, testParam1, testParam2);
+            UniRectangle testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam1, testOutput.MinY);
         }
@@ -218,7 +218,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam1 = _rnd.NextDouble() * 1000;
             UniSize testParam2 = _rnd.NextUniSize();
 
-            UniRectangle testOutput = new UniRectangle(testParam0, testParam1, testParam2);
+            UniRectangle testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam2, testOutput.Size);
         }
@@ -230,7 +230,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam1 = _rnd.NextDouble() * 1000;
             UniSize testParam2 = _rnd.NextUniSize();
 
-            UniRectangle testOutput = new UniRectangle(testParam0, testParam1, testParam2);
+            UniRectangle testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam2.Width, testOutput.Width);
         }
@@ -242,7 +242,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam1 = _rnd.NextDouble() * 1000;
             UniSize testParam2 = _rnd.NextUniSize();
 
-            UniRectangle testOutput = new UniRectangle(testParam0, testParam1, testParam2);
+            UniRectangle testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam2.Height, testOutput.Height);
         }
@@ -261,7 +261,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniRectangleStruct_EqualsMethodWithUniRectangleParameter_ReturnsTrue_IfParameterIsConstructedFromSameData()
         {
             UniRectangle testValue = GetTestValue();
-            UniRectangle testParam = new UniRectangle(testValue.MinX, testValue.MinY, testValue.Size);
+            UniRectangle testParam = new(testValue.MinX, testValue.MinY, testValue.Size);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -277,7 +277,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.MinX);
-            UniRectangle testParam = new UniRectangle(constrParam, testValue.MinY, testValue.Size);
+            UniRectangle testParam = new(constrParam, testValue.MinY, testValue.Size);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -293,7 +293,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.MinY);
-            UniRectangle testParam = new UniRectangle(testValue.MinX, constrParam, testValue.Size);
+            UniRectangle testParam = new(testValue.MinX, constrParam, testValue.Size);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -309,7 +309,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextUniSize();
             } while (constrParam == testValue.Size);
-            UniRectangle testParam = new UniRectangle(testValue.MinX, testValue.MinY, constrParam);
+            UniRectangle testParam = new(testValue.MinX, testValue.MinY, constrParam);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -330,7 +330,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniRectangleStruct_EqualsMethodWithObjectParameter_ReturnsTrue_IfParameterIsConstructedFromSameData()
         {
             UniRectangle testValue = GetTestValue();
-            UniRectangle testParam = new UniRectangle(testValue.MinX, testValue.MinY, testValue.Size);
+            UniRectangle testParam = new(testValue.MinX, testValue.MinY, testValue.Size);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -346,7 +346,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.MinX);
-            UniRectangle testParam = new UniRectangle(constrParam, testValue.MinY, testValue.Size);
+            UniRectangle testParam = new(constrParam, testValue.MinY, testValue.Size);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -362,7 +362,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.MinY);
-            UniRectangle testParam = new UniRectangle(testValue.MinX, constrParam, testValue.Size);
+            UniRectangle testParam = new(testValue.MinX, constrParam, testValue.Size);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -378,7 +378,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextUniSize();
             } while (constrParam == testValue.Size);
-            UniRectangle testParam = new UniRectangle(testValue.MinX, testValue.MinY, constrParam);
+            UniRectangle testParam = new(testValue.MinX, testValue.MinY, constrParam);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -400,7 +400,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniRectangleStruct_GetHashCodeMethod_ReturnsSameValue_IfCalledTwiceOnSameValue()
         {
             UniRectangle testValue0 = GetTestValue();
-            UniRectangle testValue1 = new UniRectangle(testValue0.MinX, testValue0.MinY, testValue0.Size);
+            UniRectangle testValue1 = new(testValue0.MinX, testValue0.MinY, testValue0.Size);
 
             int testOutput0 = testValue0.GetHashCode();
             int testOutput1 = testValue1.GetHashCode();
@@ -424,7 +424,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniRectangleStruct_EqualityOperator_ReturnsTrue_IfOperandsAreConstructedFromSameData()
         {
             UniRectangle testValue = GetTestValue();
-            UniRectangle testParam = new UniRectangle(testValue.MinX, testValue.MinY, testValue.Size);
+            UniRectangle testParam = new(testValue.MinX, testValue.MinY, testValue.Size);
 
             bool testOutput = testValue == testParam;
 
@@ -440,7 +440,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.MinX);
-            UniRectangle testParam = new UniRectangle(constrParam, testValue.MinY, testValue.Size);
+            UniRectangle testParam = new(constrParam, testValue.MinY, testValue.Size);
 
             bool testOutput = testValue == testParam;
 
@@ -456,7 +456,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.MinY);
-            UniRectangle testParam = new UniRectangle(testValue.MinX, constrParam, testValue.Size);
+            UniRectangle testParam = new(testValue.MinX, constrParam, testValue.Size);
 
             bool testOutput = testValue == testParam;
 
@@ -472,7 +472,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextUniSize();
             } while (constrParam == testValue.Size);
-            UniRectangle testParam = new UniRectangle(testValue.MinX, testValue.MinY, constrParam);
+            UniRectangle testParam = new(testValue.MinX, testValue.MinY, constrParam);
 
             bool testOutput = testValue == testParam;
 
@@ -495,7 +495,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniRectangleStruct_InequalityOperator_ReturnsFalse_IfOperandsAreConstructedFromSameData()
         {
             UniRectangle testValue = GetTestValue();
-            UniRectangle testParam = new UniRectangle(testValue.MinX, testValue.MinY, testValue.Size);
+            UniRectangle testParam = new(testValue.MinX, testValue.MinY, testValue.Size);
 
             bool testOutput = testValue != testParam;
 
@@ -511,7 +511,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.MinX);
-            UniRectangle testParam = new UniRectangle(constrParam, testValue.MinY, testValue.Size);
+            UniRectangle testParam = new(constrParam, testValue.MinY, testValue.Size);
 
             bool testOutput = testValue != testParam;
 
@@ -527,7 +527,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.MinY);
-            UniRectangle testParam = new UniRectangle(testValue.MinX, constrParam, testValue.Size);
+            UniRectangle testParam = new(testValue.MinX, constrParam, testValue.Size);
 
             bool testOutput = testValue != testParam;
 
@@ -543,7 +543,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextUniSize();
             } while (constrParam == testValue.Size);
-            UniRectangle testParam = new UniRectangle(testValue.MinX, testValue.MinY, constrParam);
+            UniRectangle testParam = new(testValue.MinX, testValue.MinY, constrParam);
 
             bool testOutput = testValue != testParam;
 
