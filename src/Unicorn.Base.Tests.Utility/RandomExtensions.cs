@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Unicorn.Base.Tests.Utility.Extensions
+namespace Unicorn.Base.Tests.Utility
 {
 
 #pragma warning disable CA5394 // Do not use insecure randomness

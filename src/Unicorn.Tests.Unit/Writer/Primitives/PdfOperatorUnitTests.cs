@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using Tests.Utility.Providers;
 using Unicorn.Base;
-using Unicorn.Base.Tests.Utility.Extensions;
+using Unicorn.Base.Tests.Utility;
 using Unicorn.Tests.Unit.TestHelpers;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Primitives;
