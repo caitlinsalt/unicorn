@@ -7,7 +7,7 @@ namespace Unicorn.Tests.Unit.TestHelpers
 {
     internal static class RandomExtensions
     {
-        private static TableRuleStyle[] _validTableRuleStyles =
+        private static readonly TableRuleStyle[] _validTableRuleStyles =
         {
             TableRuleStyle.None,
             TableRuleStyle.LinesMeet,
@@ -141,10 +141,7 @@ namespace Unicorn.Tests.Unit.TestHelpers
 
 #pragma warning disable IDE0060 // Remove unused parameter
 
-        public static PdfNull NextPdfNull(this Random rnd)
-        {
-            return PdfNull.Value;
-        }
+        public static PdfNull NextPdfNull(this Random rnd) => PdfNull.Value;
 
 #pragma warning restore IDE0060 // Remove unused parameter
 
@@ -174,10 +171,7 @@ namespace Unicorn.Tests.Unit.TestHelpers
             return new PdfRectangle(leftX, bottomY, leftX + width, bottomY + height);
         }
 
-        public static PdfString NextPdfString(this Random rnd, int len)
-        {
-            return new PdfString(rnd.NextString(len));
-        }
+        public static PdfString NextPdfString(this Random rnd, int len) => new(rnd.NextString(len));
 
         public static PdfByteString NextPdfByteString(this Random rnd, int len)
         {

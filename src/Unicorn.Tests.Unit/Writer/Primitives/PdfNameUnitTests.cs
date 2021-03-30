@@ -22,7 +22,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             string testParam = _rnd.NextString(_rnd.Next(10) + 1);
 
-            PdfName testOutput = new PdfName(testParam);
+            PdfName testOutput = new(testParam);
 
             Assert.AreEqual(testParam, testOutput.Value);
         }
@@ -72,7 +72,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfNameClass_ByteLengthProperty_EqualsLengthOfConstructorParameterPlusTwo()
         {
             string testParam = _rnd.NextString(_rnd.Next(20));
-            PdfName testObject = new PdfName(testParam);
+            PdfName testObject = new(testParam);
 
             int testOutput = testObject.ByteLength;
 
@@ -84,7 +84,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfNameClass_WriteToMethodWithListParameter_ThrowsArgumentNullExceptionIfParameterIsNull()
         {
             string inputString = _rnd.NextString(_rnd.Next(20));
-            PdfName testObject = new PdfName(inputString);
+            PdfName testObject = new(inputString);
             List<byte> testParam = null;
 
             testObject.WriteTo(testParam);
@@ -96,8 +96,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfNameClass_WriteToMethodWithListParameter_WritesCorrectValueToList()
         {
             string inputString = _rnd.NextString(_rnd.Next(20));
-            PdfName testObject = new PdfName(inputString);
-            List<byte> testParam = new List<byte>();
+            PdfName testObject = new(inputString);
+            List<byte> testParam = new();
 
             testObject.WriteTo(testParam);
 
@@ -109,7 +109,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfNameClass_EqualsMethodWithPdfNameParameter_ReturnsTrue_IfSameObjectIsParameter()
         {
             string inputString = _rnd.NextString(_rnd.Next(20));
-            PdfName testObject = new PdfName(inputString);
+            PdfName testObject = new(inputString);
 
             bool testOutput = testObject.Equals(testObject);
 
@@ -120,7 +120,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfNameClass_EqualsMethodWithObjectParameter_ReturnsTrue_IfSameObjectIsParameter()
         {
             string inputString = _rnd.NextString(_rnd.Next(20));
-            PdfName testObject = new PdfName(inputString);
+            PdfName testObject = new(inputString);
 
             bool testOutput = testObject.Equals((object)testObject);
 
@@ -131,8 +131,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfNameClass_EqualsMethodWithPdfNameParameter_ReturnsTrue_IfObjectWithSameValueIsParameter()
         {
             string inputString = _rnd.NextString(_rnd.Next(20));
-            PdfName testObject = new PdfName(inputString);
-            PdfName testParam = new PdfName(inputString);
+            PdfName testObject = new(inputString);
+            PdfName testParam = new(inputString);
 
             bool testOutput = testObject.Equals(testParam);
 
@@ -143,7 +143,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfNameClass_EqualsMethodWithObjectParameter_ReturnsTrue_IfObjectWithSameValueIsParameter()
         {
             string inputString = _rnd.NextString(_rnd.Next(20));
-            PdfName testObject = new PdfName(inputString);
+            PdfName testObject = new(inputString);
             object testParam = new PdfName(inputString);
 
             bool testOutput = testObject.Equals(testParam);
@@ -160,8 +160,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
             {
                 inputString1 = _rnd.NextString(_rnd.Next(20));
             } while (inputString0 == inputString1);
-            PdfName testObject = new PdfName(inputString0);
-            PdfName testParam = new PdfName(inputString1);
+            PdfName testObject = new(inputString0);
+            PdfName testParam = new(inputString1);
 
             bool testOutput = testObject.Equals(testParam);
 
@@ -177,7 +177,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
             {
                 inputString1 = _rnd.NextString(_rnd.Next(20));
             } while (inputString0 == inputString1);
-            PdfName testObject = new PdfName(inputString0);
+            PdfName testObject = new(inputString0);
             object testParam = new PdfName(inputString1);
 
             bool testOutput = testObject.Equals(testParam);
@@ -189,8 +189,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfNameClass_EqualsMethodWithObjectParameter_ReturnsFalse_IfParameterHasDifferentType()
         {
             string inputString = _rnd.NextString(_rnd.Next(20));
-            PdfName testObject = new PdfName(inputString);
-            PdfInteger testParam = new PdfInteger(_rnd.Next());
+            PdfName testObject = new(inputString);
+            PdfInteger testParam = new(_rnd.Next());
 
             bool testOutput = testObject.Equals(testParam);
 
