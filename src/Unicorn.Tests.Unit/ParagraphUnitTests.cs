@@ -16,7 +16,7 @@ namespace Unicorn.Tests.Unit
         [ExpectedException(typeof(ArgumentNullException))]
         public void ParagraphClass_DrawAtMethod_ThrowsArgumentNullException_IfFirstParameterIsNull()
         {
-            Paragraph testObject = new Paragraph(_rnd.NextDouble() * 1000, null);
+            Paragraph testObject = new(_rnd.NextDouble() * 1000, null);
             double testParam1 = _rnd.NextDouble() * 1000;
             double testParam2 = _rnd.NextDouble() * 1000;
 
@@ -28,7 +28,7 @@ namespace Unicorn.Tests.Unit
         [TestMethod]
         public void ParagraphClass_DrawAtMethod_ThrowsArgumentNullExceptionWithCorrectParamNameProperty_IfFirstParameterIsNull()
         {
-            Paragraph testObject = new Paragraph(_rnd.NextDouble() * 1000, null);
+            Paragraph testObject = new(_rnd.NextDouble() * 1000, null);
             double testParam1 = _rnd.NextDouble() * 1000;
             double testParam2 = _rnd.NextDouble() * 1000;
 

@@ -27,7 +27,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
             _rnd.NextBytes(testData);
             List<byte> testParam = testData.ToList();
 
-            PdfByteString testObject = new PdfByteString(testParam);
+            PdfByteString testObject = new(testParam);
             int testOutput = testObject.ByteLength;
 
             Assert.AreEqual(expectedValue, testOutput);
@@ -40,7 +40,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
             int expectedValue = testParam.Length * 2 + 3;
             _rnd.NextBytes(testParam);
 
-            PdfByteString testObject = new PdfByteString(testParam);
+            PdfByteString testObject = new(testParam);
             int testOutput = testObject.ByteLength;
 
             Assert.AreEqual(expectedValue, testOutput);
@@ -52,7 +52,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             byte[] testData = new byte[_rnd.Next(54)];
             _rnd.NextBytes(testData);
-            PdfByteString testObject = new PdfByteString(testData);
+            PdfByteString testObject = new(testData);
             List<byte> testParam = null;
 
             _ = testObject.WriteTo(testParam);
@@ -65,8 +65,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             byte[] testData = new byte[_rnd.Next(54)];
             _rnd.NextBytes(testData);
-            PdfByteString testObject = new PdfByteString(testData);
-            List<byte> testParam = new List<byte>();
+            PdfByteString testObject = new(testData);
+            List<byte> testParam = new();
 
             _ = testObject.WriteTo(testParam);
 
@@ -80,8 +80,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             byte[] testData = new byte[_rnd.Next(54)];
             _rnd.NextBytes(testData);
-            PdfByteString testObject = new PdfByteString(testData.ToList());
-            List<byte> testParam = new List<byte>();
+            PdfByteString testObject = new(testData.ToList());
+            List<byte> testParam = new();
 
             _ = testObject.WriteTo(testParam);
 
@@ -95,8 +95,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             byte[] testData = new byte[_rnd.Next(54)];
             _rnd.NextBytes(testData);
-            PdfByteString testObject = new PdfByteString(testData.ToList());
-            List<byte> testParam = new List<byte>();
+            PdfByteString testObject = new(testData.ToList());
+            List<byte> testParam = new();
 
             int testOutput = testObject.WriteTo(testParam);
 
@@ -109,7 +109,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             byte[] testData = new byte[_rnd.Next(54)];
             _rnd.NextBytes(testData);
-            PdfByteString testObject = new PdfByteString(testData);
+            PdfByteString testObject = new(testData);
             Stream testParam = null;
 
             _ = testObject.WriteTo(testParam);
@@ -122,13 +122,13 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             byte[] testData = new byte[_rnd.Next(54)];
             _rnd.NextBytes(testData);
-            PdfByteString testObject = new PdfByteString(testData);
-            using MemoryStream testParam = new MemoryStream();
+            PdfByteString testObject = new(testData);
+            using MemoryStream testParam = new();
 
             _ = testObject.WriteTo(testParam);
 
             string expectedString = "<" + string.Join("", testData.Select(b => b.ToString("X2", CultureInfo.InvariantCulture))) + "> ";
-            using MemoryStream expectedValue = new MemoryStream(Encoding.ASCII.GetBytes(expectedString));
+            using MemoryStream expectedValue = new(Encoding.ASCII.GetBytes(expectedString));
             AssertionHelpers.AssertSameElements(expectedValue, testParam);
         }
 
@@ -137,13 +137,13 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             byte[] testData = new byte[_rnd.Next(54)];
             _rnd.NextBytes(testData);
-            PdfByteString testObject = new PdfByteString(testData.ToList());
-            using MemoryStream testParam = new MemoryStream();
+            PdfByteString testObject = new(testData.ToList());
+            using MemoryStream testParam = new();
 
             _ = testObject.WriteTo(testParam);
 
             using MemoryStream expectedValue 
-                = new MemoryStream(Encoding.ASCII.GetBytes("<" + string.Join("", testData.Select(b => b.ToString("X2", CultureInfo.InvariantCulture))) + "> "));
+                = new(Encoding.ASCII.GetBytes("<" + string.Join("", testData.Select(b => b.ToString("X2", CultureInfo.InvariantCulture))) + "> "));
             AssertionHelpers.AssertSameElements(expectedValue, testParam);
         }
 
@@ -152,8 +152,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             byte[] testData = new byte[_rnd.Next(54)];
             _rnd.NextBytes(testData);
-            PdfByteString testObject = new PdfByteString(testData.ToList());
-            using MemoryStream testParam = new MemoryStream();
+            PdfByteString testObject = new(testData.ToList());
+            using MemoryStream testParam = new();
 
             int testOutput = testObject.WriteTo(testParam);
 
@@ -166,7 +166,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             byte[] testData = new byte[_rnd.Next(54)];
             _rnd.NextBytes(testData);
-            PdfByteString testObject = new PdfByteString(testData);
+            PdfByteString testObject = new(testData);
             PdfStream testParam = null;
 
             _ = testObject.WriteTo(testParam);
@@ -179,8 +179,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             byte[] testData = new byte[_rnd.Next(54)];
             _rnd.NextBytes(testData);
-            PdfByteString testObject = new PdfByteString(testData);
-            PdfStream testParam = new PdfStream(_rnd.Next(1, int.MaxValue));
+            PdfByteString testObject = new(testData);
+            PdfStream testParam = new(_rnd.Next(1, int.MaxValue));
 
             _ = testObject.WriteTo(testParam);
 
@@ -194,8 +194,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             byte[] testData = new byte[_rnd.Next(54)];
             _rnd.NextBytes(testData);
-            PdfByteString testObject = new PdfByteString(testData.ToList());
-            PdfStream testParam = new PdfStream(_rnd.Next(1, int.MaxValue));
+            PdfByteString testObject = new(testData.ToList());
+            PdfStream testParam = new(_rnd.Next(1, int.MaxValue));
 
             _ = testObject.WriteTo(testParam);
 
@@ -209,8 +209,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             byte[] testData = new byte[_rnd.Next(54)];
             _rnd.NextBytes(testData);
-            PdfByteString testObject = new PdfByteString(testData.ToList());
-            PdfStream testParam = new PdfStream(_rnd.Next(1, int.MaxValue));
+            PdfByteString testObject = new(testData.ToList());
+            PdfStream testParam = new(_rnd.Next(1, int.MaxValue));
 
             int testOutput = testObject.WriteTo(testParam);
 

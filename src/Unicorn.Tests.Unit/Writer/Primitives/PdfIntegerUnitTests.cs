@@ -24,7 +24,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             int testParam = _rnd.Next(int.MinValue, int.MaxValue);
 
-            PdfInteger testOutput = new PdfInteger(testParam);
+            PdfInteger testOutput = new(testParam);
 
             Assert.AreEqual(testParam, testOutput.Value);
         }
@@ -33,7 +33,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_ByteLengthProperty_EqualsLengthOfValueDisplayedAsStringPlusOne()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject = new PdfInteger(testObjectValue);
+            PdfInteger testObject = new(testObjectValue);
             int expectedResult = testObjectValue.ToString("d", CultureInfo.InvariantCulture).Length + 1;
 
             int testOutput = testObject.ByteLength;
@@ -46,7 +46,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_WriteToMethodWithListParameter_ThrowsExceptionIfParameterIsNull()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject = new PdfInteger(testObjectValue);
+            PdfInteger testObject = new(testObjectValue);
             List<byte> testParam0 = null;
 
             testObject.WriteTo(testParam0);
@@ -58,8 +58,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_WriteToMethodWithListParameter_WritesCorrectValueToList()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject = new PdfInteger(testObjectValue);
-            List<byte> testParam0 = new List<byte>();
+            PdfInteger testObject = new(testObjectValue);
+            List<byte> testParam0 = new();
 
             testObject.WriteTo(testParam0);
 
@@ -72,7 +72,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_WriteToMethodWithStreamParameter_ThrowsExceptionIfParameterIsNull()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject = new PdfInteger(testObjectValue);
+            PdfInteger testObject = new(testObjectValue);
             Stream testParam0 = null;
 
             testObject.WriteTo(testParam0);
@@ -84,12 +84,12 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_WriteToMethodWithStreamParameter_WritesCorrectValueToParameter()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject = new PdfInteger(testObjectValue);
-            using MemoryStream testParam0 = new MemoryStream();
+            PdfInteger testObject = new(testObjectValue);
+            using MemoryStream testParam0 = new();
 
             testObject.WriteTo(testParam0);
 
-            using MemoryStream expected = new MemoryStream(Encoding.ASCII.GetBytes(testObjectValue.ToString("d", CultureInfo.InvariantCulture) + " "));
+            using MemoryStream expected = new(Encoding.ASCII.GetBytes(testObjectValue.ToString("d", CultureInfo.InvariantCulture) + " "));
             AssertionHelpers.AssertSameElements(expected, testParam0);
         }
 
@@ -98,7 +98,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_WriteToMethodWithPdfStreamParameter_ThrowsArgumentNullExceptionIfParameterIsNull()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject = new PdfInteger(testObjectValue);
+            PdfInteger testObject = new(testObjectValue);
             PdfStream testParam0 = null;
 
             testObject.WriteTo(testParam0);
@@ -110,8 +110,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToParameter()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject = new PdfInteger(testObjectValue);
-            PdfStream testParam0 = new PdfStream(1);
+            PdfInteger testObject = new(testObjectValue);
+            PdfStream testParam0 = new(1);
 
             testObject.WriteTo(testParam0);
 
@@ -125,7 +125,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_EqualsMethodWithPdfIntegerParameter_ReturnsFalseWhenParameterIsNull()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject = new PdfInteger(testObjectValue);
+            PdfInteger testObject = new(testObjectValue);
             PdfInteger testParam = null;
 
             bool testOutput = testObject.Equals(testParam);
@@ -139,7 +139,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_EqualsMethodWithPdfIntegerParameter_ReturnsTrueWhenParameterIsSameObject()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject = new PdfInteger(testObjectValue);
+            PdfInteger testObject = new(testObjectValue);
             PdfInteger testParam = testObject;
 
             bool testOutput = testObject.Equals(testParam);
@@ -151,8 +151,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_EqualsMethodWithPdfIntegerParameter_ReturnsTrueWhenParameterIsDifferentObjectWithSameValue()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject = new PdfInteger(testObjectValue);
-            PdfInteger testParam = new PdfInteger(testObjectValue);
+            PdfInteger testObject = new(testObjectValue);
+            PdfInteger testParam = new(testObjectValue);
 
             bool testOutput = testObject.Equals(testParam);
 
@@ -168,8 +168,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
             {
                 testParamValue = _rnd.Next(int.MinValue, int.MaxValue);
             } while (testParamValue == testObjectValue);
-            PdfInteger testObject = new PdfInteger(testObjectValue);
-            PdfInteger testParam = new PdfInteger(testParamValue);
+            PdfInteger testObject = new(testObjectValue);
+            PdfInteger testParam = new(testParamValue);
 
             bool testOutput = testObject.Equals(testParam);
 
@@ -182,7 +182,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_EqualsMethodWithObjectParameter_ReturnsFalseWhenParameterIsNull()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject = new PdfInteger(testObjectValue);
+            PdfInteger testObject = new(testObjectValue);
             object testParam = null;
 
             bool testOutput = testObject.Equals(testParam);
@@ -196,7 +196,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_EqualsMethodWithObjectParameter_ReturnsFalseWhenParameterIsOfDifferentType()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject = new PdfInteger(testObjectValue);
+            PdfInteger testObject = new(testObjectValue);
             object testParam = new PdfString("test");
 
             bool testOutput = testObject.Equals(testParam);
@@ -208,7 +208,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_EqualsMethodWithObjectParameter_ReturnsTrueWhenParameterIsSameObject()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject = new PdfInteger(testObjectValue);
+            PdfInteger testObject = new(testObjectValue);
             object testParam = testObject;
 
             bool testOutput = testObject.Equals(testParam);
@@ -220,7 +220,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_EqualsMethodWithObjectParameter_ReturnsTrueWhenParameterIsDifferentObjectWithSameValue()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject = new PdfInteger(testObjectValue);
+            PdfInteger testObject = new(testObjectValue);
             object testParam = new PdfInteger(testObjectValue);
 
             bool testOutput = testObject.Equals(testParam);
@@ -237,7 +237,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
             {
                 testParamValue = _rnd.Next(int.MinValue, int.MaxValue);
             } while (testParamValue == testObjectValue);
-            PdfInteger testObject = new PdfInteger(testObjectValue);
+            PdfInteger testObject = new(testObjectValue);
             object testParam = new PdfInteger(testParamValue);
 
             bool testOutput = testObject.Equals(testParam);
@@ -249,7 +249,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_GetHashCodeMethod_ReturnsSameValueWhenCalledTwiceOnSameObject()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject = new PdfInteger(testObjectValue);
+            PdfInteger testObject = new(testObjectValue);
 
             int testOutput0 = testObject.GetHashCode();
             int testOutput1 = testObject.GetHashCode();
@@ -261,8 +261,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_GetHashCodeMethod_ReturnsSameValueWhenCalledOnObjectsWithSameValue()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject0 = new PdfInteger(testObjectValue);
-            PdfInteger testObject1 = new PdfInteger(testObjectValue);
+            PdfInteger testObject0 = new(testObjectValue);
+            PdfInteger testObject1 = new(testObjectValue);
 
             int testOutput0 = testObject0.GetHashCode();
             int testOutput1 = testObject1.GetHashCode();
@@ -281,8 +281,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
                 {
                     testObjectValue1 = _rnd.Next(int.MinValue, int.MaxValue);
                 } while (testObjectValue1 == testObjectValue0);
-                PdfInteger testObject0 = new PdfInteger(testObjectValue0);
-                PdfInteger testObject1 = new PdfInteger(testObjectValue1);
+                PdfInteger testObject0 = new(testObjectValue0);
+                PdfInteger testObject1 = new(testObjectValue1);
 
                 int testOutput0 = testObject0.GetHashCode();
                 int testOutput1 = testObject1.GetHashCode();
@@ -295,7 +295,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_EqualityOperator_ReturnsTrueIfBothOperandsAreSame()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject0 = new PdfInteger(testObjectValue);
+            PdfInteger testObject0 = new(testObjectValue);
             PdfInteger testObject1 = testObject0;
 
             bool testOutput = testObject0 == testObject1;
@@ -321,7 +321,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
             PdfInteger testObject0 = null;
-            PdfInteger testObject1 = new PdfInteger(testObjectValue);
+            PdfInteger testObject1 = new(testObjectValue);
 
             bool testOutput = testObject0 == testObject1;
 
@@ -332,7 +332,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_EqualityOperator_ReturnsFalseIfFirstOperandIsNotNullAndSecondOperandIsNull()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject0 = new PdfInteger(testObjectValue); 
+            PdfInteger testObject0 = new(testObjectValue); 
             PdfInteger testObject1 = null;
 
             bool testOutput = testObject0 == testObject1;
@@ -346,8 +346,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_EqualityOperator_ReturnsTrueIfFirstOperandAndSecondOperandAreDifferentInstancesWithSameValue()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject0 = new PdfInteger(testObjectValue);
-            PdfInteger testObject1 = new PdfInteger(testObjectValue);
+            PdfInteger testObject0 = new(testObjectValue);
+            PdfInteger testObject1 = new(testObjectValue);
 
             bool testOutput = testObject0 == testObject1;
 
@@ -363,8 +363,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
             {
                 testObjectValue1 = _rnd.Next(int.MinValue, int.MaxValue);
             } while (testObjectValue1 == testObjectValue0);
-            PdfInteger testObject0 = new PdfInteger(testObjectValue0);
-            PdfInteger testObject1 = new PdfInteger(testObjectValue1);
+            PdfInteger testObject0 = new(testObjectValue0);
+            PdfInteger testObject1 = new(testObjectValue1);
 
             bool testOutput = testObject0 == testObject1;
 
@@ -375,7 +375,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_InequalityOperator_ReturnsFalseIfBothOperandsAreSame()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject0 = new PdfInteger(testObjectValue);
+            PdfInteger testObject0 = new(testObjectValue);
             PdfInteger testObject1 = testObject0;
 
             bool testOutput = testObject0 != testObject1;
@@ -401,7 +401,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
             PdfInteger testObject0 = null;
-            PdfInteger testObject1 = new PdfInteger(testObjectValue);
+            PdfInteger testObject1 = new(testObjectValue);
 
             bool testOutput = testObject0 != testObject1;
 
@@ -412,7 +412,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_InequalityOperator_ReturnsTrueIfFirstOperandIsNotNullAndSecondOperandIsNull()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject0 = new PdfInteger(testObjectValue);
+            PdfInteger testObject0 = new(testObjectValue);
             PdfInteger testObject1 = null;
 
             bool testOutput = testObject0 != testObject1;
@@ -426,8 +426,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfIntegerClass_InequalityOperator_ReturnsFalseIfFirstOperandAndSecondOperandAreDifferentInstancesWithSameValue()
         {
             int testObjectValue = _rnd.Next(int.MinValue, int.MaxValue);
-            PdfInteger testObject0 = new PdfInteger(testObjectValue);
-            PdfInteger testObject1 = new PdfInteger(testObjectValue);
+            PdfInteger testObject0 = new(testObjectValue);
+            PdfInteger testObject1 = new(testObjectValue);
 
             bool testOutput = testObject0 != testObject1;
 
@@ -443,8 +443,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
             {
                 testObjectValue1 = _rnd.Next(int.MinValue, int.MaxValue);
             } while (testObjectValue1 == testObjectValue0);
-            PdfInteger testObject0 = new PdfInteger(testObjectValue0);
-            PdfInteger testObject1 = new PdfInteger(testObjectValue1);
+            PdfInteger testObject0 = new(testObjectValue0);
+            PdfInteger testObject1 = new(testObjectValue1);
 
             bool testOutput = testObject0 != testObject1;
 

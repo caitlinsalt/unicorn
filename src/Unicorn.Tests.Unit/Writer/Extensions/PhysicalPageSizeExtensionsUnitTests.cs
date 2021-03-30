@@ -11,7 +11,7 @@ namespace Unicorn.Tests.Unit.Writer.Extensions
     public class PhysicalPageSizeExtensionsUnitTests
     {
         private static readonly Random _rnd = RandomProvider.Default;
-        private static readonly PdfReal _zero = new PdfReal(0);
+        private static readonly PdfReal _zero = new(0);
 
 #pragma warning disable CA5394 // Do not use insecure randomness
 #pragma warning disable CA1707 // Identifiers should not contain underscores

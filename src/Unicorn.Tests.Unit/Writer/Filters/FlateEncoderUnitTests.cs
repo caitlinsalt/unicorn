@@ -20,7 +20,7 @@ namespace Unicorn.Tests.Unit.Writer.Filters
         {
             FlateCompressionLevel testParam0 = _rnd.NextFlateCompressionLevel();
 
-            FlateEncoder testOutput = new FlateEncoder(testParam0);
+            FlateEncoder testOutput = new(testParam0);
 
             Assert.AreEqual(testParam0, testOutput.CompressionLevel);
         }
@@ -29,7 +29,7 @@ namespace Unicorn.Tests.Unit.Writer.Filters
         public void FlateEncoderClass_FilterNameProperty_EqualsObjectWithCorrectName()
         {
             FlateCompressionLevel constrParam = _rnd.NextFlateCompressionLevel();
-            FlateEncoder testObject = new FlateEncoder(constrParam);
+            FlateEncoder testObject = new(constrParam);
 
             PdfName testOutput = testObject.FilterName;
 

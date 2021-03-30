@@ -34,7 +34,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             List<IPdfPrimitiveObject> testObjectContents = GetPdfPrimitiveObjects().ToList();
 
-            PdfArray testObject = new PdfArray(testObjectContents);
+            PdfArray testObject = new(testObjectContents);
 
             Assert.AreEqual(testObjectContents.Count, testObject.Length);
         }
@@ -44,7 +44,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             List<IPdfPrimitiveObject> testObjectContents = GetPdfPrimitiveObjects().ToList();
 
-            PdfArray testObject = new PdfArray(testObjectContents);
+            PdfArray testObject = new(testObjectContents);
 
             for (int i = 0; i < testObjectContents.Count; ++i)
             {
@@ -56,7 +56,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfArrayClass_ByteLengthProperty_HasCorrectValueWhenArrayIsEmpty()
         {
             // The correct value for this test is 3: "[]\r".
-            PdfArray testObject = new PdfArray(Array.Empty<IPdfPrimitiveObject>());
+            PdfArray testObject = new(Array.Empty<IPdfPrimitiveObject>());
 
             Assert.AreEqual(3, testObject.ByteLength);
         }
@@ -66,7 +66,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             List<IPdfPrimitiveObject> testObjectContents = GetPdfPrimitiveObjects(1).ToList();
 
-            PdfArray testObject = new PdfArray(testObjectContents);
+            PdfArray testObject = new(testObjectContents);
 
             // This only works for definite because  GetPdfPrimitiveObjects() uses RandomExtensions.NextPdfPrimitive() which cannot (at present!) return anything with a ByteLength
             // long enough to trigger adding a line ending.
