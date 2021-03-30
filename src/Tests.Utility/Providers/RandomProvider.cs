@@ -6,6 +6,8 @@ namespace Tests.Utility.Providers
     [ExcludeFromCodeCoverage]
     public static class RandomProvider
     {
-        public static Random Default { get; } = new Random();
+        private static readonly Lazy<Random> _underlying = new Lazy<Random>();
+
+        public static Random Default => _underlying.Value;
     }
 }

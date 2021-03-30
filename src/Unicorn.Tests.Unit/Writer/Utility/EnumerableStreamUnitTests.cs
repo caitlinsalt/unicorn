@@ -64,7 +64,7 @@ namespace Unicorn.Tests.Unit.Writer.Utility
         [TestMethod]
         public void EnumerableStreamClass_LengthProperty_EqualsZero()
         {
-            using EnumerableStream testObject = new EnumerableStream(GetTestData());
+            using EnumerableStream testObject = new(GetTestData());
 
             long testOutput = testObject.Length;
 
