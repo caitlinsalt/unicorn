@@ -3,6 +3,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Unicorn.Base.Tests.Utility.Extensions
 {
+
+#pragma warning disable CA5394 // Do not use insecure randomness
+
     [ExcludeFromCodeCoverage]
     public static class RandomExtensions
     {
@@ -100,4 +103,7 @@ namespace Unicorn.Base.Tests.Utility.Extensions
             return _compressionLevels[rnd.Next(_compressionLevels.Length)];
         }
     }
+
+#pragma warning restore CA5394 // Do not use insecure randomness
+
 }
