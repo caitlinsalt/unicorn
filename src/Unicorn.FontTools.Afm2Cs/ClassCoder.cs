@@ -42,7 +42,7 @@ namespace Unicorn.FontTools.Afm2Cs
 
         internal static string OutputSupportedFonts(IEnumerable<string> fontNames, int indentLen)
         {
-            string indent = new string(' ', indentLen);
+            string indent = new(' ', indentLen);
             const string tab = "    ";
             return $"{indent}/// <summary>{_rn}{indent}/// Lists the built-in font metrics.{_rn}{indent}/// </summary>{_rn}" + 
                 $"{indent}/// <returns>An enumeration of the known font names (in the form defined in the AFM file.</returns>{_rn}" +
