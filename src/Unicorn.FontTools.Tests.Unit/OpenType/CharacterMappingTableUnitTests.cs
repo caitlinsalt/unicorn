@@ -39,7 +39,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             IEnumerable<CharacterMapping> testParam0 = GetMockSubtables();
 
-            CharacterMappingTable testOutput = new CharacterMappingTable(testParam0);
+            CharacterMappingTable testOutput = new(testParam0);
 
             Assert.AreEqual("cmap", testOutput.TableTag.Value);
         }
@@ -49,7 +49,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             MockCharacterMapping[] testParam0 = GetMockSubtables();
 
-            CharacterMappingTable testOutput = new CharacterMappingTable(testParam0);
+            CharacterMappingTable testOutput = new(testParam0);
 
             Assert.AreEqual(testParam0.Length, testOutput.Mappings.Count);
         }
@@ -59,7 +59,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             MockCharacterMapping[] testParam0 = GetMockSubtables();
 
-            CharacterMappingTable testOutput = new CharacterMappingTable(testParam0);
+            CharacterMappingTable testOutput = new(testParam0);
 
             for (int i = 0; i < testParam0.Length; ++i)
             {
@@ -78,7 +78,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
                 testParam0 = _rnd.NextPlatformId();
             } while (testParam0 == targetedMapping.Platform);
             int testParam1 = targetedMapping.Encoding;
-            CharacterMappingTable testObject = new CharacterMappingTable(constrParam0);
+            CharacterMappingTable testObject = new(constrParam0);
 
             CharacterMapping testOutput = testObject.SelectExactMapping(testParam0, testParam1);
 
@@ -96,7 +96,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 testParam1 = _rnd.NextUShort();
             } while (constrParam0.Any(m => m.Encoding == testParam1));
-            CharacterMappingTable testObject = new CharacterMappingTable(constrParam0);
+            CharacterMappingTable testObject = new(constrParam0);
 
             CharacterMapping testOutput = testObject.SelectExactMapping(testParam0, testParam1);
 
@@ -108,7 +108,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             MockCharacterMapping[] constrParam0 = GetMockSubtables(1);
             CharacterMapping expectedResult = constrParam0[_rnd.Next(constrParam0.Length)];
-            CharacterMappingTable testObject = new CharacterMappingTable(constrParam0);
+            CharacterMappingTable testObject = new(constrParam0);
             PlatformId testParam0 = expectedResult.Platform;
             int testParam1 = expectedResult.Encoding;
 
@@ -124,7 +124,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int targetIdx = _rnd.Next(constrParam0.Count);
             PlatformId testParam0 = constrParam0[targetIdx].Platform;
             int testParam1 = constrParam0[targetIdx].Encoding;
-            MockCharacterMapping duplicateMatch = new MockCharacterMapping(testParam0, (ushort)testParam1, _rnd.NextUShort());
+            MockCharacterMapping duplicateMatch = new(testParam0, (ushort)testParam1, _rnd.NextUShort());
             if (targetIdx == constrParam0.Count - 1)
             {
                 constrParam0.Add(duplicateMatch);
@@ -133,7 +133,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam0.Insert(_rnd.Next(targetIdx + 1, constrParam0.Count - 1), duplicateMatch);
             }
-            CharacterMappingTable testObject = new CharacterMappingTable(constrParam0);
+            CharacterMappingTable testObject = new(constrParam0);
 
             CharacterMapping testOutput = testObject.SelectExactMapping(testParam0, testParam1);
 

@@ -20,7 +20,7 @@ namespace Unicorn.Base
         /// <summary>
         /// Size - the distance between <see cref="Start" /> and <see cref="End" />.
         /// </summary>
-        public double Size { get { return End - Start; } }
+        public double Size => End - Start;
 
         /// <summary>
         /// Constructor, setting <see cref="Start" /> and <see cref="End" /> properties.    
@@ -45,23 +45,13 @@ namespace Unicorn.Base
         /// </summary>
         /// <param name="obj">Another object or value.</param>
         /// <returns><c>true</c> if the parameter is a <see cref="UniRange" /> value that is equal to this; <c>false</c> otherwise.</returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is UniRange other)
-            {
-                return Equals(other);
-            }
-            return false;
-        }
+        public override bool Equals(object obj) => (obj is UniRange other) && Equals(other);
 
         /// <summary>
         /// Hash code method.
         /// </summary>
         /// <returns>A hash code derived from this value.</returns>
-        public override int GetHashCode()
-        {
-            return Start.GetHashCode() ^ (End * 7).GetHashCode();
-        }
+        public override int GetHashCode() => Start.GetHashCode() ^ (End * 7).GetHashCode();
 
         /// <summary>
         /// Equality operator.

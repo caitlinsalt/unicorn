@@ -16,7 +16,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void HorizontalMetricRecordStruct_ParameterlessConstructor_SetsAdvanceWidthPropertyToZero()
         {
-            HorizontalMetricRecord testOutput = new HorizontalMetricRecord();
+            HorizontalMetricRecord testOutput = new();
 
             Assert.AreEqual((ushort)0, testOutput.AdvanceWidth);
         }
@@ -24,7 +24,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void HorizontalMetricRecordStruct_ParameterlessConstructor_SetsLeftSideBearingPropertyToZero()
         {
-            HorizontalMetricRecord testOutput = new HorizontalMetricRecord();
+            HorizontalMetricRecord testOutput = new();
 
             Assert.AreEqual((short)0, testOutput.LeftSideBearing);
         }
@@ -35,7 +35,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             ushort testParam0 = _rnd.NextUShort();
             short testParam1 = _rnd.NextShort();
 
-            HorizontalMetricRecord testOutput = new HorizontalMetricRecord(testParam0, testParam1);
+            HorizontalMetricRecord testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0, testOutput.AdvanceWidth);
         }
@@ -46,7 +46,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             ushort testParam0 = _rnd.NextUShort();
             short testParam1 = _rnd.NextShort();
 
-            HorizontalMetricRecord testOutput = new HorizontalMetricRecord(testParam0, testParam1);
+            HorizontalMetricRecord testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam1, testOutput.LeftSideBearing);
         }
@@ -56,7 +56,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue = new HorizontalMetricRecord(constrParam0, constrParam1);
+            HorizontalMetricRecord testValue = new(constrParam0, constrParam1);
 
             bool testOutput = testValue.Equals(testValue);
 
@@ -68,8 +68,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue = new HorizontalMetricRecord(constrParam0, constrParam1);
-            HorizontalMetricRecord testParam = new HorizontalMetricRecord(testValue.AdvanceWidth, testValue.LeftSideBearing);
+            HorizontalMetricRecord testValue = new(constrParam0, constrParam1);
+            HorizontalMetricRecord testParam = new(testValue.AdvanceWidth, testValue.LeftSideBearing);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -81,13 +81,13 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue = new HorizontalMetricRecord(constrParam0, constrParam1);
+            HorizontalMetricRecord testValue = new(constrParam0, constrParam1);
             ushort constrParam2;
             do
             {
                 constrParam2 = _rnd.NextUShort();
             } while (constrParam2 == testValue.AdvanceWidth);
-            HorizontalMetricRecord testParam = new HorizontalMetricRecord(constrParam2, testValue.LeftSideBearing);
+            HorizontalMetricRecord testParam = new(constrParam2, testValue.LeftSideBearing);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -99,13 +99,13 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue = new HorizontalMetricRecord(constrParam0, constrParam1);
+            HorizontalMetricRecord testValue = new(constrParam0, constrParam1);
             short constrParam2;
             do
             {
                 constrParam2 = _rnd.NextShort();
             } while (constrParam2 == testValue.LeftSideBearing);
-            HorizontalMetricRecord testParam = new HorizontalMetricRecord(testValue.AdvanceWidth, constrParam2);
+            HorizontalMetricRecord testParam = new(testValue.AdvanceWidth, constrParam2);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -117,7 +117,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue = new HorizontalMetricRecord(constrParam0, constrParam1);
+            HorizontalMetricRecord testValue = new(constrParam0, constrParam1);
 
             bool testOutput = testValue.Equals((object)testValue);
 
@@ -129,8 +129,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue = new HorizontalMetricRecord(constrParam0, constrParam1);
-            HorizontalMetricRecord testParam = new HorizontalMetricRecord(testValue.AdvanceWidth, testValue.LeftSideBearing);
+            HorizontalMetricRecord testValue = new(constrParam0, constrParam1);
+            HorizontalMetricRecord testParam = new(testValue.AdvanceWidth, testValue.LeftSideBearing);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -142,13 +142,13 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue = new HorizontalMetricRecord(constrParam0, constrParam1);
+            HorizontalMetricRecord testValue = new(constrParam0, constrParam1);
             ushort constrParam2;
             do
             {
                 constrParam2 = _rnd.NextUShort();
             } while (constrParam2 == testValue.AdvanceWidth);
-            HorizontalMetricRecord testParam = new HorizontalMetricRecord(constrParam2, testValue.LeftSideBearing);
+            HorizontalMetricRecord testParam = new(constrParam2, testValue.LeftSideBearing);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -160,13 +160,13 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue = new HorizontalMetricRecord(constrParam0, constrParam1);
+            HorizontalMetricRecord testValue = new(constrParam0, constrParam1);
             short constrParam2;
             do
             {
                 constrParam2 = _rnd.NextShort();
             } while (constrParam2 == testValue.LeftSideBearing);
-            HorizontalMetricRecord testParam = new HorizontalMetricRecord(testValue.AdvanceWidth, constrParam2);
+            HorizontalMetricRecord testParam = new(testValue.AdvanceWidth, constrParam2);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -178,7 +178,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue = new HorizontalMetricRecord(constrParam0, constrParam1);
+            HorizontalMetricRecord testValue = new(constrParam0, constrParam1);
             string testParam = _rnd.NextString(_rnd.Next(50));
 
             bool testOutput = testValue.Equals(testParam);
@@ -191,8 +191,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue0 = new HorizontalMetricRecord(constrParam0, constrParam1);
-            HorizontalMetricRecord testValue1 = new HorizontalMetricRecord(constrParam0, constrParam1);
+            HorizontalMetricRecord testValue0 = new(constrParam0, constrParam1);
+            HorizontalMetricRecord testValue1 = new(constrParam0, constrParam1);
 
             int testOutput0 = testValue0.GetHashCode();
             int testOutput1 = testValue1.GetHashCode();
@@ -205,7 +205,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue = new HorizontalMetricRecord(constrParam0, constrParam1);
+            HorizontalMetricRecord testValue = new(constrParam0, constrParam1);
 
 #pragma warning disable CS1718 // Comparison made to same variable
             bool testOutput = testValue == testValue;
@@ -219,8 +219,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue0 = new HorizontalMetricRecord(constrParam0, constrParam1);
-            HorizontalMetricRecord testValue1 = new HorizontalMetricRecord(testValue0.AdvanceWidth, testValue0.LeftSideBearing);
+            HorizontalMetricRecord testValue0 = new(constrParam0, constrParam1);
+            HorizontalMetricRecord testValue1 = new(testValue0.AdvanceWidth, testValue0.LeftSideBearing);
 
             bool testOutput = testValue0 == testValue1;
 
@@ -232,13 +232,13 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue0 = new HorizontalMetricRecord(constrParam0, constrParam1);
+            HorizontalMetricRecord testValue0 = new(constrParam0, constrParam1);
             ushort constrParam2;
             do
             {
                 constrParam2 = _rnd.NextUShort();
             } while (constrParam2 == testValue0.AdvanceWidth);
-            HorizontalMetricRecord testValue1 = new HorizontalMetricRecord(constrParam2, testValue0.LeftSideBearing);
+            HorizontalMetricRecord testValue1 = new(constrParam2, testValue0.LeftSideBearing);
 
             bool testOutput = testValue0 == testValue1;
 
@@ -250,13 +250,13 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue0 = new HorizontalMetricRecord(constrParam0, constrParam1);
+            HorizontalMetricRecord testValue0 = new(constrParam0, constrParam1);
             short constrParam2;
             do
             {
                 constrParam2 = _rnd.NextShort();
             } while (constrParam2 == testValue0.LeftSideBearing);
-            HorizontalMetricRecord testValue1 = new HorizontalMetricRecord(testValue0.AdvanceWidth, constrParam2);
+            HorizontalMetricRecord testValue1 = new(testValue0.AdvanceWidth, constrParam2);
 
             bool testOutput = testValue0 == testValue1;
 
@@ -268,7 +268,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue = new HorizontalMetricRecord(constrParam0, constrParam1);
+            HorizontalMetricRecord testValue = new(constrParam0, constrParam1);
 
 #pragma warning disable CS1718 // Comparison made to same variable
             bool testOutput = testValue != testValue;
@@ -282,8 +282,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue0 = new HorizontalMetricRecord(constrParam0, constrParam1);
-            HorizontalMetricRecord testValue1 = new HorizontalMetricRecord(testValue0.AdvanceWidth, testValue0.LeftSideBearing);
+            HorizontalMetricRecord testValue0 = new(constrParam0, constrParam1);
+            HorizontalMetricRecord testValue1 = new(testValue0.AdvanceWidth, testValue0.LeftSideBearing);
 
             bool testOutput = testValue0 != testValue1;
 
@@ -295,13 +295,13 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue0 = new HorizontalMetricRecord(constrParam0, constrParam1);
+            HorizontalMetricRecord testValue0 = new(constrParam0, constrParam1);
             ushort constrParam2;
             do
             {
                 constrParam2 = _rnd.NextUShort();
             } while (constrParam2 == testValue0.AdvanceWidth);
-            HorizontalMetricRecord testValue1 = new HorizontalMetricRecord(constrParam2, testValue0.LeftSideBearing);
+            HorizontalMetricRecord testValue1 = new(constrParam2, testValue0.LeftSideBearing);
 
             bool testOutput = testValue0 != testValue1;
 
@@ -313,13 +313,13 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             ushort constrParam0 = _rnd.NextUShort();
             short constrParam1 = _rnd.NextShort();
-            HorizontalMetricRecord testValue0 = new HorizontalMetricRecord(constrParam0, constrParam1);
+            HorizontalMetricRecord testValue0 = new(constrParam0, constrParam1);
             short constrParam2;
             do
             {
                 constrParam2 = _rnd.NextShort();
             } while (constrParam2 == testValue0.LeftSideBearing);
-            HorizontalMetricRecord testValue1 = new HorizontalMetricRecord(testValue0.AdvanceWidth, constrParam2);
+            HorizontalMetricRecord testValue1 = new(testValue0.AdvanceWidth, constrParam2);
 
             bool testOutput = testValue0 != testValue1;
 

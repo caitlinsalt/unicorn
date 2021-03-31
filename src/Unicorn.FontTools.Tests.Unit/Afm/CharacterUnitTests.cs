@@ -33,7 +33,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         private static IList<InitialLigatureSet> GetInitialLigatureSets(IEnumerable<string> validNames)
         {
             string[] names = validNames.ToArray();
-            List<string> usedSecondNames = new List<string>();
+            List<string> usedSecondNames = new();
             if (names.Length == 0)
             {
                 return Array.Empty<InitialLigatureSet>();
@@ -55,7 +55,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         private static IDictionary<string, Character> GetOtherCharacters()
         {
             int count = _rnd.Next(20, 30);
-            Dictionary<string, Character> output = new Dictionary<string, Character>();
+            Dictionary<string, Character> output = new();
             for (int i = 0; i < count; ++i)
             {
                 string charName;
@@ -81,7 +81,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             BoundingBox? testParam5 = _rnd.NextNullableAfmBoundingBox();
             IEnumerable<InitialLigatureSet> testParam6 = GetInitialLigatureSets();
 
-            Character testOutput = new Character(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
+            Character testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
 
             Assert.AreEqual(testParam0, testOutput.Code);
         }
@@ -97,7 +97,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             BoundingBox? testParam5 = _rnd.NextNullableAfmBoundingBox();
             IEnumerable<InitialLigatureSet> testParam6 = GetInitialLigatureSets();
 
-            Character testOutput = new Character(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
+            Character testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
 
             Assert.AreEqual(testParam1, testOutput.Name);
         }
@@ -112,7 +112,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             BoundingBox? testParam5 = _rnd.NextNullableAfmBoundingBox();
             IEnumerable<InitialLigatureSet> testParam6 = GetInitialLigatureSets();
 
-            Character testOutput = new Character(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
+            Character testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
 
             Assert.AreEqual(testParam1, testOutput.Name);
         }
@@ -128,7 +128,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             BoundingBox? testParam5 = _rnd.NextNullableAfmBoundingBox();
             IEnumerable<InitialLigatureSet> testParam6 = GetInitialLigatureSets();
 
-            Character testOutput = new Character(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
+            Character testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
 
             Assert.AreEqual(testParam2, testOutput.XWidth);
         }
@@ -144,7 +144,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             BoundingBox? testParam5 = _rnd.NextNullableAfmBoundingBox();
             IEnumerable<InitialLigatureSet> testParam6 = GetInitialLigatureSets();
 
-            Character testOutput = new Character(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
+            Character testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
 
             Assert.AreEqual(testParam3, testOutput.YWidth);
         }
@@ -160,7 +160,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             BoundingBox? testParam5 = _rnd.NextNullableAfmBoundingBox();
             IEnumerable<InitialLigatureSet> testParam6 = GetInitialLigatureSets();
 
-            Character testOutput = new Character(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
+            Character testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
 
             Assert.AreEqual(testParam4, testOutput.VVector);
         }
@@ -176,7 +176,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             BoundingBox? testParam5 = _rnd.NextNullableAfmBoundingBox();
             IEnumerable<InitialLigatureSet> testParam6 = GetInitialLigatureSets();
 
-            Character testOutput = new Character(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
+            Character testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
 
             Assert.AreEqual(testParam5, testOutput.BoundingBox);
         }
@@ -192,7 +192,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             BoundingBox? testParam5 = _rnd.NextNullableAfmBoundingBox();
             IEnumerable<InitialLigatureSet> testParam6 = GetInitialLigatureSets();
 
-            Character testOutput = new Character(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
+            Character testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
 
             Assert.IsNull(testOutput.Ligatures);
         }
@@ -208,7 +208,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             BoundingBox? testParam5 = _rnd.NextNullableAfmBoundingBox();
             IEnumerable<InitialLigatureSet> testParam6 = GetInitialLigatureSets();
 
-            Character testOutput = new Character(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
+            Character testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
 
             Assert.IsNotNull(testOutput.KerningPairs);
             Assert.AreEqual(0, testOutput.KerningPairs.Count);
@@ -235,8 +235,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Vector? testParam4 = _rnd.NextNullableAfmVector();
             BoundingBox? testParam5 = _rnd.NextNullableAfmBoundingBox();
             IEnumerable<InitialLigatureSet> testParam6 = Array.Empty<InitialLigatureSet>();
-            Character testObject = new Character(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
-            Dictionary<string, Character> testParam = new Dictionary<string, Character> { { testObject.Name, testObject } };
+            Character testObject = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6);
+            Dictionary<string, Character> testParam = new() { { testObject.Name, testObject } };
 
             testObject.ProcessLigatures(testParam);
 
@@ -255,8 +255,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Vector? constrParam4 = _rnd.NextNullableAfmVector();
             BoundingBox? constrParam5 = _rnd.NextNullableAfmBoundingBox();
             IEnumerable<InitialLigatureSet> constrParam6 = GetInitialLigatureSets(_rnd.Next(1, 5));
-            Character testObject = new Character(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4, constrParam5, constrParam6);
-            Dictionary<string, Character> testParam = new Dictionary<string, Character>();
+            Character testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4, constrParam5, constrParam6);
+            Dictionary<string, Character> testParam = new();
 
             testObject.ProcessLigatures(testParam);
         }
@@ -276,7 +276,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Vector? constrParam4 = _rnd.NextNullableAfmVector();
             BoundingBox? constrParam5 = _rnd.NextNullableAfmBoundingBox();
             IList<InitialLigatureSet> constrParam6 = GetInitialLigatureSets(otherCharacters.Keys);
-            Character testObject = new Character(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4, constrParam5, constrParam6);
+            Character testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4, constrParam5, constrParam6);
             otherCharacters.Add(constrParam1, testObject);
 
             testObject.ProcessLigatures(otherCharacters);
@@ -299,7 +299,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Vector? constrParam4 = _rnd.NextNullableAfmVector();
             BoundingBox? constrParam5 = _rnd.NextNullableAfmBoundingBox();
             IList<InitialLigatureSet> constrParam6 = GetInitialLigatureSets(otherCharacters.Keys);
-            Character testObject = new Character(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4, constrParam5, constrParam6);
+            Character testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4, constrParam5, constrParam6);
             otherCharacters.Add(constrParam1, testObject);
 
             testObject.ProcessLigatures(otherCharacters);
@@ -325,7 +325,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Vector? constrParam4 = _rnd.NextNullableAfmVector();
             BoundingBox? constrParam5 = _rnd.NextNullableAfmBoundingBox();
             IList<InitialLigatureSet> constrParam6 = GetInitialLigatureSets(otherCharacters.Keys);
-            Character testObject = new Character(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4, constrParam5, constrParam6);
+            Character testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4, constrParam5, constrParam6);
             otherCharacters.Add(constrParam1, testObject);
 
             testObject.ProcessLigatures(otherCharacters);
@@ -351,7 +351,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Vector? constrParam4 = _rnd.NextNullableAfmVector();
             BoundingBox? constrParam5 = _rnd.NextNullableAfmBoundingBox();
             IList<InitialLigatureSet> constrParam6 = GetInitialLigatureSets(otherCharacters.Keys);
-            Character testObject = new Character(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4, constrParam5, constrParam6);
+            Character testObject = new(constrParam0, constrParam1, constrParam2, constrParam3, constrParam4, constrParam5, constrParam6);
             otherCharacters.Add(constrParam1, testObject);
 
             testObject.ProcessLigatures(otherCharacters);

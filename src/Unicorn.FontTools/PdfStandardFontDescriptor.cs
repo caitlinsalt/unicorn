@@ -64,14 +64,9 @@ namespace Unicorn.FontTools
         /// <summary>
         /// A bounding box that encloses any character in the font.
         /// </summary>
-        public UniRectangle BoundingBox
-        {
-            get
-            {
-                return new UniRectangle(_metrics.FontBoundingBox.Left, _metrics.FontBoundingBox.Bottom, _metrics.FontBoundingBox.Right - _metrics.FontBoundingBox.Left,
-                    _metrics.FontBoundingBox.Top - _metrics.FontBoundingBox.Bottom);
-            }
-        }
+        public UniRectangle BoundingBox 
+            => new UniRectangle(_metrics.FontBoundingBox.Left, _metrics.FontBoundingBox.Bottom, _metrics.FontBoundingBox.Right - _metrics.FontBoundingBox.Left,
+                _metrics.FontBoundingBox.Top - _metrics.FontBoundingBox.Bottom);
 
         /// <summary>
         /// The height of a typical capital letter above the baseline, in glyph units.
@@ -167,10 +162,12 @@ namespace Unicorn.FontTools
             {
                 throw new ArgumentNullException(nameof(name));
             }
+#pragma warning disable CA1508 // VS claims this condition is dead code, but this is a false alert: both branches of this condition are exercised in unit testing. 
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new FontException(Resources.PdfStandardFontDescriptor_GetByName_EmptyStringParameter);
             }
+#pragma warning restore CA1508
             string typeName = NormaliseName(name);
             PropertyInfo property = typeof(StandardFontMetrics).GetProperty(typeName, BindingFlags.Public | BindingFlags.Static);
             if (property is null)
@@ -186,10 +183,7 @@ namespace Unicorn.FontTools
         /// first is included in the output of this method, as that is the name described in the font's AFM file.
         /// </summary>
         /// <returns>An enumeration of strings that are valid standard font names.</returns>
-        public static IEnumerable<string> GetSupportedFontNames()
-        {
-            return StandardFontMetrics.GetSupportedFontNames();
-        }
+        public static IEnumerable<string> GetSupportedFontNames() => StandardFontMetrics.GetSupportedFontNames();
 
         /// <summary>
         /// Get the width of a space character in this font, in a specific graphics context.
@@ -210,29 +204,17 @@ namespace Unicorn.FontTools
         /// </summary>
         /// <param name="str">The string to measure.</param>
         /// <returns>The width of the string, in points.</returns>
-        public double MeasureStringWidth(string str)
-        {
-            return PointSizeTransform(_metrics.MeasureStringWidth(str));
-        }
+        public double MeasureStringWidth(string str) => PointSizeTransform(_metrics.MeasureStringWidth(str));
 
         /// <summary>
         /// Measure the size of a string, in Unicorn points.
         /// </summary>
         /// <param name="str">The string to be measured.</param>
         /// <returns>A <see cref="UniSize" /> instance describing the size of the rendered string.</returns>
-        public UniTextSize MeasureString(string str)
-        {
-            return new UniTextSize(MeasureStringWidth(str), PointSize, Ascent + InterlineSpacing / 2, Ascent, Descent);
-        }
+        public UniTextSize MeasureString(string str) => new UniTextSize(MeasureStringWidth(str), PointSize, Ascent + InterlineSpacing / 2, Ascent, Descent);
 
-        private static string NormaliseName(string fontName)
-        {
-            return fontName.Replace("-", "");
-        }
+        private static string NormaliseName(string fontName) => fontName.Replace("-", "");
 
-        private double PointSizeTransform(decimal fontUnitValue)
-        {
-            return (double)(fontUnitValue * (decimal)PointSize / 1000);
-        }
+        private double PointSizeTransform(decimal fontUnitValue) => (double)(fontUnitValue * (decimal)PointSize / 1000);
     }
 }

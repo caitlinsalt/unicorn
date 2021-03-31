@@ -5,7 +5,7 @@ namespace Unicorn.Tests.Unit.TestHelpers.Mocks
 {
     internal class MockList<T> : IList<T>
     {
-        private readonly List<T> _underlying = new List<T>();
+        private readonly List<T> _underlying = new();
 
         public T this[int index]
         {
@@ -54,7 +54,7 @@ namespace Unicorn.Tests.Unit.TestHelpers.Mocks
 
         internal static MockList<T> FromEnumerable(IEnumerable<T> data)
         {
-            MockList<T> newList = new MockList<T>();
+            MockList<T> newList = new();
             newList._underlying.AddRange(data);
             return newList;
         }

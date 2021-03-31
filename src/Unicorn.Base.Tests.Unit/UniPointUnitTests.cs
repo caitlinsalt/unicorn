@@ -2,7 +2,7 @@
 using System;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
-using Unicorn.Base.Tests.Utility.Extensions;
+using Unicorn.Base.Tests.Utility;
 
 namespace Unicorn.Base.Tests.Unit
 {
@@ -19,7 +19,7 @@ namespace Unicorn.Base.Tests.Unit
         [TestMethod]
         public void UniPointStruct_ParameterlessConstructor_SetsXPropertyToZero()
         {
-            UniPoint testOutput = new UniPoint();
+            UniPoint testOutput = new();
 
             Assert.AreEqual(0d, testOutput.X);
         }
@@ -27,7 +27,7 @@ namespace Unicorn.Base.Tests.Unit
         [TestMethod]
         public void UniPointStruct_ParameterlessConstructor_SetsYPropertyToZero()
         {
-            UniPoint testOutput = new UniPoint();
+            UniPoint testOutput = new();
 
             Assert.AreEqual(0d, testOutput.Y);
         }
@@ -38,7 +38,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam0 = _rnd.NextDouble() * 1000;
             double testParam1 = _rnd.NextDouble() * 1000;
 
-            UniPoint testOutput = new UniPoint(testParam0, testParam1);
+            UniPoint testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0, testOutput.X);
         }
@@ -49,7 +49,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam0 = _rnd.NextDouble() * 1000;
             double testParam1 = _rnd.NextDouble() * 1000;
 
-            UniPoint testOutput = new UniPoint(testParam0, testParam1);
+            UniPoint testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam1, testOutput.Y);
         }
@@ -68,7 +68,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniPointStruct_EqualsMethodWithUniPointParameter_ReturnsTrue_IfParameterIsConstructedFromSameData()
         {
             UniPoint testValue = GetTestValue();
-            UniPoint testParam = new UniPoint(testValue.X, testValue.Y);
+            UniPoint testParam = new(testValue.X, testValue.Y);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -84,7 +84,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.X);
-            UniPoint testParam = new UniPoint(constrParam, testValue.Y);
+            UniPoint testParam = new(constrParam, testValue.Y);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -100,7 +100,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.Y);
-            UniPoint testParam = new UniPoint(testValue.X, constrParam);
+            UniPoint testParam = new(testValue.X, constrParam);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -121,7 +121,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniPointStruct_EqualsMethodWithObjectParameter_ReturnsTrue_IfParameterIsConstructedFromSameData()
         {
             UniPoint testValue = GetTestValue();
-            UniPoint testParam = new UniPoint(testValue.X, testValue.Y);
+            UniPoint testParam = new(testValue.X, testValue.Y);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -137,7 +137,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.X);
-            UniPoint testParam = new UniPoint(constrParam, testValue.Y);
+            UniPoint testParam = new(constrParam, testValue.Y);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -153,7 +153,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.Y);
-            UniPoint testParam = new UniPoint(testValue.X, constrParam);
+            UniPoint testParam = new(testValue.X, constrParam);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -175,7 +175,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniPointStruct_GetHashCodeMethod_ReturnsSameValue_IfCalledTwiceOnSameValue()
         {
             UniPoint testValue0 = GetTestValue();
-            UniPoint testValue1 = new UniPoint(testValue0.X, testValue0.Y);
+            UniPoint testValue1 = new(testValue0.X, testValue0.Y);
 
             int testOutput0 = testValue0.GetHashCode();
             int testOutput1 = testValue1.GetHashCode();
@@ -199,7 +199,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniPointStruct_EqualityOperator_ReturnsTrue_IfOperandsAreConstructedFromSameData()
         {
             UniPoint testValue = GetTestValue();
-            UniPoint testParam = new UniPoint(testValue.X, testValue.Y);
+            UniPoint testParam = new(testValue.X, testValue.Y);
 
             bool testOutput = testValue == testParam;
 
@@ -215,7 +215,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.X);
-            UniPoint testParam = new UniPoint(constrParam, testValue.Y);
+            UniPoint testParam = new(constrParam, testValue.Y);
 
             bool testOutput = testValue == testParam;
 
@@ -231,7 +231,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.Y);
-            UniPoint testParam = new UniPoint(testValue.X, constrParam);
+            UniPoint testParam = new(testValue.X, constrParam);
 
             bool testOutput = testValue == testParam;
 
@@ -254,7 +254,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniPointStruct_InequalityOperator_ReturnsFalse_IfOperandsAreConstructedFromSameData()
         {
             UniPoint testValue = GetTestValue();
-            UniPoint testParam = new UniPoint(testValue.X, testValue.Y);
+            UniPoint testParam = new(testValue.X, testValue.Y);
 
             bool testOutput = testValue != testParam;
 
@@ -270,7 +270,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.X);
-            UniPoint testParam = new UniPoint(constrParam, testValue.Y);
+            UniPoint testParam = new(constrParam, testValue.Y);
 
             bool testOutput = testValue != testParam;
 
@@ -286,7 +286,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.Y);
-            UniPoint testParam = new UniPoint(testValue.X, constrParam);
+            UniPoint testParam = new(testValue.X, constrParam);
 
             bool testOutput = testValue != testParam;
 

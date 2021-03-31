@@ -18,7 +18,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void AfmFormatExceptionClass_ParameterlessConstructor_ReturnsObjectWithInnerExceptionPropertyEqualToNull()
         {
-            AfmFormatException testOutput = new AfmFormatException();
+            AfmFormatException testOutput = new();
 
             Assert.IsNull(testOutput.InnerException);
         }
@@ -28,7 +28,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             string testParam0 = _rnd.NextString(_rnd.Next(255));
 
-            AfmFormatException testOutput = new AfmFormatException(testParam0);
+            AfmFormatException testOutput = new(testParam0);
 
             Assert.AreEqual(testParam0, testOutput.Message);
         }
@@ -38,7 +38,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             string testParam0 = _rnd.NextString(_rnd.Next(255));
 
-            AfmFormatException testOutput = new AfmFormatException(testParam0);
+            AfmFormatException testOutput = new(testParam0);
 
             Assert.IsNull(testOutput.InnerException);
         }
@@ -49,7 +49,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             string testParam0 = _rnd.NextString(_rnd.Next(255));
             Exception testParam1 = new TestException();
 
-            AfmFormatException testOutput = new AfmFormatException(testParam0, testParam1);
+            AfmFormatException testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0, testOutput.Message);
         }
@@ -60,7 +60,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             string testParam0 = _rnd.NextString(_rnd.Next(255));
             Exception testParam1 = new TestException();
 
-            AfmFormatException testOutput = new AfmFormatException(testParam0, testParam1);
+            AfmFormatException testOutput = new(testParam0, testParam1);
 
             Assert.AreSame(testParam1, testOutput.InnerException);
         }

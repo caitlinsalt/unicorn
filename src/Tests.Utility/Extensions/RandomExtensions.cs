@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Tests.Utility.Extensions
 {
+
+#pragma warning disable CA5394 // Do not use insecure randomness
+
     [ExcludeFromCodeCoverage]
     public static class RandomExtensions
     {
@@ -317,4 +320,7 @@ namespace Tests.Utility.Extensions
             return (byte)random.Next(max);
         }
     }
+
+#pragma warning restore CA5394 // Do not use insecure randomness
+
 }

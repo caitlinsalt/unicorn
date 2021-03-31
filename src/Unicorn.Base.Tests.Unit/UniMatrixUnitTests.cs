@@ -2,7 +2,7 @@
 using System;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
-using Unicorn.Base.Tests.Utility.Extensions;
+using Unicorn.Base.Tests.Utility;
 
 namespace Unicorn.Base.Tests.Unit
 {
@@ -19,7 +19,7 @@ namespace Unicorn.Base.Tests.Unit
         [TestMethod]
         public void UniMatrixStruct_ParameterlessConstructor_SetsR0C0PropertyToZero()
         {
-            UniMatrix testOutput = new UniMatrix();
+            UniMatrix testOutput = new();
 
             Assert.AreEqual(0d, testOutput.R0C0);
         }
@@ -27,7 +27,7 @@ namespace Unicorn.Base.Tests.Unit
         [TestMethod]
         public void UniMatrixStruct_ParameterlessConstructor_SetsR0C1PropertyToZero()
         {
-            UniMatrix testOutput = new UniMatrix();
+            UniMatrix testOutput = new();
 
             Assert.AreEqual(0d, testOutput.R0C1);
         }
@@ -35,7 +35,7 @@ namespace Unicorn.Base.Tests.Unit
         [TestMethod]
         public void UniMatrixStruct_ParameterlessConstructor_SetsR1C0PropertyToZero()
         {
-            UniMatrix testOutput = new UniMatrix();
+            UniMatrix testOutput = new();
 
             Assert.AreEqual(0d, testOutput.R1C0);
         }
@@ -43,7 +43,7 @@ namespace Unicorn.Base.Tests.Unit
         [TestMethod]
         public void UniMatrixStruct_ParameterlessConstructor_SetsR1C1PropertyToZero()
         {
-            UniMatrix testOutput = new UniMatrix();
+            UniMatrix testOutput = new();
 
             Assert.AreEqual(0d, testOutput.R1C1);
         }
@@ -51,7 +51,7 @@ namespace Unicorn.Base.Tests.Unit
         [TestMethod]
         public void UniMatrixStruct_ParameterlessConstructor_SetsR2C0PropertyToZero()
         {
-            UniMatrix testOutput = new UniMatrix();
+            UniMatrix testOutput = new();
 
             Assert.AreEqual(0d, testOutput.R2C0);
         }
@@ -59,7 +59,7 @@ namespace Unicorn.Base.Tests.Unit
         [TestMethod]
         public void UniMatrixStruct_ParameterlessConstructor_SetsR2C1PropertyToZero()
         {
-            UniMatrix testOutput = new UniMatrix();
+            UniMatrix testOutput = new();
 
             Assert.AreEqual(0d, testOutput.R2C1);
         }
@@ -74,7 +74,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam4 = _rnd.NextDouble() * 1000;
             double testParam5 = _rnd.NextDouble() * 1000;
 
-            UniMatrix testOutput = new UniMatrix(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            UniMatrix testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam0, testOutput.R0C0);
         }
@@ -89,7 +89,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam4 = _rnd.NextDouble() * 1000;
             double testParam5 = _rnd.NextDouble() * 1000;
 
-            UniMatrix testOutput = new UniMatrix(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            UniMatrix testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam1, testOutput.R0C1);
         }
@@ -104,7 +104,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam4 = _rnd.NextDouble() * 1000;
             double testParam5 = _rnd.NextDouble() * 1000;
 
-            UniMatrix testOutput = new UniMatrix(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            UniMatrix testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam2, testOutput.R1C0);
         }
@@ -119,7 +119,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam4 = _rnd.NextDouble() * 1000;
             double testParam5 = _rnd.NextDouble() * 1000;
 
-            UniMatrix testOutput = new UniMatrix(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            UniMatrix testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam3, testOutput.R1C1);
         }
@@ -134,7 +134,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam4 = _rnd.NextDouble() * 1000;
             double testParam5 = _rnd.NextDouble() * 1000;
 
-            UniMatrix testOutput = new UniMatrix(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            UniMatrix testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam4, testOutput.R2C0);
         }
@@ -149,7 +149,7 @@ namespace Unicorn.Base.Tests.Unit
             double testParam4 = _rnd.NextDouble() * 1000;
             double testParam5 = _rnd.NextDouble() * 1000;
 
-            UniMatrix testOutput = new UniMatrix(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            UniMatrix testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam5, testOutput.R2C1);
         }
@@ -168,7 +168,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniMatrixStruct_EqualsMethodWithUniMatrixParameter_ReturnsTrue_IfParameterIsConstructedFromSameDataAsValue()
         {
             UniMatrix testValue = GetTestValue();
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -184,7 +184,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R0C0);
-            UniMatrix testParam = new UniMatrix(constrParam, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(constrParam, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -200,7 +200,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R0C1);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, constrParam, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, constrParam, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -216,7 +216,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R1C0);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, constrParam, testValue.R1C1, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, constrParam, testValue.R1C1, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -232,7 +232,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R1C1);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, testValue.R1C0, constrParam, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, testValue.R1C0, constrParam, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -248,7 +248,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R2C0);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, constrParam, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, constrParam, testValue.R2C1);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -264,7 +264,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R2C1);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, constrParam);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, constrParam);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -285,7 +285,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniMatrixStruct_EqualsMethodWithObjectParameter_ReturnsTrue_IfParameterIsConstructedFromSameDataAsValue()
         {
             UniMatrix testValue = GetTestValue();
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -301,7 +301,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R0C0);
-            UniMatrix testParam = new UniMatrix(constrParam, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(constrParam, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -317,7 +317,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R0C1);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, constrParam, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, constrParam, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -333,7 +333,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R1C0);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, constrParam, testValue.R1C1, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, constrParam, testValue.R1C1, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -349,7 +349,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R1C1);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, testValue.R1C0, constrParam, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, testValue.R1C0, constrParam, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -365,7 +365,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R2C0);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, constrParam, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, constrParam, testValue.R2C1);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -381,7 +381,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R2C1);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, constrParam);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, constrParam);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -403,7 +403,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniMatrixStruct_GetHashCodeMethod_ReturnsSameValue_IfCalledTwiceOnSameValue()
         {
             UniMatrix testValue0 = GetTestValue();
-            UniMatrix testValue1 = new UniMatrix(testValue0.R0C0, testValue0.R0C1, testValue0.R1C0, testValue0.R1C1, testValue0.R2C0, testValue0.R2C1);
+            UniMatrix testValue1 = new(testValue0.R0C0, testValue0.R0C1, testValue0.R1C0, testValue0.R1C1, testValue0.R2C0, testValue0.R2C1);
 
             int testOutput0 = testValue0.GetHashCode();
             int testOutput1 = testValue1.GetHashCode();
@@ -427,7 +427,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniMatrixStruct_EqualityOperator_ReturnsTrue_IfOperandsAreConstructedFromSameData()
         {
             UniMatrix testValue = GetTestValue();
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue == testParam;
 
@@ -443,7 +443,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R0C0);
-            UniMatrix testParam = new UniMatrix(constrParam, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(constrParam, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue == testParam;
 
@@ -459,7 +459,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R0C1);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, constrParam, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, constrParam, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue == testParam;
 
@@ -475,7 +475,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R1C0);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, constrParam, testValue.R1C1, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, constrParam, testValue.R1C1, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue == testParam;
 
@@ -491,7 +491,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R1C1);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, testValue.R1C0, constrParam, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, testValue.R1C0, constrParam, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue == testParam;
 
@@ -507,7 +507,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R2C0);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, constrParam, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, constrParam, testValue.R2C1);
 
             bool testOutput = testValue == testParam;
 
@@ -523,7 +523,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R2C1);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, constrParam);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, constrParam);
 
             bool testOutput = testValue == testParam;
 
@@ -546,7 +546,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniMatrixStruct_InequalityOperator_ReturnsFalse_IfOperandsAreConstructedFromSameData()
         {
             UniMatrix testValue = GetTestValue();
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue != testParam;
 
@@ -562,7 +562,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R0C0);
-            UniMatrix testParam = new UniMatrix(constrParam, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(constrParam, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue != testParam;
 
@@ -578,7 +578,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R0C1);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, constrParam, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, constrParam, testValue.R1C0, testValue.R1C1, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue != testParam;
 
@@ -594,7 +594,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R1C0);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, constrParam, testValue.R1C1, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, constrParam, testValue.R1C1, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue != testParam;
 
@@ -610,7 +610,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R1C1);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, testValue.R1C0, constrParam, testValue.R2C0, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, testValue.R1C0, constrParam, testValue.R2C0, testValue.R2C1);
 
             bool testOutput = testValue != testParam;
 
@@ -626,7 +626,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R2C0);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, constrParam, testValue.R2C1);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, constrParam, testValue.R2C1);
 
             bool testOutput = testValue != testParam;
 
@@ -642,7 +642,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 100;
             } while (constrParam == testValue.R2C1);
-            UniMatrix testParam = new UniMatrix(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, constrParam);
+            UniMatrix testParam = new(testValue.R0C0, testValue.R0C1, testValue.R1C0, testValue.R1C1, testValue.R2C0, constrParam);
 
             bool testOutput = testValue != testParam;
 

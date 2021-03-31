@@ -70,14 +70,7 @@ namespace Unicorn.FontTools.OpenType
         /// </summary>
         /// <param name="codePoint">The code point to convert.</param>
         /// <returns>A glyph ID, or zero if the code point is not encoded.</returns>
-        public override int MapCodePoint(long codePoint)
-        {
-            if (codePoint <= byte.MaxValue)
-            {
-                return MapCodePoint((byte)codePoint);
-            }
-            return 0;
-        }
+        public override int MapCodePoint(long codePoint) => codePoint <= byte.MaxValue ? MapCodePoint((byte)codePoint) : 0;
 
         /// <summary>
         /// Dump the content of this mapping to a <see cref="TextWriter" />.

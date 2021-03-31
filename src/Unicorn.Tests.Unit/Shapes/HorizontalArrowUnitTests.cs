@@ -15,6 +15,8 @@ namespace Unicorn.Tests.Unit.Shapes
     {
         private static readonly Random _rnd = RandomProvider.Default;
 
+#pragma warning disable CA5394 // Do not use insecure randomness
+
         private static HorizontalArrow GetArrow(HorizontalDirection? dir = null)
         {
             if (!dir.HasValue)
@@ -37,7 +39,7 @@ namespace Unicorn.Tests.Unit.Shapes
             double testParam4 = _rnd.NextDouble() * 100;
             double testParam5 = _rnd.NextDouble() * 100;
 
-            HorizontalArrow testObject = new HorizontalArrow(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            HorizontalArrow testObject = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam0, testObject.Direction);
         }
@@ -52,7 +54,7 @@ namespace Unicorn.Tests.Unit.Shapes
             double testParam4 = _rnd.NextDouble() * 100;
             double testParam5 = _rnd.NextDouble() * 100;
 
-            HorizontalArrow testObject = new HorizontalArrow(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            HorizontalArrow testObject = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam1, testObject.Length);
         }
@@ -67,7 +69,7 @@ namespace Unicorn.Tests.Unit.Shapes
             double testParam4 = _rnd.NextDouble() * 100;
             double testParam5 = _rnd.NextDouble() * 100;
 
-            HorizontalArrow testObject = new HorizontalArrow(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            HorizontalArrow testObject = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam1, testObject.Width);
         }
@@ -82,7 +84,7 @@ namespace Unicorn.Tests.Unit.Shapes
             double testParam4 = _rnd.NextDouble() * 100;
             double testParam5 = _rnd.NextDouble() * 100;
 
-            HorizontalArrow testObject = new HorizontalArrow(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            HorizontalArrow testObject = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam2, testObject.StemThickness);
         }
@@ -97,7 +99,7 @@ namespace Unicorn.Tests.Unit.Shapes
             double testParam4 = _rnd.NextDouble() * 100;
             double testParam5 = _rnd.NextDouble() * 100;
 
-            HorizontalArrow testObject = new HorizontalArrow(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            HorizontalArrow testObject = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam3, testObject.HeadBreadth);
         }
@@ -112,7 +114,7 @@ namespace Unicorn.Tests.Unit.Shapes
             double testParam4 = _rnd.NextDouble() * 100;
             double testParam5 = _rnd.NextDouble() * 100;
 
-            HorizontalArrow testObject = new HorizontalArrow(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            HorizontalArrow testObject = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam3, testObject.Height);
         }
@@ -127,7 +129,7 @@ namespace Unicorn.Tests.Unit.Shapes
             double testParam4 = _rnd.NextDouble() * 100;
             double testParam5 = _rnd.NextDouble() * 100;
 
-            HorizontalArrow testObject = new HorizontalArrow(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            HorizontalArrow testObject = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam4, testObject.HeadLength);
         }
@@ -142,7 +144,7 @@ namespace Unicorn.Tests.Unit.Shapes
             double testParam4 = _rnd.NextDouble() * 100;
             double testParam5 = _rnd.NextDouble() * 100;
 
-            HorizontalArrow testObject = new HorizontalArrow(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
+            HorizontalArrow testObject = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5);
 
             Assert.AreEqual(testParam5, testObject.HeadRake);
         }
@@ -281,7 +283,7 @@ namespace Unicorn.Tests.Unit.Shapes
         [TestMethod]
         public void HorizontalArrowClass_DrawAtMethod_CallsDrawFilledPolygonMethodOfFirstParameter()
         {
-            Mock<IGraphicsContext> mockGraphicsContext = new Mock<IGraphicsContext>();
+            Mock<IGraphicsContext> mockGraphicsContext = new();
             double testParam1 = _rnd.NextDouble() * 100;
             double testParam2 = _rnd.NextDouble() * 100;
             HorizontalArrow testObject = GetArrow();
@@ -295,7 +297,7 @@ namespace Unicorn.Tests.Unit.Shapes
         public void HorizontalArrowClass_DrawAtMethod_CallsDrawFilledPolygonMethodOfFirstParameterWithNonNullParameter()
         {
             List<UniPoint> capturedPointList = null;
-            Mock<IGraphicsContext> mockGraphicsContext = new Mock<IGraphicsContext>();
+            Mock<IGraphicsContext> mockGraphicsContext = new();
             mockGraphicsContext.Setup(c => c.DrawFilledPolygon(It.IsAny<IEnumerable<UniPoint>>())).Callback<IEnumerable<UniPoint>>(e => { capturedPointList = e.ToList(); });
             double testParam1 = _rnd.NextDouble() * 100;
             double testParam2 = _rnd.NextDouble() * 100;
@@ -315,7 +317,7 @@ namespace Unicorn.Tests.Unit.Shapes
         public void HorizontalArrowClass_DrawAtMethod_CallsDrawFilledPolygonMethodWithNoPointsWithALowerXCoordinateThanTheSecondParameterToTheOriginalMethod()
         {
             List<UniPoint> capturedPointList = null;
-            Mock<IGraphicsContext> mockGraphicsContext = new Mock<IGraphicsContext>();
+            Mock<IGraphicsContext> mockGraphicsContext = new();
             mockGraphicsContext.Setup(c => c.DrawFilledPolygon(It.IsAny<IEnumerable<UniPoint>>())).Callback<IEnumerable<UniPoint>>(e => { capturedPointList = e.ToList(); });
             double testParam1 = _rnd.NextDouble() * 100;
             double testParam2 = _rnd.NextDouble() * 100;
@@ -333,7 +335,7 @@ namespace Unicorn.Tests.Unit.Shapes
         public void HorizontalArrowClass_DrawAtMethod_CallsDrawFilledPolygonMethodWithNoPointsWithALowerYCoordinateThanTheThirdParameterToTheOriginalMethod()
         {
             List<UniPoint> capturedPointList = null;
-            Mock<IGraphicsContext> mockGraphicsContext = new Mock<IGraphicsContext>();
+            Mock<IGraphicsContext> mockGraphicsContext = new();
             mockGraphicsContext.Setup(c => c.DrawFilledPolygon(It.IsAny<IEnumerable<UniPoint>>())).Callback<IEnumerable<UniPoint>>(e => { capturedPointList = e.ToList(); });
             double testParam1 = _rnd.NextDouble() * 100;
             double testParam2 = _rnd.NextDouble() * 100;
@@ -351,7 +353,7 @@ namespace Unicorn.Tests.Unit.Shapes
         public void HorizontalArrowClass_DrawAtMethod_CallsDrawFilledPolygonMethodWithNoPointsWithAGreaterXCoordinateThanTheSecondParameterToTheOriginalMethodPlusTheArrowWidthProperty()
         {
             List<UniPoint> capturedPointList = null;
-            Mock<IGraphicsContext> mockGraphicsContext = new Mock<IGraphicsContext>();
+            Mock<IGraphicsContext> mockGraphicsContext = new();
             mockGraphicsContext.Setup(c => c.DrawFilledPolygon(It.IsAny<IEnumerable<UniPoint>>())).Callback<IEnumerable<UniPoint>>(e => { capturedPointList = e.ToList(); });
             double testParam1 = _rnd.NextDouble() * 100;
             double testParam2 = _rnd.NextDouble() * 100;
@@ -369,7 +371,7 @@ namespace Unicorn.Tests.Unit.Shapes
         public void HorizontalArrowClass_DrawAtMethod_CallsDrawFilledPolygonMethodWithNoPointsWithAGreaterYCoordinateThanTheThirdParameterToTheOriginalMethodPlusTheArrowHeightProperty()
         {
             List<UniPoint> capturedPointList = null;
-            Mock<IGraphicsContext> mockGraphicsContext = new Mock<IGraphicsContext>();
+            Mock<IGraphicsContext> mockGraphicsContext = new();
             mockGraphicsContext.Setup(c => c.DrawFilledPolygon(It.IsAny<IEnumerable<UniPoint>>())).Callback<IEnumerable<UniPoint>>(e => { capturedPointList = e.ToList(); });
             double testParam1 = _rnd.NextDouble() * 100;
             double testParam2 = _rnd.NextDouble() * 100;
@@ -384,6 +386,7 @@ namespace Unicorn.Tests.Unit.Shapes
         }
 
 #pragma warning restore CA1707 // Identifiers should not contain underscores
+#pragma warning restore CA5394 // Do not use insecure randomness
 
     }
 }

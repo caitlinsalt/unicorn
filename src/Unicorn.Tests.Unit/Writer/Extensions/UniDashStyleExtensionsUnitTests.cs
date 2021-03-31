@@ -2,7 +2,7 @@
 using System;
 using Tests.Utility.Providers;
 using Unicorn.Base;
-using Unicorn.Base.Tests.Utility.Extensions;
+using Unicorn.Base.Tests.Utility;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;

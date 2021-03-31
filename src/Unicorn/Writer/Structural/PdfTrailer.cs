@@ -70,9 +70,11 @@ namespace Unicorn.Writer.Structural
 
         private PdfDictionary GetDictionary()
         {
-            PdfDictionary dict = new PdfDictionary();
-            dict.Add(CommonPdfNames.Size, new PdfInteger(_xrefs.Count));
-            dict.Add(CommonPdfNames.Root, _root.GetReference());
+            PdfDictionary dict = new PdfDictionary
+            {
+                { CommonPdfNames.Size, new PdfInteger(_xrefs.Count) },
+                { CommonPdfNames.Root, _root.GetReference() }
+            };
             return dict;
         }
 

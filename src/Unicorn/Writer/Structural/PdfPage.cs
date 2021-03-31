@@ -52,7 +52,7 @@ namespace Unicorn.Writer.Structural
         public double RightMarginPosition { get; private set; }
 
         /// <summary>
-        /// The width of the usable area of the page - in other words, the distane in points between the left margin and right margin.
+        /// The width of the usable area of the page - in other words, the distance in points between the left margin and right margin.
         /// </summary>
         public double PageAvailableWidth { get; private set; }
 

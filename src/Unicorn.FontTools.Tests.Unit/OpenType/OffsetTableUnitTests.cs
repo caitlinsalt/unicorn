@@ -22,7 +22,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             ushort testParam3 = _rnd.NextUShort();
             ushort testParam4 = _rnd.NextUShort();
 
-            OffsetTable testOutput = new OffsetTable(testParam0, testParam1, testParam2, testParam3, testParam4);
+            OffsetTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4);
 
             Assert.AreEqual(testParam0, testOutput.FontKind);
         }
@@ -36,7 +36,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             ushort testParam3 = _rnd.NextUShort();
             ushort testParam4 = _rnd.NextUShort();
 
-            OffsetTable testOutput = new OffsetTable(testParam0, testParam1, testParam2, testParam3, testParam4);
+            OffsetTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4);
 
             Assert.AreEqual(testParam1, testOutput.TableCount);
         }
@@ -50,7 +50,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             ushort testParam3 = _rnd.NextUShort();
             ushort testParam4 = _rnd.NextUShort();
 
-            OffsetTable testOutput = new OffsetTable(testParam0, testParam1, testParam2, testParam3, testParam4);
+            OffsetTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4);
 
             Assert.AreEqual(testParam2, testOutput.SearchRange);
         }
@@ -64,7 +64,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             ushort testParam3 = _rnd.NextUShort();
             ushort testParam4 = _rnd.NextUShort();
 
-            OffsetTable testOutput = new OffsetTable(testParam0, testParam1, testParam2, testParam3, testParam4);
+            OffsetTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4);
 
             Assert.AreEqual(testParam3, testOutput.EntrySelector);
         }
@@ -78,7 +78,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             ushort testParam3 = _rnd.NextUShort();
             ushort testParam4 = _rnd.NextUShort();
 
-            OffsetTable testOutput = new OffsetTable(testParam0, testParam1, testParam2, testParam3, testParam4);
+            OffsetTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4);
 
             Assert.AreEqual(testParam4, testOutput.RangeShift);
         }

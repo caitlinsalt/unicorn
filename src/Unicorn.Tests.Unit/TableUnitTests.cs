@@ -31,7 +31,7 @@ namespace Unicorn.Tests.Unit
         {
             int columns = _rnd.Next(1, 6);
             int rows = _rnd.Next(1, 10);
-            TableDefinition def = new TableDefinition();
+            TableDefinition def = new();
             def.Table.RuleStyle = _rnd.NextTableRuleStyle();
             for (int i = 0; i < columns; ++i)
             {
@@ -40,10 +40,10 @@ namespace Unicorn.Tests.Unit
             for (int y = 0; y < rows; ++y)
             {
                 def.RowHeights.Add((_rnd.NextDouble() + 0.001) * 10);
-                List<TableCell> currentRow = new List<TableCell>();
+                List<TableCell> currentRow = new();
                 for (int x = 0; x < columns; ++x)
                 {
-                    FixedSizeTableCell cell = new FixedSizeTableCell(def.ColumnWidths[x], def.RowHeights[y])
+                    FixedSizeTableCell cell = new(def.ColumnWidths[x], def.RowHeights[y])
                     {
                         ColumnIndex = x,
                         RowIndex = y,
@@ -62,7 +62,7 @@ namespace Unicorn.Tests.Unit
         [ExpectedException(typeof(ArgumentNullException))]
         public void TableClass_AddRowMethodWithTableRowParameter_ThrowsArgumentNullException_IfParameterIsNull()
         {
-            Table testObject = new Table();
+            Table testObject = new();
             TableRow testParam = null;
 
             testObject.AddRow(testParam);
@@ -73,7 +73,7 @@ namespace Unicorn.Tests.Unit
         [TestMethod]
         public void TableClass_AddRowMethodWithTableRowParameter_ThrowsArgumentNullExceptionWithCorrectParamNameProperty_IfParameterIsNull()
         {
-            Table testObject = new Table();
+            Table testObject = new();
             TableRow testParam = null;
 
             try
@@ -91,7 +91,7 @@ namespace Unicorn.Tests.Unit
         public void TableClass_AddRowMethodWithTableRowParameter_SetsParentPropertyOfParameterToThis_IfParameterIsNotNull()
         {
             TableDefinition testObjectDef = GetTestObject();
-            TableRow testParam = new TableRow { Parent = null }; 
+            TableRow testParam = new() { Parent = null }; 
             testParam.AddRange(FixedSizeTableCell.GetCellList(testObjectDef.ColumnWidths.Count));
 
             testObjectDef.Table.AddRow(testParam);
@@ -105,7 +105,7 @@ namespace Unicorn.Tests.Unit
         [ExpectedException(typeof(ArgumentNullException))]
         public void TableClass_AddColumnMethodWithTableColumnParameter_ThrowsArgumentNullException_IfParameterIsNull()
         {
-            Table testObject = new Table();
+            Table testObject = new();
             TableColumn testParam = null;
 
             testObject.AddColumn(testParam);
@@ -116,7 +116,7 @@ namespace Unicorn.Tests.Unit
         [TestMethod]
         public void TableClass_AddColumnMethodWithTableColumnParameter_ThrowsArgumentNullExceptionWithCorrectParamNameProperty_IfParameterIsNull()
         {
-            Table testObject = new Table();
+            Table testObject = new();
             TableColumn testParam = null;
 
             try
@@ -134,7 +134,7 @@ namespace Unicorn.Tests.Unit
         public void TableClass_AddColumnMethodWithTableColumnParameter_SetsParentPropertyOfParameterToThis_IfParameterIsNotNull()
         {
             TableDefinition testObjectDef = GetTestObject();
-            TableColumn testParam = new TableColumn { Parent = null };
+            TableColumn testParam = new() { Parent = null };
             testParam.AddRange(FixedSizeTableCell.GetCellList(testObjectDef.RowHeights.Count));
 
             testObjectDef.Table.AddColumn(testParam);
@@ -146,7 +146,7 @@ namespace Unicorn.Tests.Unit
         [ExpectedException(typeof(ArgumentNullException))]
         public void TableClass_DrawAtMethod_ThrowsArgumentNullException_IfFirstParameterIsNull()
         {
-            Table testObject = new Table();
+            Table testObject = new();
 
             testObject.DrawAt(null, _rnd.NextDouble() * 1000, _rnd.NextDouble() * 1000);
 
@@ -156,7 +156,7 @@ namespace Unicorn.Tests.Unit
         [TestMethod]
         public void TableClass_DrawAtMethod_ThrowsArgumentNullExceptionWithCorrectParamNameProperty_IfFirstParameterIsNull()
         {
-            Table testObject = new Table();
+            Table testObject = new();
 
             try
             {
@@ -174,7 +174,7 @@ namespace Unicorn.Tests.Unit
         {
             TableDefinition testObjectDef = GetTestObject();
             Table testObject = testObjectDef.Table;
-            Mock<IGraphicsContext> testParam0Details = new Mock<IGraphicsContext>();
+            Mock<IGraphicsContext> testParam0Details = new();
             double testParam1 = _rnd.NextDouble() * 100;
             double testParam2 = _rnd.NextDouble() * 100;
 
@@ -191,7 +191,7 @@ namespace Unicorn.Tests.Unit
         {
             TableDefinition testObjectDef = GetTestObject();
             Table testObject = testObjectDef.Table;
-            Mock<IGraphicsContext> testParam0Details = new Mock<IGraphicsContext>();
+            Mock<IGraphicsContext> testParam0Details = new();
             double testParam1 = _rnd.NextDouble() * 100;
             double testParam2 = _rnd.NextDouble() * 100;
 
@@ -208,7 +208,7 @@ namespace Unicorn.Tests.Unit
         {
             TableDefinition testObjectDef = GetTestObject();
             Table testObject = testObjectDef.Table;
-            Mock<IGraphicsContext> testParam0Details = new Mock<IGraphicsContext>();
+            Mock<IGraphicsContext> testParam0Details = new();
             double testParam1 = _rnd.NextDouble() * 100;
             double testParam2 = _rnd.NextDouble() * 100;
 
@@ -226,7 +226,7 @@ namespace Unicorn.Tests.Unit
         {
             TableDefinition testObjectDef = GetTestObject();
             Table testObject = testObjectDef.Table;
-            Mock<IGraphicsContext> testParam0Details = new Mock<IGraphicsContext>();
+            Mock<IGraphicsContext> testParam0Details = new();
             double testParam1 = _rnd.NextDouble() * 100;
             double testParam2 = _rnd.NextDouble() * 100;
 
@@ -245,7 +245,7 @@ namespace Unicorn.Tests.Unit
             TableDefinition testObjectDetails = GetTestObject();
             Table testObject = testObjectDetails.Table;
             testObject.RuleStyle = TableRuleStyle.None;
-            Mock<IGraphicsContext> testParam0Details = new Mock<IGraphicsContext>();
+            Mock<IGraphicsContext> testParam0Details = new();
             double testParam1 = _rnd.NextDouble() * 100;
             double testParam2 = _rnd.NextDouble() * 100;
 
@@ -261,7 +261,7 @@ namespace Unicorn.Tests.Unit
             TableDefinition testObjectDetails = GetTestObject();
             Table testObject = testObjectDetails.Table;
             testObject.RuleStyle = TableRuleStyle.LinesMeet;
-            Mock<IGraphicsContext> testParam0Details = new Mock<IGraphicsContext>();
+            Mock<IGraphicsContext> testParam0Details = new();
             double testParam1 = _rnd.NextDouble() * 100;
             double testParam2 = _rnd.NextDouble() * 100;
 
@@ -277,7 +277,7 @@ namespace Unicorn.Tests.Unit
             TableDefinition testObjectDetails = GetTestObject();
             Table testObject = testObjectDetails.Table;
             testObject.RuleStyle = TableRuleStyle.SolidColumnsBrokenRows;
-            Mock<IGraphicsContext> testParam0Details = new Mock<IGraphicsContext>();
+            Mock<IGraphicsContext> testParam0Details = new();
             double testParam1 = _rnd.NextDouble() * 100;
             double testParam2 = _rnd.NextDouble() * 100;
 
@@ -293,7 +293,7 @@ namespace Unicorn.Tests.Unit
             TableDefinition testObjectDetails = GetTestObject();
             Table testObject = testObjectDetails.Table;
             testObject.RuleStyle = TableRuleStyle.SolidRowsBrokenColumns;
-            Mock<IGraphicsContext> testParam0Details = new Mock<IGraphicsContext>();
+            Mock<IGraphicsContext> testParam0Details = new();
             double testParam1 = _rnd.NextDouble() * 100;
             double testParam2 = _rnd.NextDouble() * 100;
 

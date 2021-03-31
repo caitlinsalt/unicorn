@@ -77,10 +77,10 @@ namespace Unicorn.Writer.Primitives
         /// Equality test method.
         /// </summary>
         /// <param name="other">Another <see cref="PdfNull" /> instance.</param>
-        /// <returns>Returns true.</returns>
+        /// <returns>Returns true unless the parameter is <c>null</c>.</returns>
         public bool Equals(PdfNull other)
         {
-            return !ReferenceEquals(other, null);
+            return other is object;
         }
 
         /// <summary>

@@ -9,8 +9,7 @@
         /// Default constructor.
         /// </summary>
         public MarginSet()
-        {
-        }
+        { }
 
         /// <summary>
         /// Constructor with initial property values.

@@ -27,14 +27,14 @@ namespace Unicorn.Tests.Unit.Writer.Utility
         [ExpectedException(typeof(ArgumentNullException))]
         public void EnumerableStreamClass_Constructor_ThrowsArgumentNullException_IfParameterIsNull()
         {
-            using EnumerableStream testobject = new EnumerableStream(null);
+            using EnumerableStream testobject = new(null);
             Assert.Fail();
         }
 
         [TestMethod]
         public void EnumerableStreamClass_CanReadProperty_EqualsTrue()
         {
-            using EnumerableStream testObject = new EnumerableStream(GetTestData());
+            using EnumerableStream testObject = new(GetTestData());
 
             bool testOutput = testObject.CanRead;
 
@@ -44,7 +44,7 @@ namespace Unicorn.Tests.Unit.Writer.Utility
         [TestMethod]
         public void EnumerableStreamClass_CanSeekProperty_EqualsFalse()
         {
-            using EnumerableStream testObject = new EnumerableStream(GetTestData());
+            using EnumerableStream testObject = new(GetTestData());
 
             bool testOutput = testObject.CanSeek;
 
@@ -54,7 +54,7 @@ namespace Unicorn.Tests.Unit.Writer.Utility
         [TestMethod]
         public void EnumerableStreamClass_CanWriteProperty_EqualsFalse()
         {
-            using EnumerableStream testObject = new EnumerableStream(GetTestData());
+            using EnumerableStream testObject = new(GetTestData());
 
             bool testOutput = testObject.CanWrite;
 
@@ -64,7 +64,7 @@ namespace Unicorn.Tests.Unit.Writer.Utility
         [TestMethod]
         public void EnumerableStreamClass_LengthProperty_EqualsZero()
         {
-            using EnumerableStream testObject = new EnumerableStream(GetTestData());
+            using EnumerableStream testObject = new(GetTestData());
 
             long testOutput = testObject.Length;
 
@@ -75,7 +75,7 @@ namespace Unicorn.Tests.Unit.Writer.Utility
         [ExpectedException(typeof(InvalidOperationException))]
         public void EnumerableStreamClass_FlushMethod_ThrowsInvalidOperationException()
         {
-            using EnumerableStream testObject = new EnumerableStream(GetTestData());
+            using EnumerableStream testObject = new(GetTestData());
 
             testObject.Flush();
 
@@ -86,7 +86,7 @@ namespace Unicorn.Tests.Unit.Writer.Utility
         [ExpectedException(typeof(InvalidOperationException))]
         public void EnumerableStreamClass_SeekMethod_ThrowsInvalidOperationException()
         {
-            using EnumerableStream testObject = new EnumerableStream(GetTestData());
+            using EnumerableStream testObject = new(GetTestData());
             long testParam0 = _rnd.NextLong();
             SeekOrigin testParam1 = (SeekOrigin)_rnd.Next(3);
 
@@ -99,7 +99,7 @@ namespace Unicorn.Tests.Unit.Writer.Utility
         [ExpectedException(typeof(InvalidOperationException))]
         public void EnumerableStreamClass_SetLengthMethod_ThrowsInvalidOperationException()
         {
-            using EnumerableStream testObject = new EnumerableStream(GetTestData());
+            using EnumerableStream testObject = new(GetTestData());
             long testParam0 = _rnd.NextLong();
 
             testObject.SetLength(testParam0);
@@ -111,7 +111,7 @@ namespace Unicorn.Tests.Unit.Writer.Utility
         [ExpectedException(typeof(InvalidOperationException))]
         public void EnumerableStreamClass_WriteMethod_ThrowsInvalidOperationException()
         {
-            using EnumerableStream testObject = new EnumerableStream(GetTestData());
+            using EnumerableStream testObject = new(GetTestData());
             byte[] testParam0 = new byte[_rnd.Next(1, 1024)];
             _rnd.NextBytes(testParam0);
             int testParam1 = _rnd.Next(testParam0.Length);
@@ -133,7 +133,7 @@ namespace Unicorn.Tests.Unit.Writer.Utility
             byte[] testParam0 = new byte[_rnd.Next(1, sourceData.Length)];
             int testParam1 = _rnd.Next(testParam0.Length);
             int testParam2 = _rnd.Next(testParam0.Length - testParam1);
-            using EnumerableStream testObject = new EnumerableStream(sourceData);
+            using EnumerableStream testObject = new(sourceData);
 
             int testOutput = testObject.Read(testParam0, testParam1, testParam2);
 
@@ -155,7 +155,7 @@ namespace Unicorn.Tests.Unit.Writer.Utility
             byte[] testParam0 = new byte[_rnd.Next(1, sourceData.Length / 2)];
             int testParam1 = _rnd.Next(testParam0.Length);
             int testParam2 = _rnd.Next(testParam0.Length - testParam1);
-            using EnumerableStream testObject = new EnumerableStream(sourceData);
+            using EnumerableStream testObject = new(sourceData);
 
             testObject.Read(testParam0, testParam1, testParam2);
             int testOutput = testObject.Read(testParam0, testParam1, testParam2);
@@ -174,7 +174,7 @@ namespace Unicorn.Tests.Unit.Writer.Utility
             byte[] testParam0 = new byte[_rnd.Next(sourceData.Length, sourceData.Length + 1024)];
             int testParam1 = _rnd.Next(testParam0.Length - sourceData.Length);
             int testParam2 = _rnd.Next(sourceData.Length, testParam0.Length - testParam1);
-            using EnumerableStream testObject = new EnumerableStream(sourceData);
+            using EnumerableStream testObject = new(sourceData);
 
             int testOutput = testObject.Read(testParam0, testParam1, testParam2);
 

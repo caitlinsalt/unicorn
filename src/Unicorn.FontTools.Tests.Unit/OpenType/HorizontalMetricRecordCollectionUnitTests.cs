@@ -30,7 +30,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void HorizontalMetricRecordCollectionClass_Constructor_ReturnsObjectWithCountPropertyEqualToZero_IfParameterIsNull()
         {
-            HorizontalMetricRecordCollection testObject = new HorizontalMetricRecordCollection(null);
+            HorizontalMetricRecordCollection testObject = new(null);
 
             Assert.AreEqual(0, testObject.Count);
         }
@@ -40,7 +40,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             IEnumerable<HorizontalMetricRecord> testParam = Array.Empty<HorizontalMetricRecord>();
 
-            HorizontalMetricRecordCollection testObject = new HorizontalMetricRecordCollection(testParam);
+            HorizontalMetricRecordCollection testObject = new(testParam);
 
             Assert.AreEqual(0, testObject.Count);
         }
@@ -50,7 +50,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             HorizontalMetricRecord[] testParam = GetTestData();
 
-            HorizontalMetricRecordCollection testOutput = new HorizontalMetricRecordCollection(testParam);
+            HorizontalMetricRecordCollection testOutput = new(testParam);
 
             Assert.AreEqual(testParam.Length, testOutput.Count);
         }
@@ -59,7 +59,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void HorizontalMetricRecordCollectionClass_Indexer_ReturnsCorrectItems()
         {
             HorizontalMetricRecord[] testParam = GetTestData();
-            HorizontalMetricRecordCollection testObject = new HorizontalMetricRecordCollection(testParam);
+            HorizontalMetricRecordCollection testObject = new(testParam);
 
             for (int i = 0; i < testObject.Count; ++i)
             {
@@ -71,7 +71,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void HorizontalMetricRecordCollectionClass_Enumerator_ReturnsItemsInCorrectOrder()
         {
             HorizontalMetricRecord[] testParam = GetTestData();
-            HorizontalMetricRecordCollection testObject = new HorizontalMetricRecordCollection(testParam);
+            HorizontalMetricRecordCollection testObject = new(testParam);
             int idx = 0;
 
             IEnumerator<HorizontalMetricRecord> testEnumerator = testObject.GetEnumerator();

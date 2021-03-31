@@ -11,16 +11,14 @@ namespace Unicorn.FontTools.Afm
         /// Parameterless constructor.
         /// </summary>
         public AfmFormatException()
-        {
-        }
+        { }
 
         /// <summary>
         /// Constructor with error message.
         /// </summary>
         /// <param name="message">The error message.</param>
         public AfmFormatException(string message) : base(message)
-        {
-        }
+        { }
 
         /// <summary>
         /// Constructor with error message and inner exception.
@@ -28,7 +26,6 @@ namespace Unicorn.FontTools.Afm
         /// <param name="message">The error message.</param>
         /// <param name="innerException">The exception which caused this one to be thrown.</param>
         public AfmFormatException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
+        { }
     }
 }

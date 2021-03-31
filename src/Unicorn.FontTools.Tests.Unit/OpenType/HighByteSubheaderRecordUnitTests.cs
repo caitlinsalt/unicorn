@@ -27,7 +27,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void HighByteSubheaderRecordStruct_ParameterlessConstructor_SetsFirstBytePropertyToZero()
         {
-            HighByteSubheaderRecord testOutput = new HighByteSubheaderRecord();
+            HighByteSubheaderRecord testOutput = new();
 
             Assert.AreEqual((byte)0, testOutput.FirstByte);
         }
@@ -35,7 +35,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void HighByteSubheaderRecordStruct_ParameterlessConstructor_SetsLastBytePropertyToZero()
         {
-            HighByteSubheaderRecord testOutput = new HighByteSubheaderRecord();
+            HighByteSubheaderRecord testOutput = new();
 
             Assert.AreEqual((byte)0, testOutput.LastByte);
         }
@@ -43,7 +43,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void HighByteSubheaderRecordStruct_ParameterlessConstructor_SetsIdDeltaPropertyToZero()
         {
-            HighByteSubheaderRecord testOutput = new HighByteSubheaderRecord();
+            HighByteSubheaderRecord testOutput = new();
 
             Assert.AreEqual((short)0, testOutput.FirstByte);
         }
@@ -51,7 +51,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void HighByteSubheaderRecordStruct_ParameterlessConstructor_SetsStartIndexPropertyToZero()
         {
-            HighByteSubheaderRecord testOutput = new HighByteSubheaderRecord();
+            HighByteSubheaderRecord testOutput = new();
 
             Assert.AreEqual((ushort)0, testOutput.FirstByte);
         }
@@ -64,7 +64,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam2 = _rnd.NextShort();
             ushort testParam3 = _rnd.NextUShort();
 
-            HighByteSubheaderRecord testOutput = new HighByteSubheaderRecord(testParam0, testParam1, testParam2, testParam3);
+            HighByteSubheaderRecord testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(testParam0, testOutput.FirstByte);
         }
@@ -77,7 +77,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam2 = _rnd.NextShort();
             ushort testParam3 = _rnd.NextUShort();
 
-            HighByteSubheaderRecord testOutput = new HighByteSubheaderRecord(testParam0, testParam1, testParam2, testParam3);
+            HighByteSubheaderRecord testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(testParam1, testOutput.LastByte);
         }
@@ -90,7 +90,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam2 = _rnd.NextShort();
             ushort testParam3 = _rnd.NextUShort();
 
-            HighByteSubheaderRecord testOutput = new HighByteSubheaderRecord(testParam0, testParam1, testParam2, testParam3);
+            HighByteSubheaderRecord testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(testParam2, testOutput.IdDelta);
         }
@@ -103,7 +103,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam2 = _rnd.NextShort();
             ushort testParam3 = _rnd.NextUShort();
 
-            HighByteSubheaderRecord testOutput = new HighByteSubheaderRecord(testParam0, testParam1, testParam2, testParam3);
+            HighByteSubheaderRecord testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(testParam3, testOutput.StartIndex);
         }
@@ -262,7 +262,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void HighByteSubheaderRecordStruct_EqualsMethodWithHighByteSubheaderRecordParameter_ReturnsTrue_IfParameterIsConstructedFromSameData()
         {
             HighByteSubheaderRecord testValue = GetTestValue();
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(testValue.FirstByte, testValue.LastByte, testValue.IdDelta, testValue.StartIndex);
+            HighByteSubheaderRecord testParam = new(testValue.FirstByte, testValue.LastByte, testValue.IdDelta, testValue.StartIndex);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -278,7 +278,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testValue.FirstByte);
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(constrParam, testValue.LastByte, testValue.IdDelta, testValue.StartIndex);
+            HighByteSubheaderRecord testParam = new(constrParam, testValue.LastByte, testValue.IdDelta, testValue.StartIndex);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -294,7 +294,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testValue.LastByte);
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(testValue.FirstByte, constrParam, testValue.IdDelta, testValue.StartIndex);
+            HighByteSubheaderRecord testParam = new(testValue.FirstByte, constrParam, testValue.IdDelta, testValue.StartIndex);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -310,7 +310,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextShort();
             } while (constrParam == testValue.IdDelta);
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(testValue.FirstByte, testValue.LastByte, constrParam, testValue.StartIndex);
+            HighByteSubheaderRecord testParam = new(testValue.FirstByte, testValue.LastByte, constrParam, testValue.StartIndex);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -326,7 +326,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUShort();
             } while (constrParam == testValue.StartIndex);
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(testValue.FirstByte, testValue.LastByte, testValue.IdDelta, constrParam);
+            HighByteSubheaderRecord testParam = new(testValue.FirstByte, testValue.LastByte, testValue.IdDelta, constrParam);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -347,7 +347,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void HighByteSubheaderRecordStruct_EqualsMethodWithObjectParameter_ReturnsTrue_IfParameterIsConstructedFromSameData()
         {
             HighByteSubheaderRecord testValue = GetTestValue();
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(testValue.FirstByte, testValue.LastByte, testValue.IdDelta, testValue.StartIndex);
+            HighByteSubheaderRecord testParam = new(testValue.FirstByte, testValue.LastByte, testValue.IdDelta, testValue.StartIndex);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -363,7 +363,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testValue.FirstByte);
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(constrParam, testValue.LastByte, testValue.IdDelta, testValue.StartIndex);
+            HighByteSubheaderRecord testParam = new(constrParam, testValue.LastByte, testValue.IdDelta, testValue.StartIndex);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -379,7 +379,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testValue.LastByte);
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(testValue.FirstByte, constrParam, testValue.IdDelta, testValue.StartIndex);
+            HighByteSubheaderRecord testParam = new(testValue.FirstByte, constrParam, testValue.IdDelta, testValue.StartIndex);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -395,7 +395,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextShort();
             } while (constrParam == testValue.IdDelta);
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(testValue.FirstByte, testValue.LastByte, constrParam, testValue.StartIndex);
+            HighByteSubheaderRecord testParam = new(testValue.FirstByte, testValue.LastByte, constrParam, testValue.StartIndex);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -411,7 +411,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUShort();
             } while (constrParam == testValue.StartIndex);
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(testValue.FirstByte, testValue.LastByte, testValue.IdDelta, constrParam);
+            HighByteSubheaderRecord testParam = new(testValue.FirstByte, testValue.LastByte, testValue.IdDelta, constrParam);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -433,7 +433,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void HighByteSubheaderRecordStruct_GetHashCodeMethod_ReturnsSameValue_IfCalledTwiceOnSameValue()
         {
             HighByteSubheaderRecord testValue0 = GetTestValue();
-            HighByteSubheaderRecord testValue1 = new HighByteSubheaderRecord(testValue0.FirstByte, testValue0.LastByte, testValue0.IdDelta, testValue0.StartIndex);
+            HighByteSubheaderRecord testValue1 = new(testValue0.FirstByte, testValue0.LastByte, testValue0.IdDelta, testValue0.StartIndex);
 
             int testOutput0 = testValue0.GetHashCode();
             int testOutput1 = testValue1.GetHashCode();
@@ -457,7 +457,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void HighByteSubheaderRecordStruct_EqualityOperator_ReturnsTrue_IfOperandsAreConstructedFromSameData()
         {
             HighByteSubheaderRecord testValue = GetTestValue();
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(testValue.FirstByte, testValue.LastByte, testValue.IdDelta, testValue.StartIndex);
+            HighByteSubheaderRecord testParam = new(testValue.FirstByte, testValue.LastByte, testValue.IdDelta, testValue.StartIndex);
 
             bool testOutput = testValue == testParam;
 
@@ -473,7 +473,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testValue.FirstByte);
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(constrParam, testValue.LastByte, testValue.IdDelta, testValue.StartIndex);
+            HighByteSubheaderRecord testParam = new(constrParam, testValue.LastByte, testValue.IdDelta, testValue.StartIndex);
 
             bool testOutput = testValue == testParam;
 
@@ -489,7 +489,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testValue.LastByte);
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(testValue.FirstByte, constrParam, testValue.IdDelta, testValue.StartIndex);
+            HighByteSubheaderRecord testParam = new(testValue.FirstByte, constrParam, testValue.IdDelta, testValue.StartIndex);
 
             bool testOutput = testValue == testParam;
 
@@ -505,7 +505,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextShort();
             } while (constrParam == testValue.IdDelta);
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(testValue.FirstByte, testValue.LastByte, constrParam, testValue.StartIndex);
+            HighByteSubheaderRecord testParam = new(testValue.FirstByte, testValue.LastByte, constrParam, testValue.StartIndex);
 
             bool testOutput = testValue == testParam;
 
@@ -521,7 +521,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUShort();
             } while (constrParam == testValue.StartIndex);
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(testValue.FirstByte, testValue.LastByte, testValue.IdDelta, constrParam);
+            HighByteSubheaderRecord testParam = new(testValue.FirstByte, testValue.LastByte, testValue.IdDelta, constrParam);
 
             bool testOutput = testValue == testParam;
 
@@ -544,7 +544,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void HighByteSubheaderRecordStruct_InequalityOperator_ReturnsFalse_IfOperandsAreConstructedFromSameData()
         {
             HighByteSubheaderRecord testValue = GetTestValue();
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(testValue.FirstByte, testValue.LastByte, testValue.IdDelta, testValue.StartIndex);
+            HighByteSubheaderRecord testParam = new(testValue.FirstByte, testValue.LastByte, testValue.IdDelta, testValue.StartIndex);
 
             bool testOutput = testValue != testParam;
 
@@ -560,7 +560,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testValue.FirstByte);
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(constrParam, testValue.LastByte, testValue.IdDelta, testValue.StartIndex);
+            HighByteSubheaderRecord testParam = new(constrParam, testValue.LastByte, testValue.IdDelta, testValue.StartIndex);
 
             bool testOutput = testValue != testParam;
 
@@ -576,7 +576,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testValue.LastByte);
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(testValue.FirstByte, constrParam, testValue.IdDelta, testValue.StartIndex);
+            HighByteSubheaderRecord testParam = new(testValue.FirstByte, constrParam, testValue.IdDelta, testValue.StartIndex);
 
             bool testOutput = testValue != testParam;
 
@@ -592,7 +592,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextShort();
             } while (constrParam == testValue.IdDelta);
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(testValue.FirstByte, testValue.LastByte, constrParam, testValue.StartIndex);
+            HighByteSubheaderRecord testParam = new(testValue.FirstByte, testValue.LastByte, constrParam, testValue.StartIndex);
 
             bool testOutput = testValue != testParam;
 
@@ -608,7 +608,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUShort();
             } while (constrParam == testValue.StartIndex);
-            HighByteSubheaderRecord testParam = new HighByteSubheaderRecord(testValue.FirstByte, testValue.LastByte, testValue.IdDelta, constrParam);
+            HighByteSubheaderRecord testParam = new(testValue.FirstByte, testValue.LastByte, testValue.IdDelta, constrParam);
 
             bool testOutput = testValue != testParam;
 

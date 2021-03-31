@@ -14,10 +14,7 @@ namespace Unicorn.Tests.Unit.Writer.Extensions
 
 #pragma warning disable CA5394 // Do not use insecure randomness
 
-        private static UniSize GetUniSize()
-        {
-            return new UniSize(_rnd.NextDouble() * 1000, _rnd.NextDouble() * 1000);
-        }
+        private static UniSize GetUniSize() => new(_rnd.NextDouble() * 1000, _rnd.NextDouble() * 1000);
 
 #pragma warning restore CA5394 // Do not use insecure randomness
 

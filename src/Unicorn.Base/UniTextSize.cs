@@ -88,14 +88,7 @@ namespace Unicorn.Base
         /// </summary>
         /// <param name="obj">Another value or object.</param>
         /// <returns><c>true</c> if the paramter is a <see cref="UniTextSize" /> value that is equal to this one; <c>false</c> otherwise.</returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is UniTextSize other)
-            {
-                return Equals(other);
-            }
-            return false;
-        }
+        public override bool Equals(object obj) => (obj is UniTextSize other) && Equals(other);
 
         /// <summary>
         /// Hash code method.

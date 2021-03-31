@@ -2,7 +2,7 @@
 using System;
 using Tests.Utility.Providers;
 using Unicorn.Base;
-using Unicorn.Base.Tests.Utility.Extensions;
+using Unicorn.Base.Tests.Utility;
 using Unicorn.Writer.Structural;
 
 namespace Unicorn.Tests.Unit.Writer.Structural
@@ -21,7 +21,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
             double testParam0 = _rnd.NextDouble() * 5;
             UniDashStyle testParam1 = _rnd.NextUniDashStyle();
 
-            GraphicsState testOutput = new GraphicsState(testParam0, testParam1);
+            GraphicsState testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0, testOutput.LineWidth);
         }
@@ -32,7 +32,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
             double testParam0 = _rnd.NextDouble() * 5;
             UniDashStyle testParam1 = _rnd.NextUniDashStyle();
 
-            GraphicsState testOutput = new GraphicsState(testParam0, testParam1);
+            GraphicsState testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam1, testOutput.DashStyle);
         }

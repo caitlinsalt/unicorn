@@ -32,18 +32,14 @@ namespace Unicorn
         /// Default constructor.
         /// </summary>
         public PositionedLine() : base()
-        {
-
-        }
+        { }
 
         /// <summary>
         /// Constructor which sets initial contents.
         /// </summary>
         /// <param name="words">The words which make up the content of the line.</param>
         public PositionedLine(IEnumerable<Word> words) : base(words)
-        {
-
-        }
+        { }
 
         /// <summary>
         /// Draw the line of words, assuming that the line's coordinates are relative to the given context.

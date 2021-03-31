@@ -30,7 +30,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void HighByteSubheaderRecordCollectionClass_Constructor_ReturnsObjectWithCountPropertyEqualToZero_IfParameterIsNull()
         {
-            HighByteSubheaderRecordCollection testObject = new HighByteSubheaderRecordCollection(null);
+            HighByteSubheaderRecordCollection testObject = new(null);
 
             Assert.AreEqual(0, testObject.Count);
         }
@@ -40,7 +40,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             IEnumerable<HighByteSubheaderRecord> testParam = Array.Empty<HighByteSubheaderRecord>();
 
-            HighByteSubheaderRecordCollection testObject = new HighByteSubheaderRecordCollection(testParam);
+            HighByteSubheaderRecordCollection testObject = new(testParam);
 
             Assert.AreEqual(0, testObject.Count);
         }
@@ -50,7 +50,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             HighByteSubheaderRecord[] testParam = GetTestData();
 
-            HighByteSubheaderRecordCollection testOutput = new HighByteSubheaderRecordCollection(testParam);
+            HighByteSubheaderRecordCollection testOutput = new(testParam);
 
             Assert.AreEqual(testParam.Length, testOutput.Count);
         }
@@ -59,7 +59,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void HighByteSubheaderRecordCollectionClass_Indexer_ReturnsCorrectItems()
         {
             HighByteSubheaderRecord[] testParam = GetTestData();
-            HighByteSubheaderRecordCollection testObject = new HighByteSubheaderRecordCollection(testParam);
+            HighByteSubheaderRecordCollection testObject = new(testParam);
 
             for (int i = 0; i < testObject.Count; ++i)
             {
@@ -71,7 +71,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void HighByteSubheaderRecordCollectionClass_Enumerator_ReturnsItemsInCorrectOrder()
         {
             HighByteSubheaderRecord[] testParam = GetTestData();
-            HighByteSubheaderRecordCollection testObject = new HighByteSubheaderRecordCollection(testParam);
+            HighByteSubheaderRecordCollection testObject = new(testParam);
             int idx = 0;
 
             IEnumerator<HighByteSubheaderRecord> testEnumerator = testObject.GetEnumerator();

@@ -55,7 +55,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfNullClass_WriteToMethodWithListParameter_WritesCorrectValueToParameterWhenParameterIsNotNull()
         {
             PdfNull testObject = PdfNull.Value;
-            List<byte> testParam = new List<byte>();
+            List<byte> testParam = new();
 
             testObject.WriteTo(testParam);
 
@@ -67,7 +67,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfNullClass_WriteToMethodWithListParameter_Returns5()
         {
             PdfNull testObject = PdfNull.Value;
-            List<byte> testParam = new List<byte>();
+            List<byte> testParam = new();
 
             int testOutput = testObject.WriteTo(testParam);
 
@@ -90,18 +90,18 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfNullClass_WriteToMethodWithStreamParameter_WritesCorrectValueToParameterWhenParameterIsNotNull()
         {
             PdfNull testObject = PdfNull.Value;
-            using MemoryStream testParam = new MemoryStream();
+            using MemoryStream testParam = new();
 
             testObject.WriteTo(testParam);
 
-            using MemoryStream expected = new MemoryStream(Encoding.ASCII.GetBytes("null "));
+            using MemoryStream expected = new(Encoding.ASCII.GetBytes("null "));
             AssertionHelpers.AssertSameElements(expected, testParam);
         }
 
         [TestMethod]
         public void PdfNullClass_WriteToMethodWithStreamParameter_Returns5()
         {
-            using MemoryStream testParam = new MemoryStream();
+            using MemoryStream testParam = new();
             PdfNull testObject = PdfNull.Value;
 
             int testOutput = testObject.WriteTo(testParam);
@@ -124,7 +124,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         [TestMethod]
         public void PdfNullClass_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToParameterWhenParameterIsNotNull()
         {
-            PdfStream testParam0 = new PdfStream(1);
+            PdfStream testParam0 = new(1);
             PdfNull testObject = PdfNull.Value;
 
             testObject.WriteTo(testParam0);
@@ -136,7 +136,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         [TestMethod]
         public void PdfNullClass_WriteToMethodWithPdfStreamParameter_Returns5()
         {
-            PdfStream testParam0 = new PdfStream(1);
+            PdfStream testParam0 = new(1);
             PdfNull testObject = PdfNull.Value;
 
             int testResult = testObject.WriteTo(testParam0);

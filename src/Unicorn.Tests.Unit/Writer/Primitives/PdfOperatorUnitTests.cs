@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using Tests.Utility.Providers;
 using Unicorn.Base;
-using Unicorn.Base.Tests.Utility.Extensions;
+using Unicorn.Base.Tests.Utility;
 using Unicorn.Tests.Unit.TestHelpers;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Primitives;
@@ -126,8 +126,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
             PdfNumber testParam1 = _rnd.NextPdfNumber();
             PdfNumber testParam2 = _rnd.NextPdfNumber();
             PdfNumber testParam3 = _rnd.NextPdfNumber();
-            List<byte> testParam4 = new List<byte>();
-            List<byte> expected = new List<byte>();
+            List<byte> testParam4 = new();
+            List<byte> expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             testParam2.WriteTo(expected);
@@ -163,8 +163,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
             PdfNumber testParam1 = _rnd.NextPdfNumber();
             PdfNumber testParam2 = _rnd.NextPdfNumber();
             PdfNumber testParam3 = _rnd.NextPdfNumber();
-            using MemoryStream testParam4 = new MemoryStream();
-            using MemoryStream expected = new MemoryStream();
+            using MemoryStream testParam4 = new();
+            using MemoryStream expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             testParam2.WriteTo(expected);
@@ -200,8 +200,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
             PdfNumber testParam1 = _rnd.NextPdfNumber();
             PdfNumber testParam2 = _rnd.NextPdfNumber();
             PdfNumber testParam3 = _rnd.NextPdfNumber();
-            PdfStream testParam4 = new PdfStream(_rnd.Next(1, int.MaxValue));
-            List<byte> expected = new List<byte>();
+            PdfStream testParam4 = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             testParam2.WriteTo(expected);
@@ -280,8 +280,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             PdfNumber testParam0 = _rnd.NextPdfNumber();
             PdfNumber testParam1 = _rnd.NextPdfNumber();
-            List<byte> testParam2 = new List<byte>();
-            List<byte> expected = new List<byte>();
+            List<byte> testParam2 = new();
+            List<byte> expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             expected.AddRange(new byte[] { 0x6c, 0x20 });
@@ -311,8 +311,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             PdfNumber testParam0 = _rnd.NextPdfNumber();
             PdfNumber testParam1 = _rnd.NextPdfNumber();
-            using MemoryStream testParam4 = new MemoryStream();
-            using MemoryStream expected = new MemoryStream();
+            using MemoryStream testParam4 = new();
+            using MemoryStream expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             expected.Write(new byte[] { 0x6c, 0x20 }, 0, 2);
@@ -342,8 +342,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             PdfNumber testParam0 = _rnd.NextPdfNumber();
             PdfNumber testParam1 = _rnd.NextPdfNumber();
-            PdfStream testParam2 = new PdfStream(_rnd.Next(1, int.MaxValue));
-            List<byte> expected = new List<byte>();
+            PdfStream testParam2 = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             expected.AddRange(new byte[] { 0x6c, 0x20 });
@@ -387,7 +387,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
             {
                 testParam0 = _rnd.NextPdfArray();
             } while (testParam0.Length == 0 || testParam0.All(e => e is PdfNumber));
-            PdfInteger testParam1 = new PdfInteger(_rnd.Next(testParam0.Length));
+            PdfInteger testParam1 = new(_rnd.Next(testParam0.Length));
 
             _ = PdfOperator.LineDashPattern(testParam0, testParam1);
 
@@ -399,7 +399,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_ThrowsArgumentException_IfSecondParameterIsLargerThanLengthOfFirstParameter()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new PdfInteger(_rnd.Next(testParam0.Length + 1, int.MaxValue));
+            PdfInteger testParam1 = new(_rnd.Next(testParam0.Length + 1, int.MaxValue));
 
             _ = PdfOperator.LineDashPattern(testParam0, testParam1);
 
@@ -410,7 +410,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_CreatesObjectWithCorrectValueProperty()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new PdfInteger(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
+            PdfInteger testParam1 = new(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
 
             PdfOperator testOutput = PdfOperator.LineDashPattern(testParam0, testParam1);
 
@@ -421,7 +421,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_CreatesObjectWithCorrectByteLengthProperty()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new PdfInteger(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
+            PdfInteger testParam1 = new(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
 
             PdfOperator testOutput = PdfOperator.LineDashPattern(testParam0, testParam1);
 
@@ -434,7 +434,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_WriteToMethodWithListParameter_ThrowsExceptionIfParameterOfSecondMethodIsNull()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new PdfInteger(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
+            PdfInteger testParam1 = new(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
             List<byte> testParam2 = null;
 
             PdfOperator testOutput0 = PdfOperator.LineDashPattern(testParam0, testParam1);
@@ -447,9 +447,9 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_WriteToMethodWithListParameter_WritesCorrectValueToList()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new PdfInteger(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
-            List<byte> testParam4 = new List<byte>();
-            List<byte> expected = new List<byte>();
+            PdfInteger testParam1 = new(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
+            List<byte> testParam4 = new();
+            List<byte> expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             expected.AddRange(new byte[] { 0x64, 0x20 });
@@ -465,7 +465,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_WriteToMethodWithStreamParameter_ThrowsArgumentNullException_IfParameterOfSecondMethodIsNull()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new PdfInteger(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
+            PdfInteger testParam1 = new(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
             Stream testParam2 = null;
 
             PdfOperator testOutput0 = PdfOperator.LineDashPattern(testParam0, testParam1);
@@ -478,9 +478,9 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_WriteToMethodWithStreamParameter_WritesCorrectValueToStream()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new PdfInteger(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
-            using MemoryStream testParam4 = new MemoryStream();
-            using MemoryStream expected = new MemoryStream();
+            PdfInteger testParam1 = new(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
+            using MemoryStream testParam4 = new();
+            using MemoryStream expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             expected.Write(new byte[] { 0x64, 0x20 }, 0, 2);
@@ -496,7 +496,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_WriteToMethodWithPdfStreamParameter_ThrowsArgumentNullException_IfParameterToSecondMethodIsNull()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new PdfInteger(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
+            PdfInteger testParam1 = new(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
             PdfStream testParam2 = null;
 
             PdfOperator testOutput0 = PdfOperator.LineDashPattern(testParam0, testParam1);
@@ -509,9 +509,9 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToStream()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new PdfInteger(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
-            PdfStream testParam2 = new PdfStream(_rnd.Next(1, int.MaxValue));
-            List<byte> expected = new List<byte>();
+            PdfInteger testParam1 = new(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
+            PdfStream testParam2 = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             expected.AddRange(new byte[] { 0x64, 0x20 });
@@ -571,8 +571,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineWidthMethod_WriteToMethodWithListParameter_WritesCorrectValueToList()
         {
             PdfNumber testParam0 = _rnd.NextPdfNumber();
-            List<byte> testParam1 = new List<byte>();
-            List<byte> expected = new List<byte>();
+            List<byte> testParam1 = new();
+            List<byte> expected = new();
             testParam0.WriteTo(expected);
             expected.AddRange(new byte[] { 0x77, 0x20 });
 
@@ -599,8 +599,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineWidthMethod_WriteToMethodWithStreamParameter_WritesCorrectValueToStream()
         {
             PdfNumber testParam0 = _rnd.NextPdfNumber();
-            using MemoryStream testParam1 = new MemoryStream();
-            using MemoryStream expected = new MemoryStream();
+            using MemoryStream testParam1 = new();
+            using MemoryStream expected = new();
             testParam0.WriteTo(expected);
             expected.Write(new byte[] { 0x77, 0x20 }, 0, 2);
 
@@ -627,8 +627,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineWidthMethod_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToStream()
         {
             PdfNumber testParam0 = _rnd.NextPdfNumber();
-            PdfStream testParam1 = new PdfStream(_rnd.Next(1, int.MaxValue));
-            List<byte> expected = new List<byte>();
+            PdfStream testParam1 = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
             testParam0.WriteTo(expected);
             expected.AddRange(new byte[] { 0x77, 0x20 });
 
@@ -704,8 +704,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             PdfNumber testParam0 = _rnd.NextPdfNumber();
             PdfNumber testParam1 = _rnd.NextPdfNumber();
-            List<byte> testParam4 = new List<byte>();
-            List<byte> expected = new List<byte>();
+            List<byte> testParam4 = new();
+            List<byte> expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             expected.AddRange(new byte[] { 0x6d, 0x20 });
@@ -735,8 +735,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             PdfNumber testParam0 = _rnd.NextPdfNumber();
             PdfNumber testParam1 = _rnd.NextPdfNumber();
-            using MemoryStream testParam2 = new MemoryStream();
-            using MemoryStream expected = new MemoryStream();
+            using MemoryStream testParam2 = new();
+            using MemoryStream expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             expected.Write(new byte[] { 0x6d, 0x20 }, 0, 2);
@@ -766,8 +766,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             PdfNumber testParam0 = _rnd.NextPdfNumber();
             PdfNumber testParam1 = _rnd.NextPdfNumber();
-            PdfStream testParam2 = new PdfStream(_rnd.Next(1, int.MaxValue));
-            List<byte> expected = new List<byte>();
+            PdfStream testParam2 = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             expected.AddRange(new byte[] { 0x6d, 0x20 });
@@ -810,8 +810,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         [TestMethod]
         public void PdfOperatorClass_StrokePathMethod_WriteToMethodWithListParameter_WritesCorrectValueToList()
         {
-            List<byte> testParam = new List<byte>();
-            List<byte> expected = new List<byte> { 0x53, 0x20 };
+            List<byte> testParam = new();
+            List<byte> expected = new() { 0x53, 0x20 };
 
             PdfOperator testOutput0 = PdfOperator.StrokePath();
             _ = testOutput0.WriteTo(testParam);
@@ -834,8 +834,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         [TestMethod]
         public void PdfOperatorClass_StrokePathMethod_WriteToMethodWithStreamParameter_WritesCorrectValueToStream()
         {
-            using MemoryStream testParam = new MemoryStream();
-            using MemoryStream expected = new MemoryStream();
+            using MemoryStream testParam = new();
+            using MemoryStream expected = new();
             expected.Write(new byte[] { 0x53, 0x20 }, 0, 2);
 
             PdfOperator testOutput0 = PdfOperator.StrokePath();
@@ -859,8 +859,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         [TestMethod]
         public void PdfOperatorClass_StrokePathMethod_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToStream()
         {
-            PdfStream testParam = new PdfStream(_rnd.Next(1, int.MaxValue));
-            List<byte> expected = new List<byte>();
+            PdfStream testParam = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
             expected.AddRange(new byte[] { 0x53, 0x20 });
 
             PdfOperator testOutput0 = PdfOperator.StrokePath();
@@ -901,8 +901,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         [TestMethod]
         public void PdfOperatorClass_StartTextMethod_WriteToMethodWithListParameter_WritesCorrectValueToList()
         {
-            List<byte> testParam = new List<byte>();
-            List<byte> expected = new List<byte> { 0x42, 0x54, 0x20 };
+            List<byte> testParam = new();
+            List<byte> expected = new() { 0x42, 0x54, 0x20 };
 
             PdfOperator testOutput0 = PdfOperator.StartText();
             _ = testOutput0.WriteTo(testParam);
@@ -925,8 +925,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         [TestMethod]
         public void PdfOperatorClass_StartTextMethod_WriteToMethodWithStreamParameter_WritesCorrectValueToStream()
         {
-            using MemoryStream testParam = new MemoryStream();
-            using MemoryStream expected = new MemoryStream();
+            using MemoryStream testParam = new();
+            using MemoryStream expected = new();
             expected.Write(new byte[] { 0x42, 0x54, 0x20 }, 0, 3);
 
             PdfOperator testOutput0 = PdfOperator.StartText();
@@ -950,8 +950,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         [TestMethod]
         public void PdfOperatorClass_StartTextMethod_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToStream()
         {
-            PdfStream testParam = new PdfStream(_rnd.Next(1, int.MaxValue));
-            List<byte> expected = new List<byte>();
+            PdfStream testParam = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
             expected.AddRange(new byte[] { 0x42, 0x54, 0x20 });
 
             PdfOperator testOutput0 = PdfOperator.StartText();
@@ -992,8 +992,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         [TestMethod]
         public void PdfOperatorClass_EndTextMethod_WriteToMethodWithListParameter_WritesCorrectValueToList()
         {
-            List<byte> testParam = new List<byte>();
-            List<byte> expected = new List<byte> { 0x45, 0x54, 0x20 };
+            List<byte> testParam = new();
+            List<byte> expected = new() { 0x45, 0x54, 0x20 };
 
             PdfOperator testOutput0 = PdfOperator.EndText();
             _ = testOutput0.WriteTo(testParam);
@@ -1016,8 +1016,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         [TestMethod]
         public void PdfOperatorClass_EndTextMethod_WriteToMethodWithStreamParameter_WritesCorrectValueToStream()
         {
-            using MemoryStream testParam = new MemoryStream();
-            using MemoryStream expected = new MemoryStream();
+            using MemoryStream testParam = new();
+            using MemoryStream expected = new();
             expected.Write(new byte[] { 0x45, 0x54, 0x20 }, 0, 3);
 
             PdfOperator testOutput0 = PdfOperator.EndText();
@@ -1041,8 +1041,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         [TestMethod]
         public void PdfOperatorClass_EndTextMethod_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToStream()
         {
-            PdfStream testParam = new PdfStream(_rnd.Next(1, int.MaxValue));
-            List<byte> expected = new List<byte>();
+            PdfStream testParam = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
             expected.AddRange(new byte[] { 0x45, 0x54, 0x20 });
 
             PdfOperator testOutput0 = PdfOperator.EndText();
@@ -1117,8 +1117,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             PdfName testParam0 = _rnd.NextPdfName();
             PdfNumber testParam1 = _rnd.NextPdfNumber();
-            List<byte> testParam2 = new List<byte>();
-            List<byte> expected = new List<byte>();
+            List<byte> testParam2 = new();
+            List<byte> expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             expected.AddRange(new byte[] { 0x54, 0x66, 0x20 });
@@ -1148,8 +1148,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             PdfName testParam0 = _rnd.NextPdfName();
             PdfNumber testParam1 = _rnd.NextPdfNumber();
-            using MemoryStream testParam4 = new MemoryStream();
-            using MemoryStream expected = new MemoryStream();
+            using MemoryStream testParam4 = new();
+            using MemoryStream expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             expected.Write(new byte[] { 0x54, 0x66, 0x20 }, 0, 3);
@@ -1179,8 +1179,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             PdfName testParam0 = _rnd.NextPdfName();
             PdfNumber testParam1 = _rnd.NextPdfNumber();
-            PdfStream testParam2 = new PdfStream(_rnd.Next(1, int.MaxValue));
-            List<byte> expected = new List<byte>();
+            PdfStream testParam2 = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             expected.AddRange(new byte[] { 0x54, 0x66, 0x20 });
@@ -1257,8 +1257,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             PdfNumber testParam0 = _rnd.NextPdfNumber();
             PdfNumber testParam1 = _rnd.NextPdfNumber();
-            List<byte> testParam2 = new List<byte>();
-            List<byte> expected = new List<byte>();
+            List<byte> testParam2 = new();
+            List<byte> expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             expected.AddRange(new byte[] { 0x54, 0x64, 0x20 });
@@ -1288,8 +1288,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             PdfNumber testParam0 = _rnd.NextPdfNumber();
             PdfNumber testParam1 = _rnd.NextPdfNumber();
-            using MemoryStream testParam4 = new MemoryStream();
-            using MemoryStream expected = new MemoryStream();
+            using MemoryStream testParam4 = new();
+            using MemoryStream expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             expected.Write(new byte[] { 0x54, 0x64, 0x20 }, 0, 3);
@@ -1319,8 +1319,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             PdfNumber testParam0 = _rnd.NextPdfNumber();
             PdfNumber testParam1 = _rnd.NextPdfNumber();
-            PdfStream testParam2 = new PdfStream(_rnd.Next(1, int.MaxValue));
-            List<byte> expected = new List<byte>();
+            PdfStream testParam2 = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
             testParam0.WriteTo(expected);
             testParam1.WriteTo(expected);
             expected.AddRange(new byte[] { 0x54, 0x64, 0x20 });
@@ -1380,8 +1380,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_DrawTextMethod_WriteToMethodWithListParameter_WritesCorrectValueToList()
         {
             PdfByteString testParam0 = _rnd.NextPdfByteString(_rnd.Next(128));
-            List<byte> testParam1 = new List<byte>();
-            List<byte> expected = new List<byte>();
+            List<byte> testParam1 = new();
+            List<byte> expected = new();
             testParam0.WriteTo(expected);
             expected.AddRange(new byte[] { 0x54, 0x6a, 0x20 });
 
@@ -1408,8 +1408,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_DrawTextMethod_WriteToMethodWithStreamParameter_WritesCorrectValueToStream()
         {
             PdfByteString testParam0 = _rnd.NextPdfByteString(_rnd.Next(128));
-            using MemoryStream testParam1 = new MemoryStream();
-            using MemoryStream expected = new MemoryStream();
+            using MemoryStream testParam1 = new();
+            using MemoryStream expected = new();
             testParam0.WriteTo(expected);
             expected.Write(new byte[] { 0x54, 0x6a, 0x20 }, 0, 3);
 
@@ -1436,8 +1436,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_DrawTextMethod_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToStream()
         {
             PdfByteString testParam0 = _rnd.NextPdfByteString(_rnd.Next(128));
-            PdfStream testParam1 = new PdfStream(_rnd.Next(1, int.MaxValue));
-            List<byte> expected = new List<byte>();
+            PdfStream testParam1 = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
             testParam0.WriteTo(expected);
             expected.AddRange(new byte[] { 0x54, 0x6a, 0x20 });
 
@@ -1485,10 +1485,10 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_ApplyTransformationMethod_WriteToMethodWithListParameter_WritesCorrectValueToList()
         {
             UniMatrix testParam0 = _rnd.NextUniMatrix();
-            List<byte> expected = new List<byte>();
+            List<byte> expected = new();
             _ = testParam0.ToPdfRealArray().Select(r => r.WriteTo(expected)).ToArray();
             expected.AddRange(new byte[] { 0x63, 0x6d, 0x20 });
-            List<byte> testParam1 = new List<byte>();
+            List<byte> testParam1 = new();
 
             PdfOperator testOutput = PdfOperator.ApplyTransformation(testParam0);
             _ = testOutput.WriteTo(testParam1);
@@ -1513,8 +1513,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_ApplyTransformationMethod_WriteToMethodWithStreamParameter_WritesCorrectValueToStream()
         {
             UniMatrix testParam0 = _rnd.NextUniMatrix();
-            using MemoryStream testParam1 = new MemoryStream();
-            using MemoryStream expected = new MemoryStream();
+            using MemoryStream testParam1 = new();
+            using MemoryStream expected = new();
             _ = testParam0.ToPdfRealArray().Select(r => r.WriteTo(expected)).ToArray();
             expected.Write(new byte[] { 0x63, 0x6d, 0x20 }, 0, 3);
 
@@ -1541,10 +1541,10 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_ApplyTransformationMethod_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToStream()
         {
             UniMatrix testParam0 = _rnd.NextUniMatrix();
-            List<byte> expected = new List<byte>();
+            List<byte> expected = new();
             _ = testParam0.ToPdfRealArray().Select(r => r.WriteTo(expected)).ToArray();
             expected.AddRange(new byte[] { 0x63, 0x6d, 0x20 });
-            PdfStream testParam1 = new PdfStream(_rnd.Next(1, int.MaxValue));
+            PdfStream testParam1 = new(_rnd.Next(1, int.MaxValue));
 
             PdfOperator testOutput = PdfOperator.ApplyTransformation(testParam0);
             _ = testOutput.WriteTo(testParam1);
@@ -1584,8 +1584,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         [TestMethod]
         public void PdfOperatorClass_PushStateMethod_WriteToMethodWithListParameter_WritesCorrectValueToList()
         {
-            List<byte> testParam = new List<byte>();
-            List<byte> expected = new List<byte> { 0x71, 0x20 };
+            List<byte> testParam = new();
+            List<byte> expected = new() { 0x71, 0x20 };
 
             PdfOperator testOutput0 = PdfOperator.PushState();
             _ = testOutput0.WriteTo(testParam);
@@ -1608,8 +1608,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         [TestMethod]
         public void PdfOperatorClass_PushStateMethod_WriteToMethodWithStreamParameter_WritesCorrectValueToStream()
         {
-            using MemoryStream testParam = new MemoryStream();
-            using MemoryStream expected = new MemoryStream();
+            using MemoryStream testParam = new();
+            using MemoryStream expected = new();
             expected.Write(new byte[] { 0x71, 0x20 }, 0, 2);
 
             PdfOperator testOutput0 = PdfOperator.PushState();
@@ -1633,8 +1633,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         [TestMethod]
         public void PdfOperatorClass_PushStateMethod_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToStream()
         {
-            PdfStream testParam = new PdfStream(_rnd.Next(1, int.MaxValue));
-            List<byte> expected = new List<byte>();
+            PdfStream testParam = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
             expected.AddRange(new byte[] { 0x71, 0x20 });
 
             PdfOperator testOutput0 = PdfOperator.PushState();
@@ -1675,8 +1675,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         [TestMethod]
         public void PdfOperatorClass_PopStateMethod_WriteToMethodWithListParameter_WritesCorrectValueToList()
         {
-            List<byte> testParam = new List<byte>();
-            List<byte> expected = new List<byte> { 0x51, 0x20 };
+            List<byte> testParam = new();
+            List<byte> expected = new() { 0x51, 0x20 };
 
             PdfOperator testOutput0 = PdfOperator.PopState();
             _ = testOutput0.WriteTo(testParam);
@@ -1699,8 +1699,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         [TestMethod]
         public void PdfOperatorClass_PopStateMethod_WriteToMethodWithStreamParameter_WritesCorrectValueToStream()
         {
-            using MemoryStream testParam = new MemoryStream();
-            using MemoryStream expected = new MemoryStream();
+            using MemoryStream testParam = new();
+            using MemoryStream expected = new();
             expected.Write(new byte[] { 0x51, 0x20 }, 0, 2);
 
             PdfOperator testOutput0 = PdfOperator.PopState();
@@ -1724,8 +1724,8 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         [TestMethod]
         public void PdfOperatorClass_PopStateMethod_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToStream()
         {
-            PdfStream testParam = new PdfStream(_rnd.Next(1, int.MaxValue));
-            List<byte> expected = new List<byte>();
+            PdfStream testParam = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
             expected.AddRange(new byte[] { 0x51, 0x20 });
 
             PdfOperator testOutput0 = PdfOperator.PopState();
