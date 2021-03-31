@@ -40,7 +40,7 @@ namespace Unicorn
         /// <summary>
         /// The distance between the top line and baseline of the word, equal to the ascent.
         /// </summary>
-        public double ComputedBaseline { get { return ContentAscent; } }
+        public double ComputedBaseline => ContentAscent;
 
         /// <summary>
         /// The minimum amount of space to add after the word.  This space may be skipped at the end of a line.
@@ -50,18 +50,12 @@ namespace Unicorn
         /// <summary>
         /// The minimum width of the word and any necessary space after it.
         /// </summary>
-        public double MinWidth
-        {
-            get
-            {
-                return ContentWidth + PostWordSpace;
-            }
-        }
+        public double MinWidth => ContentWidth + PostWordSpace;
 
         /// <summary>
         /// The height of this word.
         /// </summary>
-        public double MinHeight { get { return ContentAscent + ContentDescent; } }
+        public double MinHeight => ContentAscent + ContentDescent;
 
         /// <summary>
         /// Construct a <see cref="Word" /> instance. 

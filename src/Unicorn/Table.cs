@@ -31,32 +31,12 @@ namespace Unicorn
         /// <summary>
         /// The width of the entire table when drawn.
         /// </summary>
-        public double ComputedWidth
-        {
-            get
-            {
-                if (_rows.Count == 0)
-                {
-                    return 0;
-                }
-                return _rows.First(r => r != null).ComputedWidth;
-            }
-        }
+        public double ComputedWidth => _rows.Any() ? _rows.First(r => r != null).ComputedWidth : 0;
 
         /// <summary>
         /// The height of this table when drawn.
         /// </summary>
-        public double ComputedHeight
-        {
-            get
-            {
-                if (_columns.Count == 0)
-                {
-                    return 0;
-                }
-                return _columns.First(c => c != null).ComputedHeight;
-            }
-        }
+        public double ComputedHeight => _columns.Any() ? _columns.First(c => c != null).ComputedHeight : 0;
 
         /// <summary>
         /// Default constructor.
@@ -73,13 +53,7 @@ namespace Unicorn
         /// </summary>
         /// <param name="index">The zero-based index of the row to get.</param>
         /// <returns>The row at the specified index.</returns>
-        public TableRow this[int index]
-        {
-            get
-            {
-                return _rows[index];
-            }
-        }
+        public TableRow this[int index] => _rows[index];
 
         /// <summary>
         /// Add a <see cref="TableRow"/> to the table.

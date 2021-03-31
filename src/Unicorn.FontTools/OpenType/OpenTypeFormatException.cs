@@ -11,16 +11,14 @@ namespace Unicorn.FontTools.OpenType
         /// Parameterless constructor.
         /// </summary>
         public OpenTypeFormatException()
-        {
-        }
+        { }
 
         /// <summary>
         /// Constructor with message parameter.
         /// </summary>
         /// <param name="message">Error message.</param>
         public OpenTypeFormatException(string message) : base(message)
-        {
-        }
+        { }
 
         /// <summary>
         /// Constructor with message and underlying cause parameters.
@@ -28,7 +26,6 @@ namespace Unicorn.FontTools.OpenType
         /// <param name="message">Error message.</param>
         /// <param name="innerException">The underlying cause of this exception being thrown.</param>
         public OpenTypeFormatException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
+        { }
     }
 }

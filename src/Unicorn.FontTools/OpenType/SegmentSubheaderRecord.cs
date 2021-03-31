@@ -58,14 +58,7 @@ namespace Unicorn.FontTools.OpenType
         /// </summary>
         /// <param name="obj">Another object or value.</param>
         /// <returns><c>true</c> if the parameter is another <see cref="SegmentSubheaderRecord" /> value that is equal to this, <c>false</c> otherwise.</returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is SegmentSubheaderRecord other)
-            {
-                return Equals(other);
-            }
-            return false;
-        }
+        public override bool Equals(object obj) => (obj is SegmentSubheaderRecord other) && this == other;
 
         /// <summary>
         /// Hash code method.

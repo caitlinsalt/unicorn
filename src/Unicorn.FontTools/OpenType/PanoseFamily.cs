@@ -99,10 +99,8 @@ namespace Unicorn.FontTools.OpenType
         /// Convert this structure to a string.
         /// </summary>
         /// <returns>A string consisting of the value of each property, separated by white space.</returns>
-        public override string ToString()
-        {
-            return $"{FamilyType} {SerifStyle} {Weight} {Proportion} {Contrast} {StrokeVariation} {ArmStyle} {Letterform} {Midline} {XHeight}";
-        }
+        public override string ToString() 
+            => $"{FamilyType} {SerifStyle} {Weight} {Proportion} {Contrast} {StrokeVariation} {ArmStyle} {Letterform} {Midline} {XHeight}";
 
         /// <summary>
         /// Equality-test method.
@@ -116,24 +114,15 @@ namespace Unicorn.FontTools.OpenType
         /// </summary>
         /// <param name="obj">Another object or value.</param>
         /// <returns><c>true</c> if the parameter is another <see cref="PanoseFamily" /> value that is equal to this one; <c>false</c> otherwise.</returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is PanoseFamily other)
-            {
-                return Equals(other);
-            }
-            return false;
-        }
+        public override bool Equals(object obj) => (obj is PanoseFamily other) && this == other;
 
         /// <summary>
         /// Hash code method.
         /// </summary>
         /// <returns>A hash code for this value.</returns>
         public override int GetHashCode()
-        {
-            return FamilyType.GetHashCode() ^ SerifStyle.GetHashCode() ^ Weight.GetHashCode() ^ Proportion.GetHashCode() ^ Contrast.GetHashCode() ^
+            => FamilyType.GetHashCode() ^ SerifStyle.GetHashCode() ^ Weight.GetHashCode() ^ Proportion.GetHashCode() ^ Contrast.GetHashCode() ^
                 StrokeVariation.GetHashCode() ^ ArmStyle.GetHashCode() ^ Letterform.GetHashCode() ^ Midline.GetHashCode() ^ XHeight.GetHashCode();
-        }
 
         /// <summary>
         /// Equality operator.
@@ -141,8 +130,8 @@ namespace Unicorn.FontTools.OpenType
         /// <param name="a">A <see cref="PanoseFamily" /> value.</param>
         /// <param name="b">A <see cref="PanoseFamily" /> value.</param>
         /// <returns><c>true</c> if the parameters are equal, <c>false</c> if not.</returns>
-        public static bool operator ==(PanoseFamily a, PanoseFamily b) =>
-            a.FamilyType == b.FamilyType && a.SerifStyle == b.SerifStyle && a.Weight == b.Weight && a.Proportion == b.Proportion && a.Contrast == b.Contrast &&
+        public static bool operator ==(PanoseFamily a, PanoseFamily b)
+            => a.FamilyType == b.FamilyType && a.SerifStyle == b.SerifStyle && a.Weight == b.Weight && a.Proportion == b.Proportion && a.Contrast == b.Contrast &&
                 a.StrokeVariation == b.StrokeVariation && a.ArmStyle == b.ArmStyle && a.Letterform == b.Letterform && a.Midline == b.Midline && a.XHeight == b.XHeight;
 
         /// <summary>
@@ -151,8 +140,8 @@ namespace Unicorn.FontTools.OpenType
         /// <param name="a">A <see cref="PanoseFamily" /> value.</param>
         /// <param name="b">A <see cref="PanoseFamily" /> value.</param>
         /// <returns><c>true</c> if the parameters are not equal, <c>false</c> if they are equal.</returns>
-        public static bool operator !=(PanoseFamily a, PanoseFamily b) =>
-            a.FamilyType != b.FamilyType || a.SerifStyle != b.SerifStyle || a.Weight != b.Weight || a.Proportion != b.Proportion || a.Contrast != b.Contrast ||
+        public static bool operator !=(PanoseFamily a, PanoseFamily b)
+            => a.FamilyType != b.FamilyType || a.SerifStyle != b.SerifStyle || a.Weight != b.Weight || a.Proportion != b.Proportion || a.Contrast != b.Contrast ||
                 a.StrokeVariation != b.StrokeVariation || a.ArmStyle != b.ArmStyle || a.Letterform != b.Letterform || a.Midline != b.Midline || a.XHeight != b.XHeight;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Unicorn.FontTools.Afm
 {
-    public struct InitialLigatureSet
+    public struct InitialLigatureSet : IEquatable<InitialLigatureSet>
     {
         public string Second { get; private set; }
 
@@ -22,5 +22,15 @@ namespace Unicorn.FontTools.Afm
             Second = second;
             Ligature = resultingLigature;
         }
+
+        public static bool operator ==(InitialLigatureSet a, InitialLigatureSet b) => a.Second == b.Second && a.Ligature == b.Ligature;
+
+        public static bool operator !=(InitialLigatureSet a, InitialLigatureSet b) => a.Second != b.Second || a.Ligature != b.Ligature;
+
+        public bool Equals(InitialLigatureSet other) => this == other;
+
+        public override bool Equals(object obj) => (obj is InitialLigatureSet ils) && this == ils;
+
+        public override int GetHashCode() => Second.GetHashCode() ^ Ligature.GetHashCode();
     }
 }

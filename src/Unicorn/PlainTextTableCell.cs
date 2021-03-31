@@ -20,9 +20,7 @@ namespace Unicorn
         /// <param name="font">The font to use to draw the content.</param>
         /// <param name="graphicsContext">The graphics context which will be used to draw the cell.</param>
         public PlainTextTableCell(string content, IFontDescriptor font, IGraphicsContext graphicsContext) : this(content, font, null, graphicsContext)
-        {
-
-        }
+        { }
 
         /// <summary>
         /// Constructor for cell with margins.

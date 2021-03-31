@@ -174,7 +174,7 @@ namespace Unicorn.FontTools.OpenType
                 data.ToFixed(offset + 4),                       // Revision
                 data.ToUInt(offset + 8),                        // ChecksumAdjustment
                 data.ToUInt(offset + 12),                       // Magic
-                (FontProperties)data.ToUShort(offset + 16),          // FontFlags
+                (FontProperties)data.ToUShort(offset + 16),     // FontFlags
                 data.ToUShort(offset + 18),                     // FontUnitScale
                 data.ToDateTime(offset + 20),                   // Created
                 data.ToDateTime(offset + 28),                   // Modified
@@ -182,7 +182,7 @@ namespace Unicorn.FontTools.OpenType
                 data.ToShort(offset + 38),                      // YMin
                 data.ToShort(offset + 40),                      // XMax
                 data.ToShort(offset + 42),                      // YMax
-                (MacStyleProperties)data.ToUShort(offset + 44),      // StyleFlags
+                (MacStyleProperties)data.ToUShort(offset + 44), // StyleFlags
                 data.ToUShort(offset + 46),                     // SmallestReadablePixelSize
                 (FontDirectionHint)data.ToShort(offset + 48),   // DirectionHint
                 data.ToShort(offset + 50) == 1,                 // UseLongOffsets

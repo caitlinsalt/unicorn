@@ -2,8 +2,6 @@
 
 namespace Unicorn.Writer.Primitives
 {
-#pragma warning disable CA1710 // Identifiers should have correct suffix
-
     /// <summary>
     /// Immutable class representing a PDF rectangle: a PDF array with four elements, representing the lower-left and upper-right corners of a non-rotated rectangle.
     /// The coordinates can be either integers or reals, but not a mixture.
@@ -62,6 +60,4 @@ namespace Unicorn.Writer.Primitives
 
         }
     }
-
-#pragma warning restore CA1710 // Identifiers should have correct suffix
 }

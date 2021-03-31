@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using Unicorn.Writer.Interfaces;
 
@@ -22,11 +21,7 @@ namespace Unicorn.Writer.Primitives
         /// <exception cref="ArgumentNullException">Thrown if the referent parameter is null.</exception>
         public PdfReference(IPdfIndirectObject referent)
         {
-            if (referent == null)
-            {
-                throw new ArgumentNullException(nameof(referent));
-            }
-            Value = referent;
+            Value = referent ?? throw new ArgumentNullException(nameof(referent));
         }
 
         /// <summary>

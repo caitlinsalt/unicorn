@@ -5,8 +5,6 @@ using Unicorn.Writer.Interfaces;
 
 namespace Unicorn.Writer.Primitives
 {
-#pragma warning disable CA1710 // Identifiers should have correct suffix
-
     /// <summary>
     /// The class which represents a PDF array object.
     /// </summary>
@@ -90,6 +88,4 @@ namespace Unicorn.Writer.Primitives
             return ((IEnumerable<IPdfPrimitiveObject>)_val).GetEnumerator();
         }
     }
-
-#pragma warning restore CA1710 // Identifiers should have correct suffix
 }

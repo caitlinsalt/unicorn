@@ -43,23 +43,13 @@ namespace Unicorn.FontTools.OpenType
         /// </summary>
         /// <param name="obj">Another value or object.</param>
         /// <returns><c>true</c> if the parameter is another <see cref="HorizontalMetricRecord" /> value that is equal to this, <c>false</c> if not.</returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is HorizontalMetricRecord record)
-            {
-                return Equals(record);
-            }
-            return false;
-        }
+        public override bool Equals(object obj) => (obj is HorizontalMetricRecord record) && this == record;
 
         /// <summary>
         /// Hash code method.
         /// </summary>
         /// <returns>A hash code derived from this value.</returns>
-        public override int GetHashCode()
-        {
-            return AdvanceWidth.GetHashCode() ^ unchecked(LeftSideBearing * 2).GetHashCode();
-        }
+        public override int GetHashCode() => AdvanceWidth.GetHashCode() ^ unchecked(LeftSideBearing * 2).GetHashCode();
 
         /// <summary>
         /// Equality operator.
@@ -68,9 +58,7 @@ namespace Unicorn.FontTools.OpenType
         /// <param name="b">A <see cref="HorizontalMetricRecord" /> value.</param>
         /// <returns><c>true</c> if both operands are equal, <c>false</c> if not.</returns>
         public static bool operator ==(HorizontalMetricRecord a, HorizontalMetricRecord b)
-        {
-            return a.AdvanceWidth == b.AdvanceWidth && a.LeftSideBearing == b.LeftSideBearing;
-        }
+            => a.AdvanceWidth == b.AdvanceWidth && a.LeftSideBearing == b.LeftSideBearing;
 
         /// <summary>
         /// Inequality operator.
@@ -79,8 +67,6 @@ namespace Unicorn.FontTools.OpenType
         /// <param name="b">A <see cref="HorizontalMetricRecord" /> value.</param>
         /// <returns><c>true</c> if the operands are different, <c>false</c> if they are equal.</returns>
         public static bool operator !=(HorizontalMetricRecord a, HorizontalMetricRecord b)
-        {
-            return a.AdvanceWidth != b.AdvanceWidth || a.LeftSideBearing != b.LeftSideBearing;
-        }
+            => a.AdvanceWidth != b.AdvanceWidth || a.LeftSideBearing != b.LeftSideBearing;
     }
 }

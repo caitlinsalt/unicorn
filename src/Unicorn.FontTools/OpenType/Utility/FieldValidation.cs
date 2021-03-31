@@ -18,8 +18,8 @@ namespace Unicorn.FontTools.OpenType.Utility
         /// <param name="name">The name of the argument being validated, for use if an exception must be thrown.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if the <c>value</c> argument is less than 0 or greater than 65,535.  The 
         ///   <see cref="ArgumentException.ParamName" /> property will equal the <c>name</c> parameter value, rather than <c>value</c>.</exception>
-        public static void ValidateUShortParameter(int value, string name) => ValidateUShortParameter(value, name, 
-            Resources.FieldValidation_ValidateUShortParameter_Error);
+        public static void ValidateUShortParameter(int value, string name) 
+            => ValidateUShortParameter(value, name, Resources.FieldValidation_ValidateUShortParameter_Error);
 
         private static void ValidateUShortParameter(int value, string name, string error)
         {

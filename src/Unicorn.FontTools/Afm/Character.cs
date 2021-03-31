@@ -54,7 +54,7 @@ namespace Unicorn.FontTools.Afm
 
         /// <summary>
         /// This property is used to store ligature information whilst a file is being loaded.  Not populated after 
-        /// <see cref="Character.ProcessLigatures(IDictionary{string, Character})" /> has been called.
+        /// <see cref="ProcessLigatures(IDictionary{string, Character})" /> has been called.
         /// </summary>
         private List<InitialLigatureSet> InitialLigatures { get; set; }
 
@@ -82,10 +82,10 @@ namespace Unicorn.FontTools.Afm
         }
 
         /// <summary>
-        /// Populate the <see cref="Character.Ligatures" /> property, converting the character names given in the AFM file to references to the <see cref="Character" />
+        /// Populate the <see cref="Ligatures" /> property, converting the character names given in the AFM file to references to the <see cref="Character" />
         /// objects loaded from the font.
         /// </summary>
-        /// <param name="charmap">A dictionary of characters loaded in this AFM file, indexed by <see cref="Character.Name" />.</param>
+        /// <param name="charmap">A dictionary of characters loaded in this AFM file, indexed by <see cref="Name" />.</param>
         /// <exception cref="AfmFormatException">Thrown if the character's ligature information refers by name to characters that are not known to exist.</exception>
         public void ProcessLigatures(IDictionary<string, Character> charmap)
         {

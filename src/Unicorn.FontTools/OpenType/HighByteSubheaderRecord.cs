@@ -83,23 +83,13 @@ namespace Unicorn.FontTools.OpenType
         /// </summary>
         /// <param name="obj">A value or object to compare.</param>
         /// <returns><c>true</c> if the parameter is a <see cref="HighByteSubheaderRecord" /> value that is equal to this one, <c>false</c> otherwise.</returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is HighByteSubheaderRecord other)
-            {
-                return Equals(other);
-            }
-            return false;
-        }
+        public override bool Equals(object obj) => (obj is HighByteSubheaderRecord other) && this == other;
 
         /// <summary>
         /// Hash code method.
         /// </summary>
         /// <returns>A hashcode for this value.</returns>
-        public override int GetHashCode()
-        {
-            return FirstByte.GetHashCode() ^ LastByte.GetHashCode() ^ IdDelta.GetHashCode() ^ StartIndex.GetHashCode();
-        }
+        public override int GetHashCode() => FirstByte.GetHashCode() ^ LastByte.GetHashCode() ^ IdDelta.GetHashCode() ^ StartIndex.GetHashCode();
 
         /// <summary>
         /// Equality operator.
@@ -107,10 +97,8 @@ namespace Unicorn.FontTools.OpenType
         /// <param name="a">A <see cref="HighByteSubheaderRecord" /> value.</param>
         /// <param name="b">A <see cref="HighByteSubheaderRecord" /> value.</param>
         /// <returns><c>true</c> if the operands are equal, <c>false</c> if not.</returns>
-        public static bool operator ==(HighByteSubheaderRecord a, HighByteSubheaderRecord b)
-        {
-            return a.FirstByte == b.FirstByte && a.LastByte == b.LastByte && a.IdDelta == b.IdDelta && a.StartIndex == b.StartIndex;
-        }
+        public static bool operator ==(HighByteSubheaderRecord a, HighByteSubheaderRecord b) 
+            => a.FirstByte == b.FirstByte && a.LastByte == b.LastByte && a.IdDelta == b.IdDelta && a.StartIndex == b.StartIndex;
 
         /// <summary>
         /// Inequality operator.
@@ -119,8 +107,6 @@ namespace Unicorn.FontTools.OpenType
         /// <param name="b">A <see cref="HighByteSubheaderRecord" /> value.</param>
         /// <returns><c>true</c> if the operands are not equal, <c>false</c> if they are.</returns>
         public static bool operator !=(HighByteSubheaderRecord a, HighByteSubheaderRecord b)
-        {
-            return a.FirstByte != b.FirstByte || a.LastByte != b.LastByte || a.IdDelta != b.IdDelta || a.StartIndex != b.StartIndex;
-        }
+            => a.FirstByte != b.FirstByte || a.LastByte != b.LastByte || a.IdDelta != b.IdDelta || a.StartIndex != b.StartIndex;
     }
 }

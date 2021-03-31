@@ -92,10 +92,7 @@ namespace Unicorn
         /// </summary>
         /// <param name="item">The cell to search the collection for.</param>
         /// <returns>True if the collection contains the cell, false otherwise.</returns>
-        public bool Contains(TableCell item)
-        {
-            return _theList.Contains(item);
-        }
+        public bool Contains(TableCell item) => _theList.Contains(item);
 
         /// <summary>
         /// Copy the collection's contents to the given array.
@@ -131,20 +128,14 @@ namespace Unicorn
         /// Get an enumerator for this collection.
         /// </summary>
         /// <returns>An enumerator for this collection.</returns>
-        public IEnumerator<TableCell> GetEnumerator()
-        {
-            return new Enumerator(this);
-        }
+        public IEnumerator<TableCell> GetEnumerator() => new Enumerator(this);
 
         /// <summary>
         /// Get the index in the collection of a given cell.
         /// </summary>
         /// <param name="item">The cell to search for in the collection.</param>
         /// <returns>The zero-based index of the given cell.</returns>
-        public int IndexOf(TableCell item)
-        {
-            return _theList.IndexOf(item);
-        }
+        public int IndexOf(TableCell item) => _theList.IndexOf(item);
 
         /// <summary>
         /// Insert a cell into the collection at a given location, and recompute the collection dimensions.
@@ -185,10 +176,7 @@ namespace Unicorn
             ComputeCellDimensions();
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         /// <summary>
         /// Recompute the dimensions of all cells in the collection.
@@ -280,10 +268,7 @@ namespace Unicorn
             /// <summary>
             /// Gets the currently-enumerated object.
             /// </summary>
-            object IEnumerator.Current
-            {
-                get { return Current; }
-            }
+            object IEnumerator.Current => Current;
 
             /// <summary>
             /// Dispose of this enumerator.
@@ -299,9 +284,7 @@ namespace Unicorn
             /// </summary>
             /// <param name="disposing">Whether or not to dispose of managed objects.</param>
             protected virtual void Dispose(bool disposing)
-            {
-
-            }
+            { }
 
             /// <summary>
             /// Move the enumerator to the next object in the collection.
