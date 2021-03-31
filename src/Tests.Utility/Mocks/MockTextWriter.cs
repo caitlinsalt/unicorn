@@ -8,7 +8,7 @@ namespace Tests.Utility.Mocks
     [ExcludeFromCodeCoverage]
     public class MockTextWriter : TextWriter
     {
-        private List<string> _writtenText = new List<string>();
+        private readonly List<string> _writtenText = new List<string>();
 
         public IEnumerable<string> WrittenText => _writtenText.ToArray();
 

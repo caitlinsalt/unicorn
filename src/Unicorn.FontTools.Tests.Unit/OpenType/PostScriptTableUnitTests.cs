@@ -41,7 +41,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         private static List<KeyValuePair<string, int>> GetTestCharacterMap()
         {
             int count = _rnd.Next(256);
-            List<KeyValuePair<string, int>> testData = new List<KeyValuePair<string, int>>(count);
+            List<KeyValuePair<string, int>> testData = new(count);
             for (int i = 0; i < count; ++i)
             {
                 string key;
@@ -272,7 +272,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam7 = _rnd.NextUInt();
             uint testParam8 = _rnd.NextUInt();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
 
             Assert.AreEqual("post", testOutput.TableTag.Value);
         }
@@ -290,7 +290,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam7 = _rnd.NextUInt();
             uint testParam8 = _rnd.NextUInt();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
 
             Assert.AreEqual(testParam0, testOutput.Version);
         }
@@ -308,7 +308,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam7 = _rnd.NextUInt();
             uint testParam8 = _rnd.NextUInt();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
 
             Assert.AreEqual(testParam1, testOutput.ItalicAngle);
         }
@@ -326,7 +326,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam7 = _rnd.NextUInt();
             uint testParam8 = _rnd.NextUInt();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
 
             Assert.AreEqual(testParam2, testOutput.UnderlinePosition);
         }
@@ -344,7 +344,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam7 = _rnd.NextUInt();
             uint testParam8 = _rnd.NextUInt();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
 
             Assert.AreEqual(testParam3, testOutput.UnderlineThickness);
         }
@@ -362,7 +362,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam7 = _rnd.NextUInt();
             uint testParam8 = _rnd.NextUInt();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
 
             Assert.AreEqual(testParam4, testOutput.IsFixedPitch);
         }
@@ -380,7 +380,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam7 = _rnd.NextUInt();
             uint testParam8 = _rnd.NextUInt();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
 
             Assert.AreEqual(testParam5, testOutput.MinMemoryType42);
         }
@@ -398,7 +398,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam7 = _rnd.NextUInt();
             uint testParam8 = _rnd.NextUInt();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
 
             Assert.AreEqual(testParam6, testOutput.MaxMemoryType42);
         }
@@ -416,7 +416,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam7 = _rnd.NextUInt();
             uint testParam8 = _rnd.NextUInt();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
 
             Assert.AreEqual(testParam7, testOutput.MinMemoryType1);
         }
@@ -434,7 +434,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam7 = _rnd.NextUInt();
             uint testParam8 = _rnd.NextUInt();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8);
 
             Assert.AreEqual(testParam8, testOutput.MaxMemoryType1);
         }
@@ -498,8 +498,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam8 = _rnd.NextUInt();
             IEnumerable<KeyValuePair<string, int>> testParam9 = GetTestCharacterMap();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual("post", testOutput.TableTag.Value);
         }
@@ -518,8 +517,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam8 = _rnd.NextUInt();
             IEnumerable<KeyValuePair<string, int>> testParam9 = GetTestCharacterMap();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam0, testOutput.Version);
         }
@@ -538,8 +536,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam8 = _rnd.NextUInt();
             IEnumerable<KeyValuePair<string, int>> testParam9 = GetTestCharacterMap();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam1, testOutput.ItalicAngle);
         }
@@ -558,8 +555,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam8 = _rnd.NextUInt();
             IEnumerable<KeyValuePair<string, int>> testParam9 = GetTestCharacterMap();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam2, testOutput.UnderlinePosition);
         }
@@ -578,8 +574,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam8 = _rnd.NextUInt();
             IEnumerable<KeyValuePair<string, int>> testParam9 = GetTestCharacterMap();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam3, testOutput.UnderlineThickness);
         }
@@ -598,8 +593,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam8 = _rnd.NextUInt();
             IEnumerable<KeyValuePair<string, int>> testParam9 = GetTestCharacterMap();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam4, testOutput.IsFixedPitch);
         }
@@ -618,8 +612,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam8 = _rnd.NextUInt();
             IEnumerable<KeyValuePair<string, int>> testParam9 = GetTestCharacterMap();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam5, testOutput.MinMemoryType42);
         }
@@ -638,8 +631,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam8 = _rnd.NextUInt();
             IEnumerable<KeyValuePair<string, int>> testParam9 = GetTestCharacterMap();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam6, testOutput.MaxMemoryType42);
         }
@@ -658,8 +650,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam8 = _rnd.NextUInt();
             IEnumerable<KeyValuePair<string, int>> testParam9 = GetTestCharacterMap();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam7, testOutput.MinMemoryType1);
         }
@@ -678,8 +669,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam8 = _rnd.NextUInt();
             IEnumerable<KeyValuePair<string, int>> testParam9 = GetTestCharacterMap();
 
-            PostScriptTable testOutput = new PostScriptTable(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8,
-                testParam9);
+            PostScriptTable testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4, testParam5, testParam6, testParam7, testParam8, testParam9);
 
             Assert.AreEqual(testParam8, testOutput.MaxMemoryType1);
         }

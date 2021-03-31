@@ -24,7 +24,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam3 = _rnd.NextUInt();
             TableLoadingMethod testParam4 = MockLoader;
 
-            TableIndexRecord testOutput = new TableIndexRecord(testParam0, testParam1, testParam2, testParam3, testParam4);
+            TableIndexRecord testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4);
 
             Assert.AreEqual(testParam0, testOutput.TableTag);
         }
@@ -38,7 +38,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam3 = _rnd.NextUInt();
             TableLoadingMethod testParam4 = MockLoader;
 
-            TableIndexRecord testOutput = new TableIndexRecord(testParam0, testParam1, testParam2, testParam3, testParam4);
+            TableIndexRecord testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4);
 
             Assert.AreEqual(testParam1, testOutput.Checksum);
         }
@@ -52,7 +52,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam3 = _rnd.NextUInt();
             TableLoadingMethod testParam4 = MockLoader;
 
-            TableIndexRecord testOutput = new TableIndexRecord(testParam0, testParam1, testParam2, testParam3, testParam4);
+            TableIndexRecord testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4);
 
             Assert.AreEqual(testParam2, testOutput.Offset);
         }
@@ -66,7 +66,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam3 = _rnd.NextUInt();
             TableLoadingMethod testParam4 = MockLoader;
 
-            TableIndexRecord testOutput = new TableIndexRecord(testParam0, testParam1, testParam2, testParam3, testParam4);
+            TableIndexRecord testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4);
 
             Assert.AreEqual(testParam3, testOutput.Length);
         }
@@ -80,7 +80,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam3 = _rnd.NextUInt();
             TableLoadingMethod testParam4 = MockLoader;
 
-            TableIndexRecord testOutput = new TableIndexRecord(testParam0, testParam1, testParam2, testParam3, testParam4);
+            TableIndexRecord testOutput = new(testParam0, testParam1, testParam2, testParam3, testParam4);
 
             Assert.AreSame(testParam4, testOutput.LoadingMethod);
         }

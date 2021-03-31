@@ -10,17 +10,14 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
     {
         private static readonly Random _rnd = RandomProvider.Default;
 
-        private static SequentialMapGroupRecord GetTestValue()
-        {
-            return new SequentialMapGroupRecord(_rnd.NextUInt(), _rnd.NextUInt(), _rnd.NextUShort());
-        }
+        private static SequentialMapGroupRecord GetTestValue() => new(_rnd.NextUInt(), _rnd.NextUInt(), _rnd.NextUShort());
 
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 
         [TestMethod]
         public void SequentialMapGroupRecordStruct_ParameterlessConstructor_SetsStartCodePropertyToZero()
         {
-            SequentialMapGroupRecord testOutput = new SequentialMapGroupRecord();
+            SequentialMapGroupRecord testOutput = new();
 
             Assert.AreEqual(0u, testOutput.StartCode);
         }
@@ -28,7 +25,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void SequentialMapGroupRecordStruct_ParameterlessConstructor_SetsEndCodePropertyToZero()
         {
-            SequentialMapGroupRecord testOutput = new SequentialMapGroupRecord();
+            SequentialMapGroupRecord testOutput = new();
 
             Assert.AreEqual(0u, testOutput.EndCode);
         }
@@ -36,7 +33,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void SequentialMapGroupRecordStruct_ParameterlessConstructor_SetsStartGlyphIdPropertyToZero()
         {
-            SequentialMapGroupRecord testOutput = new SequentialMapGroupRecord();
+            SequentialMapGroupRecord testOutput = new();
 
             Assert.AreEqual((ushort)0, testOutput.StartGlyphId);
         }
@@ -48,7 +45,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam1 = _rnd.NextUInt();
             ushort testParam2 = _rnd.NextUShort();
 
-            SequentialMapGroupRecord testOutput = new SequentialMapGroupRecord(testParam0, testParam1, testParam2);
+            SequentialMapGroupRecord testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam0, testOutput.StartCode);
         }
@@ -60,7 +57,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam1 = _rnd.NextUInt();
             ushort testParam2 = _rnd.NextUShort();
 
-            SequentialMapGroupRecord testOutput = new SequentialMapGroupRecord(testParam0, testParam1, testParam2);
+            SequentialMapGroupRecord testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam1, testOutput.EndCode);
         }
@@ -72,7 +69,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             uint testParam1 = _rnd.NextUInt();
             ushort testParam2 = _rnd.NextUShort();
 
-            SequentialMapGroupRecord testOutput = new SequentialMapGroupRecord(testParam0, testParam1, testParam2);
+            SequentialMapGroupRecord testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam2, testOutput.StartGlyphId);
         }
@@ -91,7 +88,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void SequentialMapGroupRecordStruct_EqualsMethodWithSequentialMapGroupRecordParameter_ReturnsTrue_IfParameterIsConstructedFromSameData()
         {
             SequentialMapGroupRecord testValue = GetTestValue();
-            SequentialMapGroupRecord testParam = new SequentialMapGroupRecord(testValue.StartCode, testValue.EndCode, testValue.StartGlyphId);
+            SequentialMapGroupRecord testParam = new(testValue.StartCode, testValue.EndCode, testValue.StartGlyphId);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -107,7 +104,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUInt();
             } while (constrParam == testValue.StartCode);
-            SequentialMapGroupRecord testParam = new SequentialMapGroupRecord(constrParam, testValue.EndCode, testValue.StartGlyphId);
+            SequentialMapGroupRecord testParam = new(constrParam, testValue.EndCode, testValue.StartGlyphId);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -123,7 +120,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUInt();
             } while (constrParam == testValue.EndCode);
-            SequentialMapGroupRecord testParam = new SequentialMapGroupRecord(testValue.StartCode, constrParam, testValue.StartGlyphId);
+            SequentialMapGroupRecord testParam = new(testValue.StartCode, constrParam, testValue.StartGlyphId);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -139,7 +136,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUShort();
             } while (constrParam == testValue.StartGlyphId);
-            SequentialMapGroupRecord testParam = new SequentialMapGroupRecord(testValue.StartCode, testValue.EndCode, constrParam);
+            SequentialMapGroupRecord testParam = new(testValue.StartCode, testValue.EndCode, constrParam);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -160,7 +157,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void SequentialMapGroupRecordStruct_EqualsMethodWithObjectParameter_ReturnsTrue_IfParameterIsConstructedFromSameData()
         {
             SequentialMapGroupRecord testValue = GetTestValue();
-            SequentialMapGroupRecord testParam = new SequentialMapGroupRecord(testValue.StartCode, testValue.EndCode, testValue.StartGlyphId);
+            SequentialMapGroupRecord testParam = new(testValue.StartCode, testValue.EndCode, testValue.StartGlyphId);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -176,7 +173,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUInt();
             } while (constrParam == testValue.StartCode);
-            SequentialMapGroupRecord testParam = new SequentialMapGroupRecord(constrParam, testValue.EndCode, testValue.StartGlyphId);
+            SequentialMapGroupRecord testParam = new(constrParam, testValue.EndCode, testValue.StartGlyphId);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -192,7 +189,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUInt();
             } while (constrParam == testValue.EndCode);
-            SequentialMapGroupRecord testParam = new SequentialMapGroupRecord(testValue.StartCode, constrParam, testValue.StartGlyphId);
+            SequentialMapGroupRecord testParam = new(testValue.StartCode, constrParam, testValue.StartGlyphId);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -208,7 +205,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUShort();
             } while (constrParam == testValue.StartGlyphId);
-            SequentialMapGroupRecord testParam = new SequentialMapGroupRecord(testValue.StartCode, testValue.EndCode, constrParam);
+            SequentialMapGroupRecord testParam = new(testValue.StartCode, testValue.EndCode, constrParam);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -234,7 +231,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void SequentialMapGroupRecordStruct_GetHashCodeMethod_ReturnsSameValue_IfCalledTwiceOnSameValue()
         {
             SequentialMapGroupRecord testValue0 = GetTestValue();
-            SequentialMapGroupRecord testValue1 = new SequentialMapGroupRecord(testValue0.StartCode, testValue0.EndCode, testValue0.StartGlyphId);
+            SequentialMapGroupRecord testValue1 = new(testValue0.StartCode, testValue0.EndCode, testValue0.StartGlyphId);
 
             int testOutput0 = testValue0.GetHashCode();
             int testOutput1 = testValue1.GetHashCode();
@@ -258,7 +255,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void SequentialMapGroupRecordStruct_EqualityOperator_ReturnsTrue_IfOperandsAreConstructedFromSameData()
         {
             SequentialMapGroupRecord testValue = GetTestValue();
-            SequentialMapGroupRecord testParam = new SequentialMapGroupRecord(testValue.StartCode, testValue.EndCode, testValue.StartGlyphId);
+            SequentialMapGroupRecord testParam = new(testValue.StartCode, testValue.EndCode, testValue.StartGlyphId);
 
             bool testOutput = testValue == testParam;
 
@@ -274,7 +271,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUInt();
             } while (constrParam == testValue.StartCode);
-            SequentialMapGroupRecord testParam = new SequentialMapGroupRecord(constrParam, testValue.EndCode, testValue.StartGlyphId);
+            SequentialMapGroupRecord testParam = new(constrParam, testValue.EndCode, testValue.StartGlyphId);
 
             bool testOutput = testValue == testParam;
 
@@ -290,7 +287,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUInt();
             } while (constrParam == testValue.EndCode);
-            SequentialMapGroupRecord testParam = new SequentialMapGroupRecord(testValue.StartCode, constrParam, testValue.StartGlyphId);
+            SequentialMapGroupRecord testParam = new(testValue.StartCode, constrParam, testValue.StartGlyphId);
 
             bool testOutput = testValue == testParam;
 
@@ -306,7 +303,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUShort();
             } while (constrParam == testValue.StartGlyphId);
-            SequentialMapGroupRecord testParam = new SequentialMapGroupRecord(testValue.StartCode, testValue.EndCode, constrParam);
+            SequentialMapGroupRecord testParam = new(testValue.StartCode, testValue.EndCode, constrParam);
 
             bool testOutput = testValue == testParam;
 
@@ -329,7 +326,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void SequentialMapGroupRecordStruct_InequalityOperator_ReturnsFalse_IfOperandsAreConstructedFromSameData()
         {
             SequentialMapGroupRecord testValue = GetTestValue();
-            SequentialMapGroupRecord testParam = new SequentialMapGroupRecord(testValue.StartCode, testValue.EndCode, testValue.StartGlyphId);
+            SequentialMapGroupRecord testParam = new(testValue.StartCode, testValue.EndCode, testValue.StartGlyphId);
 
             bool testOutput = testValue != testParam;
 
@@ -345,7 +342,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUInt();
             } while (constrParam == testValue.StartCode);
-            SequentialMapGroupRecord testParam = new SequentialMapGroupRecord(constrParam, testValue.EndCode, testValue.StartGlyphId);
+            SequentialMapGroupRecord testParam = new(constrParam, testValue.EndCode, testValue.StartGlyphId);
 
             bool testOutput = testValue != testParam;
 
@@ -361,7 +358,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUInt();
             } while (constrParam == testValue.EndCode);
-            SequentialMapGroupRecord testParam = new SequentialMapGroupRecord(testValue.StartCode, constrParam, testValue.StartGlyphId);
+            SequentialMapGroupRecord testParam = new(testValue.StartCode, constrParam, testValue.StartGlyphId);
 
             bool testOutput = testValue != testParam;
 
@@ -377,7 +374,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextUShort();
             } while (constrParam == testValue.StartGlyphId);
-            SequentialMapGroupRecord testParam = new SequentialMapGroupRecord(testValue.StartCode, testValue.EndCode, constrParam);
+            SequentialMapGroupRecord testParam = new(testValue.StartCode, testValue.EndCode, constrParam);
 
             bool testOutput = testValue != testParam;
 

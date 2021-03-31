@@ -18,7 +18,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void VectorStruct_ParameterlessConstructor_SetsXPropertyToZero()
         {
-            Vector testOutput = new Vector();
+            Vector testOutput = new();
 
             Assert.AreEqual(0m, testOutput.X);
         }
@@ -26,7 +26,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void VectorStruct_ParameterlessConstructor_SetsYPropertyToZero()
         {
-            Vector testOutput = new Vector();
+            Vector testOutput = new();
 
             Assert.AreEqual(0m, testOutput.Y);
         }
@@ -37,7 +37,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam0 = _rnd.NextDecimal();
             decimal testParam1 = _rnd.NextDecimal();
 
-            Vector testOutput = new Vector(testParam0, testParam1);
+            Vector testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0, testOutput.X);
         }
@@ -48,7 +48,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal testParam0 = _rnd.NextDecimal();
             decimal testParam1 = _rnd.NextDecimal();
 
-            Vector testOutput = new Vector(testParam0, testParam1);
+            Vector testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam1, testOutput.Y);
         }
@@ -58,7 +58,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject = new Vector(constrParam0, constrParam1);
+            Vector testObject = new(constrParam0, constrParam1);
 
             bool testOutput = testObject.Equals(testObject);
 
@@ -70,8 +70,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject = new Vector(constrParam0, constrParam1);
-            Vector testParam0 = new Vector(testObject.X, testObject.Y);
+            Vector testObject = new(constrParam0, constrParam1);
+            Vector testParam0 = new(testObject.X, testObject.Y);
 
             bool testOutput = testObject.Equals(testParam0);
 
@@ -83,13 +83,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject = new Vector(constrParam0, constrParam1);
+            Vector testObject = new(constrParam0, constrParam1);
             decimal constrParam2;
             do
             {
                 constrParam2 = _rnd.NextDecimal();
             } while (constrParam2 == testObject.X);
-            Vector testParam0 = new Vector(constrParam2, testObject.Y);
+            Vector testParam0 = new(constrParam2, testObject.Y);
 
             bool testOutput = testObject.Equals(testParam0);
 
@@ -101,13 +101,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject = new Vector(constrParam0, constrParam1);
+            Vector testObject = new(constrParam0, constrParam1);
             decimal constrParam2;
             do
             {
                 constrParam2 = _rnd.NextDecimal();
             } while (constrParam2 == testObject.Y);
-            Vector testParam0 = new Vector(testObject.X, constrParam2);
+            Vector testParam0 = new(testObject.X, constrParam2);
 
             bool testOutput = testObject.Equals(testParam0);
 
@@ -119,7 +119,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject = new Vector(constrParam0, constrParam1);
+            Vector testObject = new(constrParam0, constrParam1);
 
             bool testOutput = testObject.Equals((object)testObject);
 
@@ -131,8 +131,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject = new Vector(constrParam0, constrParam1);
-            Vector testParam0 = new Vector(testObject.X, testObject.Y);
+            Vector testObject = new(constrParam0, constrParam1);
+            Vector testParam0 = new(testObject.X, testObject.Y);
 
             bool testOutput = testObject.Equals((object)testParam0);
 
@@ -144,13 +144,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject = new Vector(constrParam0, constrParam1);
+            Vector testObject = new(constrParam0, constrParam1);
             decimal constrParam2;
             do
             {
                 constrParam2 = _rnd.NextDecimal();
             } while (constrParam2 == testObject.X);
-            Vector testParam0 = new Vector(constrParam2, testObject.Y);
+            Vector testParam0 = new(constrParam2, testObject.Y);
 
             bool testOutput = testObject.Equals((object)testParam0);
 
@@ -162,13 +162,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject = new Vector(constrParam0, constrParam1);
+            Vector testObject = new(constrParam0, constrParam1);
             decimal constrParam2;
             do
             {
                 constrParam2 = _rnd.NextDecimal();
             } while (constrParam2 == testObject.Y);
-            Vector testParam0 = new Vector(testObject.X, constrParam2);
+            Vector testParam0 = new(testObject.X, constrParam2);
 
             bool testOutput = testObject.Equals((object)testParam0);
 
@@ -180,7 +180,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject = new Vector(constrParam0, constrParam1);
+            Vector testObject = new(constrParam0, constrParam1);
             string testParam0 = _rnd.NextString(_rnd.Next(0, 20));
 
             bool testOutput = testObject.Equals(testParam0);
@@ -193,8 +193,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject0 = new Vector(constrParam0, constrParam1);
-            Vector testObject1 = new Vector(testObject0.X, testObject0.Y);
+            Vector testObject0 = new(constrParam0, constrParam1);
+            Vector testObject1 = new(testObject0.X, testObject0.Y);
 
             int testOutput0 = testObject0.GetHashCode();
             int testOutput1 = testObject1.GetHashCode();
@@ -207,7 +207,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject = new Vector(constrParam0, constrParam1);
+            Vector testObject = new(constrParam0, constrParam1);
 
 #pragma warning disable CS1718 // Comparison made to same variable
             bool testOutput = testObject == testObject;
@@ -221,8 +221,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject0 = new Vector(constrParam0, constrParam1);
-            Vector testObject1 = new Vector(testObject0.X, testObject0.Y);
+            Vector testObject0 = new(constrParam0, constrParam1);
+            Vector testObject1 = new(testObject0.X, testObject0.Y);
 
             bool testOutput = testObject0 == testObject1;
 
@@ -234,13 +234,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject0 = new Vector(constrParam0, constrParam1);
+            Vector testObject0 = new(constrParam0, constrParam1);
             decimal constrParam2;
             do
             {
                 constrParam2 = _rnd.NextDecimal();
             } while (constrParam2 == testObject0.X);
-            Vector testObject1 = new Vector(constrParam2, testObject0.Y);
+            Vector testObject1 = new(constrParam2, testObject0.Y);
 
             bool testOutput = testObject0 == testObject1;
 
@@ -252,13 +252,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject0 = new Vector(constrParam0, constrParam1);
+            Vector testObject0 = new(constrParam0, constrParam1);
             decimal constrParam2;
             do
             {
                 constrParam2 = _rnd.NextDecimal();
             } while (constrParam2 == testObject0.Y);
-            Vector testObject1 = new Vector(testObject0.X, constrParam2);
+            Vector testObject1 = new(testObject0.X, constrParam2);
 
             bool testOutput = testObject0 == testObject1;
 
@@ -270,7 +270,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject = new Vector(constrParam0, constrParam1);
+            Vector testObject = new(constrParam0, constrParam1);
 
 #pragma warning disable CS1718 // Comparison made to same variable
             bool testOutput = testObject != testObject;
@@ -284,8 +284,8 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject0 = new Vector(constrParam0, constrParam1);
-            Vector testObject1 = new Vector(testObject0.X, testObject0.Y);
+            Vector testObject0 = new(constrParam0, constrParam1);
+            Vector testObject1 = new(testObject0.X, testObject0.Y);
 
             bool testOutput = testObject0 != testObject1;
 
@@ -297,13 +297,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject0 = new Vector(constrParam0, constrParam1);
+            Vector testObject0 = new(constrParam0, constrParam1);
             decimal constrParam2;
             do
             {
                 constrParam2 = _rnd.NextDecimal();
             } while (constrParam2 == testObject0.X);
-            Vector testObject1 = new Vector(constrParam2, testObject0.Y);
+            Vector testObject1 = new(constrParam2, testObject0.Y);
 
             bool testOutput = testObject0 != testObject1;
 
@@ -315,13 +315,13 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         {
             decimal constrParam0 = _rnd.NextDecimal();
             decimal constrParam1 = _rnd.NextDecimal();
-            Vector testObject0 = new Vector(constrParam0, constrParam1);
+            Vector testObject0 = new(constrParam0, constrParam1);
             decimal constrParam2;
             do
             {
                 constrParam2 = _rnd.NextDecimal();
             } while (constrParam2 == testObject0.Y);
-            Vector testObject1 = new Vector(testObject0.X, constrParam2);
+            Vector testObject1 = new(testObject0.X, constrParam2);
 
             bool testOutput = testObject0 != testObject1;
 
@@ -464,7 +464,7 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             decimal expectedX = _rnd.NextDecimal();
             decimal expectedY = _rnd.NextDecimal();
             string expectedValue = expectedX.ToString(CultureInfo.InvariantCulture) + " " + expectedY.ToString(CultureInfo.InvariantCulture);
-            Vector testValue = new Vector(expectedX, expectedY);
+            Vector testValue = new(expectedX, expectedY);
 
             string testOutput = testValue.ToString();
 

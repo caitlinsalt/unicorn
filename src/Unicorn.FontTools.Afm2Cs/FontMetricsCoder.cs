@@ -10,7 +10,7 @@ namespace Unicorn.FontTools.Afm2Cs
     {
         internal static IEnumerable<string> PropertyCoder(AfmFontMetrics metrics, string propertyName, string sourceName, int indentLen)
         {
-            string indent = new string(' ', indentLen);
+            string indent = new(' ', indentLen);
             string internalName = InternalName(propertyName);
             yield return indent + "/// <summary>";
             yield return indent + $"/// {propertyName} was generated from {sourceName}";
@@ -30,7 +30,7 @@ namespace Unicorn.FontTools.Afm2Cs
         internal static IEnumerable<string> FontMetricsToCode(AfmFontMetrics metrics, int indentLen)
         {
             const string tab = "    ";
-            string indent = new string(' ', indentLen);
+            string indent = new(' ', indentLen);
 
             Func<AfmFontMetrics, string>[] constructorFuncs = new Func<AfmFontMetrics, string>[]
             {
@@ -94,11 +94,9 @@ namespace Unicorn.FontTools.Afm2Cs
             return " (Unicorn.FontTools.Afm.Character)null ";
         }
 
-        private static string InternalName(string externalName)
-        {
 #pragma warning disable CA1308 // Normalize strings to uppercase
-            return $"_{externalName.Substring(0, 1).ToLower(CultureInfo.InvariantCulture)}{externalName.Substring(1)}";
+        private static string InternalName(string externalName) => $"_{externalName.Substring(0, 1).ToLower(CultureInfo.InvariantCulture)}{externalName[1..]}";
 #pragma warning restore CA1308 // Normalize strings to uppercase
-        }
+    
     }
 }

@@ -81,10 +81,7 @@ namespace Unicorn.FontTools.Extensions
         /// <returns>A <see cref="int" /> value loded from the first four elements of the parameter</returns>
         /// <exception cref="NullReferenceException">Thrown if the parameter is null.</exception>
         /// <exception cref="InvalidOperationException">Thrown if the parameter's length is less than four.</exception>
-        public static int ToInt(this byte[] arr, int idx = 0)
-        {
-            return unchecked((int)ToUInt(arr, idx));
-        }
+        public static int ToInt(this byte[] arr, int idx = 0) => unchecked((int)ToUInt(arr, idx));
 
         /// <summary>
         /// Convert four bytes to a "fixed" value, returned as decimal.  The fixed format is a signed 32-bit fixed-point format with 16 bits for the integral part and 

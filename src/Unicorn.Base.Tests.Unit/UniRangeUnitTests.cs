@@ -1,24 +1,25 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Tests.Utility.Extensions;
+using Tests.Utility.Providers;
 
 namespace Unicorn.Base.Tests.Unit
 {
     [TestClass]
     public class UniRangeUnitTests
     {
-        private static Random _rnd = new Random();
+        private static readonly Random _rnd = RandomProvider.Default;
 
 #pragma warning disable CA5394 // Do not use insecure randomness
 
-        private static UniRange GetTestValue() => new UniRange(_rnd.NextDouble() * 1000, _rnd.NextDouble() * 1000);
+        private static UniRange GetTestValue() => new(_rnd.NextDouble() * 1000, _rnd.NextDouble() * 1000);
 
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 
         [TestMethod]
         public void UniRangeStruct_ParameterlessConstructor_SetsStartPropertyToZero()
         {
-            UniRange testValue = new UniRange();
+            UniRange testValue = new();
 
             Assert.AreEqual(0d, testValue.Start);
         }
@@ -26,7 +27,7 @@ namespace Unicorn.Base.Tests.Unit
         [TestMethod]
         public void UniRangeStruct_ParameterlessConstructor_SetsEndPropertyToZero()
         {
-            UniRange testValue = new UniRange();
+            UniRange testValue = new();
 
             Assert.AreEqual(0d, testValue.End);
         }
@@ -36,7 +37,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniRangeStruct_ConstructorWithTwoDoubleParameters_SetsStartPropertyToValueOfFirstParameter()
         {
             double testValue = _rnd.NextDouble();
-            UniRange testObject = new UniRange(testValue, _rnd.NextDouble());
+            UniRange testObject = new(testValue, _rnd.NextDouble());
 
             Assert.AreEqual(testValue, testObject.Start);
         }
@@ -45,7 +46,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniRangeStruct_ConstructorWithTwoDoubleParameters_SetsEndPropertyToValueOfSecondParameter()
         {
             double testValue = _rnd.NextDouble();
-            UniRange testObject = new UniRange(_rnd.NextDouble(), testValue);
+            UniRange testObject = new(_rnd.NextDouble(), testValue);
 
             Assert.AreEqual(testValue, testObject.End);
         }
@@ -55,7 +56,7 @@ namespace Unicorn.Base.Tests.Unit
         {
             double testValue = _rnd.NextDouble();
             double startValue = _rnd.NextDouble();
-            UniRange testObject = new UniRange(startValue, startValue + testValue);
+            UniRange testObject = new(startValue, startValue + testValue);
 
             double testOutput = testObject.Size;
 
@@ -76,7 +77,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniRangeStruct_EqualsMethodWithUniRangeParameter_ReturnsTrue_IfParameterIsConstructedFromSameData()
         {
             UniRange testValue = GetTestValue();
-            UniRange testParam = new UniRange(testValue.Start, testValue.End);
+            UniRange testParam = new(testValue.Start, testValue.End);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -92,7 +93,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.Start);
-            UniRange testParam = new UniRange(constrParam, testValue.End);
+            UniRange testParam = new(constrParam, testValue.End);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -108,7 +109,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.End);
-            UniRange testParam = new UniRange(testValue.Start, constrParam);
+            UniRange testParam = new(testValue.Start, constrParam);
 
             bool testOutput = testValue.Equals(testParam);
 
@@ -129,7 +130,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniRangeStruct_EqualsMethodWithObjectParameter_ReturnsTrue_IfParameterIsConstructedFromSameData()
         {
             UniRange testValue = GetTestValue();
-            UniRange testParam = new UniRange(testValue.Start, testValue.End);
+            UniRange testParam = new(testValue.Start, testValue.End);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -145,7 +146,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.Start);
-            UniRange testParam = new UniRange(constrParam, testValue.End);
+            UniRange testParam = new(constrParam, testValue.End);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -161,7 +162,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.End);
-            UniRange testParam = new UniRange(testValue.Start, constrParam);
+            UniRange testParam = new(testValue.Start, constrParam);
 
             bool testOutput = testValue.Equals((object)testParam);
 
@@ -183,7 +184,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniRangeStruct_GetHashCodeMethod_ReturnsSameValue_IfCalledTwiceOnSameValue()
         {
             UniRange testValue0 = GetTestValue();
-            UniRange testValue1 = new UniRange(testValue0.Start, testValue0.End);
+            UniRange testValue1 = new(testValue0.Start, testValue0.End);
 
             int testOutput0 = testValue0.GetHashCode();
             int testOutput1 = testValue1.GetHashCode();
@@ -207,7 +208,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniRangeStruct_EqualityOperator_ReturnsTrue_IfOperandsAreConstructedFromSameData()
         {
             UniRange testValue = GetTestValue();
-            UniRange testParam = new UniRange(testValue.Start, testValue.End);
+            UniRange testParam = new(testValue.Start, testValue.End);
 
             bool testOutput = testValue == testParam;
 
@@ -223,7 +224,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.Start);
-            UniRange testParam = new UniRange(constrParam, testValue.End);
+            UniRange testParam = new(constrParam, testValue.End);
 
             bool testOutput = testValue == testParam;
 
@@ -239,7 +240,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.End);
-            UniRange testParam = new UniRange(testValue.Start, constrParam);
+            UniRange testParam = new(testValue.Start, constrParam);
 
             bool testOutput = testValue == testParam;
 
@@ -262,7 +263,7 @@ namespace Unicorn.Base.Tests.Unit
         public void UniRangeStruct_InequalityOperator_ReturnsFalse_IfOperandsAreConstructedFromSameData()
         {
             UniRange testValue = GetTestValue();
-            UniRange testParam = new UniRange(testValue.Start, testValue.End);
+            UniRange testParam = new(testValue.Start, testValue.End);
 
             bool testOutput = testValue != testParam;
 
@@ -278,7 +279,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.Start);
-            UniRange testParam = new UniRange(constrParam, testValue.End);
+            UniRange testParam = new(constrParam, testValue.End);
 
             bool testOutput = testValue != testParam;
 
@@ -294,7 +295,7 @@ namespace Unicorn.Base.Tests.Unit
             {
                 constrParam = _rnd.NextDouble() * 1000;
             } while (constrParam == testValue.End);
-            UniRange testParam = new UniRange(testValue.Start, constrParam);
+            UniRange testParam = new(testValue.Start, constrParam);
 
             bool testOutput = testValue != testParam;
 

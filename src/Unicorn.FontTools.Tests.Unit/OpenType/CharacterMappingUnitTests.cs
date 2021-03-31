@@ -21,7 +21,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             ushort testParam1 = _rnd.NextUShort();
             ushort testParam2 = _rnd.NextUShort();
 
-            MockCharacterMapping testOutput = new MockCharacterMapping(testParam0, testParam1, testParam2);
+            MockCharacterMapping testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam0, testOutput.Platform);
         }
@@ -33,7 +33,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             ushort testParam1 = _rnd.NextUShort();
             ushort testParam2 = _rnd.NextUShort();
 
-            MockCharacterMapping testOutput = new MockCharacterMapping(testParam0, testParam1, testParam2);
+            MockCharacterMapping testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam1, testOutput.Encoding);
         }
@@ -45,7 +45,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             ushort testParam1 = _rnd.NextUShort();
             ushort testParam2 = _rnd.NextUShort();
 
-            MockCharacterMapping testOutput = new MockCharacterMapping(testParam0, testParam1, testParam2);
+            MockCharacterMapping testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam2, testOutput.Language);
         }

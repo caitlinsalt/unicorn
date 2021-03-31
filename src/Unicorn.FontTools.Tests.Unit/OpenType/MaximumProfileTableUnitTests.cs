@@ -1,7 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Tests.Utility.Providers;
 using Tests.Utility.Extensions;
 using System.IO;
@@ -45,7 +43,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             int testParam0 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam0);
+            MaximumProfileTable testOutput = new(testParam0);
 
             Assert.AreEqual("maxp", testOutput.TableTag.Value);
         }
@@ -55,7 +53,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             int testParam0 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam0);
+            MaximumProfileTable testOutput = new(testParam0);
 
             Assert.AreEqual(FontKind.Cff, testOutput.Kind);
         }
@@ -65,7 +63,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             int testParam0 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam0);
+            MaximumProfileTable testOutput = new(testParam0);
 
             Assert.AreEqual(testParam0, testOutput.GlyphCount);
         }
@@ -788,8 +786,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06,
-                testParam07, testParam08, testParam09, testParam10, testParam11, testParam12, testParam13);
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual("maxp", testOutput.TableTag.Value);
         }
@@ -812,8 +810,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06,
-                testParam07, testParam08, testParam09, testParam10, testParam11, testParam12, testParam13);
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(FontKind.TrueType, testOutput.Kind);
         }
@@ -836,8 +834,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06,
-                testParam07, testParam08, testParam09, testParam10, testParam11, testParam12, testParam13);
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam00, testOutput.GlyphCount);
         }
@@ -860,8 +858,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06,
-                testParam07, testParam08, testParam09, testParam10, testParam11, testParam12, testParam13);
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam01, testOutput.MaxPoints);
         }
@@ -884,8 +882,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06,
-                testParam07, testParam08, testParam09, testParam10, testParam11, testParam12, testParam13);
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam02, testOutput.MaxContours);
         }
@@ -908,8 +906,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06,
-                testParam07, testParam08, testParam09, testParam10, testParam11, testParam12, testParam13);
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam03, testOutput.MaxCompositePoints);
         }
@@ -932,8 +930,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06,
-                testParam07, testParam08, testParam09, testParam10, testParam11, testParam12, testParam13);
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam04, testOutput.MaxCompositeContours);
         }
@@ -956,8 +954,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06,
-                testParam07, testParam08, testParam09, testParam10, testParam11, testParam12, testParam13);
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam05, testOutput.MaxZones);
         }
@@ -980,8 +978,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06,
-                testParam07, testParam08, testParam09, testParam10, testParam11, testParam12, testParam13);
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam06, testOutput.MaxTwilightZonePoints);
         }
@@ -1004,8 +1002,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06,
-                testParam07, testParam08, testParam09, testParam10, testParam11, testParam12, testParam13);
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam07, testOutput.MaxStorage);
         }
@@ -1028,8 +1026,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06,
-                testParam07, testParam08, testParam09, testParam10, testParam11, testParam12, testParam13);
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam08, testOutput.MaxFunctionDefs);
         }
@@ -1052,8 +1050,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06,
-                testParam07, testParam08, testParam09, testParam10, testParam11, testParam12, testParam13);
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam09, testOutput.MaxInstructionDefs);
         }
@@ -1076,8 +1074,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06,
-                testParam07, testParam08, testParam09, testParam10, testParam11, testParam12, testParam13);
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam10, testOutput.MaxStackElements);
         }
@@ -1100,8 +1098,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06,
-                testParam07, testParam08, testParam09, testParam10, testParam11, testParam12, testParam13);
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam11, testOutput.MaxSizeOfInstructions);
         }
@@ -1124,8 +1122,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06,
-                testParam07, testParam08, testParam09, testParam10, testParam11, testParam12, testParam13);
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam12, testOutput.MaxComponentElements);
         }
@@ -1148,8 +1146,8 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new MaximumProfileTable(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06,
-                testParam07, testParam08, testParam09, testParam10, testParam11, testParam12, testParam13);
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+                testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam13, testOutput.MaxComponentDepth);
         }
@@ -1600,7 +1598,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             constrParam0.WriteIntAt(0, 20480);
             constrParam0.WriteUShortAt(4, expectedValue);
             MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new MockTextWriter();
+            using MockTextWriter testParam0 = new();
 
             testObject.Dump(testParam0);
 
@@ -1618,7 +1616,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             constrParam0.WriteIntAt(0, 65536);
             constrParam0.WriteUShortAt(4, expectedValue);
             MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new MockTextWriter();
+            using MockTextWriter testParam0 = new();
 
             testObject.Dump(testParam0);
 
@@ -1636,7 +1634,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             constrParam0.WriteIntAt(0, 65536);
             constrParam0.WriteUShortAt(6, expectedValue);
             MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new MockTextWriter();
+            using MockTextWriter testParam0 = new();
 
             testObject.Dump(testParam0);
 
@@ -1654,7 +1652,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             constrParam0.WriteIntAt(0, 65536);
             constrParam0.WriteUShortAt(8, expectedValue);
             MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new MockTextWriter();
+            using MockTextWriter testParam0 = new();
 
             testObject.Dump(testParam0);
 
@@ -1672,7 +1670,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             constrParam0.WriteIntAt(0, 65536);
             constrParam0.WriteUShortAt(10, expectedValue);
             MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new MockTextWriter();
+            using MockTextWriter testParam0 = new();
 
             testObject.Dump(testParam0);
 
@@ -1690,7 +1688,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             constrParam0.WriteIntAt(0, 65536);
             constrParam0.WriteUShortAt(12, expectedValue);
             MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new MockTextWriter();
+            using MockTextWriter testParam0 = new();
 
             testObject.Dump(testParam0);
 
@@ -1708,7 +1706,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             constrParam0.WriteIntAt(0, 65536);
             constrParam0.WriteUShortAt(14, expectedValue);
             MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new MockTextWriter();
+            using MockTextWriter testParam0 = new();
 
             testObject.Dump(testParam0);
 
@@ -1726,7 +1724,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             constrParam0.WriteIntAt(0, 65536);
             constrParam0.WriteUShortAt(16, expectedValue);
             MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new MockTextWriter();
+            using MockTextWriter testParam0 = new();
 
             testObject.Dump(testParam0);
 
@@ -1744,7 +1742,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             constrParam0.WriteIntAt(0, 65536);
             constrParam0.WriteUShortAt(18, expectedValue);
             MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new MockTextWriter();
+            using MockTextWriter testParam0 = new();
 
             testObject.Dump(testParam0);
 
@@ -1762,7 +1760,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             constrParam0.WriteIntAt(0, 65536);
             constrParam0.WriteUShortAt(20, expectedValue);
             MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new MockTextWriter();
+            using MockTextWriter testParam0 = new();
 
             testObject.Dump(testParam0);
 
@@ -1780,7 +1778,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             constrParam0.WriteIntAt(0, 65536);
             constrParam0.WriteUShortAt(22, expectedValue);
             MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new MockTextWriter();
+            using MockTextWriter testParam0 = new();
 
             testObject.Dump(testParam0);
 
@@ -1798,7 +1796,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             constrParam0.WriteIntAt(0, 65536);
             constrParam0.WriteUShortAt(24, expectedValue);
             MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new MockTextWriter();
+            using MockTextWriter testParam0 = new();
 
             testObject.Dump(testParam0);
 
@@ -1816,7 +1814,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             constrParam0.WriteIntAt(0, 65536);
             constrParam0.WriteUShortAt(26, expectedValue);
             MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new MockTextWriter();
+            using MockTextWriter testParam0 = new();
 
             testObject.Dump(testParam0);
 
@@ -1834,7 +1832,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             constrParam0.WriteIntAt(0, 65536);
             constrParam0.WriteUShortAt(28, expectedValue);
             MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new MockTextWriter();
+            using MockTextWriter testParam0 = new();
 
             testObject.Dump(testParam0);
 
@@ -1852,7 +1850,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             constrParam0.WriteIntAt(0, 65536);
             constrParam0.WriteUShortAt(30, expectedValue);
             MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new MockTextWriter();
+            using MockTextWriter testParam0 = new();
 
             testObject.Dump(testParam0);
 

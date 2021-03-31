@@ -17,7 +17,7 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void FontExceptionClass_ParameterlessConstructor_RetutnsObjectWithInnerExceptionPropertyEqualToNull()
         {
-            FontException testOutput = new FontException();
+            FontException testOutput = new();
 
             Assert.IsNull(testOutput.InnerException);
         }
@@ -27,7 +27,7 @@ namespace Unicorn.FontTools.Tests.Unit
         {
             string testParam0 = _rnd.NextString(_rnd.Next(255));
 
-            FontException testOutput = new FontException(testParam0);
+            FontException testOutput = new(testParam0);
 
             Assert.AreEqual(testParam0, testOutput.Message);
         }
@@ -37,7 +37,7 @@ namespace Unicorn.FontTools.Tests.Unit
         {
             string testParam0 = _rnd.NextString(_rnd.Next(255));
 
-            FontException testOutput = new FontException(testParam0);
+            FontException testOutput = new(testParam0);
 
             Assert.IsNull(testOutput.InnerException);
         }
@@ -48,7 +48,7 @@ namespace Unicorn.FontTools.Tests.Unit
             string testParam0 = _rnd.NextString(_rnd.Next(255));
             Exception testParam1 = new TestException();
 
-            FontException testOutput = new FontException(testParam0, testParam1);
+            FontException testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0, testOutput.Message);
         }
@@ -59,7 +59,7 @@ namespace Unicorn.FontTools.Tests.Unit
             string testParam0 = _rnd.NextString(_rnd.Next(255));
             Exception testParam1 = new TestException();
 
-            FontException testOutput = new FontException(testParam0, testParam1);
+            FontException testOutput = new(testParam0, testParam1);
 
             Assert.AreSame(testParam1, testOutput.InnerException);
         }

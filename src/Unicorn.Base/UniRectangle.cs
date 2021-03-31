@@ -85,23 +85,13 @@ namespace Unicorn.Base
         /// </summary>
         /// <param name="obj">Another object or value.</param>
         /// <returns><c>true</c> if the parameter is another <see cref="UniRectangle" /> value that is equal to this; <c>false</c> otherwise.</returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is UniRectangle other)
-            {
-                return Equals(other);
-            }
-            return false;
-        }
+        public override bool Equals(object obj) => (obj is UniRectangle other) && Equals(other);
 
         /// <summary>
         /// Hash code method.
         /// </summary>
         /// <returns>A hash code derived from this value.</returns>
-        public override int GetHashCode()
-        {
-            return MinX.GetHashCode() ^ (MinY * 3).GetHashCode() ^ Size.GetHashCode();
-        }
+        public override int GetHashCode() => MinX.GetHashCode() ^ (MinY * 3).GetHashCode() ^ Size.GetHashCode();
 
         /// <summary>
         /// Equality operator.

@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
 using Unicorn.FontTools.Afm;
@@ -24,7 +22,7 @@ namespace Unicorn.FontTools.Tests.Unit
             AfmFontMetrics testParam0 = null;
             double testParam1 = _rnd.NextDouble() * 20;
 
-            PdfStandardFontDescriptor testOutput = new PdfStandardFontDescriptor(testParam0, testParam1);
+            PdfStandardFontDescriptor testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam1, testOutput.PointSize);
         }

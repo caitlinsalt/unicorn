@@ -17,7 +17,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         [TestMethod]
         public void OpenTypeFormatExceptionClass_ParameterlessConstructor_SetsInnerExceptionPropertyToNull()
         {
-            OpenTypeFormatException testOutput = new OpenTypeFormatException();
+            OpenTypeFormatException testOutput = new();
 
             Assert.IsNull(testOutput.InnerException);
         }
@@ -27,7 +27,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             string testParam0 = _rnd.NextString(_rnd.Next(128));
 
-            OpenTypeFormatException testOutput = new OpenTypeFormatException(testParam0);
+            OpenTypeFormatException testOutput = new(testParam0);
 
             Assert.AreEqual(testParam0, testOutput.Message);
         }
@@ -37,7 +37,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             string testParam0 = _rnd.NextString(_rnd.Next(128));
 
-            OpenTypeFormatException testOutput = new OpenTypeFormatException(testParam0);
+            OpenTypeFormatException testOutput = new(testParam0);
 
             Assert.IsNull(testOutput.InnerException);
         }
@@ -48,7 +48,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             string testParam0 = _rnd.NextString(_rnd.Next(128));
             Exception testParam1 = new TestException();
 
-            OpenTypeFormatException testOutput = new OpenTypeFormatException(testParam0, testParam1);
+            OpenTypeFormatException testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0, testOutput.Message);
         }
@@ -59,7 +59,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             string testParam0 = _rnd.NextString(_rnd.Next(128));
             Exception testParam1 = new TestException();
 
-            OpenTypeFormatException testOutput = new OpenTypeFormatException(testParam0, testParam1);
+            OpenTypeFormatException testOutput = new(testParam0, testParam1);
 
             Assert.AreSame(testParam1, testOutput.InnerException);
         }

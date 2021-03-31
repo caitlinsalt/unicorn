@@ -18,7 +18,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             Tag testParam = _rnd.NextTag();
 
-            MockTable testOutput = new MockTable(testParam);
+            MockTable testOutput = new(testParam);
 
             Assert.AreEqual(testParam, testOutput.TableTag);
         }
@@ -29,7 +29,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             Tag expectedValue = _rnd.NextTag();
             string testParam = expectedValue.Value;
 
-            MockTable testOutput = new MockTable(testParam);
+            MockTable testOutput = new(testParam);
 
             Assert.AreEqual(expectedValue, testOutput.TableTag);
         }
