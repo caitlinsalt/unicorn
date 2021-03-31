@@ -14,14 +14,14 @@ namespace Unicorn.FontTools.Afm2Cs
                 .WithParsed(o =>
                 {
                     const int classContentIndent = 8;
-                    List<string> discoveredFonts = new List<string>();
-                    ClassCoder coder = new ClassCoder(o.NameSpace, o.ClassName);
+                    List<string> discoveredFonts = new();
+                    ClassCoder coder = new(o.NameSpace, o.ClassName);
                     string output = string.IsNullOrWhiteSpace(o.Output) ? o.ClassName + ".cs" : o.Output;
-                    using StreamWriter writer = new StreamWriter(output);
+                    using StreamWriter writer = new(output);
                     writer.Write(coder.OutputStart(args));
                     foreach (string input in args)
                     {
-                        using StreamReader reader = new StreamReader(input);
+                        using StreamReader reader = new(input);
                         AfmFontMetrics metrics = AfmFontMetrics.FromReader(reader);
                         foreach (string line in FontMetricsCoder.PropertyCoder(metrics, SafeFontName(metrics.FontName), input, classContentIndent))
                         {
