@@ -109,10 +109,7 @@ namespace Unicorn.FontTools.OpenType
         /// </summary>
         /// <param name="field">The kind of name record to return.</param>
         /// <returns>A sequence of <see cref="NameRecord" /> instances of the given kind (which may be an empty sequence).</returns>
-        public IEnumerable<NameRecord> Search(NameField field)
-        {
-            return Names.Where(n => !n.FillerContent && n.NameId == field);
-        }
+        public IEnumerable<NameRecord> Search(NameField field) => Names.Where(n => !n.FillerContent && n.NameId == field);
 
         private static Encoding GetEncoding(PlatformId platform, ushort encodingId)
         {

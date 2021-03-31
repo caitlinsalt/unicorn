@@ -323,11 +323,7 @@ namespace Unicorn.FontTools.OpenType
 
             object IEnumerator.Current => _font._accessor.ReadByte(idx);
 
-            public bool MoveNext()
-            {
-                idx++;
-                return idx < _font._accessor.Capacity;
-            }
+            public bool MoveNext() => ++idx < _font._accessor.Capacity;
 
             public void Reset()
             {
@@ -359,15 +355,9 @@ namespace Unicorn.FontTools.OpenType
         /// Returns an enumerator that iterates over the bytes that comprise the raw data of this font.
         /// </summary>
         /// <returns>An enumerator that will return the raw data of this font.</returns>
-        public IEnumerator<byte> GetEnumerator()
-        {
-            return new Enumerator(this);
-        }
+        public IEnumerator<byte> GetEnumerator() => new Enumerator(this);
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return new Enumerator(this);
-        }
+        IEnumerator IEnumerable.GetEnumerator() => new Enumerator(this);
 
         #region IDisposable Support
         private bool disposedValue; // To detect redundant calls

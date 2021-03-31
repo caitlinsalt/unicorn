@@ -8,4 +8,9 @@
     <Copyright>Copyright © 2017-2021 Will Salt</Copyright>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+  </PropertyGroup>
+
 </Project>

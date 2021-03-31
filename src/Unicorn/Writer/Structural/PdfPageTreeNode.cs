@@ -48,9 +48,11 @@ namespace Unicorn.Writer.Structural
         /// <returns>A <see cref="PdfDictionary" /> containing the properties of this object in the correct format.</returns>
         protected override PdfDictionary MakeDictionary()
         {
-            PdfDictionary dictionary = new PdfDictionary();
-            dictionary.Add(CommonPdfNames.Type, CommonPdfNames.Pages);
-            dictionary.Add(CommonPdfNames.Count, new PdfInteger(Kids.Count));
+            PdfDictionary dictionary = new PdfDictionary
+            {
+                { CommonPdfNames.Type, CommonPdfNames.Pages },
+                { CommonPdfNames.Count, new PdfInteger(Kids.Count) }
+            };
             if (Parent != null)
             {
                 dictionary.Add(CommonPdfNames.Parent, Parent.GetReference());

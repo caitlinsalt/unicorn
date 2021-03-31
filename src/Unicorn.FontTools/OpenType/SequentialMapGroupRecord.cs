@@ -53,14 +53,7 @@ namespace Unicorn.FontTools.OpenType
         /// </summary>
         /// <param name="obj">Another value or object.</param>
         /// <returns><c>true</c> if the parameter is a <see cref="SequentialMapGroupRecord" /> value equal to this one, <c>false</c> otherwise.</returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is SequentialMapGroupRecord other)
-            {
-                return Equals(other);
-            }
-            return false;
-        }
+        public override bool Equals(object obj) => (obj is SequentialMapGroupRecord other) && this == other;
 
         /// <summary>
         /// Hash code method.

@@ -48,9 +48,7 @@ namespace Unicorn
         /// Default constructor.
         /// </summary>
         public Line()
-        {
-            
-        }
+        { }
 
         /// <summary>
         /// Constructor with line content.

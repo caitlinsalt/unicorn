@@ -49,24 +49,14 @@ namespace Unicorn.Base
         /// </summary>
         /// <param name="obj">Another object or value to compare against.</param>
         /// <returns><c>true</c> if the obj parameter is another UniSize value that is the same as this; <c>false</c> otherwise.</returns>
-        public override bool Equals(object obj)
-        {
-            if (!(obj is UniSize other))
-            {
-                return false;
-            }
-            return Equals(other);
-        }
+        public override bool Equals(object obj) => (obj is UniSize other) && Equals(other);
 
         /// <summary>
         /// Returns the hash code for this instance.
         /// </summary>
         /// <returns>A 32 bit signed integer hash code.</returns>
-        public override int GetHashCode()
-        {
-            // The multiplication of the height is to avoid the generate case where all squares return a hashcode of 0.
-            return Width.GetHashCode() ^ (Height * 17).GetHashCode();
-        }
+        public override int GetHashCode() => Width.GetHashCode() ^ (Height * 17).GetHashCode();
+        // The multiplication of the height is to avoid the degenerate case where all squares return a hashcode of 0.
         
         /// <summary>
         /// Addition operator.  Returns a <see cref="UniSize" /> whose width is the sum of its operands' widths and whose height is the sum of its operands' heights.

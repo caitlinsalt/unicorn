@@ -53,24 +53,14 @@ namespace Unicorn.FontTools.Afm
         /// </summary>
         /// <param name="other">Another <see cref="LigatureSet" /> value.</param>
         /// <returns><c>true</c> if both values are equal, <c>false</c> if not.</returns>
-        public bool Equals(LigatureSet other)
-        {
-            return this == other;
-        }
+        public bool Equals(LigatureSet other) => this == other;
 
         /// <summary>
         /// Equality-testing method.
         /// </summary>
         /// <param name="obj">Any object.</param>
         /// <returns><c>true</c> if the parameter is a <see cref="LigatureSet" /> value that is equal to this one, <c>false</c> otherwise.</returns>
-        public override bool Equals(object obj)
-        {
-            if (!(obj is LigatureSet other))
-            {
-                return false;
-            }
-            return Equals(other);
-        }
+        public override bool Equals(object obj) => (obj is LigatureSet other) && this == other;
 
         /// <summary>
         /// Equality operator.
@@ -78,10 +68,7 @@ namespace Unicorn.FontTools.Afm
         /// <param name="a">A <see cref="LigatureSet" /> value.</param>
         /// <param name="b">A <see cref="LigatureSet" /> value.</param>
         /// <returns><c>true</c> if all of the properties of both operands are respectively equal, <c>false</c> if not.</returns>
-        public static bool operator ==(LigatureSet a, LigatureSet b)
-        {
-            return a.First == b.First && a.Second == b.Second && a.Ligature == b.Ligature;
-        }
+        public static bool operator ==(LigatureSet a, LigatureSet b) => a.First == b.First && a.Second == b.Second && a.Ligature == b.Ligature;
 
         /// <summary>
         /// Inequality operator.
@@ -90,18 +77,12 @@ namespace Unicorn.FontTools.Afm
         /// <param name="b">A <see cref="LigatureSet" /> value.</param>
         /// <returns><c>true</c> if any of the properties of the operands differ respectively from each other, <c>false</c> if all properties are respectively 
         /// equal.</returns>
-        public static bool operator !=(LigatureSet a, LigatureSet b)
-        {
-            return a.First != b.First || a.Second != b.Second || a.Ligature != b.Ligature;
-        }
+        public static bool operator !=(LigatureSet a, LigatureSet b) => a.First != b.First || a.Second != b.Second || a.Ligature != b.Ligature;
 
         /// <summary>
         /// Computes a hash code for this value.
         /// </summary>
         /// <returns>An <c>int</c> which can be used as a hash code for this value.</returns>
-        public override int GetHashCode()
-        {
-            return First.GetHashCode() ^ Second.GetHashCode() ^ Ligature.GetHashCode();
-        }
+        public override int GetHashCode() => First.GetHashCode() ^ Second.GetHashCode() ^ Ligature.GetHashCode();
     }
 }

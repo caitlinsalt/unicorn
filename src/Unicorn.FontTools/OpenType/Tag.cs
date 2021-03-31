@@ -79,10 +79,7 @@ namespace Unicorn.FontTools.OpenType
         /// <param name="a">A <see cref="Tag" /> value.</param>
         /// <param name="b">A <see cref="Tag" /> value.</param>
         /// <returns><c>true</c> if the operands' <see cref="Value" /> properties are equal, <c>false</c> otherwise.</returns>
-        public static bool operator ==(Tag a, Tag b)
-        {
-            return a.Value == b.Value;
-        }
+        public static bool operator ==(Tag a, Tag b) => a.Value == b.Value;
 
         /// <summary>
         /// Inequality operator.
@@ -90,51 +87,32 @@ namespace Unicorn.FontTools.OpenType
         /// <param name="a">A <see cref="Tag" /> value.</param>
         /// <param name="b">A <see cref="Tag" /> value.</param>
         /// <returns><c>true</c> if the operands' <see cref="Value" /> properties differ, <c>false</c> if they are equal.</returns>
-        public static bool operator !=(Tag a, Tag b)
-        {
-            return a.Value != b.Value;
-        }
+        public static bool operator !=(Tag a, Tag b) => a.Value != b.Value;
 
         /// <summary>
         /// Equality test method.
         /// </summary>
         /// <param name="other">Another <see cref="Tag" /> value.</param>
         /// <returns><c>true</c> if the parameter is equal to this value, <c>false</c> otherwise.</returns>
-        public bool Equals(Tag other)
-        {
-            return this == other;
-        }
+        public bool Equals(Tag other) => this == other;
 
         /// <summary>
         /// Equality test method.
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is Tag t)
-            {
-                return Equals(t);
-            }
-            return false;
-        }
+        public override bool Equals(object obj) => (obj is Tag t) && this == t;
 
         /// <summary>
         /// Hash code method.
         /// </summary>
         /// <returns>A hash code representing this value.</returns>
-        public override int GetHashCode()
-        {
-            return Value?.GetHashCode() ?? 60103;
-        }
+        public override int GetHashCode() => Value?.GetHashCode() ?? 60103;
 
         /// <summary>
         /// String conversion method.
         /// </summary>
         /// <returns>The <see cref="Value" /> of this tag, as a string.</returns>
-        public override string ToString()
-        {
-            return Value;
-        }
+        public override string ToString() => Value;
     }
 }
