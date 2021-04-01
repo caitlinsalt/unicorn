@@ -1,5 +1,4 @@
-﻿using NLog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Unicorn.Base;
 
@@ -10,8 +9,6 @@ namespace Unicorn
     /// </summary>
     public class Word : IDrawable
     {
-        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-
         /// <summary>
         /// The textual content of this word.
         /// </summary>
@@ -101,7 +98,6 @@ namespace Unicorn
                 throw new ArgumentNullException(nameof(context));
             }
             double computedY = y + ComputedBaseline;
-            Log.Trace("Drawing '{0}' at {1}, {2}", Content, x, computedY);
             context.DrawString(Content, Font, x, computedY);
         }
 
@@ -124,7 +120,6 @@ namespace Unicorn
             }
             double wordSpace = font.GetNormalSpaceWidth(graphicsContext);
             string[] words = text.Split(null);
-            Log.Trace("Split text '{0}' into {1} words.", text, words.Length);
             foreach (string word in words)
             {
                 if (string.IsNullOrEmpty(word))
