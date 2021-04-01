@@ -33,7 +33,7 @@ namespace Unicorn.FontTools.Afm
         /// </summary>
         public bool IsFixedPitch { get; private set; }
 
-        internal DirectionMetrics(decimal? underlinePos, decimal? underlineThickness, decimal? italicAngle, Vector? charWidth, bool? fixedPitch)
+        public DirectionMetrics(decimal? underlinePos, decimal? underlineThickness, decimal? italicAngle, Vector? charWidth, bool? fixedPitch)
         {
             UnderlinePosition = underlinePos;
             UnderlineThickness = underlineThickness;
