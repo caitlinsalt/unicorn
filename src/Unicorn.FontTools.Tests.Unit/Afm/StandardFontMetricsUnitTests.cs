@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using Unicorn.FontTools.Afm;
+using Unicorn.FontTools.StandardFonts;
 using Unicorn.FontTools.Tests.Unit.TestHelpers;
 
 namespace Unicorn.FontTools.Tests.Unit.Afm

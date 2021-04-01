@@ -3,6 +3,7 @@ using System.Globalization;
 using Unicorn.Base;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Primitives;
+using Unicorn.Writer.Utility;
 
 namespace Unicorn.Writer.Structural
 {
@@ -55,7 +56,7 @@ namespace Unicorn.Writer.Structural
             {
                 d.Add(_fontDescriptorName.Value, _fontDescriptor.GetReference());
             }
-            d.AddRange(_font.MakeFontDictionary());
+            d.AddRange(DictionaryBuilder.MakeFontDictionary(_font));
             return d;
         }
     }

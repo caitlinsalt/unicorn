@@ -335,5 +335,14 @@ namespace Unicorn.FontTools
                     fontFlags.HasFlag(EmbeddingPermissions.Printing)) 
                 && !fontFlags.HasFlag(EmbeddingPermissions.BitmapOnly);
         }
+
+        public IEnumerable<KeyValuePair<string, object>> GetFontMetadata()
+        {
+            yield return new KeyValuePair<string, object>("Subtype", "TrueType");
+            yield return new KeyValuePair<string, object>("Encoding", "WinAnsiEncoding");
+            yield return new KeyValuePair<string, object>("FirstChar", FirstMappedByte());
+            yield return new KeyValuePair<string, object>("LastChar", LastMappedByte());
+            yield return new KeyValuePair<string, object>("Widths", CharWidths());
+        }
     }
 }

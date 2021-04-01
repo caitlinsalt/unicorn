@@ -127,5 +127,7 @@ namespace Unicorn.Base
         /// <param name="context">The context used to render the font.</param>
         /// <returns>The width of the ASCII space character.</returns>
         double GetNormalSpaceWidth(IGraphicsContext context);
+
+        IEnumerable<KeyValuePair<string, object>> GetFontMetadata();
     }
 }

@@ -59,7 +59,7 @@ namespace Unicorn.FontTools.Afm
         private List<InitialLigatureSet> InitialLigatures { get; set; }
 
         /// <summary>
-        /// Internal-only property-setting constructor.
+        /// Property-setting constructor.
         /// </summary>
         /// <param name="code">The character's encoded value.</param>
         /// <param name="name">The character name.</param>
@@ -68,7 +68,7 @@ namespace Unicorn.FontTools.Afm
         /// <param name="vvector">VVector property value.</param>
         /// <param name="boundingBox">Character bounding box.</param>
         /// <param name="ligatures">Initial ligature information.</param>
-        internal Character(short? code, string name, WidthSet xWidth, WidthSet yWidth, Vector? vvector, BoundingBox? boundingBox, 
+        public Character(short? code, string name, WidthSet xWidth, WidthSet yWidth, Vector? vvector, BoundingBox? boundingBox, 
             IEnumerable<InitialLigatureSet> ligatures)
         {
             Code = code;
