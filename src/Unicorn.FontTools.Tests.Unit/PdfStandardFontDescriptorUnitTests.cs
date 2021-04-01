@@ -4,6 +4,7 @@ using System.Linq;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
 using Unicorn.FontTools.Afm;
+using Unicorn.FontTools.StandardFonts;
 using Unicorn.FontTools.Tests.Unit.TestHelpers;
 
 namespace Unicorn.FontTools.Tests.Unit
