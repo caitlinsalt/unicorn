@@ -36,7 +36,7 @@ namespace Unicorn.FontTools.Afm2Cs
                 output += "// Please regenerate this file instead of editing it by hand." + _rn + _rn;
             }
             output += "#pragma warning disable CA1024" + _rn + _rn;
-            return output + $"using System.Collections.Generic;{_rn}{_rn}namespace {Namespace}{_rn}{{{_rn}    /// <summary>{_rn}    " +
+            return output + $"using System.Collections.Generic;{_rn}using Unicorn.FontTools.Afm;{_rn}{_rn}namespace {Namespace}{_rn}{{{_rn}    /// <summary>{_rn}    " +
                 $"/// Embedded font metrics generated from AFM files at or before build time.{_rn}    /// </summary>{_rn}" +
                 $"    public static class {ClassName}{_rn}    {{{_rn}";
         }

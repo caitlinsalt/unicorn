@@ -148,7 +148,7 @@ namespace Unicorn.FontTools.Afm
         /// </summary>
         public IList<Character> Characters { get; } = new List<Character>();
 
-        internal AfmFontMetrics(string name, string fullName, string familyName, string weight, BoundingBox boundingBox, string version, string notice, 
+        public AfmFontMetrics(string name, string fullName, string familyName, string weight, BoundingBox boundingBox, string version, string notice, 
             string encoding, int? mapping, int? escapeChar, string charSet, int? charCount, bool? isBaseFont, Vector? vvector, bool? isFixedVV, bool? isCid,
             decimal? capHeight, decimal? xHeight, decimal? ascender, decimal? descender, decimal? stdHw, decimal? stdVw, DirectionMetrics? direction0Metrics,
             DirectionMetrics? direction1Metrics)
@@ -576,8 +576,12 @@ namespace Unicorn.FontTools.Afm
             return output;
         }
 
-        internal void AddChar(Character c)
+        public void AddChar(Character c)
         {
+            if (c is null)
+            {
+                throw new ArgumentNullException(nameof(c));
+            }
             Characters.Add(c);
             if (c.Code.HasValue)
             {
@@ -589,7 +593,7 @@ namespace Unicorn.FontTools.Afm
             }
         }
 
-        internal void ProcessLigatures()
+        public void ProcessLigatures()
         {
             foreach (Character c in Characters)
             {
@@ -597,7 +601,7 @@ namespace Unicorn.FontTools.Afm
             }
         }
 
-        internal void AddKerningPair(KerningPair kp)
+        public void AddKerningPair(KerningPair kp)
         {
             CharactersByName[kp.First.Name].KerningPairs.Add(kp);
         }
