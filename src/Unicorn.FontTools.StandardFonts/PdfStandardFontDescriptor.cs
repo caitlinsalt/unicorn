@@ -217,9 +217,6 @@ namespace Unicorn.FontTools.StandardFonts
 
         private double PointSizeTransform(decimal fontUnitValue) => (double)(fontUnitValue * (decimal)PointSize / 1000);
 
-        public IEnumerable<KeyValuePair<string, object>> GetFontMetadata()
-        {
-            return new[] { new KeyValuePair<string, object>("Subtype", "Type1") };
-        }
+        public IEnumerable<KeyValuePair<string, object>> GetFontMetadata() => new[] { new KeyValuePair<string, object>("Subtype", "Type1") };
     }
 }
