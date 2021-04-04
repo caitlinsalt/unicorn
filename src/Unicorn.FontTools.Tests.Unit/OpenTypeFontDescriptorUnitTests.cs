@@ -24,14 +24,14 @@ namespace Unicorn.FontTools.Tests.Unit
         private static OS2MetricsTable GetOS2MetricsTableVersion0() => new(_rnd.NextShort(), _rnd.NextUShort(), _rnd.NextUShort(),
             _rnd.NextOpenTypeEmbeddingPermissionsFlags(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), 
             _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextOpenTypeIBMFamily(), _rnd.NextOpenTypePanoseFamily(), 
-            _rnd.NextOpenTypeUnicodeRanges(), _rnd.NextTag(), _rnd.NextOpenTypeOS2StyleFlags(), _rnd.NextUShort(), _rnd.NextUShort());
+            _rnd.NextOpenTypeUnicodeRanges(), _rnd.NextTag(), _rnd.NextOpenTypeOS2StyleProperties(), _rnd.NextUShort(), _rnd.NextUShort());
 
         private static OS2MetricsTable GetOS2MetricsTable(EmbeddingPermissions? embeddingPermissions = null)
         {
             embeddingPermissions ??= _rnd.NextOpenTypeEmbeddingPermissionsFlags();
             return new(_rnd.NextShort(), _rnd.NextUShort(), _rnd.NextUShort(), embeddingPermissions.Value, _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), 
                 _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), 
-                _rnd.NextOpenTypeIBMFamily(), _rnd.NextOpenTypePanoseFamily(), _rnd.NextOpenTypeUnicodeRanges(), _rnd.NextTag(), _rnd.NextOpenTypeOS2StyleFlags(), 
+                _rnd.NextOpenTypeIBMFamily(), _rnd.NextOpenTypePanoseFamily(), _rnd.NextOpenTypeUnicodeRanges(), _rnd.NextTag(), _rnd.NextOpenTypeOS2StyleProperties(), 
                 _rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextUShort(), _rnd.NextUShort(), 
                 _rnd.NextOpenTypeSupportedCodePages(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextUShort(), 
                 _rnd.NextUShort());
@@ -44,8 +44,8 @@ namespace Unicorn.FontTools.Tests.Unit
             yMin ??= _rnd.NextShort();
             yMax ??= _rnd.NextShort();
 
-            return new(_rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextDecimal(), _rnd.NextUInt(), _rnd.NextUInt(), _rnd.NextFontFlags(), _rnd.NextUShort(), 
-                _rnd.NextDateTime(), _rnd.NextDateTime(), xMin.Value, yMin.Value, xMax.Value, yMax.Value, _rnd.NextMacStyleFlags(), _rnd.NextUShort(), 
+            return new(_rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextDecimal(), _rnd.NextUInt(), _rnd.NextUInt(), _rnd.NextFontProperties(), _rnd.NextUShort(), 
+                _rnd.NextDateTime(), _rnd.NextDateTime(), xMin.Value, yMin.Value, xMax.Value, yMax.Value, _rnd.NextMacStyleProperties(), _rnd.NextUShort(), 
                 _rnd.NextFontDirectionHint(), _rnd.NextBoolean(), _rnd.NextShort());
         }
 

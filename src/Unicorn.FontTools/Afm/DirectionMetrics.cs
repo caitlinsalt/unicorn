@@ -33,6 +33,14 @@ namespace Unicorn.FontTools.Afm
         /// </summary>
         public bool IsFixedPitch { get; private set; }
 
+        /// <summary>
+        /// Property-setting constructor.
+        /// </summary>
+        /// <param name="underlinePos">The suggested height of the underline stroke.</param>
+        /// <param name="underlineThickness">The suggested thickness of the underline stroke.</param>
+        /// <param name="italicAngle">The typical italic angle of the font.</param>
+        /// <param name="charWidth">The width of a typical character.</param>
+        /// <param name="fixedPitch">Fixed-pitch font flag.</param>
         public DirectionMetrics(decimal? underlinePos, decimal? underlineThickness, decimal? italicAngle, Vector? charWidth, bool? fixedPitch)
         {
             UnderlinePosition = underlinePos;

@@ -128,6 +128,10 @@ namespace Unicorn.Base
         /// <returns>The width of the ASCII space character.</returns>
         double GetNormalSpaceWidth(IGraphicsContext context);
 
+        /// <summary>
+        /// Returns the metadata that needs to be inserted into the PDF file to describe this font.  This varies to some degree according to font type.
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<KeyValuePair<string, object>> GetFontMetadata();
     }
 }
