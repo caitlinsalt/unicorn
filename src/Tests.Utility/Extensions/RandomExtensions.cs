@@ -376,18 +376,7 @@ namespace Tests.Utility.Extensions
         /// <returns>A random <see cref="ulong"/> value.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the <c>random</c> parameter is <c>null</c>.</exception>
         [CLSCompliant(false)]
-        public static ulong NextULong(this Random random)
-        {
-            if (random is null)
-            {
-                throw new ArgumentNullException(nameof(random));
-            }
-            if (random.Next(2) == 0)
-            {
-                return random.NextUInt();
-            }
-            return uint.MaxValue + (ulong)random.NextUInt();
-        }
+        public static ulong NextULong(this Random random) => random.NextUInt() | ((ulong)random.NextUInt() << 32);
 
         /// <summary>
         /// Return a random <see cref="long" /> value.
@@ -395,8 +384,7 @@ namespace Tests.Utility.Extensions
         /// <param name="random">The random generator.</param>
         /// <returns>A non-negative <see cref="long"/>integer.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the <c>random</c> parameter is <c>null</c>.</exception>
-        public static long NextLong(this Random random) 
-            => random is null ? throw new ArgumentNullException(nameof(random)) : NextUInt(random) | ((long)random.Next() << 32);
+        public static long NextLong(this Random random) => NextUInt(random) | ((long)random.Next() << 32);
 
         /// <summary>
         /// Return a random <see cref="long" /> value less than a given value.
