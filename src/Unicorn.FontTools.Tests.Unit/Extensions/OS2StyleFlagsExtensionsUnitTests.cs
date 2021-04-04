@@ -18,7 +18,7 @@ namespace Unicorn.FontTools.Tests.Unit.Extensions
         [TestMethod]
         public void OS2StyleFlagsExtensionsClass_ToFontDescriptorFlagsMethod_ReturnsValueWithSymbolicBitSet_IfSecondParameterIsTrue()
         {
-            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleFlags();
+            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleProperties();
             bool testParam1 = true;
             bool testParam2 = _rnd.NextBoolean();
 
@@ -30,7 +30,7 @@ namespace Unicorn.FontTools.Tests.Unit.Extensions
         [TestMethod]
         public void OS2StyleFlagsExtensionsClass_ToFontDescriptorFlagsMethod_ReturnsValueWithNonsymbolicBitNotSet_IfSecondParameterIsTrue()
         {
-            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleFlags();
+            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleProperties();
             bool testParam1 = true;
             bool testParam2 = _rnd.NextBoolean();
 
@@ -42,7 +42,7 @@ namespace Unicorn.FontTools.Tests.Unit.Extensions
         [TestMethod]
         public void OS2StyleFlagsExtensionsClass_ToFontDescriptorFlagsMethod_ReturnsValueWithNonsymbolicBitSet_IfSecondParameterIsFalse()
         {
-            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleFlags();
+            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleProperties();
             bool testParam1 = false;
             bool testParam2 = _rnd.NextBoolean();
 
@@ -54,7 +54,7 @@ namespace Unicorn.FontTools.Tests.Unit.Extensions
         [TestMethod]
         public void OS2StyleFlagsExtensionsClass_ToFontDescriptorFlagsMethod_ReturnsValueWithSymbolicBitNotSet_IfSecondParameterIsFalse()
         {
-            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleFlags();
+            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleProperties();
             bool testParam1 = false;
             bool testParam2 = _rnd.NextBoolean();
 
@@ -66,7 +66,7 @@ namespace Unicorn.FontTools.Tests.Unit.Extensions
         [TestMethod]
         public void OS2StyleFlagsExtensionsClass_ToFontDescriptorFlagsMethod_ReturnsValueWithFixedPitchFlagSet_IfThirdParameterIsTrue()
         {
-            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleFlags();
+            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleProperties();
             bool testParam1 = _rnd.NextBoolean();
             bool testParam2 = true;
 
@@ -78,7 +78,7 @@ namespace Unicorn.FontTools.Tests.Unit.Extensions
         [TestMethod]
         public void OS2StyleFlagsExtensionsClass_ToFontDescriptorFlagsMethod_ReturnsValueWithFixedPitchFlagNotSet_IfThirdParameterIsFalse()
         {
-            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleFlags();
+            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleProperties();
             bool testParam1 = _rnd.NextBoolean();
             bool testParam2 = false;
 
@@ -90,7 +90,7 @@ namespace Unicorn.FontTools.Tests.Unit.Extensions
         [TestMethod]
         public void OS2StyleFlagsExtensionsClass_ToFontDescriptorFlagsMethod_ReturnsValueWithItalicFlagSet_IfFirstParameterHasItalicFlagSetAndObliqueFlagNotSet()
         {
-            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleFlags();
+            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleProperties();
             testParam0 |= OS2StyleProperties.Italic;
             testParam0 &= ~OS2StyleProperties.Oblique;
             bool testParam1 = _rnd.NextBoolean();
@@ -104,7 +104,7 @@ namespace Unicorn.FontTools.Tests.Unit.Extensions
         [TestMethod]
         public void OS2StyleFlagsExtensionsClass_ToFontDescriptorFlagsMethod_ReturnsValueWithItalicFlagSet_IfFirstParameterHasItalicFlagNotSetAndObliqueFlagSet()
         {
-            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleFlags();
+            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleProperties();
             testParam0 &= ~OS2StyleProperties.Italic;
             testParam0 |= OS2StyleProperties.Oblique;
             bool testParam1 = _rnd.NextBoolean();
@@ -118,7 +118,7 @@ namespace Unicorn.FontTools.Tests.Unit.Extensions
         [TestMethod]
         public void OS2StyleFlagsExtensionsClass_ToFontDescriptorFlagsMethod_ReturnsValueWithItalicFlagSet_IfFirstParameterHasItalicFlagSetAndObliqueFlagSet()
         {
-            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleFlags();
+            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleProperties();
             testParam0 |= OS2StyleProperties.Italic;
             testParam0 |= OS2StyleProperties.Oblique;
             bool testParam1 = _rnd.NextBoolean();
@@ -132,7 +132,7 @@ namespace Unicorn.FontTools.Tests.Unit.Extensions
         [TestMethod]
         public void OS2StyleFlagsExtensionsClass_ToFontDescriptorFlagsMethod_ReturnsValueWithItalicFlagNotSet_IfFirstParameterHasItalicFlagNotSetAndObliqueFlagNotSet()
         {
-            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleFlags();
+            OS2StyleProperties testParam0 = _rnd.NextOpenTypeOS2StyleProperties();
             testParam0 &= ~OS2StyleProperties.Italic;
             testParam0 &= ~OS2StyleProperties.Oblique;
             bool testParam1 = _rnd.NextBoolean();

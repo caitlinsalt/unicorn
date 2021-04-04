@@ -21,7 +21,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -29,7 +29,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -49,7 +49,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -57,7 +57,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -77,7 +77,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -85,7 +85,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -105,7 +105,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -113,7 +113,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -133,7 +133,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -141,7 +141,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -161,7 +161,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -169,7 +169,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -189,7 +189,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -197,7 +197,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -217,7 +217,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -225,7 +225,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -245,7 +245,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -253,7 +253,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -273,7 +273,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -281,7 +281,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -301,7 +301,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -309,7 +309,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -329,7 +329,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -337,7 +337,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -357,7 +357,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -365,7 +365,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -385,7 +385,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -393,7 +393,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -413,7 +413,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -421,7 +421,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -441,7 +441,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -449,7 +449,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -469,7 +469,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -477,7 +477,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -497,7 +497,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -505,7 +505,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();
@@ -525,7 +525,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             decimal testParam2 = _rnd.NextDecimal();
             uint testParam3 = _rnd.NextUInt();
             uint testParam4 = _rnd.NextUInt();
-            FontProperties testParam5 = _rnd.NextFontFlags();
+            FontProperties testParam5 = _rnd.NextFontProperties();
             ushort testParam6 = _rnd.NextUShort();
             DateTime testParam7 = _rnd.NextDateTime();
             DateTime testParam8 = _rnd.NextDateTime();
@@ -533,7 +533,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             short testParam10 = _rnd.NextShort();
             short testParam11 = _rnd.NextShort();
             short testParam12 = _rnd.NextShort();
-            MacStyleProperties testParam13 = _rnd.NextMacStyleFlags();
+            MacStyleProperties testParam13 = _rnd.NextMacStyleProperties();
             ushort testParam14 = _rnd.NextUShort();
             FontDirectionHint testParam15 = _rnd.NextFontDirectionHint();
             bool testParam16 = _rnd.NextBoolean();

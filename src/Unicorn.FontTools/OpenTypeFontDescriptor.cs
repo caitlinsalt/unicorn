@@ -336,6 +336,10 @@ namespace Unicorn.FontTools
                 && !fontFlags.HasFlag(EmbeddingPermissions.BitmapOnly);
         }
 
+        /// <summary>
+        /// Return the necessary metadata for PDF embedding.
+        /// </summary>
+        /// <returns>A series of key-value pairs containing metadata about this font.</returns>
         public IEnumerable<KeyValuePair<string, object>> GetFontMetadata()
         {
             yield return new KeyValuePair<string, object>("Subtype", "TrueType");

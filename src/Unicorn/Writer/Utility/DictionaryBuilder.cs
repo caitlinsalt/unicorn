@@ -7,8 +7,18 @@ using Unicorn.Writer.Primitives;
 
 namespace Unicorn.Writer.Utility
 {
+    /// <summary>
+    /// Utility methods for building PDF dictionaries.
+    /// </summary>
     public static class DictionaryBuilder
     {
+        /// <summary>
+        /// Build a font metadata dictionary by calling a font descriptor's <see cref="IFontDescriptor.GetFontMetadata"/> method.
+        /// </summary>
+        /// <remarks>At present the font needs to know what metadata is required in the PDF dictionary for that particular font type.  This is less than ideal.</remarks>
+        /// <param name="font">The font descriptor.</param>
+        /// <returns>A <see cref="PdfDictionary" /> containing the font's metadata.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the parameter is <c>null</c>.</exception>
         public static PdfDictionary MakeFontDictionary(IFontDescriptor font)
         {
             if (font is null)
