@@ -86,6 +86,10 @@ namespace Tests.Utility.Extensions
             {
                 throw new ArgumentNullException(nameof(characters));
             }
+            if (characters.Length == 0)
+            {
+                throw new ArgumentException(Resources.RandomExtensions_NextString_Error_NoCharactersToSelectFrom, nameof(characters));
+            }
 
             if (len == 0)
             {
