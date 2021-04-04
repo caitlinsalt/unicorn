@@ -148,6 +148,33 @@ namespace Unicorn.FontTools.Afm
         /// </summary>
         public IList<Character> Characters { get; } = new List<Character>();
 
+        /// <summary>
+        /// Property-setting constructor.
+        /// </summary>
+        /// <param name="name">Font name.</param>
+        /// <param name="fullName">Font full name.</param>
+        /// <param name="familyName">Font family name.</param>
+        /// <param name="weight">Weight description.</param>
+        /// <param name="boundingBox">Maximum bounding box of the font.</param>
+        /// <param name="version">Version string.</param>
+        /// <param name="notice">Copyright notice.</param>
+        /// <param name="encoding">Encoding hint.</param>
+        /// <param name="mapping">Mapping scheme number.</param>
+        /// <param name="escapeChar">Escape character codepoint.</param>
+        /// <param name="charSet">Character set description.</param>
+        /// <param name="charCount">Number of characters.</param>
+        /// <param name="isBaseFont">Base font flag.</param>
+        /// <param name="vvector">V-vector for all characters (optional).</param>
+        /// <param name="isFixedVV">Flag to indicate if all characters use the same V-vector.</param>
+        /// <param name="isCid">Flag to indicate if this is a CID font.</param>
+        /// <param name="capHeight">Typical capital character height.</param>
+        /// <param name="xHeight">Typical character x-height.</param>
+        /// <param name="ascender">Typical character ascender height.</param>
+        /// <param name="descender">Typical character descender height.</param>
+        /// <param name="stdHw">Standard HW property.</param>
+        /// <param name="stdVw">Standard VW property.</param>
+        /// <param name="direction0Metrics">The direction-specific metrics for Direction 0.</param>
+        /// <param name="direction1Metrics">The direction-specific metrics for Direction 1.</param>
         public AfmFontMetrics(string name, string fullName, string familyName, string weight, BoundingBox boundingBox, string version, string notice, 
             string encoding, int? mapping, int? escapeChar, string charSet, int? charCount, bool? isBaseFont, Vector? vvector, bool? isFixedVV, bool? isCid,
             decimal? capHeight, decimal? xHeight, decimal? ascender, decimal? descender, decimal? stdHw, decimal? stdVw, DirectionMetrics? direction0Metrics,
@@ -576,23 +603,33 @@ namespace Unicorn.FontTools.Afm
             return output;
         }
 
-        public void AddChar(Character c)
+        /// <summary>
+        /// Add a character to this font.
+        /// </summary>
+        /// <param name="character">The character to be added to the font.</param>
+        /// <exception cref="ArgumentNullException">Thrown if the parameter is <c>null</c>.</exception>
+        public void AddChar(Character character)
         {
-            if (c is null)
+            if (character is null)
             {
-                throw new ArgumentNullException(nameof(c));
+                throw new ArgumentNullException(nameof(character));
             }
-            Characters.Add(c);
-            if (c.Code.HasValue)
+            Characters.Add(character);
+            if (character.Code.HasValue)
             {
-                CharactersByCode.Add(c.Code.Value, c);
+                CharactersByCode.Add(character.Code.Value, character);
             }
-            if (!string.IsNullOrWhiteSpace(c.Name))
+            if (!string.IsNullOrWhiteSpace(character.Name))
             {
-                CharactersByName.Add(c.Name, c);
+                CharactersByName.Add(character.Name, character);
             }
         }
 
+        /// <summary>
+        /// For all the characters in this font, check the validity of their ligature definitions.  This method should only be called after all characters have been
+        /// loaded.  It must be called before any string measurements are calculated, in order for the measurements to take ligatures into account.
+        /// </summary>
+        /// <exception cref="AfmFormatException">Thrown if the font has any ligature definitions that refer to missing or nonexistent characters.</exception>
         public void ProcessLigatures()
         {
             foreach (Character c in Characters)
@@ -601,6 +638,10 @@ namespace Unicorn.FontTools.Afm
             }
         }
 
+        /// <summary>
+        /// Add a kerning pair to the font.
+        /// </summary>
+        /// <param name="kp"></param>
         public void AddKerningPair(KerningPair kp)
         {
             CharactersByName[kp.First.Name].KerningPairs.Add(kp);

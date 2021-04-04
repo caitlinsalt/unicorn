@@ -217,6 +217,10 @@ namespace Unicorn.FontTools.StandardFonts
 
         private double PointSizeTransform(decimal fontUnitValue) => (double)(fontUnitValue * (decimal)PointSize / 1000);
 
+        /// <summary>
+        /// Return the metadata required for embedding this font into a PDF file.
+        /// </summary>
+        /// <returns>A sequence of metadata key/value pairs</returns>
         public IEnumerable<KeyValuePair<string, object>> GetFontMetadata() => new[] { new KeyValuePair<string, object>("Subtype", "Type1") };
     }
 }
