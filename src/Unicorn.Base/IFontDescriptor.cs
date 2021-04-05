@@ -8,6 +8,8 @@ namespace Unicorn.Base
     /// </summary>
     public interface IFontDescriptor
     {
+        FontImplementation Implementation { get; }
+
         /// <summary>
         /// The PostScript name of the underlying font.
         /// </summary>
@@ -24,6 +26,8 @@ namespace Unicorn.Base
         /// Preferred text encoding when using this font.
         /// </summary>
         Encoding PreferredEncoding { get; }
+
+        string PreferredEncodingName { get; }
 
         /// <summary>
         /// The point size of this font.
@@ -129,9 +133,16 @@ namespace Unicorn.Base
         double GetNormalSpaceWidth(IGraphicsContext context);
 
         /// <summary>
-        /// Returns the metadata that needs to be inserted into the PDF file to describe this font.  This varies to some degree according to font type.
+        /// If the font is not one of the font types defined in the <see cref="FontImplementation" /> enum, this method must return the string used as the Subtype
+        /// value for this font type in a PDF font dictionary (and it must therefore be a valid PDF name).  If not, this method need not be implemented.  
         /// </summary>
         /// <returns></returns>
-        IEnumerable<KeyValuePair<string, object>> GetFontMetadata();
+        string GetSpecialSubtypeName();
+
+        byte FirstMappedByte();
+
+        byte LastMappedByte();
+
+        IEnumerable<double> CharacterWidths();
     }
 }

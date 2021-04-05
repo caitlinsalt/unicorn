@@ -17,6 +17,10 @@ namespace Unicorn.FontTools
     {
         private readonly IOpenTypeFont _underlyingFont;
 
+        public FontImplementation Implementation => FontImplementation.OpenType;
+
+        public string GetSpecialSubtypeName() => "TrueType";
+
         /// <summary>
         /// The PostScript font name of the underlying font.
         /// </summary>
@@ -137,6 +141,8 @@ namespace Unicorn.FontTools
         /// font resource table
         /// </summary>
         public Encoding PreferredEncoding => Encoding.GetEncoding(1252);
+
+        public string PreferredEncodingName => "WinAnsiEncoding";
 
         /// <summary>
         /// The point size to render this font in.
@@ -308,7 +314,7 @@ namespace Unicorn.FontTools
         /// </summary>
         /// <returns>An <see cref="IEnumerable{Double}" /> whose first element is the width of the character represented by the codepoint returned by the 
         /// <see cref="FirstMappedByte" /> method.</returns>
-        public IEnumerable<double> CharWidths()
+        public IEnumerable<double> CharacterWidths()
         {
             byte start = FirstMappedByte();
             byte end = LastMappedByte();
@@ -334,19 +340,6 @@ namespace Unicorn.FontTools
             return (fontFlags.HasFlag(EmbeddingPermissions.Editable) ||
                     fontFlags.HasFlag(EmbeddingPermissions.Printing)) 
                 && !fontFlags.HasFlag(EmbeddingPermissions.BitmapOnly);
-        }
-
-        /// <summary>
-        /// Return the necessary metadata for PDF embedding.
-        /// </summary>
-        /// <returns>A series of key-value pairs containing metadata about this font.</returns>
-        public IEnumerable<KeyValuePair<string, object>> GetFontMetadata()
-        {
-            yield return new KeyValuePair<string, object>("Subtype", "TrueType");
-            yield return new KeyValuePair<string, object>("Encoding", "WinAnsiEncoding");
-            yield return new KeyValuePair<string, object>("FirstChar", FirstMappedByte());
-            yield return new KeyValuePair<string, object>("LastChar", LastMappedByte());
-            yield return new KeyValuePair<string, object>("Widths", CharWidths());
         }
     }
 }
