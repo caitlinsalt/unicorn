@@ -15,6 +15,10 @@ namespace Unicorn.FontTools.StandardFonts
     {
         private readonly AfmFontMetrics _metrics;
 
+        public FontImplementation Implementation => FontImplementation.StandardType1;
+
+        public string GetSpecialSubtypeName() => "Type1";
+
         /// <summary>
         /// The PostScript name of this font.
         /// </summary>
@@ -30,6 +34,8 @@ namespace Unicorn.FontTools.StandardFonts
         /// ASCII-compatible encoding that is not directly supported by .NET Core.
         /// </summary>
         public Encoding PreferredEncoding => Encoding.ASCII;
+
+        public string PreferredEncodingName => null;
 
         /// <summary>
         /// The point size of this font.
@@ -213,14 +219,14 @@ namespace Unicorn.FontTools.StandardFonts
         /// <returns>A <see cref="UniSize" /> instance describing the size of the rendered string.</returns>
         public UniTextSize MeasureString(string str) => new UniTextSize(MeasureStringWidth(str), PointSize, Ascent + InterlineSpacing / 2, Ascent, Descent);
 
+        public byte FirstMappedByte() => 0;
+
+        public byte LastMappedByte() => 255;
+
+        public IEnumerable<double> CharacterWidths() => Array.Empty<double>();
+
         private static string NormaliseName(string fontName) => fontName.Replace("-", "");
 
         private double PointSizeTransform(decimal fontUnitValue) => (double)(fontUnitValue * (decimal)PointSize / 1000);
-
-        /// <summary>
-        /// Return the metadata required for embedding this font into a PDF file.
-        /// </summary>
-        /// <returns>A sequence of metadata key/value pairs</returns>
-        public IEnumerable<KeyValuePair<string, object>> GetFontMetadata() => new[] { new KeyValuePair<string, object>("Subtype", "Type1") };
     }
 }
