@@ -15,8 +15,15 @@ namespace Unicorn.FontTools.StandardFonts
     {
         private readonly AfmFontMetrics _metrics;
 
+        /// <summary>
+        /// What kind of font implementation this descriptor represents: one of the standard built-in Type 1 fonts that all PDF viewers should implicitly support.
+        /// </summary>
         public FontImplementation Implementation => FontImplementation.StandardType1;
 
+        /// <summary>
+        /// The name of the font implementation as used in a PDF 
+        /// </summary>
+        /// <returns></returns>
         public string GetSpecialSubtypeName() => "Type1";
 
         /// <summary>
@@ -35,6 +42,10 @@ namespace Unicorn.FontTools.StandardFonts
         /// </summary>
         public Encoding PreferredEncoding => Encoding.ASCII;
 
+        /// <summary>
+        /// Name of the encoding used by this font, as used by a PDF font dictionary.  <c>null</c> for this implementation, as this does not need to be specified
+        /// for the standard fonts.
+        /// </summary>
         public string PreferredEncodingName => null;
 
         /// <summary>
@@ -219,10 +230,24 @@ namespace Unicorn.FontTools.StandardFonts
         /// <returns>A <see cref="UniSize" /> instance describing the size of the rendered string.</returns>
         public UniTextSize MeasureString(string str) => new UniTextSize(MeasureStringWidth(str), PointSize, Ascent + InterlineSpacing / 2, Ascent, Descent);
 
-        public byte FirstMappedByte() => 0;
+        /// <summary>
+        /// The lowest mapped byte represented by this font when using a single-byte encoding.  Not strictly speaking required as it is not contained in PDF files
+        /// for the standard fonts.
+        /// </summary>
+        /// <returns>The value 32.</returns>
+        public byte FirstMappedByte() => 32;
 
+        /// <summary>
+        /// The highest mapped byte represented by this font when using a single-byte encoding.  Not strictly speaking required as it is not contained in PDF files
+        /// for the standard fonts.
+        /// </summary>
+        /// <returns>The value 255.</returns>
         public byte LastMappedByte() => 255;
 
+        /// <summary>
+        /// The character widths of the characters mapped by a single-byte encoding.  Not required, as it is not contained in PDF files for the standard fonts.
+        /// </summary>
+        /// <returns>An empty array.</returns>
         public IEnumerable<double> CharacterWidths() => Array.Empty<double>();
 
         private static string NormaliseName(string fontName) => fontName.Replace("-", "");

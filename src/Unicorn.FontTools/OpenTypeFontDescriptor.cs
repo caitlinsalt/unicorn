@@ -17,8 +17,15 @@ namespace Unicorn.FontTools
     {
         private readonly IOpenTypeFont _underlyingFont;
 
+        /// <summary>
+        /// The kind of font implementation this descriptor represents: OpenType/TrueType.
+        /// </summary>
         public FontImplementation Implementation => FontImplementation.OpenType;
 
+        /// <summary>
+        /// This value is not strictly speaking required, as it is implied by the <see cref="Implementation" /> property.
+        /// </summary>
+        /// <returns>The string <c>TrueType</c></returns>
         public string GetSpecialSubtypeName() => "TrueType";
 
         /// <summary>
@@ -142,6 +149,9 @@ namespace Unicorn.FontTools
         /// </summary>
         public Encoding PreferredEncoding => Encoding.GetEncoding(1252);
 
+        /// <summary>
+        /// The encoding name that should be set in PDF file font dictionaries for this font.
+        /// </summary>
         public string PreferredEncodingName => "WinAnsiEncoding";
 
         /// <summary>

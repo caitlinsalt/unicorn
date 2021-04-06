@@ -3,11 +3,12 @@ using System;
 using System.Linq;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
+using Unicorn.Base;
 using Unicorn.FontTools.Afm;
 using Unicorn.FontTools.StandardFonts;
 using Unicorn.FontTools.Tests.Unit.TestHelpers;
 
-namespace Unicorn.FontTools.Tests.Unit
+namespace Unicorn.FontTools.Tests.Unit.StandardFonts
 {
     [TestClass]
     public class PdfStandardFontDescriptorUnitTests
@@ -16,6 +17,13 @@ namespace Unicorn.FontTools.Tests.Unit
 
 #pragma warning disable CA5394 // Do not use insecure randomness
 #pragma warning disable CA1707 // Identifiers should not contain underscores
+
+        private static PdfStandardFontDescriptor GetTestObject()
+        {
+            string constrParam0 = StandardFontHelpers.StandardFontNames[_rnd.Next(StandardFontHelpers.StandardFontNames.Length)];
+            double constrParam1 = _rnd.NextDouble() * 20;
+            return PdfStandardFontDescriptor.GetByName(constrParam0, constrParam1);
+        }
 
         [TestMethod]
         public void PdfStandardFontDescriptorClass_Constructor_SetsPointSizePropertyToSecondParameter()
@@ -114,6 +122,66 @@ namespace Unicorn.FontTools.Tests.Unit
             {
                 Assert.IsNotNull(testOutput.Single(s => s == fn));
             }
+        }
+
+        [TestMethod]
+        public void PdfStandardFontDescriptorClass_ImplementationProperty_IsEqualToStandardType1()
+        {
+            PdfStandardFontDescriptor testObject = GetTestObject();
+
+            FontImplementation testOutput = testObject.Implementation;
+
+            Assert.AreEqual(FontImplementation.StandardType1, testOutput);
+        }
+        
+        [TestMethod]
+        public void PdfStandardFontDescriptorClass_GetSpecialSubtypeNameMethod_ReturnsType1()
+        {
+            PdfStandardFontDescriptor testObject = GetTestObject();
+
+            string testOutput = testObject.GetSpecialSubtypeName();
+
+            Assert.AreEqual("Type1", testOutput);
+        }
+
+        [TestMethod]
+        public void PdfStandardFontDescriptorClass_PreferredEncodingNameProperty_EqualsNull()
+        {
+            PdfStandardFontDescriptor testObject = GetTestObject();
+
+            string testOutput = testObject.PreferredEncodingName;
+
+            Assert.IsNull(testOutput);
+        }
+
+        [TestMethod]
+        public void PdfStandardFontDescriptorClass_FirstMappedByteMethod_Returns32()
+        {
+            PdfStandardFontDescriptor testObject = GetTestObject();
+
+            byte testOutput = testObject.FirstMappedByte();
+
+            Assert.AreEqual(32, testOutput);
+        }
+
+        [TestMethod]
+        public void PdfStandardFontDescriptorClass_LastMappedByteMethod_Returns255()
+        {
+            PdfStandardFontDescriptor testObject = GetTestObject();
+
+            byte testOutput = testObject.LastMappedByte();
+
+            Assert.AreEqual(255, testOutput);
+        }
+
+        [TestMethod]
+        public void PdfStandardFontDescriptorClass_CharacterWidthsMethod_ReturnsEmptySequence()
+        {
+            PdfStandardFontDescriptor testObject = GetTestObject();
+
+            var testOutput = testObject.CharacterWidths().ToList();
+
+            Assert.AreEqual(0, testOutput.Count);
         }
 
 #pragma warning restore CA5394 // Do not use insecure randomness

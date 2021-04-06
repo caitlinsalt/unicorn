@@ -1290,6 +1290,45 @@ namespace Unicorn.FontTools.Tests.Unit
             Assert.AreEqual(0, testOutput.Count());
         }
 
+        [TestMethod]
+        public void OpenTypeFontDescriptorClass_ImplementationProperty_EqualsOpenType()
+        {
+            Mock<IOpenTypeFont> mockFont = new();
+            IOpenTypeFont constrParam0 = mockFont.Object;
+            double constrParam1 = _rnd.NextDouble() * 48;
+            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1);
+
+            FontImplementation testOutput = testObject.Implementation;
+
+            Assert.AreEqual(FontImplementation.OpenType, testOutput);
+        }
+
+        [TestMethod]
+        public void OpenTypeFontDescriptorClass_GetSpecialSubtypeMethod_ReturnsTrueType()
+        {
+            Mock<IOpenTypeFont> mockFont = new();
+            IOpenTypeFont constrParam0 = mockFont.Object;
+            double constrParam1 = _rnd.NextDouble() * 48;
+            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1);
+
+            string testOutput = testObject.GetSpecialSubtypeName();
+
+            Assert.AreEqual("TrueType", testOutput);
+        }
+
+        [TestMethod]
+        public void OpenTypeFontDescriptorClass_PreferredEncodingNameMethod_EqualsWinAnsiEncoding()
+        {
+            Mock<IOpenTypeFont> mockFont = new();
+            IOpenTypeFont constrParam0 = mockFont.Object;
+            double constrParam1 = _rnd.NextDouble() * 48;
+            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1);
+
+            string testOutput = testObject.PreferredEncodingName;
+
+            Assert.AreEqual("WinAnsiEncoding", testOutput);
+        }
+
 #pragma warning restore CA5394 // Do not use insecure randomness
 #pragma warning restore CA1707 // Identifiers should not contain underscores
 
