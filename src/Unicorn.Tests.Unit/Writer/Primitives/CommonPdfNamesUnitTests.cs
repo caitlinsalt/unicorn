@@ -41,11 +41,27 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         }
 
         [TestMethod]
+        public void CommonPdfNamesClass_EncodingField_HasCorrectValueProperty()
+        {
+            PdfName testOutput = CommonPdfNames.Encoding;
+
+            Assert.AreEqual("Encoding", testOutput.Value);
+        }
+
+        [TestMethod]
         public void CommonPdfNamesClass_FilterField_HasCorrectValueProperty()
         {
             PdfName testOutput = CommonPdfNames.Filter;
 
             Assert.AreEqual("Filter", testOutput.Value);
+        }
+
+        [TestMethod]
+        public void CommonPdfNamesClass_FirstCharField_HasCorrectValueProperty()
+        {
+            PdfName testOutput = CommonPdfNames.FirstChar;
+
+            Assert.AreEqual("FirstChar", testOutput.Value);
         }
 
         [TestMethod]
@@ -63,6 +79,14 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
 
             Assert.AreEqual("Kids", testOutput.Value);
         }
+        [TestMethod]
+        public void CommonPdfNamesClass_LastCharField_HasCorrectValueProperty()
+        {
+            PdfName testOutput = CommonPdfNames.LastChar;
+
+            Assert.AreEqual("LastChar", testOutput.Value);
+        }
+
 
         [TestMethod]
         public void CommonPdfNamesClass_LengthField_HasCorrectValueProperty()
@@ -142,6 +166,14 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
             PdfName testOutput = CommonPdfNames.Type;
 
             Assert.AreEqual("Type", testOutput.Value);
+        }
+
+        [TestMethod]
+        public void CommonPdfNamesClass_WidthsField_HasCorrectValueProperty()
+        {
+            PdfName testOutput = CommonPdfNames.Widths;
+
+            Assert.AreEqual("Widths", testOutput.Value);
         }
 
 #pragma warning restore CA1707 // Identifiers should not contain underscores

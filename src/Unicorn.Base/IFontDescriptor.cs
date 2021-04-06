@@ -8,6 +8,9 @@ namespace Unicorn.Base
     /// </summary>
     public interface IFontDescriptor
     {
+        /// <summary>
+        /// The kind of font implemented by this descriptor.
+        /// </summary>
         FontImplementation Implementation { get; }
 
         /// <summary>
@@ -27,6 +30,9 @@ namespace Unicorn.Base
         /// </summary>
         Encoding PreferredEncoding { get; }
 
+        /// <summary>
+        /// The name of this font's encoding, as it would be embedded in a PDF file's font dictionary.
+        /// </summary>
         string PreferredEncodingName { get; }
 
         /// <summary>
@@ -136,13 +142,27 @@ namespace Unicorn.Base
         /// If the font is not one of the font types defined in the <see cref="FontImplementation" /> enum, this method must return the string used as the Subtype
         /// value for this font type in a PDF font dictionary (and it must therefore be a valid PDF name).  If not, this method need not be implemented.  
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A string that is a valid PDF name.</returns>
         string GetSpecialSubtypeName();
 
+        /// <summary>
+        /// Returns the lowest byte mapped by this font when using a single-byte encoding, as it appears in a PDF file's font dictionary.
+        /// </summary>
+        /// <returns>A byte value.</returns>
         byte FirstMappedByte();
 
+        /// <summary>
+        /// Returns the highest byte mapped by this font when using a single-byte encoding, as it appears in a PDF file's font dictionary.
+        /// </summary>
+        /// <returns>A byte value.</returns>
         byte LastMappedByte();
 
+        /// <summary>
+        /// Returns a sequence of widths of characters mapped by single bytes.  The first element should be the width of the character returned by 
+        /// <see cref="FirstMappedByte" /> and the last element should be the width of the character returned by <see cref="LastMappedByte" />.  The widths should be
+        /// given in PDF font scale units (0.001 of an em).
+        /// </summary>
+        /// <returns>A sequence of <see cref="double" /> values.</returns>
         IEnumerable<double> CharacterWidths();
     }
 }
