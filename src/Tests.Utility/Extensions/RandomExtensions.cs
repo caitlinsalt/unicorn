@@ -445,6 +445,18 @@ namespace Tests.Utility.Extensions
         /// <returns>A random byte value that is less than the upper bound parameter.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the <c>random</c> parameter is <c>null</c>.</exception>
         public static byte NextByte(this Random random, int max) => random is null ? throw new ArgumentNullException(nameof(random)) : (byte)random.Next(max);
+
+        /// <summary>
+        /// Returns a random byte that is within a given range.
+        /// </summary>
+        /// <param name="random">The random generator.</param>
+        /// <param name="min">The lower inclusive bound of the returned value.</param>
+        /// <param name="max">The upper exclusive bound of the returned value.</param>
+        /// <returns>A random byte value that is greater than or equal to the lower bound and less than the upper bound.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the <c>random</c> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if the upper bound is equal to or less than the lower bound.</exception>
+        public static byte NextByte(this Random random, int min, int max)
+            => random is null ? throw new ArgumentNullException(nameof(random)) : (byte)random.Next(min, max);
     }
 
 #pragma warning restore CA5394 // Do not use insecure randomness

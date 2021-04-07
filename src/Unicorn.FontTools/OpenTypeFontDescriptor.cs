@@ -300,6 +300,10 @@ namespace Unicorn.FontTools
             while (!_underlyingFont.HasGlyphDefined(PlatformId.Windows, (uint)PdfCharacterMappingDictionary.WinAnsiEncoding.Transform(b)))
             {
                 ++b;
+                if (b == 0)
+                {
+                    break;
+                }
             }
             return b;
         }
@@ -314,6 +318,10 @@ namespace Unicorn.FontTools
             while (!_underlyingFont.HasGlyphDefined(PlatformId.Windows, (uint)PdfCharacterMappingDictionary.WinAnsiEncoding.Transform(b)))
             {
                 --b;
+                if (b == 255)
+                {
+                    break;
+                }
             }
             return b;
         }
