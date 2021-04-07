@@ -54,7 +54,9 @@ namespace Unicorn.FontTools.Tests.Unit
             _mockCharacterWidth = _rnd.Next();
             _mockFont.Setup(f => f.AdvanceWidth(It.IsAny<PlatformId>(), It.IsAny<long>())).Returns(_mockCharacterWidth);
             _firstDefinedGlyph = _rnd.NextByte(32, byte.MaxValue - 2);
+            NormaliseFirstDefinedGlyph();
             _lastDefinedGlyph = _rnd.NextByte(_firstDefinedGlyph, byte.MaxValue);
+            NormaliseLastDefinedGlyph();
             _mockFont.Setup(f => f.HasGlyphDefined(It.IsAny<PlatformId>(), It.IsAny<long>()))
                 .Returns<PlatformId, long>((p, cp) =>
                 {
@@ -84,6 +86,26 @@ namespace Unicorn.FontTools.Tests.Unit
         }
 
         private static byte? ReverseMap(PdfCharacterMappingDictionary map, long val) => map.Any(e => e.Value == val) ? map.First(e => e.Value == val).Key : null;
+
+        private static IEnumerable<byte> ReverseMapAll(PdfCharacterMappingDictionary map, byte val)
+        {
+            var mapped = map.Transform(val);
+            return map.Where(e => e.Value == mapped).Select(e => e.Key);
+        }
+
+        // This is required because the encoding maps several single-byte codepoints to the same Unicode codepoint.  Therefore, if the code arbitrarily decides that
+        // for a particular test the last mapped byte is, say, 127, the code will also say that byte 173 is mapped, because both map to Unicode codepoint 0x2022.
+        private void NormaliseLastDefinedGlyph()
+        {
+            var allMatches = ReverseMapAll(PdfCharacterMappingDictionary.WinAnsiEncoding, _lastDefinedGlyph);
+            _lastDefinedGlyph = allMatches.Max();
+        }
+
+        private void NormaliseFirstDefinedGlyph()
+        {
+            var allMatches = ReverseMapAll(PdfCharacterMappingDictionary.WinAnsiEncoding, _firstDefinedGlyph);
+            _firstDefinedGlyph = allMatches.Min();
+        }
 
 #pragma warning restore CA5394 // Do not use insecure randomness
 
