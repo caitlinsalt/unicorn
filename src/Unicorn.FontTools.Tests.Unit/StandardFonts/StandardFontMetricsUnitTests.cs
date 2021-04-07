@@ -4,7 +4,7 @@ using Unicorn.FontTools.Afm;
 using Unicorn.FontTools.StandardFonts;
 using Unicorn.FontTools.Tests.Unit.TestHelpers;
 
-namespace Unicorn.FontTools.Tests.Unit.Afm
+namespace Unicorn.FontTools.Tests.Unit.StandardFonts
 {
     [TestClass]
     public class StandardFontMetricsUnitTests

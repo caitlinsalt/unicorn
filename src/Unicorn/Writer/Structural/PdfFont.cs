@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using Unicorn.Base;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Primitives;
@@ -56,7 +57,15 @@ namespace Unicorn.Writer.Structural
             {
                 d.Add(_fontDescriptorName.Value, _fontDescriptor.GetReference());
             }
-            d.AddRange(DictionaryBuilder.MakeFontDictionary(_font));
+            d.Add(CommonPdfNames.BaseFont, new PdfName(_font.BaseFontName));
+            d.Add(CommonPdfNames.Subtype, new PdfName(_font.Implementation.ToSubtypeName() ?? _font.GetSpecialSubtypeName()));
+            if (!_font.Implementation.IsStandardFont())
+            {
+                d.Add(CommonPdfNames.Encoding, new PdfName(_font.PreferredEncodingName));
+                d.Add(CommonPdfNames.FirstChar, new PdfInteger(_font.FirstMappedByte()));
+                d.Add(CommonPdfNames.LastChar, new PdfInteger(_font.LastMappedByte()));
+                d.Add(CommonPdfNames.Widths, new PdfArray(_font.CharacterWidths().Select(w => new PdfReal(w))));
+            }
             return d;
         }
     }

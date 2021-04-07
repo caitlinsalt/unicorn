@@ -18,6 +18,17 @@ namespace Unicorn.FontTools
         private readonly IOpenTypeFont _underlyingFont;
 
         /// <summary>
+        /// The kind of font implementation this descriptor represents: OpenType/TrueType.
+        /// </summary>
+        public FontImplementation Implementation => FontImplementation.OpenType;
+
+        /// <summary>
+        /// This value is not strictly speaking required, as it is implied by the <see cref="Implementation" /> property.
+        /// </summary>
+        /// <returns>The string <c>TrueType</c></returns>
+        public string GetSpecialSubtypeName() => "TrueType";
+
+        /// <summary>
         /// The PostScript font name of the underlying font.
         /// </summary>
         public string BaseFontName
@@ -137,6 +148,11 @@ namespace Unicorn.FontTools
         /// font resource table
         /// </summary>
         public Encoding PreferredEncoding => Encoding.GetEncoding(1252);
+
+        /// <summary>
+        /// The encoding name that should be set in PDF file font dictionaries for this font.
+        /// </summary>
+        public string PreferredEncodingName => "WinAnsiEncoding";
 
         /// <summary>
         /// The point size to render this font in.
@@ -284,6 +300,10 @@ namespace Unicorn.FontTools
             while (!_underlyingFont.HasGlyphDefined(PlatformId.Windows, (uint)PdfCharacterMappingDictionary.WinAnsiEncoding.Transform(b)))
             {
                 ++b;
+                if (b == 0)
+                {
+                    break;
+                }
             }
             return b;
         }
@@ -298,6 +318,10 @@ namespace Unicorn.FontTools
             while (!_underlyingFont.HasGlyphDefined(PlatformId.Windows, (uint)PdfCharacterMappingDictionary.WinAnsiEncoding.Transform(b)))
             {
                 --b;
+                if (b == 255)
+                {
+                    break;
+                }
             }
             return b;
         }
@@ -308,7 +332,7 @@ namespace Unicorn.FontTools
         /// </summary>
         /// <returns>An <see cref="IEnumerable{Double}" /> whose first element is the width of the character represented by the codepoint returned by the 
         /// <see cref="FirstMappedByte" /> method.</returns>
-        public IEnumerable<double> CharWidths()
+        public IEnumerable<double> CharacterWidths()
         {
             byte start = FirstMappedByte();
             byte end = LastMappedByte();
@@ -334,19 +358,6 @@ namespace Unicorn.FontTools
             return (fontFlags.HasFlag(EmbeddingPermissions.Editable) ||
                     fontFlags.HasFlag(EmbeddingPermissions.Printing)) 
                 && !fontFlags.HasFlag(EmbeddingPermissions.BitmapOnly);
-        }
-
-        /// <summary>
-        /// Return the necessary metadata for PDF embedding.
-        /// </summary>
-        /// <returns>A series of key-value pairs containing metadata about this font.</returns>
-        public IEnumerable<KeyValuePair<string, object>> GetFontMetadata()
-        {
-            yield return new KeyValuePair<string, object>("Subtype", "TrueType");
-            yield return new KeyValuePair<string, object>("Encoding", "WinAnsiEncoding");
-            yield return new KeyValuePair<string, object>("FirstChar", FirstMappedByte());
-            yield return new KeyValuePair<string, object>("LastChar", LastMappedByte());
-            yield return new KeyValuePair<string, object>("Widths", CharWidths());
         }
     }
 }
