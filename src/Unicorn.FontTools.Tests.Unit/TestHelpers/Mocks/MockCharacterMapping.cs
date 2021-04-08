@@ -1,7 +1,7 @@
 ﻿using System;
-using System.IO;
 using Unicorn.FontTools.OpenType;
-using Unicorn.FontTools.OpenType.Tests.Unit;
+using Unicorn.FontTools.OpenType.Utility;
+using Unicorn.FontTools.Tests.Unit.OpenType;
 
 namespace Unicorn.FontTools.Tests.Unit.TestHelpers.Mocks
 {
@@ -9,7 +9,7 @@ namespace Unicorn.FontTools.Tests.Unit.TestHelpers.Mocks
     {
         public MockCharacterMapping(PlatformId platform, ushort encoding, ushort lang) : base(platform, encoding, lang) { }
 
-        public override void Dump(TextWriter writer) => throw new NotImplementedException(TestResources.Mocks_MockCharacterMapping_NotImplementedError);
+        public override DumpBlock Dump() => new("Mock character mapping", null, null, null);
 
         public override int MapCodePoint(byte codePoint) => throw new NotImplementedException(TestResources.Mocks_MockCharacterMapping_NotImplementedError);
 

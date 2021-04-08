@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using Unicorn.FontTools.OpenType.Utility;
 
 namespace Unicorn.FontTools.OpenType
 {
@@ -29,9 +29,8 @@ namespace Unicorn.FontTools.OpenType
         { }
 
         /// <summary>
-        /// Dump this table's content to a <see cref="TextWriter" /> in whatever way is appropriate.
+        /// Dump this table's content.
         /// </summary>
-        /// <param name="writer">The destination to dump the data to.</param>
-        public abstract void Dump(TextWriter writer);
+        public abstract DumpBlock Dump();
     }
 }

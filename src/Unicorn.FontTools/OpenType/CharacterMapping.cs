@@ -64,9 +64,8 @@ namespace Unicorn.FontTools.OpenType
         public abstract int MapCodePoint(long codePoint);
 
         /// <summary>
-        /// Dump the content of this mapping to a <see cref="TextWriter" />.
+        /// Dump this table's content.
         /// </summary>
-        /// <param name="writer">The writer to dump to.</param>
-        public abstract void Dump(TextWriter writer);
+        public abstract DumpBlock Dump();
     }
 }
