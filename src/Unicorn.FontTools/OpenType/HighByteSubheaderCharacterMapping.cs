@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Unicorn.FontTools.Extensions;
+using Unicorn.FontTools.OpenType.Utility;
 
 namespace Unicorn.FontTools.OpenType
 {
@@ -87,17 +87,9 @@ namespace Unicorn.FontTools.OpenType
         }
 
         /// <summary>
-        /// Dump the content of this subtable to a <see cref="TextWriter" />.  Returns silently if the parameter is null.
+        /// Dump this table's content.
         /// </summary>
-        /// <param name="writer">The writer to dump output to.</param>
-        public override void Dump(TextWriter writer)
-        {
-            if (writer is null)
-            {
-                return;
-            }
-            writer.WriteLine($"Character mapping for {Platform} encoding {Encoding} language {Language} is a Type 2.");
-        }
+        public override DumpBlock Dump() => new DumpBlock($"Character mapping for {Platform} encoding {Encoding} language {Language} is a Type 2.", null, null, null);
 
         /// <summary>
         /// Convert a code point to a glyph ID.

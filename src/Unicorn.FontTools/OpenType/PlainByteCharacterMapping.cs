@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Text;
 using Unicorn.FontTools.Extensions;
+using Unicorn.FontTools.OpenType.Utility;
 
 namespace Unicorn.FontTools.OpenType
 {
@@ -73,27 +74,23 @@ namespace Unicorn.FontTools.OpenType
         public override int MapCodePoint(long codePoint) => codePoint <= byte.MaxValue ? MapCodePoint((byte)codePoint) : 0;
 
         /// <summary>
-        /// Dump the content of this mapping to a <see cref="TextWriter" />.
+        /// Dump this table's content.
         /// </summary>
-        /// <param name="writer">The writer to dump to.</param>
-        public override void Dump(TextWriter writer)
+        public override DumpBlock Dump()
         {
-            if (writer is null)
-            {
-                return;
-            }
-            writer.WriteLine($"Character mapping for {Platform} encoding {Encoding} language {Language} (type 0)");
-            writer.WriteLine("   | 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f");
-            writer.WriteLine("---|------------------------------------------------");
+            StringBuilder sb = new StringBuilder($"Character mapping for {Platform} encoding {Encoding} language {Language} (type 0)\n");
+            sb.AppendLine("   | 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f");
+            sb.AppendLine("---|------------------------------------------------");
             for (int i = 0; i < 256; i += 16)
             {
-                writer.Write($"{i,2:x} | ");
+                sb.Append($"{i,2:x} | ");
                 for (int j = 0; j < 16; ++j)
                 {
-                    writer.Write($"{_data[j],2:x} ");
+                    sb.Append($"{_data[j],2:x} ");
                 }
-                writer.WriteLine();
+                sb.AppendLine();
             }
+            return new DumpBlock(sb.ToString(), null, null, null);
         }
     }
 }

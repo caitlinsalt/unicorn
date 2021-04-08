@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Unicorn.FontTools.Extensions;
 using Unicorn.FontTools.OpenType.Utility;
@@ -85,19 +84,11 @@ namespace Unicorn.FontTools.OpenType
         }
 
         /// <summary>
-        /// Dump the content of this subtable to a <see cref="TextWriter" />.  Returns silently if the parameter is null.  At present this only dumps the segment table,
-        /// not the glyph mapping table.
+        /// Dump this table's content.
         /// </summary>
-        /// <param name="writer">The writer to dump output to.</param>
-        public override void Dump(TextWriter writer)
-        {
-            if (writer is null)
-            {
-                return;
-            }
-            writer.WriteLine($"Character mapping for {Platform} encoding {Encoding} language {Language} (type 10)");
-            writer.WriteLine($"Mapping is for character codes {_startCode} to {_startCode + _data.Length - 1} inclusive.");
-        }
+        public override DumpBlock Dump()
+            => new DumpBlock($"Character mapping for {Platform} encoding {Encoding} language {Language} (type 10)\n" +
+                $"Mapping is for character codes {_startCode} to {_startCode + _data.Length - 1} inclusive.", null, null, null);
 
         /// <summary>
         /// Convert a code point to a glyph ID.
