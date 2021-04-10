@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Unicorn.FontTools.Extensions;
@@ -26,7 +27,7 @@ namespace Unicorn.FontTools.OpenType
         /// <exception cref="ArgumentException">Thrown if the <c>data</c> parameter is not exactly 256 elements long.</exception>
         public PlainByteCharacterMapping(PlatformId platform, int encoding, int language, IEnumerable<byte> data) : base(platform, encoding, language)
         {
-            _data = data.Cast<ushort>().ToArray();
+            _data = data.Select(b => (ushort)b).ToArray();
             if (_data.Length < 256)
             {
                 throw new ArgumentException(Resources.PlainByteCharacterMapping_FromBytes_ArrayTooSmall, nameof(data));
@@ -76,7 +77,7 @@ namespace Unicorn.FontTools.OpenType
         /// <summary>
         /// Dump this table's content.
         /// </summary>
-        public override DumpBlock Dump()
+        public override IDumpBlock Dump()
         {
             StringBuilder sb = new StringBuilder($"Character mapping for {Platform} encoding {Encoding} language {Language} (type 0)\n");
             sb.AppendLine("   | 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f");
@@ -86,7 +87,8 @@ namespace Unicorn.FontTools.OpenType
                 sb.Append($"{i,2:x} | ");
                 for (int j = 0; j < 16; ++j)
                 {
-                    sb.Append($"{_data[j],2:x} ");
+                    sb.Append(_data[i + j].ToString("x2", CultureInfo.CurrentCulture));
+                    sb.Append(' ');
                 }
                 sb.AppendLine();
             }

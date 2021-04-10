@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using Unicorn.FontTools.Extensions;
 using Unicorn.FontTools.OpenType.Utility;
@@ -32,9 +31,9 @@ namespace Unicorn.FontTools.OpenType
         /// Create a representation of the data in this table.
         /// </summary>
         /// <returns>A <see cref="DumpBlock" /> object containing the data from this table in textual form.</returns>
-        public override DumpBlock Dump()
+        public override IDumpBlock Dump()
             => new DumpBlock(
-                "htmx table contents:",
+                "hmtx table contents:",
                 new DumpBlockHeader(
                     new DumpColumn("Glyph", DumpAlignment.Right),
                     new DumpColumn("Advance Width", DumpAlignment.Right),

@@ -31,6 +31,6 @@ namespace Unicorn.FontTools.OpenType
         /// <summary>
         /// Dump this table's content.
         /// </summary>
-        public abstract DumpBlock Dump();
+        public abstract IDumpBlock Dump();
     }
 }

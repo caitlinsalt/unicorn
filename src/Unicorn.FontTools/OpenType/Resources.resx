@@ -120,6 +120,9 @@
   <data name="CharacterMappingTable_FromBytes_InsufficientLength" xml:space="preserve">
     <value>Insufficient data to load 'cmap' table.</value>
   </data>
+  <data name="DumpRecord_FormatRecord_ShortDumpBlockHeader" xml:space="preserve">
+    <value>The dump block header provided for formatting does not contain enough columns to format this record.</value>
+  </data>
   <data name="FieldValidation_ValidateArrayOfUShortParameter_Error" xml:space="preserve">
     <value>Field elements must all be within the range of an unsigned 16-bit integer.</value>
   </data>

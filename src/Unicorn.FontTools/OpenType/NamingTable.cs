@@ -44,7 +44,7 @@ namespace Unicorn.FontTools.OpenType
         /// <summary>
         /// Dump this table's content.
         /// </summary>
-        public override DumpBlock Dump()
+        public override IDumpBlock Dump()
             => new DumpBlock(
                 $"name table content:\nVersion {Version}\n{Names.Count} names.",
                 new DumpBlockHeader(new DumpColumn("Platform"), new DumpColumn("Encoding"), new DumpColumn("Language"), new DumpColumn("Name"), new DumpColumn("Text")),

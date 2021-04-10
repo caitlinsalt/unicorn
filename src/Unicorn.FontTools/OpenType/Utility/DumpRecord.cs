@@ -8,7 +8,7 @@ namespace Unicorn.FontTools.OpenType.Utility
     /// <summary>
     /// Represents a row in a dumped tabular data set.
     /// </summary>
-    public class DumpRecord : IReadOnlyList<string>
+    public class DumpRecord : IDumpRecord
     {
         private readonly string[] _data;
 
@@ -47,20 +47,26 @@ namespace Unicorn.FontTools.OpenType.Utility
         /// Convert this record to a string, suitable for tabular display, with each field padded to a minimum width.
         /// </summary>
         /// <param name="header">The tabular header, used to determine the alignment of each field.</param>
-        /// <param name="widths">An array of character-count field widths.</param>
         /// <returns>A string containing the record's data, with each field padded to a given width and separated by <c>|</c> characters.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Either <c>widths</c> or <c>header</c> contain fewer elements than this record.</exception>
-        public string FormatRecord(DumpBlockHeader header, IEnumerable<int> widths)
+        public string FormatRecord(IDumpBlockHeader header)
         {
-            var widthArr = widths.ToArray();
-            return "|" + string.Join("|", this.Select((v, i) => " " + (GetPadFunction(header[i].Alignment))(v, widthArr[i]) + " ")) + "|";
+            if (header is null)
+            {
+                throw new ArgumentNullException(nameof(header));
+            }
+            if (header.Count < Count)
+            {
+                throw new ArgumentException(Resources.DumpRecord_FormatRecord_ShortDumpBlockHeader, nameof(header));
+            }
+            return "|" + string.Join("|", this.Select((v, i) => " " + (GetPadFunction(header[i].Alignment))(v, header.ColumnWidths[i]) + " ")) + "|"; 
         }
 
         /// <summary>
         /// Returns an enumerator for iterating over the fields in the record.
         /// </summary>
         /// <returns>An enumerator that can be used to iterate over the fields in the record.</returns>
-        public IEnumerator<string> GetEnumerator() => (IEnumerator<string>)_data.GetEnumerator();
+        public IEnumerator<string> GetEnumerator() => (_data as IEnumerable<string>).GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 

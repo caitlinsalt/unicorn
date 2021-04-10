@@ -8,9 +8,9 @@ namespace Unicorn.FontTools.OpenType.Utility
     /// Represents a block of textual data to be dumped to human-readable output.  The data can contain a non-tabular part (the <see cref="Info" />), a tabular part
     /// (the <see cref="BlockData" /> and its <see cref="BlockHeader" />) and further nested blocks (the <see cref="NestedData" />).
     /// </summary>
-    public class DumpBlock
+    public class DumpBlock : IDumpBlock
     {
-        private static readonly DumpBlockHeader _defaultHeader = new DumpBlockHeader(new DumpColumn("Name"), new DumpColumn("Value"));
+        private static readonly IDumpBlockHeader _defaultHeader = new DumpBlockHeader(new DumpColumn("Field"), new DumpColumn("Value"));
 
         /// <summary>
         /// Non-tabular data.
@@ -20,17 +20,17 @@ namespace Unicorn.FontTools.OpenType.Utility
         /// <summary>
         /// Header of the tabular data.
         /// </summary>
-        public DumpBlockHeader BlockHeader { get; private set; }
+        public IDumpBlockHeader BlockHeader { get; private set; }
 
         /// <summary>
         /// Tabular data.
         /// </summary>
-        public IEnumerable<DumpRecord> BlockData { get; private set; }
+        public IReadOnlyList<IDumpRecord> BlockData { get; private set; }
 
         /// <summary>
         /// Further nested data blocks.
         /// </summary>
-        public IEnumerable<DumpBlock> NestedData { get; private set; }
+        public IEnumerable<IDumpBlock> NestedData { get; private set; }
 
         /// <summary>
         /// Constructor.
@@ -39,12 +39,12 @@ namespace Unicorn.FontTools.OpenType.Utility
         /// <param name="header">Tabular data header.</param>
         /// <param name="data">Tabular data.</param>
         /// <param name="nestedData">Nested data blocks.</param>
-        public DumpBlock(string info, DumpBlockHeader header, IEnumerable<DumpRecord> data, IEnumerable<DumpBlock> nestedData)
+        public DumpBlock(string info, IDumpBlockHeader header, IEnumerable<IDumpRecord> data, IEnumerable<IDumpBlock> nestedData)
         {
             Info = info ?? "";
             BlockHeader = header ?? _defaultHeader;
-            BlockData = data ?? Array.Empty<DumpRecord>();
-            NestedData = nestedData ?? Array.Empty<DumpBlock>();
+            BlockData = data is null ? Array.Empty<IDumpRecord>() : data.ToArray();
+            NestedData = nestedData is null ? Array.Empty<IDumpBlock>() : nestedData.ToArray();
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Unicorn.FontTools.OpenType.Utility
         /// <param name="info">Non-tabular data.</param>
         /// <param name="data">Tabular data.</param>
         /// <param name="nestedData">Nested data blocks.</param>
-        public DumpBlock(string info, IEnumerable<DumpRecord> data, IEnumerable<DumpBlock> nestedData) : this(info, _defaultHeader, data, nestedData) { }
+        public DumpBlock(string info, IEnumerable<IDumpRecord> data, IEnumerable<IDumpBlock> nestedData) : this(info, _defaultHeader, data, nestedData) { }
 
         /// <summary>
         /// Format this block of data (including any nested blocks) as a sequence of strings.
@@ -65,22 +65,13 @@ namespace Unicorn.FontTools.OpenType.Utility
             var blockData = BlockData.ToList();
             if (blockData.Any())
             {
-                var columnWidths = new List<int>(BlockHeader.Count);
-                for (int i = 0; i < BlockHeader.Count; ++i)
-                {
-                    columnWidths.Add(BlockHeader[i].HeaderText.Length);
-                    int valLength = blockData.Select(r => r[i].Length).Max();
-                    if (valLength > columnWidths.Last())
-                    {
-                        columnWidths[columnWidths.Count - 1] = valLength;
-                    }
-                }
-                yield return BlockHeader.FormatHeader(columnWidths);
-                foreach (var str in BlockData.Select(d => d.FormatRecord(BlockHeader, columnWidths)))
+                BlockHeader.MeasureColumnWidths(BlockData);
+                yield return BlockHeader.FormatHeader();
+                foreach (var str in BlockData.Select(d => d.FormatRecord(BlockHeader)))
                 {
                     yield return str;
                 }
-                yield return DumpBlockHeader.GetUnderline(columnWidths);
+                yield return BlockHeader.GetUnderline();
             }
             foreach (var str in NestedData.SelectMany(n => n.FormatBlock()))
             {

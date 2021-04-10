@@ -194,10 +194,9 @@ namespace Unicorn.FontTools.OpenType
         /// Create a representation of the data in this table.
         /// </summary>
         /// <returns>A <see cref="DumpBlock" /> object containing the data from this table in textual form.</returns>
-        public override DumpBlock Dump()
+        public override IDumpBlock Dump()
             => new DumpBlock(
                 "head table contents:",
-                new DumpBlockHeader(new DumpColumn("Field"), new DumpColumn("Value")),
                 new DumpRecord[]
                 {
                     new DumpRecord("MajorVersion", MajorVersion.ToString(CultureInfo.CurrentCulture)),

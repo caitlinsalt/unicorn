@@ -561,7 +561,7 @@ namespace Unicorn.FontTools.OpenType
         /// <summary>
         /// Dump this table's content.
         /// </summary>
-        public override DumpBlock Dump()
+        public override IDumpBlock Dump()
         {
             DumpBlock[] child;
             if (Version == PostScriptTableVersion.Two || Version == PostScriptTableVersion.TwoPointFive)
@@ -581,7 +581,6 @@ namespace Unicorn.FontTools.OpenType
             }
             return new DumpBlock(
                 "post table content:", 
-                new DumpBlockHeader(new DumpColumn("Field"), new DumpColumn("Value")),
                 new DumpRecord[]
                 {
                     new DumpRecord("Version", Version.ToString()),
@@ -592,7 +591,7 @@ namespace Unicorn.FontTools.OpenType
                     new DumpRecord("MinMemoryType42", MinMemoryType42.ToString(CultureInfo.CurrentCulture)),
                     new DumpRecord("MaxMemoryType42", MaxMemoryType42.ToString(CultureInfo.CurrentCulture)),
                     new DumpRecord("MinMemoryType1", MinMemoryType1.ToString(CultureInfo.CurrentCulture)),
-                    new DumpRecord("`MaxMemoryType1", MaxMemoryType1.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("MaxMemoryType1", MaxMemoryType1.ToString(CultureInfo.CurrentCulture)),
                 },
                 child);
         }

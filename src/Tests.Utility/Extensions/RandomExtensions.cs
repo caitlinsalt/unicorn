@@ -329,8 +329,18 @@ namespace Tests.Utility.Extensions
         /// <returns>A random <see cref="ushort" /> value.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the <c>random</c> parameter is <c>null</c>.</exception>
         [CLSCompliant(false)]
-        public static ushort NextUShort(this Random random) 
-            => random is null ? throw new ArgumentNullException(nameof(random)) : (ushort)random.Next(ushort.MaxValue + 1);
+        public static ushort NextUShort(this Random random) => NextUShort(random, ushort.MaxValue);
+
+        /// <summary>
+        /// Returns a random <see cref="ushort" /> value.
+        /// </summary>
+        /// <param name="random">The random generator.</param>
+        /// <param name="maxValue">The exclusive upper boun on the value returned.</param>
+        /// <returns>A random <see cref="ushort" /> value.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the <c>random</c> parameter is <c>null</c>.</exception>
+        [CLSCompliant(false)]
+        public static ushort NextUShort(this Random random, ushort maxValue)
+            => random is null ? throw new ArgumentNullException(nameof(random)) : (ushort)random.Next(maxValue);
 
         /// <summary>
         /// Returns a random <see cref="uint" /> value.

@@ -86,9 +86,9 @@ namespace Unicorn.FontTools.OpenType
         /// <summary>
         /// Dump this table's content.
         /// </summary>
-        public override DumpBlock Dump()
+        public override IDumpBlock Dump()
             => new DumpBlock($"Character mapping for {Platform} encoding {Encoding} language {Language} (type 10)\n" +
-                $"Mapping is for character codes {_startCode} to {_startCode + _data.Length - 1} inclusive.", null, null, null);
+                $"Mapping is for character codes {_startCode} to {_startCode + _data.Length - 1} inclusive.", null, null);
 
         /// <summary>
         /// Convert a code point to a glyph ID.

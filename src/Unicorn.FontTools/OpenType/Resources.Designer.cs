@@ -70,6 +70,15 @@ namespace Unicorn.FontTools.OpenType {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The dump block header provided for formatting does not contain enough columns to format this record..
+        /// </summary>
+        internal static string DumpRecord_FormatRecord_ShortDumpBlockHeader {
+            get {
+                return ResourceManager.GetString("DumpRecord_FormatRecord_ShortDumpBlockHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Field elements must all be within the range of an unsigned 16-bit integer..
         /// </summary>
         internal static string FieldValidation_ValidateArrayOfUShortParameter_Error {

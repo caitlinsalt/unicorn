@@ -5,6 +5,7 @@ using System.Text;
 using Tests.Utility.Extensions;
 using Unicorn.FontTools.Afm;
 using Unicorn.FontTools.OpenType;
+using Unicorn.FontTools.OpenType.Utility;
 
 namespace Unicorn.FontTools.Tests.Utility
 {
@@ -599,6 +600,35 @@ namespace Unicorn.FontTools.Tests.Utility
             random.NextBytes(data);
             return SupportedCodePages.FromBytes(data, 0);
         }
+
+        private static readonly DumpAlignment[] _validDumpAlignments = new[] { DumpAlignment.Left, DumpAlignment.Right };
+
+        /// <summary>
+        /// Generate a random <see cref="DumpAlignment" /> value.
+        /// </summary>
+        /// <param name="random">Random generator.</param>
+        /// <returns>A randomly-selected valid <see cref="DumpAlignment" /> value.</returns>
+        /// <exception cref="ArgumentNullException"><c>random</c> is <c>null</c>.</exception>
+        public static DumpAlignment NextDumpAlignment(this Random random)
+            => random is null ? throw new ArgumentNullException(nameof(random)) : _validDumpAlignments[random.Next(_validDumpAlignments.Length)];
+
+        /// <summary>
+        /// Generate a random <see cref="DumpColumn" /> instance.
+        /// </summary>
+        /// <param name="random">Random generator.</param>
+        /// <returns>A <see cref="DumpColumn" /> instance with randomly-generated properties.</returns>
+        /// <exception cref="ArgumentNullException"><c>random</c> is <c>null</c>.</exception>
+        public static DumpColumn NextDumpColumn(this Random random)
+            => random is null ? throw new ArgumentNullException(nameof(random)) : new DumpColumn(random.NextString(random.Next(1, 20)), random.NextDumpAlignment());
+
+        /// <summary>
+        /// Generate a random <see cref="SequentialMapGroupRecord" /> value.
+        /// </summary>
+        /// <param name="random">Random generator.</param>
+        /// <returns>A randomly-generated <see cref="SequentialMapGroupRecord" /> value.</returns>
+        /// <exception cref="ArgumentNullException"><c>random</c> is <c>null</c>.</exception>
+        public static SequentialMapGroupRecord NextOpenTypeSequentialMapGroupRecord(this Random random)
+            => random is null ? throw new ArgumentNullException(nameof(random)) : new SequentialMapGroupRecord(random.NextUInt(), random.NextUInt(), random.NextUShort());
 
 #pragma warning restore CA5394 // Do not use insecure randomness
 
