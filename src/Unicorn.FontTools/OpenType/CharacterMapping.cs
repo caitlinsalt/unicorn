@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Unicorn.FontTools.OpenType.Utility;
 
 namespace Unicorn.FontTools.OpenType
@@ -66,6 +65,6 @@ namespace Unicorn.FontTools.OpenType
         /// <summary>
         /// Dump this table's content.
         /// </summary>
-        public abstract DumpBlock Dump();
+        public abstract IDumpBlock Dump();
     }
 }

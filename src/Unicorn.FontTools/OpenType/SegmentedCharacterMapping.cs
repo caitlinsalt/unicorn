@@ -102,7 +102,7 @@ namespace Unicorn.FontTools.OpenType
         /// <summary>
         /// Dump this table's content.
         /// </summary>
-        public override DumpBlock Dump()
+        public override IDumpBlock Dump()
             => new DumpBlock(
                 $"Character mapping for {Platform} encoding {Encoding} language {Language} (type 4)\nThere are {Segments.Count} segments.",
                 new DumpBlockHeader(new DumpColumn("Segment"), new DumpColumn("Start", DumpAlignment.Right), new DumpColumn("End", DumpAlignment.Right),

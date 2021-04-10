@@ -73,7 +73,7 @@ namespace Unicorn.FontTools.OpenType
         /// <summary>
         /// Dump this table's content.
         /// </summary>
-        public override DumpBlock Dump()
+        public override IDumpBlock Dump()
             => new DumpBlock(
                 $"cmap table has {Mappings.Count} character mappings.",
                 null,
