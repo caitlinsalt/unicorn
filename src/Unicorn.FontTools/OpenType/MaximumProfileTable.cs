@@ -1,5 +1,6 @@
 ﻿using System;
-using System.IO;
+using System.Collections.Generic;
+using System.Globalization;
 using Unicorn.FontTools.Extensions;
 using Unicorn.FontTools.OpenType.Utility;
 
@@ -205,39 +206,31 @@ namespace Unicorn.FontTools.OpenType
         }
 
         /// <summary>
-        /// Dump the contents of this table to a <see cref="TextWriter" />.
+        /// Dump this table's content.
         /// </summary>
-        /// <param name="writer">The writer to dump the table data to.</param>
-        public override void Dump(TextWriter writer)
+        public override IDumpBlock Dump()
         {
-            if (writer is null)
+            var records = new List<DumpRecord>
             {
-                return;
-            }
-            writer.WriteLine("maxp table contents:");
-            if (Kind == FontKind.Cff)
+                new DumpRecord("GlyphCount", GlyphCount.ToString(CultureInfo.CurrentCulture))
+            };
+            if (Kind != FontKind.Cff)
             {
-                writer.WriteLine("Field      |  Value");
-                writer.WriteLine("-----------|-------");
-                writer.WriteLine($"GlyphCount | {GlyphCount,6}");
-                return;
+                records.Add(new DumpRecord("MaxPoints", (MaxPoints ?? 0).ToString(CultureInfo.CurrentCulture)));
+                records.Add(new DumpRecord("MaxContours", (MaxContours ?? 0).ToString(CultureInfo.CurrentCulture)));
+                records.Add(new DumpRecord("MaxCompositePoints", (MaxCompositePoints ?? 0).ToString(CultureInfo.CurrentCulture)));
+                records.Add(new DumpRecord("MaxCompositeContours",(MaxCompositeContours ?? 0).ToString(CultureInfo.CurrentCulture)));
+                records.Add(new DumpRecord("MaxZones", (MaxZones ?? 0).ToString(CultureInfo.CurrentCulture)));
+                records.Add(new DumpRecord("MaxTwilightZonePoints", (MaxTwilightZonePoints ?? 0).ToString(CultureInfo.CurrentCulture)));
+                records.Add(new DumpRecord("MaxStorage", (MaxStorage ?? 0).ToString(CultureInfo.CurrentCulture)));
+                records.Add(new DumpRecord("MaxFunctionDefs", (MaxFunctionDefs ?? 0).ToString(CultureInfo.CurrentCulture)));
+                records.Add(new DumpRecord("MaxInstructionDefs", (MaxInstructionDefs ?? 0).ToString(CultureInfo.CurrentCulture)));
+                records.Add(new DumpRecord("MaxStackElements", (MaxStackElements ?? 0).ToString(CultureInfo.CurrentCulture)));
+                records.Add(new DumpRecord("MaxSizeOfInstructions", (MaxSizeOfInstructions ?? 0).ToString(CultureInfo.CurrentCulture)));
+                records.Add(new DumpRecord("MaxComponentElements", (MaxComponentElements ?? 0).ToString(CultureInfo.CurrentCulture)));
+                records.Add(new DumpRecord("MaxComponentDepth", (MaxComponentDepth ?? 0).ToString(CultureInfo.CurrentCulture)));
             }
-            writer.WriteLine("Field                 |  Value");
-            writer.WriteLine("----------------------|-------");
-            writer.WriteLine($"GlyphCount            | {GlyphCount,6}");
-            writer.WriteLine($"MaxPoints             | {MaxPoints,6}");
-            writer.WriteLine($"MaxContours           | {MaxContours,6}");
-            writer.WriteLine($"MaxCompositePoints    | {MaxCompositePoints,6}");
-            writer.WriteLine($"MaxCompositeContours  | {MaxCompositeContours,6}");
-            writer.WriteLine($"MaxZones              | {MaxZones,6}");
-            writer.WriteLine($"MaxTwilightZonePoints | {MaxTwilightZonePoints,6}");
-            writer.WriteLine($"MaxStorage            | {MaxStorage,6}");  
-            writer.WriteLine($"MaxFunctionDefs       | {MaxFunctionDefs,6}");
-            writer.WriteLine($"MaxInstructionDefs    | {MaxInstructionDefs,6}");
-            writer.WriteLine($"MaxStackElements      | {MaxStackElements,6}");
-            writer.WriteLine($"MaxSizeOfInstructions | {MaxSizeOfInstructions,6}");
-            writer.WriteLine($"MaxComponentElements  | {MaxComponentElements,6}");
-            writer.WriteLine($"MaxComponentDepth     | {MaxComponentDepth,6}");
+            return new DumpBlock("maxp table contents:", new DumpBlockHeader(new DumpColumn("Field"), new DumpColumn("Value", DumpAlignment.Right)), records, null);
         }
     }
 }

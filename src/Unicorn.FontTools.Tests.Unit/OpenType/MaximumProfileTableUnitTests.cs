@@ -2,16 +2,24 @@
 using System;
 using Tests.Utility.Providers;
 using Tests.Utility.Extensions;
-using System.IO;
-using Tests.Utility.Mocks;
 using System.Linq;
+using Unicorn.FontTools.OpenType;
+using System.Globalization;
 
-namespace Unicorn.FontTools.OpenType.Tests.Unit
+namespace Unicorn.FontTools.Tests.Unit.OpenType
 {
     [TestClass]
     public class MaximumProfileTableUnitTests
     {
         private static readonly Random _rnd = RandomProvider.Default;
+
+        private static MaximumProfileTable GetCffTable() => new(_rnd.NextUShort());
+
+        private static MaximumProfileTable GetTruetypeTable()
+            => new(_rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextUShort(), 
+                _rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextUShort());
+
+        private static MaximumProfileTable GetTable() => _rnd.NextBoolean() ? GetCffTable() : GetTruetypeTable();
 
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 #pragma warning disable CA5394 // Do not use insecure randomness
@@ -786,7 +794,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08,
                 testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual("maxp", testOutput.TableTag.Value);
@@ -810,7 +818,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08,
                 testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(FontKind.TrueType, testOutput.Kind);
@@ -834,7 +842,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08,
                 testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam00, testOutput.GlyphCount);
@@ -858,7 +866,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08,
                 testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam01, testOutput.MaxPoints);
@@ -882,7 +890,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08,
                 testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam02, testOutput.MaxContours);
@@ -906,7 +914,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08,
                 testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam03, testOutput.MaxCompositePoints);
@@ -930,7 +938,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08,
                 testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam04, testOutput.MaxCompositeContours);
@@ -954,7 +962,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08,
                 testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam05, testOutput.MaxZones);
@@ -978,7 +986,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08,
                 testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam06, testOutput.MaxTwilightZonePoints);
@@ -1002,7 +1010,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08,
                 testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam07, testOutput.MaxStorage);
@@ -1026,7 +1034,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08,
                 testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam08, testOutput.MaxFunctionDefs);
@@ -1050,7 +1058,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08,
                 testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam09, testOutput.MaxInstructionDefs);
@@ -1074,7 +1082,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08,
                 testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam10, testOutput.MaxStackElements);
@@ -1098,7 +1106,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08,
                 testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam11, testOutput.MaxSizeOfInstructions);
@@ -1122,7 +1130,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08,
                 testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam12, testOutput.MaxComponentElements);
@@ -1146,7 +1154,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             int testParam12 = _rnd.NextUShort();
             int testParam13 = _rnd.NextUShort();
 
-            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08, 
+            MaximumProfileTable testOutput = new(testParam00, testParam01, testParam02, testParam03, testParam04, testParam05, testParam06, testParam07, testParam08,
                 testParam09, testParam10, testParam11, testParam12, testParam13);
 
             Assert.AreEqual(testParam13, testOutput.MaxComponentDepth);
@@ -1304,7 +1312,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 
             MaximumProfileTable testOutput = MaximumProfileTable.FromBytes(testParam0, testParam1, testParam2);
 
-            Assert.AreEqual((int)expectedValue, testOutput.GlyphCount);
+            Assert.AreEqual(expectedValue, testOutput.GlyphCount);
         }
 
         [TestMethod]
@@ -1351,7 +1359,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 
             MaximumProfileTable testOutput = MaximumProfileTable.FromBytes(testParam0, testParam1, testParam2);
 
-            Assert.AreEqual((int)expectedValue, testOutput.GlyphCount);
+            Assert.AreEqual(expectedValue, testOutput.GlyphCount);
         }
 
         [TestMethod]
@@ -1368,7 +1376,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 
             MaximumProfileTable testOutput = MaximumProfileTable.FromBytes(testParam0, testParam1, testParam2);
 
-            Assert.AreEqual((int)expectedValue, testOutput.MaxPoints);
+            Assert.AreEqual(expectedValue, testOutput.MaxPoints);
         }
 
         [TestMethod]
@@ -1385,7 +1393,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 
             MaximumProfileTable testOutput = MaximumProfileTable.FromBytes(testParam0, testParam1, testParam2);
 
-            Assert.AreEqual((int)expectedValue, testOutput.MaxContours);
+            Assert.AreEqual(expectedValue, testOutput.MaxContours);
         }
 
         [TestMethod]
@@ -1402,7 +1410,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 
             MaximumProfileTable testOutput = MaximumProfileTable.FromBytes(testParam0, testParam1, testParam2);
 
-            Assert.AreEqual((int)expectedValue, testOutput.MaxCompositePoints);
+            Assert.AreEqual(expectedValue, testOutput.MaxCompositePoints);
         }
 
         [TestMethod]
@@ -1419,7 +1427,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 
             MaximumProfileTable testOutput = MaximumProfileTable.FromBytes(testParam0, testParam1, testParam2);
 
-            Assert.AreEqual((int)expectedValue, testOutput.MaxCompositeContours);
+            Assert.AreEqual(expectedValue, testOutput.MaxCompositeContours);
         }
 
         [TestMethod]
@@ -1436,7 +1444,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 
             MaximumProfileTable testOutput = MaximumProfileTable.FromBytes(testParam0, testParam1, testParam2);
 
-            Assert.AreEqual((int)expectedValue, testOutput.MaxZones);
+            Assert.AreEqual(expectedValue, testOutput.MaxZones);
         }
 
         [TestMethod]
@@ -1453,7 +1461,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 
             MaximumProfileTable testOutput = MaximumProfileTable.FromBytes(testParam0, testParam1, testParam2);
 
-            Assert.AreEqual((int)expectedValue, testOutput.MaxTwilightZonePoints);
+            Assert.AreEqual(expectedValue, testOutput.MaxTwilightZonePoints);
         }
 
         [TestMethod]
@@ -1470,7 +1478,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 
             MaximumProfileTable testOutput = MaximumProfileTable.FromBytes(testParam0, testParam1, testParam2);
 
-            Assert.AreEqual((int)expectedValue, testOutput.MaxStorage);
+            Assert.AreEqual(expectedValue, testOutput.MaxStorage);
         }
 
         [TestMethod]
@@ -1487,7 +1495,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 
             MaximumProfileTable testOutput = MaximumProfileTable.FromBytes(testParam0, testParam1, testParam2);
 
-            Assert.AreEqual((int)expectedValue, testOutput.MaxFunctionDefs);
+            Assert.AreEqual(expectedValue, testOutput.MaxFunctionDefs);
         }
 
         [TestMethod]
@@ -1504,7 +1512,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 
             MaximumProfileTable testOutput = MaximumProfileTable.FromBytes(testParam0, testParam1, testParam2);
 
-            Assert.AreEqual((int)expectedValue, testOutput.MaxInstructionDefs);
+            Assert.AreEqual(expectedValue, testOutput.MaxInstructionDefs);
         }
 
         [TestMethod]
@@ -1521,7 +1529,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 
             MaximumProfileTable testOutput = MaximumProfileTable.FromBytes(testParam0, testParam1, testParam2);
 
-            Assert.AreEqual((int)expectedValue, testOutput.MaxStackElements);
+            Assert.AreEqual(expectedValue, testOutput.MaxStackElements);
         }
 
         [TestMethod]
@@ -1538,7 +1546,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 
             MaximumProfileTable testOutput = MaximumProfileTable.FromBytes(testParam0, testParam1, testParam2);
 
-            Assert.AreEqual((int)expectedValue, testOutput.MaxSizeOfInstructions);
+            Assert.AreEqual(expectedValue, testOutput.MaxSizeOfInstructions);
         }
 
         [TestMethod]
@@ -1555,7 +1563,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 
             MaximumProfileTable testOutput = MaximumProfileTable.FromBytes(testParam0, testParam1, testParam2);
 
-            Assert.AreEqual((int)expectedValue, testOutput.MaxComponentElements);
+            Assert.AreEqual(expectedValue, testOutput.MaxComponentElements);
         }
 
         [TestMethod]
@@ -1572,290 +1580,241 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 
             MaximumProfileTable testOutput = MaximumProfileTable.FromBytes(testParam0, testParam1, testParam2);
 
-            Assert.AreEqual((int)expectedValue, testOutput.MaxComponentDepth);
+            Assert.AreEqual(expectedValue, testOutput.MaxComponentDepth);
         }
 
         [TestMethod]
-        public void MaximumProfileTableClass_DumpMethod_Succeeds_IfParameterIsNull()
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObject()
         {
-            int paramLen = _rnd.Next(32, 64);
-            byte[] constrParam0 = new byte[paramLen];
-            _rnd.NextBytes(constrParam0);
-            constrParam0.WriteIntAt(0, _rnd.NextBoolean() ? 65536 : 20480);
-            MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            TextWriter testParam0 = null;
+            var testObject = GetTable();
 
-            testObject.Dump(testParam0);
+            var testOutput = testObject.Dump();
+
+            Assert.IsNotNull(testOutput);
         }
 
         [TestMethod]
-        public void MaximumProfileTableClass_DumpMethod_WritesGlyphCountToFirstParameter_IfKindEqualsCff()
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWhichContainsTableNameInInfoProperty()
         {
-            ushort expectedValue = _rnd.NextUShort();
-            int paramLen = _rnd.Next(32, 64);
-            byte[] constrParam0 = new byte[paramLen];
-            _rnd.NextBytes(constrParam0);
-            constrParam0.WriteIntAt(0, 20480);
-            constrParam0.WriteUShortAt(4, expectedValue);
-            MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new();
+            var testObject = GetTable();
 
-            testObject.Dump(testParam0);
+            var testOutput = testObject.Dump();
 
-            string expectedString = testParam0.WrittenText.Single(s => s.Contains("GlyphCount", StringComparison.InvariantCulture));
-            Assert.IsTrue(expectedString.Contains($"{expectedValue}", StringComparison.InvariantCulture));
+            Assert.IsTrue(testOutput.Info.Contains("maxp", StringComparison.InvariantCulture));
         }
 
         [TestMethod]
-        public void MaximumProfileTableClass_DumpMethod_WritesGlyphCountToFirstParameter_IfKindEqualsTrueType()
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithBlockHeaderPropertyWithTwoColumns()
         {
-            ushort expectedValue = _rnd.NextUShort();
-            int paramLen = _rnd.Next(32, 64);
-            byte[] constrParam0 = new byte[paramLen];
-            _rnd.NextBytes(constrParam0);
-            constrParam0.WriteIntAt(0, 65536);
-            constrParam0.WriteUShortAt(4, expectedValue);
-            MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new();
+            var testObject = GetTable();
 
-            testObject.Dump(testParam0);
+            var testOutput = testObject.Dump();
 
-            string expectedString = testParam0.WrittenText.Single(s => s.Contains("GlyphCount", StringComparison.InvariantCulture));
-            Assert.IsTrue(expectedString.Contains($"{expectedValue}", StringComparison.InvariantCulture));
+            Assert.AreEqual(2, testOutput.BlockHeader.Count);
         }
 
         [TestMethod]
-        public void MaximumProfileTableClass_DumpMethod_WritesMaxPointsToFirstParameter_IfKindEqualsTrueType()
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithBlockHeaderPropertyWithFirstColumnCalledField()
         {
-            ushort expectedValue = _rnd.NextUShort();
-            int paramLen = _rnd.Next(32, 64);
-            byte[] constrParam0 = new byte[paramLen];
-            _rnd.NextBytes(constrParam0);
-            constrParam0.WriteIntAt(0, 65536);
-            constrParam0.WriteUShortAt(6, expectedValue);
-            MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new();
+            var testObject = GetTable();
 
-            testObject.Dump(testParam0);
+            var testOutput = testObject.Dump();
 
-            string expectedString = testParam0.WrittenText.Single(s => s.Contains("MaxPoints", StringComparison.InvariantCulture));
-            Assert.IsTrue(expectedString.Contains($"{expectedValue}", StringComparison.InvariantCulture));
+            Assert.AreEqual("Field", testOutput.BlockHeader[0].HeaderText);
         }
 
         [TestMethod]
-        public void MaximumProfileTableClass_DumpMethod_WritesMaxContoursToFirstParameter_IfKindEqualsTrueType()
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithBlockHeaderPropertyWithSecondColumnCalledValue()
         {
-            ushort expectedValue = _rnd.NextUShort();
-            int paramLen = _rnd.Next(32, 64);
-            byte[] constrParam0 = new byte[paramLen];
-            _rnd.NextBytes(constrParam0);
-            constrParam0.WriteIntAt(0, 65536);
-            constrParam0.WriteUShortAt(8, expectedValue);
-            MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new();
+            var testObject = GetTable();
 
-            testObject.Dump(testParam0);
+            var testOutput = testObject.Dump();
 
-            string expectedString = testParam0.WrittenText.Single(s => s.Contains("MaxContours", StringComparison.InvariantCulture));
-            Assert.IsTrue(expectedString.Contains($"{expectedValue}", StringComparison.InvariantCulture));
+            Assert.AreEqual("Value", testOutput.BlockHeader[1].HeaderText);
         }
 
         [TestMethod]
-        public void MaximumProfileTableClass_DumpMethod_WritesMaxCompositePointsToFirstParameter_IfKindEqualsTrueType()
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithDataWithCorrectGlyphCountRecord()
         {
-            ushort expectedValue = _rnd.NextUShort();
-            int paramLen = _rnd.Next(32, 64);
-            byte[] constrParam0 = new byte[paramLen];
-            _rnd.NextBytes(constrParam0);
-            constrParam0.WriteIntAt(0, 65536);
-            constrParam0.WriteUShortAt(10, expectedValue);
-            MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new();
+            var testObject = GetTable();
 
-            testObject.Dump(testParam0);
+            var testOutput = testObject.Dump();
 
-            string expectedString = testParam0.WrittenText.Single(s => s.Contains("MaxCompositePoints", StringComparison.InvariantCulture));
-            Assert.IsTrue(expectedString.Contains($"{expectedValue}", StringComparison.InvariantCulture));
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "GlyphCount");
+            Assert.AreEqual(testObject.GlyphCount.ToString(CultureInfo.CurrentCulture), testRecord[1]);
         }
 
         [TestMethod]
-        public void MaximumProfileTableClass_DumpMethod_WritesMaxCompositeContoursToFirstParameter_IfKindEqualsTrueType()
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithDataWithOneRecord_IfFontTypeIsCff()
         {
-            ushort expectedValue = _rnd.NextUShort();
-            int paramLen = _rnd.Next(32, 64);
-            byte[] constrParam0 = new byte[paramLen];
-            _rnd.NextBytes(constrParam0);
-            constrParam0.WriteIntAt(0, 65536);
-            constrParam0.WriteUShortAt(12, expectedValue);
-            MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new();
+            var testObject = GetCffTable();
 
-            testObject.Dump(testParam0);
+            var testOutput = testObject.Dump();
 
-            string expectedString = testParam0.WrittenText.Single(s => s.Contains("MaxCompositeContours", StringComparison.InvariantCulture));
-            Assert.IsTrue(expectedString.Contains($"{expectedValue}", StringComparison.InvariantCulture));
+            Assert.AreEqual(1, testOutput.BlockData.Count);
         }
 
         [TestMethod]
-        public void MaximumProfileTableClass_DumpMethod_WritesMaxZonesToFirstParameter_IfKindEqualsTrueType()
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithDataWithCorrectMaxPointsRecord_IfFontTypeIsTruetype()
         {
-            ushort expectedValue = _rnd.NextUShort();
-            int paramLen = _rnd.Next(32, 64);
-            byte[] constrParam0 = new byte[paramLen];
-            _rnd.NextBytes(constrParam0);
-            constrParam0.WriteIntAt(0, 65536);
-            constrParam0.WriteUShortAt(14, expectedValue);
-            MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new();
+            var testObject = GetTruetypeTable();
 
-            testObject.Dump(testParam0);
+            var testOutput = testObject.Dump();
 
-            string expectedString = testParam0.WrittenText.Single(s => s.Contains("MaxZones", StringComparison.InvariantCulture));
-            Assert.IsTrue(expectedString.Contains($"{expectedValue}", StringComparison.InvariantCulture));
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "MaxPoints");
+            Assert.AreEqual(testObject.MaxPoints.Value.ToString(CultureInfo.CurrentCulture), testRecord[1]);
         }
 
         [TestMethod]
-        public void MaximumProfileTableClass_DumpMethod_WritesMaxTwilightZonePointsToFirstParameter_IfKindEqualsTrueType()
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithDataWithCorrectMaxContoursRecord_IfFontTypeIsTruetype()
         {
-            ushort expectedValue = _rnd.NextUShort();
-            int paramLen = _rnd.Next(32, 64);
-            byte[] constrParam0 = new byte[paramLen];
-            _rnd.NextBytes(constrParam0);
-            constrParam0.WriteIntAt(0, 65536);
-            constrParam0.WriteUShortAt(16, expectedValue);
-            MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new();
+            var testObject = GetTruetypeTable();
 
-            testObject.Dump(testParam0);
+            var testOutput = testObject.Dump();
 
-            string expectedString = testParam0.WrittenText.Single(s => s.Contains("MaxTwilightZonePoints", StringComparison.InvariantCulture));
-            Assert.IsTrue(expectedString.Contains($"{expectedValue}", StringComparison.InvariantCulture));
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "MaxContours");
+            Assert.AreEqual(testObject.MaxContours.Value.ToString(CultureInfo.CurrentCulture), testRecord[1]);
         }
 
         [TestMethod]
-        public void MaximumProfileTableClass_DumpMethod_WritesMaxStorageToFirstParameter_IfKindEqualsTrueType()
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithDataWithCorrectMaxCompositePointsRecord_IfFontTypeIsTruetype()
         {
-            ushort expectedValue = _rnd.NextUShort();
-            int paramLen = _rnd.Next(32, 64);
-            byte[] constrParam0 = new byte[paramLen];
-            _rnd.NextBytes(constrParam0);
-            constrParam0.WriteIntAt(0, 65536);
-            constrParam0.WriteUShortAt(18, expectedValue);
-            MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new();
+            var testObject = GetTruetypeTable();
 
-            testObject.Dump(testParam0);
+            var testOutput = testObject.Dump();
 
-            string expectedString = testParam0.WrittenText.Single(s => s.Contains("MaxStorage", StringComparison.InvariantCulture));
-            Assert.IsTrue(expectedString.Contains($"{expectedValue}", StringComparison.InvariantCulture));
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "MaxCompositePoints");
+            Assert.AreEqual(testObject.MaxCompositePoints.Value.ToString(CultureInfo.CurrentCulture), testRecord[1]);
         }
 
         [TestMethod]
-        public void MaximumProfileTableClass_DumpMethod_WritesMaxFunctionDefsToFirstParameter_IfKindEqualsTrueType()
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithDataWithCorrectMaxCompositeContoursRecord_IfFontTypeIsTruetype()
         {
-            ushort expectedValue = _rnd.NextUShort();
-            int paramLen = _rnd.Next(32, 64);
-            byte[] constrParam0 = new byte[paramLen];
-            _rnd.NextBytes(constrParam0);
-            constrParam0.WriteIntAt(0, 65536);
-            constrParam0.WriteUShortAt(20, expectedValue);
-            MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new();
+            var testObject = GetTruetypeTable();
 
-            testObject.Dump(testParam0);
+            var testOutput = testObject.Dump();
 
-            string expectedString = testParam0.WrittenText.Single(s => s.Contains("MaxFunctionDefs", StringComparison.InvariantCulture));
-            Assert.IsTrue(expectedString.Contains($"{expectedValue}", StringComparison.InvariantCulture));
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "MaxCompositeContours");
+            Assert.AreEqual(testObject.MaxCompositeContours.Value.ToString(CultureInfo.CurrentCulture), testRecord[1]);
         }
 
         [TestMethod]
-        public void MaximumProfileTableClass_DumpMethod_WritesMaxInstructionDefsToFirstParameter_IfKindEqualsTrueType()
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithDataWithCorrectMaxZonesRecord_IfFontTypeIsTruetype()
         {
-            ushort expectedValue = _rnd.NextUShort();
-            int paramLen = _rnd.Next(32, 64);
-            byte[] constrParam0 = new byte[paramLen];
-            _rnd.NextBytes(constrParam0);
-            constrParam0.WriteIntAt(0, 65536);
-            constrParam0.WriteUShortAt(22, expectedValue);
-            MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new();
+            var testObject = GetTruetypeTable();
 
-            testObject.Dump(testParam0);
+            var testOutput = testObject.Dump();
 
-            string expectedString = testParam0.WrittenText.Single(s => s.Contains("MaxInstructionDefs", StringComparison.InvariantCulture));
-            Assert.IsTrue(expectedString.Contains($"{expectedValue}", StringComparison.InvariantCulture));
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "MaxZones");
+            Assert.AreEqual(testObject.MaxZones.Value.ToString(CultureInfo.CurrentCulture), testRecord[1]);
         }
 
         [TestMethod]
-        public void MaximumProfileTableClass_DumpMethod_WritesMaxStackElementsToFirstParameter_IfKindEqualsTrueType()
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithDataWithCorrectMaxTwilightZonePointsRecord_IfFontTypeIsTruetype()
         {
-            ushort expectedValue = _rnd.NextUShort();
-            int paramLen = _rnd.Next(32, 64);
-            byte[] constrParam0 = new byte[paramLen];
-            _rnd.NextBytes(constrParam0);
-            constrParam0.WriteIntAt(0, 65536);
-            constrParam0.WriteUShortAt(24, expectedValue);
-            MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new();
+            var testObject = GetTruetypeTable();
 
-            testObject.Dump(testParam0);
+            var testOutput = testObject.Dump();
 
-            string expectedString = testParam0.WrittenText.Single(s => s.Contains("MaxStackElements", StringComparison.InvariantCulture));
-            Assert.IsTrue(expectedString.Contains($"{expectedValue}", StringComparison.InvariantCulture));
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "MaxTwilightZonePoints");
+            Assert.AreEqual(testObject.MaxTwilightZonePoints.Value.ToString(CultureInfo.CurrentCulture), testRecord[1]);
         }
 
         [TestMethod]
-        public void MaximumProfileTableClass_DumpMethod_WritesMaxSizeOfInstructionsToFirstParameter_IfKindEqualsTrueType()
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithDataWithCorrectMaxStorageRecord_IfFontTypeIsTruetype()
         {
-            ushort expectedValue = _rnd.NextUShort();
-            int paramLen = _rnd.Next(32, 64);
-            byte[] constrParam0 = new byte[paramLen];
-            _rnd.NextBytes(constrParam0);
-            constrParam0.WriteIntAt(0, 65536);
-            constrParam0.WriteUShortAt(26, expectedValue);
-            MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new();
+            var testObject = GetTruetypeTable();
 
-            testObject.Dump(testParam0);
+            var testOutput = testObject.Dump();
 
-            string expectedString = testParam0.WrittenText.Single(s => s.Contains("MaxSizeOfInstructions", StringComparison.InvariantCulture));
-            Assert.IsTrue(expectedString.Contains($"{expectedValue}", StringComparison.InvariantCulture));
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "MaxStorage");
+            Assert.AreEqual(testObject.MaxStorage.Value.ToString(CultureInfo.CurrentCulture), testRecord[1]);
         }
 
         [TestMethod]
-        public void MaximumProfileTableClass_DumpMethod_WritesMaxComponentElementsToFirstParameter_IfKindEqualsTrueType()
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithDataWithCorrectMaxFunctionDefsRecord_IfFontTypeIsTruetype()
         {
-            ushort expectedValue = _rnd.NextUShort();
-            int paramLen = _rnd.Next(32, 64);
-            byte[] constrParam0 = new byte[paramLen];
-            _rnd.NextBytes(constrParam0);
-            constrParam0.WriteIntAt(0, 65536);
-            constrParam0.WriteUShortAt(28, expectedValue);
-            MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new();
+            var testObject = GetTruetypeTable();
 
-            testObject.Dump(testParam0);
+            var testOutput = testObject.Dump();
 
-            string expectedString = testParam0.WrittenText.Single(s => s.Contains("MaxComponentElements", StringComparison.InvariantCulture));
-            Assert.IsTrue(expectedString.Contains($"{expectedValue}", StringComparison.InvariantCulture));
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "MaxFunctionDefs");
+            Assert.AreEqual(testObject.MaxFunctionDefs.Value.ToString(CultureInfo.CurrentCulture), testRecord[1]);
         }
 
         [TestMethod]
-        public void MaximumProfileTableClass_DumpMethod_WritesMaxComponentDepthToFirstParameter_IfKindEqualsTrueType()
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithDataWithCorrectMaxInstructionDefsRecord_IfFontTypeIsTruetype()
         {
-            ushort expectedValue = _rnd.NextUShort();
-            int paramLen = _rnd.Next(32, 64);
-            byte[] constrParam0 = new byte[paramLen];
-            _rnd.NextBytes(constrParam0);
-            constrParam0.WriteIntAt(0, 65536);
-            constrParam0.WriteUShortAt(30, expectedValue);
-            MaximumProfileTable testObject = MaximumProfileTable.FromBytes(constrParam0, 0, 32);
-            using MockTextWriter testParam0 = new();
+            var testObject = GetTruetypeTable();
 
-            testObject.Dump(testParam0);
+            var testOutput = testObject.Dump();
 
-            string expectedString = testParam0.WrittenText.Single(s => s.Contains("MaxComponentDepth", StringComparison.InvariantCulture));
-            Assert.IsTrue(expectedString.Contains($"{expectedValue}", StringComparison.InvariantCulture));
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "MaxInstructionDefs");
+            Assert.AreEqual(testObject.MaxInstructionDefs.Value.ToString(CultureInfo.CurrentCulture), testRecord[1]);
+        }
+
+        [TestMethod]
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithDataWithCorrectMaxStackElementsRecord_IfFontTypeIsTruetype()
+        {
+            var testObject = GetTruetypeTable();
+
+            var testOutput = testObject.Dump();
+
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "MaxStackElements");
+            Assert.AreEqual(testObject.MaxStackElements.Value.ToString(CultureInfo.CurrentCulture), testRecord[1]);
+        }
+
+        [TestMethod]
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithDataWithCorrectMaxSizeOfInstructionsRecord_IfFontTypeIsTruetype()
+        {
+            var testObject = GetTruetypeTable();
+
+            var testOutput = testObject.Dump();
+
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "MaxSizeOfInstructions");
+            Assert.AreEqual(testObject.MaxSizeOfInstructions.Value.ToString(CultureInfo.CurrentCulture), testRecord[1]);
+        }
+
+        [TestMethod]
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithDataWithCorrectMaxComponentElementsRecord_IfFontTypeIsTruetype()
+        {
+            var testObject = GetTruetypeTable();
+
+            var testOutput = testObject.Dump();
+
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "MaxComponentElements");
+            Assert.AreEqual(testObject.MaxComponentElements.Value.ToString(CultureInfo.CurrentCulture), testRecord[1]);
+        }
+
+        [TestMethod]
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithDataWithCorrectMaxComponentDepthRecord_IfFontTypeIsTruetype()
+        {
+            var testObject = GetTruetypeTable();
+
+            var testOutput = testObject.Dump();
+
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "MaxComponentDepth");
+            Assert.AreEqual(testObject.MaxComponentDepth.Value.ToString(CultureInfo.CurrentCulture), testRecord[1]);
+        }
+
+        [TestMethod]
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithDataWithFourteenRecords_IfFontTypeIsTruetype()
+        {
+            var testObject = GetTruetypeTable();
+
+            var testOutput = testObject.Dump();
+
+            Assert.AreEqual(14, testOutput.BlockData.Count);
+        }
+
+        [TestMethod]
+        public void MaximumProfileTableClass_DumpMethod_ReturnsObjectWithNoNestedBlocks()
+        {
+            var testObject = GetTable();
+
+            var testOutput = testObject.Dump();
+
+            Assert.AreEqual(0, testOutput.NestedData.Count());
         }
 
 #pragma warning restore CA1707 // Identifiers should not contain underscores

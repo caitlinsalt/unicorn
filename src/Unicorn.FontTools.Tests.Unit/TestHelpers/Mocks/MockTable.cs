@@ -1,7 +1,5 @@
-﻿using System;
-using System.IO;
-using Unicorn.FontTools.OpenType;
-using Unicorn.FontTools.OpenType.Tests.Unit;
+﻿using Unicorn.FontTools.OpenType;
+using Unicorn.FontTools.OpenType.Utility;
 
 namespace Unicorn.FontTools.Tests.Unit.TestHelpers.Mocks
 {
@@ -11,6 +9,6 @@ namespace Unicorn.FontTools.Tests.Unit.TestHelpers.Mocks
 
         public MockTable(string tag) : base(tag) { }
 
-        public override void Dump(TextWriter writer) => throw new NotImplementedException(TestResources.Mocks_MockTable_NotImplementedError);
+        public override DumpBlock Dump() => new("Mock table", null, null, null);
     }
 }

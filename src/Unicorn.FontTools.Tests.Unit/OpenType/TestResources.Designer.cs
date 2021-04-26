@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Unicorn.FontTools.OpenType.Tests.Unit {
+namespace Unicorn.FontTools.Tests.Unit.OpenType {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Unicorn.FontTools.OpenType.Tests.Unit.TestResources", typeof(TestResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Unicorn.FontTools.Tests.Unit.OpenType.TestResources", typeof(TestResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -66,15 +66,6 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit {
         internal static string Mocks_MockCharacterMapping_NotImplementedError {
             get {
                 return ResourceManager.GetString("Mocks_MockCharacterMapping_NotImplementedError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This method is not implemented.  This mock class is provided in order to unit test its base class&apos;s constructor; other functionality is not supported..
-        /// </summary>
-        internal static string Mocks_MockTable_NotImplementedError {
-            get {
-                return ResourceManager.GetString("Mocks_MockTable_NotImplementedError", resourceCulture);
             }
         }
     }

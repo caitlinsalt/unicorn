@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Globalization;
+using System.Linq;
 using Unicorn.FontTools.Extensions;
+using Unicorn.FontTools.OpenType.Utility;
 
 namespace Unicorn.FontTools.OpenType
 {
@@ -26,23 +28,22 @@ namespace Unicorn.FontTools.OpenType
         }
 
         /// <summary>
-        /// Dump the content of this table to a <see cref="TextWriter" />.
+        /// Create a representation of the data in this table.
         /// </summary>
-        /// <param name="writer">The writer to output the content to.</param>
-        public override void Dump(TextWriter writer)
-        {
-            if (writer is null)
-            {
-                return;
-            }
-            writer.WriteLine("hmtx table contents:");
-            writer.WriteLine("Glyph  | Advance Width | LSB   ");
-            writer.WriteLine("-------|---------------|-------");
-            for (int i = 0; i < Metrics.Count; ++i)
-            {
-                writer.WriteLine($"{i,6} |        {Metrics[i].AdvanceWidth,6} | {Metrics[i].LeftSideBearing,6}");
-            }
-        }
+        /// <returns>A <see cref="DumpBlock" /> object containing the data from this table in textual form.</returns>
+        public override IDumpBlock Dump()
+            => new DumpBlock(
+                "hmtx table contents:",
+                new DumpBlockHeader(
+                    new DumpColumn("Glyph", DumpAlignment.Right),
+                    new DumpColumn("Advance Width", DumpAlignment.Right),
+                    new DumpColumn("LSB", DumpAlignment.Right)),
+                Metrics.Select((m, i) => new DumpRecord(
+                    i.ToString(CultureInfo.CurrentCulture), 
+                    m.AdvanceWidth.ToString(CultureInfo.CurrentCulture), 
+                    m.LeftSideBearing.ToString(CultureInfo.CurrentCulture))),
+                null);
+
 
         /// <summary>
         /// Construct a <see cref="HorizontalMetricsTable" /> instance from an array of bytes.  To do so requires some data loaded from other tables.
