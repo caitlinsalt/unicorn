@@ -2,8 +2,9 @@
 using System;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
+using Unicorn.FontTools.OpenType;
 
-namespace Unicorn.FontTools.OpenType.Tests.Unit
+namespace Unicorn.FontTools.Tests.Unit.OpenType
 {
     [TestClass]
     public class HorizontalMetricRecordUnitTests
@@ -18,7 +19,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             HorizontalMetricRecord testOutput = new();
 
-            Assert.AreEqual((ushort)0, testOutput.AdvanceWidth);
+            Assert.AreEqual(0, testOutput.AdvanceWidth);
         }
 
         [TestMethod]

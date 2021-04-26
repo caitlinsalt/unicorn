@@ -5,10 +5,11 @@ using System.Globalization;
 using System.Linq;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
+using Unicorn.FontTools.OpenType;
 using Unicorn.FontTools.Tests.Unit.TestHelpers.Mocks;
 using Unicorn.FontTools.Tests.Utility;
 
-namespace Unicorn.FontTools.OpenType.Tests.Unit
+namespace Unicorn.FontTools.Tests.Unit.OpenType
 {
     [TestClass]
     public class CharacterMappingTableUnitTests
@@ -180,7 +181,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             IEnumerable<CharacterMapping> constrParam0 = GetMockSubtables();
             CharacterMappingTable testObject = new(constrParam0);
 
-            var testOutput = testObject.Dump();
+            _ = testObject.Dump();
 
             foreach (var mapping in testObject.Mappings)
             {
