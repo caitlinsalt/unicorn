@@ -1,5 +1,6 @@
 ﻿using System;
-using System.IO;
+using System.Collections.Generic;
+using System.Globalization;
 using Unicorn.FontTools.Extensions;
 using Unicorn.FontTools.OpenType.Utility;
 
@@ -648,62 +649,60 @@ namespace Unicorn.FontTools.OpenType
         }
 
         /// <summary>
-        /// Dump this table to a <see cref="TextWriter" />.  Returns silently if the parameter is <c>null</c>.
+        /// Dump this table's content.
         /// </summary>
-        /// <param name="writer">The writer to dump the table to.</param>
-        public override void Dump(TextWriter writer)
+        public override IDumpBlock Dump()
         {
-            if (writer is null)
+            var records = new List<DumpRecord>()
             {
-                return;
-            }
-            writer.WriteLine("OS/2 table contents:");
-            writer.WriteLine("Field                 | Value");
-            writer.WriteLine("----------------------|------------------------");
-            writer.WriteLine($"Version               | {Version}");
-            writer.WriteLine($"AverageCharWidth      | {AverageCharWidth}");
-            writer.WriteLine($"WeightClass           | {WeightClass}");
-            writer.WriteLine($"WidthClass            | {WidthClass}");
-            writer.WriteLine($"EmbeddingPermissions  | {EmbeddingPermissions}");
-            writer.WriteLine($"SubscriptXSize        | {SubscriptXSize}");
-            writer.WriteLine($"SubscriptYSize        | {SubscriptYSize}");
-            writer.WriteLine($"SubscriptXOffset      | {SubscriptXOffset}");
-            writer.WriteLine($"SubscriptYOffset      | {SubscriptYOffset}");
-            writer.WriteLine($"SuperscriptXSize      | {SuperscriptXSize}");
-            writer.WriteLine($"SuperscriptYSize      | {SuperscriptYSize}");
-            writer.WriteLine($"SuperscriptXOffset    | {SuperscriptXOffset}");
-            writer.WriteLine($"SuperscriptYOffset    | {SuperscriptYOffset}");
-            writer.WriteLine($"StrikeoutSize         | {StrikeoutSize}");
-            writer.WriteLine($"StrikeoutPosition     | {StrikeoutPosition}");
-            writer.WriteLine($"IBMFontFamily         | {IBMFontFamily}");
-            writer.WriteLine($"PanoseFontFamily      | {PanoseFontFamily}");
-            writer.WriteLine($"UnicodeRanges         | {UnicodeRanges}");
-            writer.WriteLine($"VendorId              | {VendorId}");
-            writer.WriteLine($"FontSelection         | {FontSelection}");
-            writer.WriteLine($"MinCodePoint          | {MinCodePoint}");
-            writer.WriteLine($"MaxCodePoint          | {MaxCodePoint}");
-            writer.WriteLine($"Ascender              | {Ascender}");
-            writer.WriteLine($"Descender             | {Descender}");
-            writer.WriteLine($"LineGap               | {LineGap}");
-            writer.WriteLine($"WindowsAscender       | {WindowsAscender}");
-            writer.WriteLine($"WindowsDescender      | {WindowsDescender}");
+                new DumpRecord("Version", Version.ToString(CultureInfo.CurrentCulture)),
+                new DumpRecord("AverageCharWidth", AverageCharWidth.ToString(CultureInfo.CurrentCulture)),
+                new DumpRecord("WeightClass", WeightClass.ToString(CultureInfo.CurrentCulture)),
+                new DumpRecord("WidthClass", WidthClass.ToString(CultureInfo.CurrentCulture)),
+                new DumpRecord("EmbeddingPermissions", EmbeddingPermissions.ToString()),
+                new DumpRecord("SubscriptXSize", SubscriptXSize.ToString(CultureInfo.CurrentCulture)),
+                new DumpRecord("SubscriptYSize", SubscriptYSize.ToString(CultureInfo.CurrentCulture)),
+                new DumpRecord("SubscriptXOffset", SubscriptXOffset.ToString(CultureInfo.CurrentCulture)),
+                new DumpRecord("SubscriptYOffset", SubscriptYOffset.ToString(CultureInfo.CurrentCulture)),
+                new DumpRecord("SuperscriptXSize", SuperscriptXSize.ToString(CultureInfo.CurrentCulture)),
+                new DumpRecord("SuperscriptYSize", SuperscriptYSize.ToString(CultureInfo.CurrentCulture)),
+                new DumpRecord("SuperscriptXOffset", SuperscriptXOffset.ToString(CultureInfo.CurrentCulture)),
+                new DumpRecord("SuperscriptYOffset", SuperscriptYOffset.ToString(CultureInfo.CurrentCulture)),
+                new DumpRecord("StrikeoutSize", StrikeoutSize.ToString(CultureInfo.CurrentCulture)),
+                new DumpRecord("StrikeoutPosition", StrikeoutPosition.ToString(CultureInfo.CurrentCulture)),
+                new DumpRecord("IBMFontFamily", IBMFontFamily.ToString()),
+                new DumpRecord("PanoseFontFamily", PanoseFontFamily.ToString()),
+                new DumpRecord("UnicodeRanges", UnicodeRanges.ToString()),
+                new DumpRecord("VendorId", VendorId.ToString()),
+                new DumpRecord("FontSelection", FontSelection.ToString()),
+                new DumpRecord("MinCodePoint", MinCodePoint.ToString(CultureInfo.CurrentCulture)),
+                new DumpRecord("MaxCodePoint", MaxCodePoint.ToString(CultureInfo.CurrentCulture)),
+                new DumpRecord("Ascender", Ascender.HasValue ? Ascender.Value.ToString(CultureInfo.CurrentCulture) : "Not populated"),
+                new DumpRecord("Descender", Descender.HasValue ? Descender.Value.ToString(CultureInfo.CurrentCulture) : "Not populated"),
+                new DumpRecord("LineGap", LineGap.HasValue ? LineGap.Value.ToString(CultureInfo.CurrentCulture) : "Not populated"),
+                new DumpRecord("WindowsAscender", WindowsAscender.HasValue ? WindowsAscender.Value.ToString(CultureInfo.CurrentCulture) : "Not populated"),
+                new DumpRecord("WindowsDescender", WindowsDescender.HasValue ? WindowsDescender.Value.ToString(CultureInfo.CurrentCulture) : "Not populated"),
+            };
             if (Version >= 1)
             {
-                writer.WriteLine($"CodePages             | {CodePages}");
+                records.Add(new DumpRecord("CodePages", CodePages.ToString()));
             }
             if (Version >= 2)
             {
-                writer.WriteLine($"Height                | {XHeight}");
-                writer.WriteLine($"CapHeight             | {CapHeight}");
-                writer.WriteLine($"DefaultChar           | {DefaultChar}");
-                writer.WriteLine($"BreakChar             | {BreakChar}");
-                writer.WriteLine($"MaxContext            | {MaxContext}");
+                records.Add(new DumpRecord("XHeight", XHeight.HasValue ? XHeight.Value.ToString(CultureInfo.CurrentCulture) : "Not populated"));
+                records.Add(new DumpRecord("CapHeight", CapHeight.HasValue ? CapHeight.Value.ToString(CultureInfo.CurrentCulture) : "Not populated"));
+                records.Add(new DumpRecord("DefaultChar", DefaultChar.HasValue ? DefaultChar.Value.ToString(CultureInfo.CurrentCulture) : "Not populated"));
+                records.Add(new DumpRecord("BreakChar", BreakChar.HasValue ? BreakChar.Value.ToString(CultureInfo.CurrentCulture) : "Not populated"));
+                records.Add(new DumpRecord("MaxContext", MaxContext.HasValue ? MaxContext.Value.ToString(CultureInfo.CurrentCulture) : "Not populated"));
             }
             if (Version >= 5)
             {
-                writer.WriteLine($"UpperOpticalPointSize | {UpperOpticalPointSize}");
-                writer.WriteLine($"LowerOpticalPointSize | {LowerOpticalPointSize}");
+                records.Add(new DumpRecord("UpperOpticalPointSize", 
+                    UpperOpticalPointSize.HasValue ? UpperOpticalPointSize.Value.ToString(CultureInfo.CurrentCulture) : "Not populated"));
+                records.Add(new DumpRecord("LowerOpticalPointSize", 
+                    LowerOpticalPointSize.HasValue ? LowerOpticalPointSize.Value.ToString(CultureInfo.CurrentCulture) : "Not populated"));
             }
+            return new DumpBlock("OS/2 table contents:", new DumpBlockHeader(new DumpColumn("Field"), new DumpColumn("Value", DumpAlignment.Right)), records, null);
         }
     }
 }

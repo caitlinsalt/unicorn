@@ -54,9 +54,8 @@ namespace Unicorn.FontTools.Tests.Unit
             _mockCharacterWidth = _rnd.Next();
             _mockFont.Setup(f => f.AdvanceWidth(It.IsAny<PlatformId>(), It.IsAny<long>())).Returns(_mockCharacterWidth);
             _firstDefinedGlyph = _rnd.NextByte(32, byte.MaxValue - 2);
-            NormaliseFirstDefinedGlyph();
             _lastDefinedGlyph = _rnd.NextByte(_firstDefinedGlyph, byte.MaxValue);
-            NormaliseLastDefinedGlyph();
+            NormaliseFirstAndLastGlyphs();
             _mockFont.Setup(f => f.HasGlyphDefined(It.IsAny<PlatformId>(), It.IsAny<long>()))
                 .Returns<PlatformId, long>((p, cp) =>
                 {
@@ -95,17 +94,25 @@ namespace Unicorn.FontTools.Tests.Unit
 
         // This is required because the encoding maps several single-byte codepoints to the same Unicode codepoint.  Therefore, if the code arbitrarily decides that
         // for a particular test the last mapped byte is, say, 127, the code will also say that byte 173 is mapped, because both map to Unicode codepoint 0x2022.
-        private void NormaliseLastDefinedGlyph()
+        private void NormaliseFirstAndLastGlyphs()
         {
-            var allMatches = ReverseMapAll(PdfCharacterMappingDictionary.WinAnsiEncoding, _lastDefinedGlyph);
-            _lastDefinedGlyph = allMatches.Max();
+            IEnumerable<byte> allMappedBytes = AllMappedBytes();
+            _firstDefinedGlyph = allMappedBytes.Min();
+            _lastDefinedGlyph = allMappedBytes.Max();
         }
 
-        private void NormaliseFirstDefinedGlyph()
+        private IEnumerable<byte> GetDefinedRange()
         {
-            var allMatches = ReverseMapAll(PdfCharacterMappingDictionary.WinAnsiEncoding, _firstDefinedGlyph);
-            _firstDefinedGlyph = allMatches.Min();
+            List<byte> bl = new();
+            byte b = _firstDefinedGlyph;
+            while (b <= _lastDefinedGlyph && b >= _firstDefinedGlyph)
+            {
+                bl.Add(b++);
+            }
+            return bl;
         }
+
+        private IEnumerable<byte> AllMappedBytes() => GetDefinedRange().SelectMany(b => ReverseMapAll(PdfCharacterMappingDictionary.WinAnsiEncoding, b));
 
 #pragma warning restore CA5394 // Do not use insecure randomness
 

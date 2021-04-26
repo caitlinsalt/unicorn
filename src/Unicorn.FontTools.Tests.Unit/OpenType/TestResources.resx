@@ -120,7 +120,4 @@
   <data name="Mocks_MockCharacterMapping_NotImplementedError" xml:space="preserve">
     <value>This method is not implemented.  This mock class is provided in order to unit test its base class's constructor; other functionality is not supported.</value>
   </data>
-  <data name="Mocks_MockTable_NotImplementedError" xml:space="preserve">
-    <value>This method is not implemented.  This mock class is provided in order to unit test its base class's constructor; other functionality is not supported.</value>
-  </data>
 </root>

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Globalization;
 using System.Linq;
 using Unicorn.FontTools.Extensions;
 using Unicorn.FontTools.OpenType.Utility;
@@ -100,25 +100,21 @@ namespace Unicorn.FontTools.OpenType
         }
 
         /// <summary>
-        /// Dump the content of this subtable to a <see cref="TextWriter" />.  Returns silently if the parameter is null.  At present this only dumps the segment table,
-        /// not the glyph mapping table.
+        /// Dump this table's content.
         /// </summary>
-        /// <param name="writer">The writer to dump output to.</param>
-        public override void Dump(TextWriter writer)
-        {
-            if (writer is null)
-            {
-                return;
-            }
-            writer.WriteLine($"Character mapping for {Platform} encoding {Encoding} language {Language} (type 4)");
-            writer.WriteLine($"There are {Segments.Count} segments.");
-            writer.WriteLine($"Segment | Start |   End |  Delta | Offset");
-            writer.WriteLine($"--------|-------|-------|--------|-------");
-            for (int i = 0; i < Segments.Count; ++i)
-            {
-                writer.WriteLine($"  {i,5} | {Segments[i].StartCode,5} | {Segments[i].EndCode,5} | {Segments[i].IdDelta,6} | {Segments[i].StartOffset,6}");
-            }
-        }
+        public override IDumpBlock Dump()
+            => new DumpBlock(
+                $"Character mapping for {Platform} encoding {Encoding} language {Language} (type 4)\nThere are {Segments.Count} segments.",
+                new DumpBlockHeader(new DumpColumn("Segment"), new DumpColumn("Start", DumpAlignment.Right), new DumpColumn("End", DumpAlignment.Right),
+                    new DumpColumn("Delta", DumpAlignment.Right), new DumpColumn("Offset", DumpAlignment.Right)),
+                Segments.Select((s, i) => new DumpRecord(
+                    i.ToString(CultureInfo.CurrentCulture), 
+                    s.StartCode.ToString(CultureInfo.CurrentCulture), 
+                    s.EndCode.ToString(CultureInfo.CurrentCulture),
+                    s.IdDelta.ToString(CultureInfo.CurrentCulture), 
+                    s.StartOffset.ToString(CultureInfo.CurrentCulture)
+                )),
+                null);
 
         /// <summary>
         /// Convert a code point to a glyph ID.

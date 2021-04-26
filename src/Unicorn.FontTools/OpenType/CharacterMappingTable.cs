@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Unicorn.FontTools.Extensions;
 using Unicorn.FontTools.OpenType.Utility;
@@ -72,21 +71,14 @@ namespace Unicorn.FontTools.OpenType
         }
 
         /// <summary>
-        /// Dump the content of this table to a <see cref="TextWriter" />.  Returns silently if the parameter is <c>null</c>.
+        /// Dump this table's content.
         /// </summary>
-        /// <param name="writer">The writer to dump output to.</param>
-        public override void Dump(TextWriter writer)
-        {
-            if (writer is null)
-            {
-                return;
-            }
-            writer.WriteLine($"cmap table has {Mappings.Count} character mappings.");
-            foreach (CharacterMapping map in Mappings)
-            {
-                map.Dump(writer);
-            }
-        }
+        public override IDumpBlock Dump()
+            => new DumpBlock(
+                $"cmap table has {Mappings.Count} character mappings.",
+                null,
+                null,
+                Mappings.Select(m => m.Dump()));
 
         private static int SubtableRecordOffset(int baseOffset, int count) => baseOffset + 4 + 8 * count;
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
@@ -138,6 +139,81 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             CharacterMapping testOutput = testObject.SelectExactMapping(testParam0, testParam1);
 
             Assert.AreSame(constrParam0[targetIdx], testOutput);
+        }
+
+        [TestMethod]
+        public void CharacterMappingTableClass_DumpMethod_ReturnsNonNullObject()
+        {
+            IEnumerable<CharacterMapping> constrParam0 = GetMockSubtables();
+            CharacterMappingTable testObject = new(constrParam0);
+
+            var testOutput = testObject.Dump();
+
+            Assert.IsNotNull(testOutput);
+        }
+
+        [TestMethod]
+        public void CharacterMappingTableClass_DumpMethod_ReturnsObjectWithInfoPropertyContainingNameOfTableType()
+        {
+            IEnumerable<CharacterMapping> constrParam0 = GetMockSubtables();
+            CharacterMappingTable testObject = new(constrParam0);
+
+            var testOutput = testObject.Dump();
+
+            Assert.IsTrue(testOutput.Info.Contains("cmap", StringComparison.InvariantCulture));
+        }
+
+        [TestMethod]
+        public void CharacterMappingTableClass_DumpMethod_ReturnsObjectWithInfoPropertyContainingNumberOfMappings()
+        {
+            IEnumerable<CharacterMapping> constrParam0 = GetMockSubtables();
+            CharacterMappingTable testObject = new(constrParam0);
+
+            var testOutput = testObject.Dump();
+
+            Assert.IsTrue(testOutput.Info.Contains(testObject.Mappings.Count.ToString(CultureInfo.InvariantCulture), StringComparison.InvariantCulture));
+        }
+
+        [TestMethod]
+        public void CharacterMappingTableClass_DumpMethod_CallsDumpMethodOfEachMapping()
+        {
+            IEnumerable<CharacterMapping> constrParam0 = GetMockSubtables();
+            CharacterMappingTable testObject = new(constrParam0);
+
+            var testOutput = testObject.Dump();
+
+            foreach (var mapping in testObject.Mappings)
+            {
+                Assert.IsTrue(mapping is MockCharacterMapping mockMapping && mockMapping.DumpCallCounts == 1);
+            }
+        }
+
+        [TestMethod]
+        public void CharacterMappingTableClass_DumpMethod_ReturnsObjectWithNoBlockData()
+        {
+            IEnumerable<CharacterMapping> constrParam0 = GetMockSubtables();
+            CharacterMappingTable testObject = new(constrParam0);
+
+            var testOutput = testObject.Dump();
+
+            Assert.AreEqual(0, testOutput.BlockData.Count);
+        }
+
+        [TestMethod]
+        public void CharacterMappingTableClass_DumpMethod_ReturnsObjectWithNestedBlocksPropertyContainingObjectsReturnedByDumpMethodsOfEachMappingInCorrectOrder()
+        {
+            IEnumerable<CharacterMapping> constrParam0 = GetMockSubtables();
+            CharacterMappingTable testObject = new(constrParam0);
+
+            var testOutput = testObject.Dump();
+
+            var nestedBlocks = testOutput.NestedData.ToList();
+            Assert.AreEqual(testObject.Mappings.Count, nestedBlocks.Count);
+            for (int i = 0; i < nestedBlocks.Count; ++i)
+            {
+                var mockMapping = testObject.Mappings[i] as MockCharacterMapping;
+                Assert.AreSame(mockMapping.LastOutputDumpBlock, nestedBlocks[i]);
+            }
         }
 
 #pragma warning restore CA5394 // Do not use insecure randomness

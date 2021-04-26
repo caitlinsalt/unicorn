@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using System.Globalization;
 using Unicorn.FontTools.Extensions;
 using Unicorn.FontTools.OpenType.Utility;
 
@@ -134,32 +134,30 @@ namespace Unicorn.FontTools.OpenType
         }
 
         /// <summary>
-        /// Dump the content of this table to a <see cref="TextWriter" />.  Returns silently if the parameter is <c>null</c>.
+        /// Create a representation of the data in this table.
         /// </summary>
-        /// <param name="writer">The writer to dump the table data to.</param>
-        public override void Dump(TextWriter writer)
-        {
-            if (writer is null)
-            {
-                return;
-            }
-            writer.WriteLine("hhea table contents:");
-            writer.WriteLine("Field               |  Value");
-            writer.WriteLine("--------------------|-------");
-            writer.WriteLine($"MajorVersion        | {MajorVersion,6}");
-            writer.WriteLine($"MinorVersion        | {MinorVersion,6}");
-            writer.WriteLine($"Ascender            | {Ascender,6}");
-            writer.WriteLine($"Descender           | {Descender,6}");
-            writer.WriteLine($"LineGap             | {LineGap,6}");
-            writer.WriteLine($"MaxAdvanceWidth     | {MaxAdvanceWidth,6}");
-            writer.WriteLine($"MinLeftSideBearing  | {MinLeftSideBearing,6}");
-            writer.WriteLine($"MinRightSideBearing | {MinRightSideBearing,6}");
-            writer.WriteLine($"XMaxExtent          | {XMaxExtent,6}");
-            writer.WriteLine($"CaretSlopeRise      | {CaretSlopeRise,6}");
-            writer.WriteLine($"CaretSlopeRun       | {CaretSlopeRun,6}");
-            writer.WriteLine($"CaretOffset         | {CaretOffset,6}");
-            writer.WriteLine($"MetricDataFormat    | {MetricDataFormat,6}");
-            writer.WriteLine($"HmtxHMetricCount    | {HmtxHMetricCount,6}");
-        }
+        /// <returns>A <see cref="DumpBlock" /> object containing the data from this table in textual form.</returns>
+        public override IDumpBlock Dump()
+            => new DumpBlock(
+                "hhea table contents:",
+                new DumpBlockHeader(new DumpColumn("Field"), new DumpColumn("Value", DumpAlignment.Right)),
+                new DumpRecord[]
+                {
+                    new DumpRecord("MajorVersion", MajorVersion.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("MinorVersion", MinorVersion.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("Ascender", Ascender.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("Descender", Descender.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("LineGap", LineGap.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("MaxAdvanceWidth", MaxAdvanceWidth.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("MinLeftSideBearing", MinLeftSideBearing.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("MinRightSideBearing", MinRightSideBearing.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("XMaxExtent", XMaxExtent.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("CaretSlopeRise", CaretSlopeRise.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("CaretSlopeRun", CaretSlopeRun.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("CaretOffset", CaretOffset.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("MetricDataFormat", MetricDataFormat.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("HmtxHMetricCount", HmtxHMetricCount.ToString(CultureInfo.CurrentCulture)),
+                },
+                null);
     }
 }
