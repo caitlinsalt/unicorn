@@ -3,9 +3,10 @@ using System;
 using System.Text;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
+using Unicorn.FontTools.OpenType;
 using Unicorn.FontTools.Tests.Utility;
 
-namespace Unicorn.FontTools.OpenType.Tests.Unit
+namespace Unicorn.FontTools.Tests.Unit.OpenType
 {
     [TestClass]
     public class EncodingMapRecordUnitTests
