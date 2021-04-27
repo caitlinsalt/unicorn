@@ -5,9 +5,10 @@ using System.Globalization;
 using System.Linq;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
+using Unicorn.FontTools.OpenType;
 using Unicorn.FontTools.Tests.Utility;
 
-namespace Unicorn.FontTools.OpenType.Tests.Unit
+namespace Unicorn.FontTools.Tests.Unit.OpenType
 {
     [TestClass]
     public class PostScriptTableUnitTests
@@ -26,11 +27,11 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         }
 
         private static PostScriptTable GetTestObject(IEnumerable<KeyValuePair<string, int>> mapping)
-            => new(GetTableVersionNumberForOverrideMapping(), _rnd.NextDecimal() * 360, _rnd.NextShort(), _rnd.NextShort(), _rnd.NextBoolean(), _rnd.NextUInt(), 
+            => new(GetTableVersionNumberForOverrideMapping(), _rnd.NextDecimal() * 360, _rnd.NextShort(), _rnd.NextShort(), _rnd.NextBoolean(), _rnd.NextUInt(),
                 _rnd.NextUInt(), _rnd.NextUInt(), _rnd.NextUInt(), mapping);
 
         private static PostScriptTable GetTestObjectForStandardMapping()
-            => new(GetTableVersionNumberForStandardMapping(), _rnd.NextDecimal() * 360, _rnd.NextShort(), _rnd.NextShort(), _rnd.NextBoolean(), _rnd.NextUInt(), 
+            => new(GetTableVersionNumberForStandardMapping(), _rnd.NextDecimal() * 360, _rnd.NextShort(), _rnd.NextShort(), _rnd.NextBoolean(), _rnd.NextUInt(),
                 _rnd.NextUInt(), _rnd.NextUInt(), _rnd.NextUInt());
 
         private static PostScriptTable GetTestObject()

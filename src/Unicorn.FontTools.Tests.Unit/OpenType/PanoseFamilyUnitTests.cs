@@ -3,8 +3,9 @@ using System;
 using System.Globalization;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
+using Unicorn.FontTools.OpenType;
 
-namespace Unicorn.FontTools.OpenType.Tests.Unit
+namespace Unicorn.FontTools.Tests.Unit.OpenType
 {
     [TestClass]
     public class PanoseFamilyUnitTests
@@ -14,7 +15,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 #pragma warning disable CA5394 // Do not use insecure randomness
 
         private static PanoseFamily GetTestObject()
-            => new(_rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(), 
+            => new(_rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(), _rnd.NextByte(),
                     _rnd.NextByte(), _rnd.NextByte());
 
 #pragma warning disable CA1707 // Identifiers should not contain underscores
@@ -552,10 +553,10 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void PanoseFamilyStruct_ToStringMethod_ReturnsCorrectData()
         {
             PanoseFamily testObject = GetTestObject();
-            string expectedValue = testObject.FamilyType.ToString(CultureInfo.InvariantCulture) + " " + testObject.SerifStyle.ToString(CultureInfo.InvariantCulture) + 
-                " " + testObject.Weight.ToString(CultureInfo.InvariantCulture) + " " + testObject.Proportion.ToString(CultureInfo.InvariantCulture) + " " + 
+            string expectedValue = testObject.FamilyType.ToString(CultureInfo.InvariantCulture) + " " + testObject.SerifStyle.ToString(CultureInfo.InvariantCulture) +
+                " " + testObject.Weight.ToString(CultureInfo.InvariantCulture) + " " + testObject.Proportion.ToString(CultureInfo.InvariantCulture) + " " +
                 testObject.Contrast.ToString(CultureInfo.InvariantCulture) + " " + testObject.StrokeVariation.ToString(CultureInfo.InvariantCulture) + " " +
-                testObject.ArmStyle.ToString(CultureInfo.InvariantCulture) + " " + testObject.Letterform.ToString(CultureInfo.InvariantCulture) + " " + 
+                testObject.ArmStyle.ToString(CultureInfo.InvariantCulture) + " " + testObject.Letterform.ToString(CultureInfo.InvariantCulture) + " " +
                 testObject.Midline.ToString(CultureInfo.InvariantCulture) + " " + testObject.XHeight.ToString(CultureInfo.InvariantCulture);
 
             string testOutput = testObject.ToString();
@@ -577,7 +578,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void PanoseFamilyStruct_EqualsMethodWithPanoseFamilyParameter_ReturnsTrue_IfParameterIsConstructedFromSameData()
         {
             PanoseFamily testObject = GetTestObject();
-            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast, 
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast,
                 testObject.StrokeVariation, testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals(testParam);
@@ -679,7 +680,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.StrokeVariation);
-            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast, constrParam, 
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast, constrParam,
                 testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject.Equals(testParam);
@@ -1270,7 +1271,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 constrParam = _rnd.NextByte();
             } while (constrParam == testObject.StrokeVariation);
-            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast, constrParam, 
+            PanoseFamily testParam = new(testObject.FamilyType, testObject.SerifStyle, testObject.Weight, testObject.Proportion, testObject.Contrast, constrParam,
                 testObject.ArmStyle, testObject.Letterform, testObject.Midline, testObject.XHeight);
 
             bool testOutput = testObject != testParam;
@@ -1350,7 +1351,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         public void PanoseFamilyStruct_GetHashCodeMethod_ReturnsSameValue_IfCalledTwiceOnSameValue()
         {
             PanoseFamily testObject0 = GetTestObject();
-            PanoseFamily testObject1 = new(testObject0.FamilyType, testObject0.SerifStyle, testObject0.Weight, testObject0.Proportion, 
+            PanoseFamily testObject1 = new(testObject0.FamilyType, testObject0.SerifStyle, testObject0.Weight, testObject0.Proportion,
                 testObject0.Contrast, testObject0.StrokeVariation, testObject0.ArmStyle, testObject0.Letterform, testObject0.Midline, testObject0.XHeight);
 
             int testOutput0 = testObject0.GetHashCode();
