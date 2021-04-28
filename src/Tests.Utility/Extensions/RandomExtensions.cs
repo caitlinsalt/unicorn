@@ -26,6 +26,12 @@ namespace Tests.Utility.Extensions
         public const string AlphabeticalCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         /// <summary>
+        /// A helper string containing unaccented alphabetical characters that are not hex digits, to enable the caller to generate a string which will not be 
+        /// accidentally accepted as a hexadecimal number.
+        /// </summary>
+        public const string NonHexAlphabeticalCharacters = "ghijklmnopqrstuvwyxzGHIJKLMNOPQRSTUVWXYZ";
+
+        /// <summary>
         /// A helper string containing valid hexadecimal characters.
         /// </summary>
         public const string HexadecimalCharacters = "abcdef0123456789";
