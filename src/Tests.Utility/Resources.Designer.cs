@@ -61,11 +61,38 @@ namespace Tests.Utility {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The length parameter cannot be negative..
+        /// </summary>
+        internal static string RandomExtensions_NextString_Error_NegativeLength {
+            get {
+                return ResourceManager.GetString("RandomExtensions_NextString_Error_NegativeLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No source characters have been provided to generate a random string from..
         /// </summary>
         internal static string RandomExtensions_NextString_Error_NoCharactersToSelectFrom {
             get {
                 return ResourceManager.GetString("RandomExtensions_NextString_Error_NoCharactersToSelectFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The count parameter cannot be negative..
+        /// </summary>
+        internal static string RandomExtensions_NextStringSet_Error_NegativeCount {
+            get {
+                return ResourceManager.GetString("RandomExtensions_NextStringSet_Error_NegativeCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A length generator function must be provided..
+        /// </summary>
+        internal static string RandomExtensions_NextStringSet_Error_NullLengthGenerator {
+            get {
+                return ResourceManager.GetString("RandomExtensions_NextStringSet_Error_NullLengthGenerator", resourceCulture);
             }
         }
     }
