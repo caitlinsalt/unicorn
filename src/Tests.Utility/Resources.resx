@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="RandomExtensions_NextStringSet_Error_NegativeCount" xml:space="preserve">
+    <value>The count parameter cannot be negative.</value>
+    <comment>Error used when a negative value is used as the element count parameter of RandomExtensions.NextStringSet()</comment>
+  </data>
+  <data name="RandomExtensions_NextStringSet_Error_NullLengthGenerator" xml:space="preserve">
+    <value>A length generator function must be provided.</value>
+    <comment>Error used when null is passed as the lenFunction parameter of RandomExtensions.NextStringSet().</comment>
+  </data>
+  <data name="RandomExtensions_NextString_Error_NegativeLength" xml:space="preserve">
+    <value>The length parameter cannot be negative.</value>
+    <comment>Error used when a negative value is used as the length parameter of RandomExtensions.NextString() or RandomExtensions.NextStringSet().</comment>
+  </data>
   <data name="RandomExtensions_NextString_Error_NoCharactersToSelectFrom" xml:space="preserve">
     <value>No source characters have been provided to generate a random string from.</value>
-    <comment>Error used when an empty string is passed to RandomExtensions.NextString() as the source characters parameter.</comment>
+    <comment>Error used when an empty string is passed to RandomExtensions.NextString() or RandomExtensions.NextStringSet() as the source characters parameter.</comment>
   </data>
 </root>
