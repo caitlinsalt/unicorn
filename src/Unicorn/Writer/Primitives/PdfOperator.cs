@@ -20,30 +20,11 @@ namespace Unicorn.Writer.Primitives
         /// <param name="height">The height of the rectangle.</param>
         /// <returns>A <see cref="PdfOperator" /> instance which contains the specified operator.</returns>
         public static PdfOperator AppendRectangle(PdfNumber xBottomLeft, PdfNumber yBottomLeft, PdfNumber width, PdfNumber height)
-        {
-            if (xBottomLeft is null)
-            {
-                throw new ArgumentNullException(nameof(xBottomLeft));
-            }
-            if (yBottomLeft is null)
-            {
-                throw new ArgumentNullException(nameof(yBottomLeft));
-            }
-            if (width is null)
-            {
-                throw new ArgumentNullException(nameof(width));
-            }
-            if (height is null)
-            {
-                throw new ArgumentNullException(nameof(height));
-            }
-            PdfOperator op = new PdfOperator("re");
-            op._operands.Add(xBottomLeft);
-            op._operands.Add(yBottomLeft);
-            op._operands.Add(width);
-            op._operands.Add(height);
-            return op;
-        }
+            => new PdfOperator("re")
+                .AddOperand(xBottomLeft, nameof(xBottomLeft))
+                .AddOperand(yBottomLeft, nameof(yBottomLeft))
+                .AddOperand(width, nameof(width))
+                .AddOperand(height, nameof(height));
 
         /// <summary>
         /// Create an instance of the "l" operator, for appending a straight line segment to a path.
@@ -51,21 +32,7 @@ namespace Unicorn.Writer.Primitives
         /// <param name="x">The X coordinate of the end of the line segment.</param>
         /// <param name="y">The Y coordinate of the end of the line segment.</param>
         /// <returns>A <see cref="PdfOperator" /> instance which contains the specified operator.</returns>
-        public static PdfOperator AppendStraightLine(PdfNumber x, PdfNumber y)
-        {
-            if (x is null)
-            {
-                throw new ArgumentNullException(nameof(x));
-            }
-            if (y is null)
-            {
-                throw new ArgumentNullException(nameof(y));
-            }
-            PdfOperator op = new PdfOperator("l");
-            op._operands.Add(x);
-            op._operands.Add(y);
-            return op;
-        }
+        public static PdfOperator AppendStraightLine(PdfNumber x, PdfNumber y) => new PdfOperator("l").AddOperand(x, nameof(x)).AddOperand(y, nameof(y));
 
         /// <summary>
         /// Creates an instance of the "d" operator, for setting the current line dash pattern.
@@ -95,10 +62,7 @@ namespace Unicorn.Writer.Primitives
                 throw new ArgumentException(Resources.Primitives_PdfOperator_LineDashPattern_Index_Too_High_Error);
             }
 
-            PdfOperator op = new PdfOperator("d");
-            op._operands.Add(pattern);
-            op._operands.Add(start);
-            return op;
+            return new PdfOperator("d").AddOperand(pattern, nameof(pattern)).AddOperand(start, nameof(start));
         }
 
         /// <summary>
@@ -106,16 +70,7 @@ namespace Unicorn.Writer.Primitives
         /// </summary>
         /// <param name="width">The value to set as the current line width.</param>
         /// <returns>A <see cref="PdfOperator" /> instance for setting the current line width.</returns>
-        public static PdfOperator LineWidth(PdfNumber width)
-        {
-            if (width is null)
-            {
-                throw new ArgumentNullException(nameof(width));
-            }
-            PdfOperator op = new PdfOperator("w");
-            op._operands.Add(width);
-            return op;
-        }
+        public static PdfOperator LineWidth(PdfNumber width) => new PdfOperator("w").AddOperand(width, nameof(width));
 
         /// <summary>
         /// Create an instance of the "m" operator, for starting a new path or subpath.
@@ -123,21 +78,7 @@ namespace Unicorn.Writer.Primitives
         /// <param name="x">The X coordinate of the starting point.</param>
         /// <param name="y">The Y coordinate of the starting point.</param>
         /// <returns>A <see cref="PdfOperator" /> instance for starting a new subpath.</returns>
-        public static PdfOperator StartPath(PdfNumber x, PdfNumber y)
-        {
-            if (x is null)
-            {
-                throw new ArgumentNullException(nameof(x));
-            }
-            if (y is null)
-            {
-                throw new ArgumentNullException(nameof(y));
-            }
-            PdfOperator op = new PdfOperator("m");
-            op._operands.Add(x);
-            op._operands.Add(y);
-            return op;
-        }
+        public static PdfOperator StartPath(PdfNumber x, PdfNumber y) => new PdfOperator("m").AddOperand(x, nameof(x)).AddOperand(y, nameof(y));
 
         private static readonly Lazy<PdfOperator> _strokeOperator = new Lazy<PdfOperator>(() => new PdfOperator("S"));
 
@@ -145,10 +86,7 @@ namespace Unicorn.Writer.Primitives
         /// Create an instance of the "S" operator, for stroking and ending a path.
         /// </summary>
         /// <returns>A <see cref="PdfOperator" /> instance representing the S operator.</returns>
-        public static PdfOperator StrokePath()
-        {
-            return _strokeOperator.Value;
-        }
+        public static PdfOperator StrokePath() => _strokeOperator.Value;
 
         private static readonly Lazy<PdfOperator> _beginTextOperator = new Lazy<PdfOperator>(() => new PdfOperator("BT"));
 
@@ -156,10 +94,7 @@ namespace Unicorn.Writer.Primitives
         /// Get an instance of the "BT" operator, for starting a text object.
         /// </summary>
         /// <returns>A <see cref="PdfOperator" /> instance representing the BT operator.</returns>
-        public static PdfOperator StartText()
-        {
-            return _beginTextOperator.Value;
-        }
+        public static PdfOperator StartText() => _beginTextOperator.Value;
 
         private static readonly Lazy<PdfOperator> _endTextOperator = new Lazy<PdfOperator>(() => new PdfOperator("ET"));
 
@@ -167,10 +102,7 @@ namespace Unicorn.Writer.Primitives
         /// Get an instance of the "ET" operator, for ending a text object.
         /// </summary>
         /// <returns>A <see cref="PdfOperator" /> instance representing the ET operator.</returns>
-        public static PdfOperator EndText()
-        {
-            return _endTextOperator.Value;
-        }
+        public static PdfOperator EndText() => _endTextOperator.Value;
 
         /// <summary>
         /// Create an instance of the "Tf" operator, for setting the current text font.
@@ -179,20 +111,7 @@ namespace Unicorn.Writer.Primitives
         /// <param name="pointSize">The point size of the font.</param>
         /// <returns>A <see cref="PdfOperator" /> instance representing a "Tf" operator and its operands.</returns>
         public static PdfOperator SetTextFont(PdfName internalFontName, PdfNumber pointSize)
-        {
-            if (internalFontName is null)
-            {
-                throw new ArgumentNullException(nameof(internalFontName));
-            }
-            if (pointSize is null)
-            {
-                throw new ArgumentNullException(nameof(pointSize));
-            }
-            PdfOperator op = new PdfOperator("Tf");
-            op._operands.Add(internalFontName);
-            op._operands.Add(pointSize);
-            return op;
-        }
+            => new PdfOperator("Tf").AddOperand(internalFontName, nameof(internalFontName)).AddOperand(pointSize, nameof(pointSize));
 
         /// <summary>
         /// Create an instance of the "Td" operator, for setting the origin coordinates of the start of the current line of text.
@@ -200,49 +119,95 @@ namespace Unicorn.Writer.Primitives
         /// <param name="x">The x-coordinate operand.</param>
         /// <param name="y">The y-coordinate operand.</param>
         /// <returns>A <see cref="PdfOperator" /> instance representing a "Td" operator and its operands.</returns>
-        public static PdfOperator SetTextLocation(PdfNumber x, PdfNumber y)
-        {
-            if (x is null)
-            {
-                throw new ArgumentNullException(nameof(x));
-            }
-            if (y is null)
-            {
-                throw new ArgumentNullException(nameof(y));
-            }
-            PdfOperator op = new PdfOperator("Td");
-            op._operands.Add(x);
-            op._operands.Add(y);
-            return op;
-        }
+        public static PdfOperator SetTextLocation(PdfNumber x, PdfNumber y) 
+            => new PdfOperator("Td").AddOperand(x, nameof(x)).AddOperand(y, nameof(y));
 
         /// <summary>
         /// Create an instance of the "Tj" operator, for drawing text.
         /// </summary>
         /// <param name="str">The text to draw.</param>
         /// <returns>A <see cref="PdfOperator" /> instance representing a "Tj" operator and its operand.</returns>
-        public static PdfOperator DrawText(PdfByteString str)
-        {
-            if (str is null)
-            {
-                throw new ArgumentNullException(nameof(str));
-            }
-            PdfOperator op = new PdfOperator("Tj");
-            op._operands.Add(str);
-            return op;
-        }
+        public static PdfOperator DrawText(PdfByteString str) => new PdfOperator("Tj").AddOperand(str, nameof(str));
 
         /// <summary>
         /// Create an instance of the "cm" operator, for applying a transformation matrix to the graphics state.
         /// </summary>
         /// <param name="transformationMatrix"></param>
         /// <returns></returns>
-        public static PdfOperator ApplyTransformation(UniMatrix transformationMatrix)
-        {
-            PdfOperator op = new PdfOperator("cm");
-            op._operands.AddRange(transformationMatrix.ToPdfRealArray());
-            return op;
-        }
+        public static PdfOperator ApplyTransformation(UniMatrix transformationMatrix) => new PdfOperator("cm").AddOperands(transformationMatrix.ToPdfRealArray());
+
+        /// <summary>
+        /// Create an instance of the "G" operator, for setting the current stroking colour to a colour in the device-dependent grey scale colour space.
+        /// </summary>
+        /// <param name="greyLevel">The grey level of the new colour.</param>
+        /// <returns>A <see cref="PdfOperator" /> instance representing a "G" operator and its operand.</returns>
+        /// <exception cref="ArgumentNullException"><c>greyLevel</c> is <c>null</c>.</exception>
+        public static PdfOperator SetDeviceGreyscaleStrokingColour(PdfNumber greyLevel) => new PdfOperator("G").AddOperand(greyLevel, nameof(greyLevel));
+
+        /// <summary>
+        /// Create an instance of the "g" operator, for setting the current non-stroking colour to a colour in the device-dependent grey scale colour space.
+        /// </summary>
+        /// <param name="greyLevel">The grey level of the new colour.</param>
+        /// <returns>A <see cref="PdfOperator" /> instance representing a "g" operator and its operand.</returns>
+        /// <exception cref="ArgumentNullException"><c>greyLevel</c> is <c>null</c>.</exception>
+        public static PdfOperator SetDeviceGreyscaleNonStrokingColour(PdfNumber greyLevel) => new PdfOperator("g").AddOperand(greyLevel, nameof(greyLevel));
+
+        /// <summary>
+        /// Create an instance of the "RG" operator, for setting the current stroking colour to a colour in the device-dependent RGB colour space.
+        /// </summary>
+        /// <param name="red">The red level of the new colour.</param>
+        /// <param name="green">The green level of the new colour.</param>
+        /// <param name="blue">The blue level of the new colour.</param>
+        /// <returns>A <see cref="PdfOperator" /> instance representing an "RG" operator and its operands.</returns>
+        /// <exception cref="ArgumentNullException">One or more of the parameters is <c>null</c>.</exception>
+        public static PdfOperator SetDeviceRgbStrokingColour(PdfNumber red, PdfNumber green, PdfNumber blue) => SetDeviceRgbOperator("RG", red, green, blue);
+
+        /// <summary>
+        /// Create an instance of the "rg" operator, for setting the current non-stroking colour to a colour in the device-dependent RGB colour space.
+        /// </summary>
+        /// <param name="red">The red level of the new colour.</param>
+        /// <param name="green">The green level of the new colour.</param>
+        /// <param name="blue">The blue level of the new colour.</param>
+        /// <returns>A <see cref="PdfOperator" /> instance representing an "rg" operator and its operands.</returns>
+        /// <exception cref="ArgumentNullException">One or more of the parameters is <c>null</c>.</exception>
+        public static PdfOperator SetDeviceRgbNonStrokingColour(PdfNumber red, PdfNumber green, PdfNumber blue) => SetDeviceRgbOperator("rg", red, green, blue);
+
+        private static PdfOperator SetDeviceRgbOperator(string opName, PdfNumber red, PdfNumber green, PdfNumber blue)
+            => new PdfOperator(opName)
+                .AddOperand(red, nameof(red))
+                .AddOperand(green, nameof(green))
+                .AddOperand(blue, nameof(blue));
+
+        /// <summary>
+        /// Create an instance of the "K" operator, for setting the current stroking colour to a colour in the device-dependent CMYK colour space.
+        /// </summary>
+        /// <param name="cyan">The cyan level of the new colour.</param>
+        /// <param name="magenta">The magenta level of the new colour.</param>
+        /// <param name="yellow">The yellow level of the new colour.</param>
+        /// <param name="black">The black level of the new colour.</param>
+        /// <returns>A <see cref="PdfOperator" /> instance representing a "K" operator and its operands.</returns>
+        /// <exception cref="ArgumentNullException">One or more of the parameters is <c>null</c>.</exception>
+        public static PdfOperator SetDeviceCmykStrokingColour(PdfNumber cyan, PdfNumber magenta, PdfNumber yellow, PdfNumber black)
+            => SetDeviceCmykOperator("K", cyan, magenta, yellow, black);
+
+        /// <summary>
+        /// Create an instance of the "k" operator, for setting the current non-stroking colour to a colour in the device-dependent CMYK colour space.
+        /// </summary>
+        /// <param name="cyan">The cyan level of the new colour.</param>
+        /// <param name="magenta">The magenta level of the new colour.</param>
+        /// <param name="yellow">The yellow level of the new colour.</param>
+        /// <param name="black">The black level of the new colour.</param>
+        /// <returns>A <see cref="PdfOperator" /> instance representing a "k" operator and its operands.</returns>
+        /// <exception cref="ArgumentNullException">One or more of the parameters is <c>null</c>.</exception>
+        public static PdfOperator SetDeviceCmykNonStrokingColour(PdfNumber cyan, PdfNumber magenta, PdfNumber yellow, PdfNumber black)
+            => SetDeviceCmykOperator("k", cyan, magenta, yellow, black);
+
+        private static PdfOperator SetDeviceCmykOperator(string opName, PdfNumber cyan, PdfNumber magenta, PdfNumber yellow, PdfNumber black)
+            => new PdfOperator(opName)
+                .AddOperand(cyan, nameof(cyan))
+                .AddOperand(magenta, nameof(magenta))
+                .AddOperand(yellow, nameof(yellow))
+                .AddOperand(black, nameof(black));
 
         private static readonly Lazy<PdfOperator> _pushStateOperator = new Lazy<PdfOperator>(() => new PdfOperator("q"));
 
@@ -286,6 +251,22 @@ namespace Unicorn.Writer.Primitives
             }
             output.AddRange(Encoding.UTF8.GetBytes($"{Value} "));
             return output.ToArray();
+        }
+
+        private PdfOperator AddOperand(PdfSimpleObject operand, string operandName)
+        {
+            if (operand is null)
+            {
+                throw new ArgumentNullException(operandName);
+            }
+            _operands.Add(operand);
+            return this;
+        }
+
+        private PdfOperator AddOperands(IEnumerable<PdfSimpleObject> operands)
+        {
+            _operands.AddRange(operands);
+            return this;
         }
 
         /// <summary>
