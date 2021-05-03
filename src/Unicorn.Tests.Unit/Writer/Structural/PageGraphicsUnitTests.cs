@@ -77,6 +77,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
 
             List<byte> expected = new();
             PdfOperator.LineWidth(new PdfReal(1)).WriteTo(expected);
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
             PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -183,6 +184,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
 
             List<byte> expected = new();
             PdfOperator.LineWidth(new PdfReal(1)).WriteTo(expected);
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
             PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -211,6 +213,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
 
             List<byte> expected = new();
             PdfOperator.LineWidth(new PdfReal(testParam4)).WriteTo(expected);
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
             PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -322,6 +325,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
 
             List<byte> expected = new();
             PdfOperator.LineWidth(new PdfReal(testParam4)).WriteTo(expected);
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
             PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -356,6 +360,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
 
             List<byte> expected = new();
             PdfOperator.LineWidth(new PdfReal(testParam4)).WriteTo(expected);
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
             PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -385,6 +390,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
 
             List<byte> expected = new();
             PdfOperator.LineWidth(new PdfReal(testParam4)).WriteTo(expected);
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
             PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -412,6 +418,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
             List<byte> expected = new();
             PdfOperator.LineWidth(new PdfReal(testParam4)).WriteTo(expected);
             PdfOperator.LineDashPattern(new PdfArray(new PdfReal(testParam4 * 3), new PdfReal(testParam4)), PdfInteger.Zero).WriteTo(expected);
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0m)).WriteTo(expected);
             PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
             PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -439,6 +446,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
             List<byte> expected = new();
             PdfOperator.LineWidth(new PdfReal(testParam4)).WriteTo(expected);
             PdfOperator.LineDashPattern(new PdfArray(new PdfReal(testParam4)), PdfInteger.Zero).WriteTo(expected);
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
             PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -467,6 +475,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
             PdfOperator.LineWidth(new PdfReal(testParam4)).WriteTo(expected);
             PdfOperator.LineDashPattern(new PdfArray(new PdfReal(testParam4 * 3), new PdfReal(testParam4), new PdfReal(testParam4), new PdfReal(testParam4)),
                 PdfInteger.Zero).WriteTo(expected);
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
             PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -495,6 +504,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
             PdfOperator.LineWidth(new PdfReal(testParam4)).WriteTo(expected);
             PdfOperator.LineDashPattern(new PdfArray(new PdfReal(testParam4 * 3), new PdfReal(testParam4), new PdfReal(testParam4), new PdfReal(testParam4),
                 new PdfReal(testParam4), new PdfReal(testParam4)), PdfInteger.Zero).WriteTo(expected);
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
             PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -615,6 +625,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
                 IPdfPrimitiveObject[] operands = testParam5.ToPdfObjects(testParam4);
                 PdfOperator.LineDashPattern(operands[0] as PdfArray, operands[1] as PdfInteger).WriteTo(expected);
             }
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
             PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -659,6 +670,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
                 IPdfPrimitiveObject[] operands = testParam5.ToPdfObjects(testParam4);
                 PdfOperator.LineDashPattern(operands[0] as PdfArray, operands[1] as PdfInteger).WriteTo(expected);
             }
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
             PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -709,6 +721,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
                 IPdfPrimitiveObject[] operands0 = testParam5.ToPdfObjects(testParam4);
                 PdfOperator.LineDashPattern(operands0[0] as PdfArray, operands0[1] as PdfInteger).WriteTo(expected);
             }
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
             PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -760,6 +773,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
                 IPdfPrimitiveObject[] operands = testParam5.ToPdfObjects(testParam4);
                 PdfOperator.LineDashPattern(operands[0] as PdfArray, operands[1] as PdfInteger).WriteTo(expected);
             }
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
             PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -790,6 +804,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
 
             List<byte> expected = new();
             PdfOperator.LineWidth(new PdfReal(1d)).WriteTo(expected);
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.AppendRectangle(new PdfReal(testParam0), new PdfReal((testParam1 + testParam3) * 2), new PdfReal(testParam2), new PdfReal(testParam3))
                 .WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -857,6 +872,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
 
             List<byte> expected = new();
             PdfOperator.LineWidth(new PdfReal(1d)).WriteTo(expected);
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.AppendRectangle(new PdfReal(testParam0), new PdfReal((testParam1 + testParam3) * 2), new PdfReal(testParam2), new PdfReal(testParam3))
                 .WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -885,6 +901,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
 
             List<byte> expected = new();
             PdfOperator.LineWidth(new PdfReal(testParam4)).WriteTo(expected);
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.AppendRectangle(new PdfReal(testParam0), new PdfReal((testParam1 + testParam3) * 2), new PdfReal(testParam2), new PdfReal(testParam3))
                 .WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -955,6 +972,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
 
             List<byte> expected = new();
             PdfOperator.LineWidth(new PdfReal(testParam4)).WriteTo(expected);
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.AppendRectangle(new PdfReal(testParam0), new PdfReal((testParam1 + testParam3) * 2), new PdfReal(testParam2), new PdfReal(testParam3))
                 .WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -993,6 +1011,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
 
             List<byte> expected = new();
             PdfOperator.LineWidth(new PdfReal(testParam4)).WriteTo(expected);
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.AppendRectangle(new PdfReal(testParam0), new PdfReal((testParam1 + testParam3) * 2), new PdfReal(testParam2), new PdfReal(testParam3))
                 .WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
@@ -1166,6 +1185,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
             testObject.DrawString(testParam0, testParam1, testParam2, testParam3);
 
             List<byte> expected = new();
+            PdfOperator.SetDeviceGreyscaleNonStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.StartText().WriteTo(expected);
             PdfOperator.SetTextFont(internalFont.InternalName, new PdfReal(fontPointSize)).WriteTo(expected);
             PdfOperator.SetTextLocation(new PdfReal(testParam2), new PdfReal(testParam3 * 2)).WriteTo(expected);
@@ -1240,6 +1260,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
             testObject.DrawString(testParam4, testParam1, testParam5, testParam6);
 
             List<byte> expected = new();
+            PdfOperator.SetDeviceGreyscaleNonStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.StartText().WriteTo(expected);
             PdfOperator.SetTextFont(internalFont.InternalName, new PdfReal(fontPointSize)).WriteTo(expected);
             PdfOperator.SetTextLocation(new PdfReal(testParam2), new PdfReal(testParam3 * 2)).WriteTo(expected);
@@ -1442,6 +1463,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
             testObject.DrawString(testParam4, testParam5, testParam6, testParam7);
 
             List<byte> expected = new();
+            PdfOperator.SetDeviceGreyscaleNonStrokingColour(new PdfReal(0)).WriteTo(expected);
             PdfOperator.StartText().WriteTo(expected);
             PdfOperator.SetTextFont(internalFont0.InternalName, new PdfReal(fontPointSize0)).WriteTo(expected);
             PdfOperator.SetTextLocation(new PdfReal(testParam2), new PdfReal(testParam3 * 2)).WriteTo(expected);

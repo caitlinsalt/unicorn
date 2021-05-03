@@ -88,6 +88,14 @@ namespace Unicorn.Writer.Primitives
         /// <returns>A <see cref="PdfOperator" /> instance representing the S operator.</returns>
         public static PdfOperator StrokePath() => _strokeOperator.Value;
 
+        private static readonly Lazy<PdfOperator> _fillAndStrokeOperator = new Lazy<PdfOperator>(() => new PdfOperator("B"));
+
+        /// <summary>
+        /// Create an instance of the "B" operator, for filling, stroking and ending a path using the non-zero winding number filling rule..
+        /// </summary>
+        /// <returns>A <see cref="PdfOperator" /> instance representing the B operator.</returns>
+        public static PdfOperator FillAndStrokePath() => _fillAndStrokeOperator.Value;
+
         private static readonly Lazy<PdfOperator> _beginTextOperator = new Lazy<PdfOperator>(() => new PdfOperator("BT"));
 
         /// <summary>
