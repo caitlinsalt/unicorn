@@ -1,11 +1,18 @@
 ﻿namespace Unicorn.Base
 {
-#pragma warning disable CA1040 // Avoid empty interfaces
     /// <summary>
     /// Encapsulates a saved state of an <see cref="IGraphicsContext" /> implementation instance. 
     /// </summary>
     public interface IGraphicsState
-#pragma warning restore CA1040 // Avoid empty interfaces
     {
+        /// <summary>
+        /// The current line drawing width.
+        /// </summary>
+        double LineWidth { get; }
+
+        /// <summary>
+        /// The current line drawing dash style.
+        /// </summary>
+        UniDashStyle DashStyle { get; }
     }
 }
