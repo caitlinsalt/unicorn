@@ -247,6 +247,11 @@ namespace Unicorn.Writer.Primitives
         private readonly List<PdfSimpleObject> _operands;
 
         /// <summary>
+        /// A read-only copy of this operator's current operands.
+        /// </summary>
+        public IReadOnlyList<PdfSimpleObject> Operands => _operands.ToArray();
+
+        /// <summary>
         /// Convert this object to an array of bytes.
         /// </summary>
         /// <returns>An array of bytes representing this object.</returns>
