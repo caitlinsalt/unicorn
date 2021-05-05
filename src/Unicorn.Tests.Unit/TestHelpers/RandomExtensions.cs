@@ -18,22 +18,10 @@ namespace Unicorn.Tests.Unit.TestHelpers
 #pragma warning disable CA5394 // Do not use insecure randomness
 
         internal static TableRuleStyle NextTableRuleStyle(this Random rnd)
-        {
-            if (rnd is null)
-            {
-                throw new ArgumentNullException(nameof(rnd));
-            }
-            return _validTableRuleStyles[rnd.Next(_validTableRuleStyles.Length)];
-        }
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : _validTableRuleStyles[rnd.Next(_validTableRuleStyles.Length)];
 
         internal static FixedSizeTableCell NextFixedSizeTableCell(this Random rnd)
-        {
-            if (rnd is null)
-            {
-                throw new ArgumentNullException(nameof(rnd));
-            }
-            return new FixedSizeTableCell(rnd.NextDouble() * 100, rnd.NextDouble() * 100);
-        }
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new FixedSizeTableCell(rnd.NextDouble() * 100, rnd.NextDouble() * 100);
 
         public static IPdfPrimitiveObject NextPdfPrimitive(this Random rnd)
         {
@@ -98,52 +86,20 @@ namespace Unicorn.Tests.Unit.TestHelpers
             return new PdfArray(elements);
         }
 
-        public static PdfBoolean NextPdfBoolean(this Random rnd)
-        {
-            return PdfBoolean.Get(rnd.NextBoolean());
-        }
+        public static PdfBoolean NextPdfBoolean(this Random rnd) => PdfBoolean.Get(rnd.NextBoolean());
 
-        public static PdfInteger NextPdfInteger(this Random rnd)
-        {
-            if (rnd is null)
-            {
-                throw new ArgumentNullException(nameof(rnd));
-            }
-            return new PdfInteger(rnd.Next());
-        }
+        public static PdfInteger NextPdfInteger(this Random rnd) => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new PdfInteger(rnd.Next());
 
         public static PdfInteger NextPdfInteger(this Random rnd, int maxValue)
-        {
-            if (rnd is null)
-            {
-                throw new ArgumentNullException(nameof(rnd));
-            }
-            return new PdfInteger(rnd.Next(maxValue));
-        }
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new PdfInteger(rnd.Next(maxValue));
 
         public static PdfInteger NextPdfInteger(this Random rnd, int minValue, int maxValue)
-        {
-            if (rnd is null)
-            {
-                throw new ArgumentNullException(nameof(rnd));
-            }
-            return new PdfInteger(rnd.Next(minValue, maxValue));
-        }
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new PdfInteger(rnd.Next(minValue, maxValue));
 
         public static PdfName NextPdfName(this Random rnd)
-        {
-            if (rnd is null)
-            {
-                throw new ArgumentNullException(nameof(rnd));
-            }
-            return new PdfName(rnd.NextAlphabeticalString(rnd.Next(16) + 1));
-        }
-
-#pragma warning disable IDE0060 // Remove unused parameter
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new PdfName(rnd.NextAlphabeticalString(rnd.Next(1, 17)));
 
         public static PdfNull NextPdfNull(this Random rnd) => PdfNull.Value;
-
-#pragma warning restore IDE0060 // Remove unused parameter
 
         public static PdfReal NextPdfReal(this Random rnd)
         {
@@ -183,6 +139,15 @@ namespace Unicorn.Tests.Unit.TestHelpers
             rnd.NextBytes(data);
             return new PdfByteString(data);
         }
+
+        public static RgbColour NextRgbColour(this Random rnd)
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new RgbColour(rnd.NextDouble(), rnd.NextDouble(), rnd.NextDouble());
+
+        public static GreyscaleColour NextGreyscaleColour(this Random rnd)
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new GreyscaleColour(rnd.NextDouble());
+
+        public static CmykColour NextCmykColour(this Random rnd)
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new CmykColour(rnd.NextDouble(), rnd.NextDouble(), rnd.NextDouble(), rnd.NextDouble());
 
 #pragma warning restore CA5394 // Do not use insecure randomness
 

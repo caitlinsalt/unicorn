@@ -25,6 +25,12 @@ namespace Unicorn.Tests.Unit.Writer.Structural
 
         private int _transformerCalls;
 
+        private Mock<IUniColour> _mockColour;
+        private RgbColour _rgbColour;
+        private GreyscaleColour _greyscaleColour;
+        private CmykColour _cmykColour;
+        private IUniColour _arbitraryColour;
+
         private double TransformParam(double val, List<double> store)
         {
             store.Add(val);
@@ -41,6 +47,13 @@ namespace Unicorn.Tests.Unit.Writer.Structural
             _transformerCalls = 0;
             _transformedXParameters.Clear();
             _transformedYParameters.Clear();
+
+            _mockColour = new Mock<IUniColour>();
+            _rgbColour = _rnd.NextRgbColour();
+            _greyscaleColour = _rnd.NextGreyscaleColour();
+            _cmykColour = _rnd.NextCmykColour();
+            IUniColour[] allColours = new IUniColour[] { _mockColour.Object, _rgbColour, _greyscaleColour, _cmykColour };
+            _arbitraryColour = _rnd.FromSet(allColours);
         }
 
 #pragma warning disable CA5394 // Do not use insecure randomness
@@ -160,7 +173,7 @@ namespace Unicorn.Tests.Unit.Writer.Structural
             Assert.IsTrue(_transformedYParameters.Contains(testParam3));
         }
 
-        // This test is to show that PageGraphics does not send out w operations unnecessarily.
+        // This test is to show that PageGraphics does not send out w and G operations unnecessarily.
         [TestMethod]
         public void PageGraphicsClass_DrawLineMethodWithFourDoubleParameters_WritesCorrectValueToContentStreamPropertyOfFirstParameterOfConstructor_IfCalledTwice()
         {
@@ -190,6 +203,331 @@ namespace Unicorn.Tests.Unit.Writer.Structural
             PdfOperator.StrokePath().WriteTo(expected);
             PdfOperator.StartPath(new PdfReal(testParam4 * 5), new PdfReal(testParam5 * 6)).WriteTo(expected);
             PdfOperator.AppendStraightLine(new PdfReal(testParam6 * 7), new PdfReal(testParam7 * 8)).WriteTo(expected);
+            PdfOperator.StrokePath().WriteTo(expected);
+            AssertionHelpers.AssertSameElements(expected, constrParam1);
+        }
+
+        [TestMethod]
+        public void PageGraphicsClass_DrawLineMethodWithFourDoubleAndOneIUniColourParameters_WritesCorrectValueToContentStreamPropertyOfFirstParameterOfConstructor_IfCalledOnceAndFifthParameterIsNotAnIColour()
+        {
+            PdfStream constrParam1 = new(_rnd.Next(1, int.MaxValue));
+            Mock<IPdfPage> constrParam0Base = new();
+            constrParam0Base.Setup(p => p.ContentStream).Returns(constrParam1);
+            Func<double, double> constrParam2 = TransformXParam;
+            Func<double, double> constrParam3 = TransformYParam;
+            PageGraphics testObject = new(constrParam0Base.Object, constrParam2, constrParam3);
+            double testParam0 = _rnd.NextDouble() * 500;
+            double testParam1 = _rnd.NextDouble() * 500;
+            double testParam2 = _rnd.NextDouble() * 500;
+            double testParam3 = _rnd.NextDouble() * 500;
+            IUniColour testParam4 = _mockColour.Object;
+
+            testObject.DrawLine(testParam0, testParam1, testParam2, testParam3, testParam4);
+
+            List<byte> expected = new();
+            PdfOperator.LineWidth(new PdfReal(1)).WriteTo(expected);
+            PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
+            PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
+            PdfOperator.StrokePath().WriteTo(expected);
+            AssertionHelpers.AssertSameElements(expected, constrParam1);
+        }
+
+        [TestMethod]
+        public void PageGraphicsClass_DrawLineMethodWithFourDoubleAndOneIUniColourParameters_WritesCorrectValueToContentStreamPropertyOfFirstParameterOfConstructor_IfCalledOnceAndFifthParameterIsGreyscaleColour()
+        {
+            PdfStream constrParam1 = new(_rnd.Next(1, int.MaxValue));
+            Mock<IPdfPage> constrParam0Base = new();
+            constrParam0Base.Setup(p => p.ContentStream).Returns(constrParam1);
+            Func<double, double> constrParam2 = TransformXParam;
+            Func<double, double> constrParam3 = TransformYParam;
+            PageGraphics testObject = new(constrParam0Base.Object, constrParam2, constrParam3);
+            double testParam0 = _rnd.NextDouble() * 500;
+            double testParam1 = _rnd.NextDouble() * 500;
+            double testParam2 = _rnd.NextDouble() * 500;
+            double testParam3 = _rnd.NextDouble() * 500;
+            IUniColour testParam4 = _greyscaleColour;
+
+            testObject.DrawLine(testParam0, testParam1, testParam2, testParam3, testParam4);
+
+            List<byte> expected = new();
+            PdfOperator.LineWidth(new PdfReal(1)).WriteTo(expected);
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(_greyscaleColour.GreyLevel)).WriteTo(expected);
+            PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
+            PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
+            PdfOperator.StrokePath().WriteTo(expected);
+            AssertionHelpers.AssertSameElements(expected, constrParam1);
+        }
+
+        [TestMethod]
+        public void PageGraphicsClass_DrawLineMethodWithFourDoubleAndOneIUniColourParameters_WritesCorrectValueToContentStreamPropertyOfFirstParameterOfConstructor_IfCalledOnceAndFifthParameterIsRgbColour()
+        {
+            PdfStream constrParam1 = new(_rnd.Next(1, int.MaxValue));
+            Mock<IPdfPage> constrParam0Base = new();
+            constrParam0Base.Setup(p => p.ContentStream).Returns(constrParam1);
+            Func<double, double> constrParam2 = TransformXParam;
+            Func<double, double> constrParam3 = TransformYParam;
+            PageGraphics testObject = new(constrParam0Base.Object, constrParam2, constrParam3);
+            double testParam0 = _rnd.NextDouble() * 500;
+            double testParam1 = _rnd.NextDouble() * 500;
+            double testParam2 = _rnd.NextDouble() * 500;
+            double testParam3 = _rnd.NextDouble() * 500;
+            IUniColour testParam4 = _rgbColour;
+
+            testObject.DrawLine(testParam0, testParam1, testParam2, testParam3, testParam4);
+
+            List<byte> expected = new();
+            PdfOperator.LineWidth(new PdfReal(1)).WriteTo(expected);
+            PdfOperator.SetDeviceRgbStrokingColour(new PdfReal(_rgbColour.Red), new PdfReal(_rgbColour.Green), new PdfReal(_rgbColour.Blue)).WriteTo(expected);
+            PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
+            PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
+            PdfOperator.StrokePath().WriteTo(expected);
+            AssertionHelpers.AssertSameElements(expected, constrParam1);
+        }
+
+        [TestMethod]
+        public void PageGraphicsClass_DrawLineMethodWithFourDoubleAndOneIUniColourParameters_WritesCorrectValueToContentStreamPropertyOfFirstParameterOfConstructor_IfCalledOnceAndFifthParameterIsCmykColour()
+        {
+            PdfStream constrParam1 = new(_rnd.Next(1, int.MaxValue));
+            Mock<IPdfPage> constrParam0Base = new();
+            constrParam0Base.Setup(p => p.ContentStream).Returns(constrParam1);
+            Func<double, double> constrParam2 = TransformXParam;
+            Func<double, double> constrParam3 = TransformYParam;
+            PageGraphics testObject = new(constrParam0Base.Object, constrParam2, constrParam3);
+            double testParam0 = _rnd.NextDouble() * 500;
+            double testParam1 = _rnd.NextDouble() * 500;
+            double testParam2 = _rnd.NextDouble() * 500;
+            double testParam3 = _rnd.NextDouble() * 500;
+            IUniColour testParam4 = _cmykColour;
+
+            testObject.DrawLine(testParam0, testParam1, testParam2, testParam3, testParam4);
+
+            List<byte> expected = new();
+            PdfOperator.LineWidth(new PdfReal(1)).WriteTo(expected);
+            PdfOperator.SetDeviceCmykStrokingColour(new PdfReal(_cmykColour.Cyan), new PdfReal(_cmykColour.Magenta), new PdfReal(_cmykColour.Yellow), 
+                new PdfReal(_cmykColour.Black)).WriteTo(expected);
+            PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
+            PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
+            PdfOperator.StrokePath().WriteTo(expected);
+            AssertionHelpers.AssertSameElements(expected, constrParam1);
+        }
+
+        [TestMethod]
+        public void PageGraphicsClass_DrawLineMethodWithFourDoubleAndOneIUniColourParameters_CallsSecondParameterOfConstructorWithFirstParameter_IfCalledOnce()
+        {
+            PdfStream constrParam1 = new(_rnd.Next(1, int.MaxValue));
+            Mock<IPdfPage> constrParam0Base = new();
+            constrParam0Base.Setup(p => p.ContentStream).Returns(constrParam1);
+            Func<double, double> constrParam2 = TransformXParam;
+            Func<double, double> constrParam3 = TransformYParam;
+            PageGraphics testObject = new(constrParam0Base.Object, constrParam2, constrParam3);
+            double testParam0 = _rnd.NextDouble() * 500;
+            double testParam1 = _rnd.NextDouble() * 500;
+            double testParam2 = _rnd.NextDouble() * 500;
+            double testParam3 = _rnd.NextDouble() * 500;
+            IUniColour testParam4 = _arbitraryColour;
+
+            testObject.DrawLine(testParam0, testParam1, testParam2, testParam3, testParam4);
+
+            Assert.IsTrue(_transformedXParameters.Contains(testParam0));
+        }
+
+        [TestMethod]
+        public void PageGraphicsClass_DrawLineMethodWithFourDoubleAndOneIUniColourParameters_CallsSecondParameterOfConstructorWithThirdParameter_IfCalledOnce()
+        {
+            PdfStream constrParam1 = new(_rnd.Next(1, int.MaxValue));
+            Mock<IPdfPage> constrParam0Base = new();
+            constrParam0Base.Setup(p => p.ContentStream).Returns(constrParam1);
+            Func<double, double> constrParam2 = TransformXParam;
+            Func<double, double> constrParam3 = TransformYParam;
+            PageGraphics testObject = new(constrParam0Base.Object, constrParam2, constrParam3);
+            double testParam0 = _rnd.NextDouble() * 500;
+            double testParam1 = _rnd.NextDouble() * 500;
+            double testParam2 = _rnd.NextDouble() * 500;
+            double testParam3 = _rnd.NextDouble() * 500;
+            IUniColour testParam4 = _arbitraryColour;
+
+            testObject.DrawLine(testParam0, testParam1, testParam2, testParam3, testParam4);
+
+            Assert.IsTrue(_transformedXParameters.Contains(testParam2));
+        }
+
+        [TestMethod]
+        public void PageGraphicsClass_DrawLineMethodWithFourDoubleAndOneIUniColourParameters_CallsThirdParameterOfConstructorWithSecondParameter_IfCalledOnce()
+        {
+            PdfStream constrParam1 = new(_rnd.Next(1, int.MaxValue));
+            Mock<IPdfPage> constrParam0Base = new();
+            constrParam0Base.Setup(p => p.ContentStream).Returns(constrParam1);
+            Func<double, double> constrParam2 = TransformXParam;
+            Func<double, double> constrParam3 = TransformYParam;
+            PageGraphics testObject = new(constrParam0Base.Object, constrParam2, constrParam3);
+            double testParam0 = _rnd.NextDouble() * 500;
+            double testParam1 = _rnd.NextDouble() * 500;
+            double testParam2 = _rnd.NextDouble() * 500;
+            double testParam3 = _rnd.NextDouble() * 500;
+            IUniColour testParam4 = _arbitraryColour;
+
+            testObject.DrawLine(testParam0, testParam1, testParam2, testParam3, testParam4);
+
+            Assert.IsTrue(_transformedYParameters.Contains(testParam1));
+        }
+
+        [TestMethod]
+        public void PageGraphicsClass_DrawLineMethodWithFourDoubleAndOneIUniColourParameters_CallsThirdParameterOfConstructorWithFourthParameter_IfCalledOnce()
+        {
+            PdfStream constrParam1 = new(_rnd.Next(1, int.MaxValue));
+            Mock<IPdfPage> constrParam0Base = new();
+            constrParam0Base.Setup(p => p.ContentStream).Returns(constrParam1);
+            Func<double, double> constrParam2 = TransformXParam;
+            Func<double, double> constrParam3 = TransformYParam;
+            PageGraphics testObject = new(constrParam0Base.Object, constrParam2, constrParam3);
+            double testParam0 = _rnd.NextDouble() * 500;
+            double testParam1 = _rnd.NextDouble() * 500;
+            double testParam2 = _rnd.NextDouble() * 500;
+            double testParam3 = _rnd.NextDouble() * 500;
+            IUniColour testParam4 = _arbitraryColour;
+
+            testObject.DrawLine(testParam0, testParam1, testParam2, testParam3, testParam4);
+
+            Assert.IsTrue(_transformedYParameters.Contains(testParam3));
+        }
+
+        // This test is to show that PageGraphics does not send out w and G operations unnecessarily.
+        [TestMethod]
+        public void PageGraphicsClass_DrawLineMethodWithFourDoubleAndOneIUniColourParameters_WritesCorrectValueToContentStreamPropertyOfFirstParameterOfConstructor_IfCalledTwiceAndFifthParameterIsNotAnIColour()
+        {
+            PdfStream constrParam1 = new(_rnd.Next(1, int.MaxValue));
+            Mock<IPdfPage> constrParam0Base = new();
+            constrParam0Base.Setup(p => p.ContentStream).Returns(constrParam1);
+            Func<double, double> constrParam2 = TransformXParam;
+            Func<double, double> constrParam3 = TransformYParam;
+            PageGraphics testObject = new(constrParam0Base.Object, constrParam2, constrParam3);
+            double testParam0 = _rnd.NextDouble() * 500;
+            double testParam1 = _rnd.NextDouble() * 500;
+            double testParam2 = _rnd.NextDouble() * 500;
+            double testParam3 = _rnd.NextDouble() * 500;
+            IUniColour testParam4 = _mockColour.Object;
+            double testParam5 = _rnd.NextDouble() * 500;
+            double testParam6 = _rnd.NextDouble() * 500;
+            double testParam7 = _rnd.NextDouble() * 500;
+            double testParam8 = _rnd.NextDouble() * 500;
+            IUniColour testParam9 = _mockColour.Object;
+
+            testObject.DrawLine(testParam0, testParam1, testParam2, testParam3, testParam9);
+            testObject.DrawLine(testParam5, testParam6, testParam7, testParam8, testParam9);
+
+            List<byte> expected = new();
+            PdfOperator.LineWidth(new PdfReal(1)).WriteTo(expected);
+            PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
+            PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
+            PdfOperator.StrokePath().WriteTo(expected);
+            PdfOperator.StartPath(new PdfReal(testParam5 * 5), new PdfReal(testParam6 * 6)).WriteTo(expected);
+            PdfOperator.AppendStraightLine(new PdfReal(testParam7 * 7), new PdfReal(testParam8 * 8)).WriteTo(expected);
+            PdfOperator.StrokePath().WriteTo(expected);
+            AssertionHelpers.AssertSameElements(expected, constrParam1);
+        }
+
+        [TestMethod]
+        public void PageGraphicsClass_DrawLineMethodWithFourDoubleAndOneIUniColourParameters_WritesCorrectValueToContentStreamPropertyOfFirstParameterOfConstructor_IfCalledTwiceAndFifthParameterIsGreyscaleColour()
+        {
+            PdfStream constrParam1 = new(_rnd.Next(1, int.MaxValue));
+            Mock<IPdfPage> constrParam0Base = new();
+            constrParam0Base.Setup(p => p.ContentStream).Returns(constrParam1);
+            Func<double, double> constrParam2 = TransformXParam;
+            Func<double, double> constrParam3 = TransformYParam;
+            PageGraphics testObject = new(constrParam0Base.Object, constrParam2, constrParam3);
+            double testParam0 = _rnd.NextDouble() * 500;
+            double testParam1 = _rnd.NextDouble() * 500;
+            double testParam2 = _rnd.NextDouble() * 500;
+            double testParam3 = _rnd.NextDouble() * 500;
+            IUniColour testParam4 = _greyscaleColour;
+            double testParam5 = _rnd.NextDouble() * 500;
+            double testParam6 = _rnd.NextDouble() * 500;
+            double testParam7 = _rnd.NextDouble() * 500;
+            double testParam8 = _rnd.NextDouble() * 500;
+            IUniColour testParam9 = _greyscaleColour;
+
+            testObject.DrawLine(testParam0, testParam1, testParam2, testParam3, testParam9);
+            testObject.DrawLine(testParam5, testParam6, testParam7, testParam8, testParam9);
+
+            List<byte> expected = new();
+            PdfOperator.LineWidth(new PdfReal(1)).WriteTo(expected);
+            PdfOperator.SetDeviceGreyscaleStrokingColour(new PdfReal(_greyscaleColour.GreyLevel)).WriteTo(expected);
+            PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
+            PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
+            PdfOperator.StrokePath().WriteTo(expected);
+            PdfOperator.StartPath(new PdfReal(testParam5 * 5), new PdfReal(testParam6 * 6)).WriteTo(expected);
+            PdfOperator.AppendStraightLine(new PdfReal(testParam7 * 7), new PdfReal(testParam8 * 8)).WriteTo(expected);
+            PdfOperator.StrokePath().WriteTo(expected);
+            AssertionHelpers.AssertSameElements(expected, constrParam1);
+        }
+
+        [TestMethod]
+        public void PageGraphicsClass_DrawLineMethodWithFourDoubleAndOneIUniColourParameters_WritesCorrectValueToContentStreamPropertyOfFirstParameterOfConstructor_IfCalledTwiceAndFifthParameterIsRgbColour()
+        {
+            PdfStream constrParam1 = new(_rnd.Next(1, int.MaxValue));
+            Mock<IPdfPage> constrParam0Base = new();
+            constrParam0Base.Setup(p => p.ContentStream).Returns(constrParam1);
+            Func<double, double> constrParam2 = TransformXParam;
+            Func<double, double> constrParam3 = TransformYParam;
+            PageGraphics testObject = new(constrParam0Base.Object, constrParam2, constrParam3);
+            double testParam0 = _rnd.NextDouble() * 500;
+            double testParam1 = _rnd.NextDouble() * 500;
+            double testParam2 = _rnd.NextDouble() * 500;
+            double testParam3 = _rnd.NextDouble() * 500;
+            IUniColour testParam4 = _rgbColour;
+            double testParam5 = _rnd.NextDouble() * 500;
+            double testParam6 = _rnd.NextDouble() * 500;
+            double testParam7 = _rnd.NextDouble() * 500;
+            double testParam8 = _rnd.NextDouble() * 500;
+            IUniColour testParam9 = _rgbColour;
+
+            testObject.DrawLine(testParam0, testParam1, testParam2, testParam3, testParam9);
+            testObject.DrawLine(testParam5, testParam6, testParam7, testParam8, testParam9);
+
+            List<byte> expected = new();
+            PdfOperator.LineWidth(new PdfReal(1)).WriteTo(expected);
+            PdfOperator.SetDeviceRgbStrokingColour(new PdfReal(_rgbColour.Red), new PdfReal(_rgbColour.Green), new PdfReal(_rgbColour.Blue)).WriteTo(expected);
+            PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
+            PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
+            PdfOperator.StrokePath().WriteTo(expected);
+            PdfOperator.StartPath(new PdfReal(testParam5 * 5), new PdfReal(testParam6 * 6)).WriteTo(expected);
+            PdfOperator.AppendStraightLine(new PdfReal(testParam7 * 7), new PdfReal(testParam8 * 8)).WriteTo(expected);
+            PdfOperator.StrokePath().WriteTo(expected);
+            AssertionHelpers.AssertSameElements(expected, constrParam1);
+        }
+
+        [TestMethod]
+        public void PageGraphicsClass_DrawLineMethodWithFourDoubleAndOneIUniColourParameters_WritesCorrectValueToContentStreamPropertyOfFirstParameterOfConstructor_IfCalledTwiceAndFifthParameterIsCmykColour()
+        {
+            PdfStream constrParam1 = new(_rnd.Next(1, int.MaxValue));
+            Mock<IPdfPage> constrParam0Base = new();
+            constrParam0Base.Setup(p => p.ContentStream).Returns(constrParam1);
+            Func<double, double> constrParam2 = TransformXParam;
+            Func<double, double> constrParam3 = TransformYParam;
+            PageGraphics testObject = new(constrParam0Base.Object, constrParam2, constrParam3);
+            double testParam0 = _rnd.NextDouble() * 500;
+            double testParam1 = _rnd.NextDouble() * 500;
+            double testParam2 = _rnd.NextDouble() * 500;
+            double testParam3 = _rnd.NextDouble() * 500;
+            IUniColour testParam4 = _cmykColour;
+            double testParam5 = _rnd.NextDouble() * 500;
+            double testParam6 = _rnd.NextDouble() * 500;
+            double testParam7 = _rnd.NextDouble() * 500;
+            double testParam8 = _rnd.NextDouble() * 500;
+            IUniColour testParam9 = _cmykColour;
+
+            testObject.DrawLine(testParam0, testParam1, testParam2, testParam3, testParam9);
+            testObject.DrawLine(testParam5, testParam6, testParam7, testParam8, testParam9);
+
+            List<byte> expected = new();
+            PdfOperator.LineWidth(new PdfReal(1)).WriteTo(expected);
+            PdfOperator.SetDeviceCmykStrokingColour(new PdfReal(_cmykColour.Cyan), new PdfReal(_cmykColour.Magenta), new PdfReal(_cmykColour.Yellow),
+                new PdfReal(_cmykColour.Black)).WriteTo(expected);
+            PdfOperator.StartPath(new PdfReal(testParam0), new PdfReal(testParam1 * 2)).WriteTo(expected);
+            PdfOperator.AppendStraightLine(new PdfReal(testParam2 * 3), new PdfReal(testParam3 * 4)).WriteTo(expected);
+            PdfOperator.StrokePath().WriteTo(expected);
+            PdfOperator.StartPath(new PdfReal(testParam5 * 5), new PdfReal(testParam6 * 6)).WriteTo(expected);
+            PdfOperator.AppendStraightLine(new PdfReal(testParam7 * 7), new PdfReal(testParam8 * 8)).WriteTo(expected);
             PdfOperator.StrokePath().WriteTo(expected);
             AssertionHelpers.AssertSameElements(expected, constrParam1);
         }
