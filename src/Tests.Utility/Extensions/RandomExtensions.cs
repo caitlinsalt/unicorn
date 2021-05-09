@@ -265,7 +265,29 @@ namespace Tests.Utility.Extensions
         /// </summary>
         /// <param name="random">The random generator.</param>
         /// <returns>A random floating point value between 0.0 and 1.0, or <c>null</c> approximately one time in ten.</returns>
+        /// <exception cref="ArgumentNullException"><c>random</c> is <c>null</c>.</exception>
         public static double? NextNullableDouble(this Random random) => NextNullableDouble(random, 1.0);
+
+        /// <summary>
+        /// Returns a random <see cref="double" /> value between 0.0 and 1.0, that is not a member of a set of existing values.
+        /// </summary>
+        /// <param name="random">The random generator.</param>
+        /// <param name="set">The set of existing values that will not be duplicated.</param>
+        /// <returns>A random floating point value between 0.0 and 1.0 that is not a member of <c>set</c>.</returns>
+        /// <exception cref="ArgumentNullException"><c>random</c> is <c>null</c>.</exception>
+        public static double NextDoubleNotInSet(this Random random, params double[] set)
+        {
+            if (random is null)
+            {
+                throw new ArgumentNullException(nameof(random));
+            }
+            double val;
+            do
+            {
+                val = random.NextDouble();
+            } while (set.Contains(val));
+            return val;
+        }
 
         /// <summary>
         /// Returns a random <see cref="float" /> value between 0.0 and 1.0, with a 1-in-10 chance of being <c>null</c>/
@@ -575,6 +597,19 @@ namespace Tests.Utility.Extensions
         /// <exception cref="ArgumentOutOfRangeException">The upper bound is equal to or less than the lower bound.</exception>
         public static byte NextByte(this Random random, int min, int max)
             => random is null ? throw new ArgumentNullException(nameof(random)) : (byte)random.Next(min, max);
+
+        public static T FromSet<T>(this Random random, IReadOnlyList<T> set)
+        {
+            if (random is null)
+            {
+                throw new ArgumentNullException(nameof(random));
+            }
+            if (set is null)
+            {
+                throw new ArgumentNullException(nameof(set));
+            }
+            return set[random.Next(set.Count)];
+        }
     }
 
 #pragma warning restore CA5394 // Do not use insecure randomness
