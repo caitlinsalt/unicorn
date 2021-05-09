@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CmykColour_Error_ValueOutOfRange" xml:space="preserve">
+    <value>Colour levels must be between 0 and 1 inclusive.</value>
+    <comment>Thrown by CmykColour constructor when any colour level is out of range.</comment>
+  </data>
+  <data name="GreyscaleColour_Error_ValueOutOfRange" xml:space="preserve">
+    <value>Greyscale level must be between 0 and 1 inclusive.</value>
+    <comment>Thrown by GreyscaleColour constructor when grey level is out of range.</comment>
+  </data>
+  <data name="RgbColour_Error_ValueOutOfRange" xml:space="preserve">
+    <value>Colour levels must be between 0 and 1 inclusive.</value>
+    <comment>Thrown by RgbColour constructor when any colour level is out of range.</comment>
+  </data>
   <data name="TableCellCollection_CopyTo_Error_InsufficientArrayLength" xml:space="preserve">
     <value>The destination array does not contain enough elements to store the collection.</value>
   </data>
