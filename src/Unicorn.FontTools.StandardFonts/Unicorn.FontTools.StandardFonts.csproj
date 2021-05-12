@@ -13,6 +13,11 @@
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <NeutralLanguage>en-GB</NeutralLanguage>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Description>A .NET Standard library which contains the font metrics of the "standard" fonts which every PDF viewer should support without the fonts having to be embedded in the PDF document: Times, Courier, Helvetica, Symbol and Zapf Dingbats, in a format that can be consumed by the Unicorn PDF-writing library.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/willsalt/unicorn/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/willsalt/unicorn.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   
   <ItemGroup>
