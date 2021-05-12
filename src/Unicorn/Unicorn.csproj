@@ -12,6 +12,12 @@
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <NeutralLanguage>en-GB</NeutralLanguage>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/willsalt/unicorn/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/willsalt/unicorn.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>pdf</PackageTags>
+    <Description>A .NET Standard library for writing PDF documents.  If you want to write PDF documents that use any of the "built in" PDF Fonts such as Times, Helvetica or Courier, you should also reference Unicorn.FontTools.StandardFonts.</Description>
   </PropertyGroup>
 
   <ItemGroup>
