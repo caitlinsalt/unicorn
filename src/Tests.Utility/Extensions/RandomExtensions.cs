@@ -598,6 +598,14 @@ namespace Tests.Utility.Extensions
         public static byte NextByte(this Random random, int min, int max)
             => random is null ? throw new ArgumentNullException(nameof(random)) : (byte)random.Next(min, max);
 
+        /// <summary>
+        /// Select a random member from a set.
+        /// </summary>
+        /// <typeparam name="T">The type of the set's members.</typeparam>
+        /// <param name="random">The random generator.</param>
+        /// <param name="set">The set of data to select a member from.</param>
+        /// <returns>A member of the <c>set</c>, selected at random.</returns>
+        /// <exception cref="ArgumentNullException"><c>random</c> is null or <c>set</c> is null.</exception>
         public static T FromSet<T>(this Random random, IReadOnlyList<T> set)
         {
             if (random is null)
