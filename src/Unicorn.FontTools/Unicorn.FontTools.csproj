@@ -13,6 +13,12 @@
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <NeutralLanguage>en-GB</NeutralLanguage>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Description>Unicorn.FontTools is a .NET Standard library for reading AFM and OpenType or TrueType files, specifically for the purpose of computing character and string metrics.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/willsalt/unicorn/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/willsalt/unicorn.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>ttf afm TrueType OpenType fonts</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
