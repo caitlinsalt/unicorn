@@ -17,8 +17,8 @@ namespace Unicorn.Tests.Unit.TestHelpers
 
 #pragma warning disable CA5394 // Do not use insecure randomness
 
-        internal static TableRuleStyle NextTableRuleStyle(this Random rnd)
-            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : _validTableRuleStyles[rnd.Next(_validTableRuleStyles.Length)];
+        internal static TableRuleStyle NextTableRuleStyle(this Random rnd) 
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_validTableRuleStyles);
 
         internal static FixedSizeTableCell NextFixedSizeTableCell(this Random rnd)
             => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new FixedSizeTableCell(rnd.NextDouble() * 100, rnd.NextDouble() * 100);
@@ -99,7 +99,9 @@ namespace Unicorn.Tests.Unit.TestHelpers
         public static PdfName NextPdfName(this Random rnd)
             => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new PdfName(rnd.NextAlphabeticalString(rnd.Next(1, 17)));
 
+#pragma warning disable IDE0060 // We're only really providing this for consistency.
         public static PdfNull NextPdfNull(this Random rnd) => PdfNull.Value;
+#pragma warning restore IDE0060
 
         public static PdfReal NextPdfReal(this Random rnd)
         {

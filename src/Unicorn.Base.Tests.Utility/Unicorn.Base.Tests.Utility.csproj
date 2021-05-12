@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Tests.Utility\Tests.Utility.csproj" />
     <ProjectReference Include="..\Unicorn.Base\Unicorn.Base.csproj" />
   </ItemGroup>
 
