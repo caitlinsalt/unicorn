@@ -1,4 +1,4 @@
-﻿namespace Unicorn.FontTools.Tests.Unit.TestHelpers
+﻿namespace Unicorn.FontTools.StandardFonts.Tests.Unit.TestHelpers
 {
     internal static class StandardFontHelpers
     {
