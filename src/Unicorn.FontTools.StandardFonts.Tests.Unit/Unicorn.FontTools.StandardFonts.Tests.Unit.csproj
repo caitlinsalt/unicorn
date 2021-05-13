@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
-    <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.3" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.3" />
     <PackageReference Include="coverlet.collector" Version="3.0.3">
@@ -26,30 +25,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Afm\" />
-    <Folder Include="CharacterEncoding\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Tests.Utility\Tests.Utility.csproj" />
     <ProjectReference Include="..\Unicorn.Base\Unicorn.Base.csproj" />
+    <ProjectReference Include="..\Unicorn.FontTools.StandardFonts\Unicorn.FontTools.StandardFonts.csproj" />
     <ProjectReference Include="..\Unicorn.FontTools.Tests.Utility\Unicorn.FontTools.Tests.Utility.csproj" />
     <ProjectReference Include="..\Unicorn.FontTools\Unicorn.FontTools.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="OpenType\TestResources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>TestResources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="OpenType\TestResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>TestResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
