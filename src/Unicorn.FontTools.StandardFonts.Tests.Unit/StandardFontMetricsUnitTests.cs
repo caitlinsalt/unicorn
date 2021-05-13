@@ -2,7 +2,7 @@
 using System.Linq;
 using Unicorn.FontTools.Afm;
 using Unicorn.FontTools.StandardFonts;
-using Unicorn.FontTools.Tests.Unit.TestHelpers;
+using Unicorn.FontTools.StandardFonts.Tests.Unit.TestHelpers;
 
 namespace Unicorn.FontTools.Tests.Unit.StandardFonts
 {
