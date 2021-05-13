@@ -96,8 +96,15 @@ namespace Unicorn.FontTools.Tests.Unit
         // for a particular test the last mapped byte is, say, 127, the code will also say that byte 173 is mapped, because both map to Unicode codepoint 0x2022.
         private void NormaliseFirstAndLastGlyphs()
         {
-            IEnumerable<byte> allMappedBytes = AllMappedBytes();
+            NormaliseFirstAndLastGlyphsOnce();
+            NormaliseFirstAndLastGlyphsOnce();
+        }
+
+        private void NormaliseFirstAndLastGlyphsOnce()
+        {
+            IList<byte> allMappedBytes = AllMappedBytes();
             _firstDefinedGlyph = allMappedBytes.Min();
+            allMappedBytes = AllMappedBytes();
             _lastDefinedGlyph = allMappedBytes.Max();
         }
 
@@ -112,7 +119,7 @@ namespace Unicorn.FontTools.Tests.Unit
             return bl;
         }
 
-        private IEnumerable<byte> AllMappedBytes() => GetDefinedRange().SelectMany(b => ReverseMapAll(PdfCharacterMappingDictionary.WinAnsiEncoding, b));
+        private IList<byte> AllMappedBytes() => GetDefinedRange().SelectMany(b => ReverseMapAll(PdfCharacterMappingDictionary.WinAnsiEncoding, b)).ToList();
 
 #pragma warning restore CA5394 // Do not use insecure randomness
 
