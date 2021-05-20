@@ -9,5 +9,8 @@ namespace Unicorn.TextConvert
 
         [Option('o', "out", Required = true, HelpText = "Output file name.")]
         public string Out { get; set; }
+
+        [Option("no-compression", Required = false, Default = false, HelpText = "Do not compress the output file's contents.")]
+        public bool NoCompression { get; set; }
     }
 }
