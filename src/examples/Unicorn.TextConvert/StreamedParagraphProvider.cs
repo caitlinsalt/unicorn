@@ -45,7 +45,7 @@ namespace Unicorn.TextConvert
                     {
                         builder = new(line.Trim());
                         buildingPara = true;
-                        centredPara &= line.StartsWith(' ');
+                        centredPara = line.StartsWith(' ');
                     }
                 }
             }
