@@ -12,5 +12,8 @@ namespace Unicorn.TextConvert
 
         [Option("no-compression", Required = false, Default = false, HelpText = "Do not compress the output file's contents.")]
         public bool NoCompression { get; set; }
+
+        [Option("verbose", Required = false, Default = false, HelpText = "Output progress information.")]
+        public bool Verbose { get; set; }
     }
 }
