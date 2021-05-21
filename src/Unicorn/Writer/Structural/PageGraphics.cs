@@ -73,7 +73,7 @@ namespace Unicorn.Writer.Structural
         {
             lock (_stateStack)
             {
-                GraphicsState gs = new GraphicsState(CurrentLineWidth, CurrentDashStyle);
+                GraphicsState gs = new GraphicsState(CurrentLineWidth, CurrentDashStyle, CurrentFont);
                 _stateStack.Push(gs);
                 PdfOperator.PushState().WriteTo(_page.ContentStream);
                 return gs;
@@ -103,6 +103,7 @@ namespace Unicorn.Writer.Structural
                 } while (gs != popped);
                 CurrentLineWidth = gs.LineWidth;
                 CurrentDashStyle = gs.DashStyle;
+                CurrentFont = gs.Font;
                 LineWidthChanged = true;
                 PdfOperator.PopState().WriteTo(_page.ContentStream);
             }

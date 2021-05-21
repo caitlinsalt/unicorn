@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using Tests.Utility.Providers;
 using Unicorn.Base;
@@ -20,8 +21,9 @@ namespace Unicorn.Tests.Unit.Writer.Structural
         {
             double testParam0 = _rnd.NextDouble() * 5;
             UniDashStyle testParam1 = _rnd.NextUniDashStyle();
+            IFontDescriptor testParam2 = new Mock<IFontDescriptor>().Object;
 
-            GraphicsState testOutput = new(testParam0, testParam1);
+            GraphicsState testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam0, testOutput.LineWidth);
         }
@@ -31,10 +33,23 @@ namespace Unicorn.Tests.Unit.Writer.Structural
         {
             double testParam0 = _rnd.NextDouble() * 5;
             UniDashStyle testParam1 = _rnd.NextUniDashStyle();
+            IFontDescriptor testParam2 = new Mock<IFontDescriptor>().Object;
 
-            GraphicsState testOutput = new(testParam0, testParam1);
+            GraphicsState testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam1, testOutput.DashStyle);
+        }
+
+        [TestMethod]
+        public void GraphicsStateClass_Constructor_SetsFontPropertyToValueOfThirdParameter()
+        {
+            double testParam0 = _rnd.NextDouble() * 5;
+            UniDashStyle testParam1 = _rnd.NextUniDashStyle();
+            IFontDescriptor testParam2 = new Mock<IFontDescriptor>().Object;
+
+            GraphicsState testOutput = new(testParam0, testParam1, testParam2);
+
+            Assert.AreSame(testParam2, testOutput.Font);
         }
 
 #pragma warning restore CA5394 // Do not use insecure randomness
