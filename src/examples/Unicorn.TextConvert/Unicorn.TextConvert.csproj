@@ -18,4 +18,10 @@
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Unicorn.FontTools.StandardFonts\Unicorn.FontTools.StandardFonts.csproj" />
+    <ProjectReference Include="..\..\Unicorn.FontTools\Unicorn.FontTools.csproj" />
+    <ProjectReference Include="..\..\Unicorn\Unicorn.csproj" />
+  </ItemGroup>
+
 </Project>
