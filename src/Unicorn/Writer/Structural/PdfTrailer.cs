@@ -72,7 +72,7 @@ namespace Unicorn.Writer.Structural
         {
             PdfDictionary dict = new PdfDictionary
             {
-                { CommonPdfNames.Size, new PdfInteger(_xrefs.Count) },
+                { CommonPdfNames.Size, PdfInteger.Create(_xrefs.Count) },
                 { CommonPdfNames.Root, _root.GetReference() }
             };
             return dict;

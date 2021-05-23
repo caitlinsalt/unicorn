@@ -387,7 +387,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
             {
                 testParam0 = _rnd.NextPdfArray();
             } while (testParam0.Length == 0 || testParam0.All(e => e is PdfNumber));
-            PdfInteger testParam1 = new(_rnd.Next(testParam0.Length));
+            PdfInteger testParam1 = PdfInteger.Create(_rnd.Next(testParam0.Length));
 
             _ = PdfOperator.LineDashPattern(testParam0, testParam1);
 
@@ -399,7 +399,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_ThrowsArgumentException_IfSecondParameterIsLargerThanLengthOfFirstParameter()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new(_rnd.Next(testParam0.Length + 1, int.MaxValue));
+            PdfInteger testParam1 = PdfInteger.Create(_rnd.Next(testParam0.Length + 1, int.MaxValue));
 
             _ = PdfOperator.LineDashPattern(testParam0, testParam1);
 
@@ -410,7 +410,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_CreatesObjectWithCorrectValueProperty()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
+            PdfInteger testParam1 = PdfInteger.Create(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
 
             PdfOperator testOutput = PdfOperator.LineDashPattern(testParam0, testParam1);
 
@@ -421,7 +421,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_CreatesObjectWithCorrectByteLengthProperty()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
+            PdfInteger testParam1 = PdfInteger.Create(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
 
             PdfOperator testOutput = PdfOperator.LineDashPattern(testParam0, testParam1);
 
@@ -434,7 +434,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_WriteToMethodWithListParameter_ThrowsExceptionIfParameterOfSecondMethodIsNull()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
+            PdfInteger testParam1 = PdfInteger.Create(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
             List<byte> testParam2 = null;
 
             PdfOperator testOutput0 = PdfOperator.LineDashPattern(testParam0, testParam1);
@@ -447,7 +447,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_WriteToMethodWithListParameter_WritesCorrectValueToList()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
+            PdfInteger testParam1 = PdfInteger.Create(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
             List<byte> testParam4 = new();
             List<byte> expected = new();
             testParam0.WriteTo(expected);
@@ -465,7 +465,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_WriteToMethodWithStreamParameter_ThrowsArgumentNullException_IfParameterOfSecondMethodIsNull()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
+            PdfInteger testParam1 = PdfInteger.Create(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
             Stream testParam2 = null;
 
             PdfOperator testOutput0 = PdfOperator.LineDashPattern(testParam0, testParam1);
@@ -478,7 +478,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_WriteToMethodWithStreamParameter_WritesCorrectValueToStream()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
+            PdfInteger testParam1 = PdfInteger.Create(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
             using MemoryStream testParam4 = new();
             using MemoryStream expected = new();
             testParam0.WriteTo(expected);
@@ -496,7 +496,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_WriteToMethodWithPdfStreamParameter_ThrowsArgumentNullException_IfParameterToSecondMethodIsNull()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
+            PdfInteger testParam1 = PdfInteger.Create(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
             PdfStream testParam2 = null;
 
             PdfOperator testOutput0 = PdfOperator.LineDashPattern(testParam0, testParam1);
@@ -509,7 +509,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         public void PdfOperatorClass_LineDashPatternMethod_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToStream()
         {
             PdfArray testParam0 = _rnd.NextPdfArrayOfNumber();
-            PdfInteger testParam1 = new(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
+            PdfInteger testParam1 = PdfInteger.Create(testParam0.Length == 0 ? 0 : _rnd.Next(testParam0.Length));
             PdfStream testParam2 = new(_rnd.Next(1, int.MaxValue));
             List<byte> expected = new();
             testParam0.WriteTo(expected);

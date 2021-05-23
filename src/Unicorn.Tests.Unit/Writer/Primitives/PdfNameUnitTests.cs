@@ -190,7 +190,7 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         {
             string inputString = _rnd.NextString(_rnd.Next(20));
             PdfName testObject = new(inputString);
-            PdfInteger testParam = new(_rnd.Next());
+            PdfInteger testParam = PdfInteger.Create(_rnd.Next());
 
             bool testOutput = testObject.Equals(testParam);
 

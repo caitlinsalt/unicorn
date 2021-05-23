@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Text;
+using Unicorn.Writer.Utility;
 
 namespace Unicorn.Writer.Primitives
 {
@@ -16,6 +17,8 @@ namespace Unicorn.Writer.Primitives
         /// </summary>
         public static PdfInteger Zero => _zero.Value;
 
+        private static readonly PrimitiveMemoPool<int, PdfInteger> _pool = new PrimitiveMemoPool<int, PdfInteger>();
+
         /// <summary>
         /// The integer value of the object.
         /// </summary>
@@ -25,9 +28,24 @@ namespace Unicorn.Writer.Primitives
         /// Value-setting constructor.
         /// </summary>
         /// <param name="val">The value of the object.</param>
-        public PdfInteger(int val)
+        private PdfInteger(int val)
         {
             Value = val;
+        }
+
+        public static PdfInteger Create(int val)
+        {
+            if (val == 0)
+            {
+                return Zero;
+            }
+            PdfInteger pooledValue = _pool[val];
+            if (pooledValue is null)
+            {
+                pooledValue = new PdfInteger(val);
+                _pool.Cache(pooledValue, val);
+            }
+            return pooledValue;
         }
 
         /// <summary>

@@ -81,7 +81,7 @@ namespace Unicorn.Writer.Primitives
             int len = encodedContent.Count();
             if ((MetaDictionary[CommonPdfNames.Length] as PdfInteger).Value != len)
             {
-                MetaDictionary[CommonPdfNames.Length] = new PdfInteger(len);
+                MetaDictionary[CommonPdfNames.Length] = PdfInteger.Create(len);
             }
         }
 

@@ -62,8 +62,8 @@ namespace Unicorn.Writer.Structural
             if (!_font.Implementation.IsStandardFont())
             {
                 d.Add(CommonPdfNames.Encoding, new PdfName(_font.PreferredEncodingName));
-                d.Add(CommonPdfNames.FirstChar, new PdfInteger(_font.FirstMappedByte()));
-                d.Add(CommonPdfNames.LastChar, new PdfInteger(_font.LastMappedByte()));
+                d.Add(CommonPdfNames.FirstChar, PdfInteger.Create(_font.FirstMappedByte()));
+                d.Add(CommonPdfNames.LastChar, PdfInteger.Create(_font.LastMappedByte()));
                 d.Add(CommonPdfNames.Widths, new PdfArray(_font.CharacterWidths().Select(w => new PdfReal(w))));
             }
             return d;

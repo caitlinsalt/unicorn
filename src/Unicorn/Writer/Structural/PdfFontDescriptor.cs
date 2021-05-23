@@ -105,7 +105,7 @@ namespace Unicorn.Writer.Structural
             {
                 { CommonPdfNames.Type, new PdfName("FontDescriptor") },
                 { _fontNameName.Value, new PdfName(Name) },
-                { _flagsName.Value, new PdfInteger((int)Flags) },
+                { _flagsName.Value, PdfInteger.Create((int)Flags) },
                 { _fontBBoxName.Value, BoundingBox },
                 { _italicAngleName.Value, new PdfReal(ItalicAngle) },
                 { _ascentName.Value, new PdfReal(Ascent) },

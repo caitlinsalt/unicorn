@@ -88,13 +88,13 @@ namespace Unicorn.Tests.Unit.TestHelpers
 
         public static PdfBoolean NextPdfBoolean(this Random rnd) => PdfBoolean.Get(rnd.NextBoolean());
 
-        public static PdfInteger NextPdfInteger(this Random rnd) => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new PdfInteger(rnd.Next());
+        public static PdfInteger NextPdfInteger(this Random rnd) => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : PdfInteger.Create(rnd.Next());
 
         public static PdfInteger NextPdfInteger(this Random rnd, int maxValue)
-            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new PdfInteger(rnd.Next(maxValue));
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : PdfInteger.Create(rnd.Next(maxValue));
 
         public static PdfInteger NextPdfInteger(this Random rnd, int minValue, int maxValue)
-            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new PdfInteger(rnd.Next(minValue, maxValue));
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : PdfInteger.Create(rnd.Next(minValue, maxValue));
 
         public static PdfName NextPdfName(this Random rnd)
             => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new PdfName(rnd.NextAlphabeticalString(rnd.Next(1, 17)));

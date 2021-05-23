@@ -51,7 +51,7 @@ namespace Unicorn.Writer.Structural
             PdfDictionary dictionary = new PdfDictionary
             {
                 { CommonPdfNames.Type, CommonPdfNames.Pages },
-                { CommonPdfNames.Count, new PdfInteger(Kids.Count) }
+                { CommonPdfNames.Count, PdfInteger.Create(Kids.Count) }
             };
             if (Parent != null)
             {

@@ -42,7 +42,7 @@ namespace Unicorn.Writer.Primitives
         /// <param name="upperRightX">The upper-right X coordinate.</param>
         /// <param name="upperRightY">The upper-right Y coordinate.</param>
         public PdfRectangle(int lowerLeftX, int lowerLeftY, int upperRightX, int upperRightY)
-            : this(new PdfInteger(lowerLeftX), new PdfInteger(lowerLeftY), new PdfInteger(upperRightX), new PdfInteger(upperRightY))
+            : this(PdfInteger.Create(lowerLeftX), PdfInteger.Create(lowerLeftY), PdfInteger.Create(upperRightX), PdfInteger.Create(upperRightY))
         {
 
         }
