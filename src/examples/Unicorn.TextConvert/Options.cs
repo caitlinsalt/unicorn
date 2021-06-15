@@ -15,5 +15,11 @@ namespace Unicorn.TextConvert
 
         [Option("verbose", Required = false, Default = false, HelpText = "Output progress information.")]
         public bool Verbose { get; set; }
+
+        [Option('f', "font", Required = false, HelpText = "Rendering font (either a PDF standard font name or a TTF filename).")]
+        public string FontName { get; set; }
+
+        [Option('s', "size", Required = false, Default = 12d, HelpText = "Rendering font size (in points)")]
+        public double FontSize { get; set; }
     }
 }
