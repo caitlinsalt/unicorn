@@ -1,12 +1,9 @@
 ﻿using CommandLine;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Unicorn.Base;
-using Unicorn.FontTools.StandardFonts;
 using Unicorn.Writer;
-using Unicorn.Writer.Structural;
 
 namespace Unicorn.TextConvert
 {
@@ -17,14 +14,22 @@ namespace Unicorn.TextConvert
             Parser.Default.ParseArguments<Options>(args).WithParsedAsync(RunToolAsync).Wait();
         }
 
-        static async Task RunToolAsync(Options options)
+        private const string _defaultFontName = "Times-Roman";
+
+        private static async Task RunToolAsync(Options options)
         {
             if (options.NoCompression)
             {
                 Features.SelectedStreamFeatures &= ~Features.StreamFeatures.CompressPageContentStreams;
             }
 
-            var font = PdfStandardFontDescriptor.GetByName("Times-Roman", 12);
+            using CollectiveFontFinder fontFinder = new(Environment.GetFolderPath(Environment.SpecialFolder.Fonts));
+            var font = fontFinder.FindFont(string.IsNullOrWhiteSpace(options.FontName) ? _defaultFontName : options.FontName, options.FontSize);
+            if (font is null)
+            {
+                Console.Error.WriteLine($"Font {options.FontName} not found.");
+                return;
+            }
             PdfDocument document = new();
             var page = document.AppendPage();
             page.CurrentVerticalCursor = page.TopMarginPosition;
