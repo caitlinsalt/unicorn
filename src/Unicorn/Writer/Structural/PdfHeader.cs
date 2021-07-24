@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Unicorn.Helpers;
 using Unicorn.Writer.Interfaces;
 
 namespace Unicorn.Writer.Structural
@@ -43,6 +44,6 @@ namespace Unicorn.Writer.Structural
         /// <param name="stream">The stream to write to.</param>
         /// <returns>The number of bytes written.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the stream parameter is null.</exception>
-        public int WriteTo(Stream stream) => WriteToAsync(stream).Result;
+        public int WriteTo(Stream stream) => TaskHelper.UnwrapTask(WriteToAsync, stream);
     }
 }

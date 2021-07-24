@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Unicorn.Base;
+using Unicorn.Helpers;
 using Unicorn.Writer.Filters;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
@@ -156,7 +157,7 @@ namespace Unicorn.Writer
         /// </summary>
         /// <param name="stream">The stream to write to.</param>
         /// <returns>The number of bytes written.</returns>
-        public int WriteTo(Stream stream) => WriteToAsync(stream).Result;
+        public int WriteTo(Stream stream) => TaskHelper.UnwrapTask(WriteToAsync, stream);
 
         /// <summary>
         /// Register that a font is likely to be used in the document.  If of a type that supports it, it will be embedded.
