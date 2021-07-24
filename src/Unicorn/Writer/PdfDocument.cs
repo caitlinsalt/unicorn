@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Unicorn.Base;
+using Unicorn.Helpers;
 using Unicorn.Writer.Filters;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
@@ -110,6 +112,15 @@ namespace Unicorn.Writer
         /// Write the document to a stream.
         /// </summary>
         /// <param name="destination">The stream to write to.</param>
+        public async Task WriteAsync(Stream destination)
+        {
+            await WriteToAsync(destination).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Write the document to a stream.
+        /// </summary>
+        /// <param name="destination">The stream to write to.</param>
         public void Write(Stream destination)
         {
             WriteTo(destination);
@@ -120,13 +131,13 @@ namespace Unicorn.Writer
         /// </summary>
         /// <param name="stream">The stream to write to.</param>
         /// <returns>The number of bytes written.</returns>
-        public int WriteTo(Stream stream)
+        public async Task<int> WriteToAsync(Stream stream)
         {
             if (stream == null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }
-            int written = PdfHeader.Value.WriteTo(stream);
+            int written = await PdfHeader.Value.WriteToAsync(stream).ConfigureAwait(false);
             CloseAllPages();
             foreach (IPdfIndirectObject indirectObject in _bodyObjects)
             {
@@ -136,10 +147,17 @@ namespace Unicorn.Writer
 
             PdfTrailer trailer = new PdfTrailer(_root, _xrefTable);
             trailer.SetCrossReferenceTableLocation(written);
-            written += _xrefTable.WriteTo(stream);
+            written += await _xrefTable.WriteToAsync(stream).ConfigureAwait(false);
             written += trailer.WriteTo(stream);
             return written;
         }
+
+        /// <summary>
+        /// Write the document to a stream.
+        /// </summary>
+        /// <param name="stream">The stream to write to.</param>
+        /// <returns>The number of bytes written.</returns>
+        public int WriteTo(Stream stream) => TaskHelper.UnwrapTask(WriteToAsync, stream);
 
         /// <summary>
         /// Register that a font is likely to be used in the document.  If of a type that supports it, it will be embedded.

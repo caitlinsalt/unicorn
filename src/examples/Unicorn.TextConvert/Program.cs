@@ -57,7 +57,7 @@ namespace Unicorn.TextConvert
                 paraCount++;
             }
             using FileStream outputStream = new(options.Out, FileMode.Create, FileAccess.Write);
-            document.Write(outputStream);
+            await document.WriteAsync(outputStream).ConfigureAwait(true);
         }
     }
 }
