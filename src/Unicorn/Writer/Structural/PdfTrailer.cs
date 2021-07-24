@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Unicorn.Helpers;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
 
@@ -77,7 +78,7 @@ namespace Unicorn.Writer.Structural
         /// <exception cref="ArgumentNullException">Thrown if the stream parameter is null.</exception>
         /// <exception cref="InvalidOperationException">Thrown if the <see cref="SetCrossReferenceTableLocation(int)" /> method has not been called to set the address of the cross-reference 
         /// table before writing the trailer to the stream.</exception>
-        public int WriteTo(Stream stream) => WriteToAsync(stream).Result;
+        public int WriteTo(Stream stream) => TaskHelper.UnwrapTask(WriteToAsync, stream);
 
         private PdfDictionary GetDictionary()
         {

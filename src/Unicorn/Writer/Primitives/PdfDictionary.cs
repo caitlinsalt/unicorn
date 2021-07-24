@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Unicorn.Helpers;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
 
@@ -197,7 +198,7 @@ namespace Unicorn.Writer.Primitives
         /// <param name="stream">The stream to write to.</param>
         /// <returns>The number of bytes written.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the stream parameter is null.</exception>
-        public int WriteTo(Stream stream) => WriteToAsync(stream).Result;
+        public int WriteTo(Stream stream) => TaskHelper.UnwrapTask(WriteToAsync, stream);
 
         internal static async Task<int> WriteToAsync(PdfDictionary dict, Stream stream) => await dict.WriteToAsync(stream).ConfigureAwait(false);
 
