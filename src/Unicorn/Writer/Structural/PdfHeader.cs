@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using Unicorn.Writer.Interfaces;
 
 namespace Unicorn.Writer.Structural
@@ -25,15 +26,23 @@ namespace Unicorn.Writer.Structural
         /// <param name="stream">The stream to write to.</param>
         /// <returns>The number of bytes written.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the stream parameter is null.</exception>
-        public int WriteTo(Stream stream)
+        public async Task<int> WriteToAsync(Stream stream)
         {
             if (stream == null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }
             byte[] contents = { 0x25, 0x50, 0x44, 0x46, 0x2d, 0x31, 0x2e, 0x34, 0xa, 0x25, 0xf0, 0x9f, 0xa6, 0x84, 0xf0, 0x9f, 0x8c, 0x88, 0xa };
-            stream.Write(contents, 0, contents.Length);
+            await stream.WriteAsync(contents, 0, contents.Length).ConfigureAwait(false);
             return contents.Length;
         }
+
+        /// <summary>
+        /// Write this header to a <see cref="Stream" />.
+        /// </summary>
+        /// <param name="stream">The stream to write to.</param>
+        /// <returns>The number of bytes written.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the stream parameter is null.</exception>
+        public int WriteTo(Stream stream) => WriteToAsync(stream).Result;
     }
 }
