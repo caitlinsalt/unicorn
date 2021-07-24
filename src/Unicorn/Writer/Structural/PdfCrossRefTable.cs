@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unicorn.Helpers;
 using Unicorn.Writer.Interfaces;
 
 namespace Unicorn.Writer.Structural
@@ -98,7 +99,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="stream">The strean to write to.</param>
         /// <returns>The number of bytes written.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the stream parameter is null.</exception>
-        public int WriteTo(Stream stream) => WriteToAsync(stream).Result;
+        public int WriteTo(Stream stream) => TaskHelper.UnwrapTask(WriteToAsync, stream);
 
         private static async Task<int> WriteEntryAsync(PdfCrossRefTableEntry entry, Stream stream)
         {

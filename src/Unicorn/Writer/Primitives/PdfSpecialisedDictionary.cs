@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Unicorn.Helpers;
 
 namespace Unicorn.Writer.Primitives
 {
@@ -50,7 +51,7 @@ namespace Unicorn.Writer.Primitives
         /// </summary>
         /// <param name="stream">The stream to write to.</param>
         /// <returns>The number of bytes written.</returns>
-        public override int WriteTo(Stream stream) => WriteToAsync(stream).Result;
+        public override int WriteTo(Stream stream) => TaskHelper.UnwrapTask(WriteToAsync, stream);
 
         /// <summary>
         /// Convert this dictionary into an array of bytes and append them to a list.

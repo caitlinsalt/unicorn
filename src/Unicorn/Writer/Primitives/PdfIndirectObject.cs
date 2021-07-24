@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unicorn.Helpers;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
 
@@ -127,7 +128,7 @@ namespace Unicorn.Writer.Primitives
         /// <param name="stream">The stream to write to.</param>
         /// <returns>The number of bytes written to the stream.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the stream parameter is null.</exception>
-        public virtual int WriteTo(Stream stream) => WriteToAsync(stream).Result;
+        public virtual int WriteTo(Stream stream) => TaskHelper.UnwrapTask(WriteToAsync, stream);
 
         /// <summary>
         /// Convert this object to a series of bytes and append them to an existing list.
