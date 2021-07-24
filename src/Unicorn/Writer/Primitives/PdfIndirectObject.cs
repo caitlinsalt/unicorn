@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
 
@@ -111,14 +112,22 @@ namespace Unicorn.Writer.Primitives
         /// <param name="stream">The stream to write to.</param>
         /// <returns>The number of bytes written to the stream.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the stream parameter is null.</exception>
-        public virtual int WriteTo(Stream stream)
+        public virtual async Task<int> WriteToAsync(Stream stream)
         {
             if (stream == null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }
-            return Write(WriteToStream, _contents.WriteTo, stream);
+            return await WriteAsync(WriteToStreamAsync, _contents.WriteToAsync, stream).ConfigureAwait(false);
         }
+
+        /// <summary>
+        /// Write this object to a <see cref="Stream" />.
+        /// </summary>
+        /// <param name="stream">The stream to write to.</param>
+        /// <returns>The number of bytes written to the stream.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the stream parameter is null.</exception>
+        public virtual int WriteTo(Stream stream) => WriteToAsync(stream).Result;
 
         /// <summary>
         /// Convert this object to a series of bytes and append them to an existing list.
@@ -150,15 +159,15 @@ namespace Unicorn.Writer.Primitives
         /// Write this object to a destination using a pair of writer methods.  This is largely intended to be used internally, but is exposed to derived classes.
         /// </summary>
         /// <typeparam name="T">The type of the destination object.</typeparam>
-        /// <param name="writer">The writer method used to write the prologue and epilogue parts of the object.</param>
+        /// <param name="bookendWriter">The writer method used to write the prologue and epilogue parts of the object.</param>
         /// <param name="contentWriter">The writer method used to write the content of the object - an instance method of the content itself.</param>
         /// <param name="dest">The destination object, to which the object will be written.</param>
         /// <returns>The number of bytes written to the destination.</returns>
-        protected int Write<T>(Action<T, byte[]> writer, Func<T, int> contentWriter, T dest)
+        protected async Task<int> WriteAsync<T>(Func<T, byte[], Task> bookendWriter, Func<T, Task<int>> contentWriter, T dest)
         {
-            if (writer == null)
+            if (bookendWriter == null)
             {
-                throw new ArgumentNullException(nameof(writer));
+                throw new ArgumentNullException(nameof(bookendWriter));
             }
             if (contentWriter is null)
             {
@@ -168,9 +177,42 @@ namespace Unicorn.Writer.Primitives
             {
                 GeneratePrologueAndEpilogue();
             }
-            writer(dest, CachedPrologue.ToArray());
+            await bookendWriter(dest, CachedPrologue.ToArray()).ConfigureAwait(false);
+            int written = await contentWriter(dest).ConfigureAwait(false);
+            await bookendWriter(dest, CachedEpilogue.ToArray()).ConfigureAwait(false);
+            written += CachedPrologue.Count + CachedEpilogue.Count;
+            if (_nonCacheable)
+            {
+                CachedPrologue = null;
+            }
+            return written;
+        }
+
+        /// <summary>
+        /// Write this object to a destination using a pair of writer methods.  This is largely intended to be used internally, but is exposed to derived classes.
+        /// </summary>
+        /// <typeparam name="T">The type of the destination object.</typeparam>
+        /// <param name="bookendWriter">The writer method used to write the prologue and epilogue parts of the object.</param>
+        /// <param name="contentWriter">The writer method used to write the content of the object - an instance method of the content itself.</param>
+        /// <param name="dest">The destination object, to which the object will be written.</param>
+        /// <returns>The number of bytes written to the destination.</returns>
+        protected int Write<T>(Action<T, byte[]> bookendWriter, Func<T, int> contentWriter, T dest)
+        {
+            if (bookendWriter == null)
+            {
+                throw new ArgumentNullException(nameof(bookendWriter));
+            }
+            if (contentWriter is null)
+            {
+                throw new ArgumentNullException(nameof(contentWriter));
+            }
+            if (CachedPrologue == null)
+            {
+                GeneratePrologueAndEpilogue();
+            }
+            bookendWriter(dest, CachedPrologue.ToArray());
             int written = contentWriter(dest);
-            writer(dest, CachedEpilogue.ToArray());
+            bookendWriter(dest, CachedEpilogue.ToArray());
             written += CachedPrologue.Count + CachedEpilogue.Count;
             if (_nonCacheable)
             {
@@ -185,7 +227,7 @@ namespace Unicorn.Writer.Primitives
         /// <param name="str">Stream to write to.</param>
         /// <param name="bytes">Array to write.</param>
         /// <exception cref="ArgumentNullException">Thrown if either parameter is null.</exception>
-        protected static void WriteToStream(Stream str, byte[] bytes)
+        protected static async Task WriteToStreamAsync(Stream str, byte[] bytes)
         {
             if (str == null)
             {
@@ -195,7 +237,7 @@ namespace Unicorn.Writer.Primitives
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
-            str.Write(bytes, 0, bytes.Length);
+            await str.WriteAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
         }
 
         /// <summary>

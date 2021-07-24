@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Unicorn.Writer.Interfaces;
 
 namespace Unicorn.Writer.Primitives
@@ -13,7 +14,7 @@ namespace Unicorn.Writer.Primitives
     /// A class to represent a PDF stream.  These have to be stored as indirect objects, and consist of a dictionary containing stream metadata followed by the 
     /// stream content itself.
     /// </summary>
-    public class PdfStream : PdfIndirectObject, IPdfPrimitiveObject
+    public class PdfStream : PdfIndirectObject
     {
         private readonly List<byte> _contents = new List<byte>();
         private readonly PdfDictionary _additionalMetadata;
@@ -100,13 +101,13 @@ namespace Unicorn.Writer.Primitives
         /// <param name="stream">The stream to write to.</param>
         /// <returns>The number of bytes written.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the stream parameter is null.</exception>
-        public override int WriteTo(Stream stream)
+        public override async Task<int> WriteToAsync(Stream stream)
         {
             if (stream == null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }
-            return Write(WriteToStream, PdfDictionary.WriteTo, stream);
+            return await WriteAsync(WriteToStreamAsync, PdfDictionary.WriteToAsync, stream).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -142,6 +143,28 @@ namespace Unicorn.Writer.Primitives
             written += encodedContent.Count;
             written += _streamEnd.Length;
             writer(dest, CachedEpilogue.ToArray());
+            written += CachedPrologue.Count + CachedEpilogue.Count;
+            return written;
+        }
+
+        private async Task<int> WriteAsync<T>(Func<T, byte[], Task> writer, Func<PdfDictionary, T, Task<int>> dictWriter, T dest)
+        {
+            if (CachedPrologue == null)
+            {
+                GeneratePrologueAndEpilogue();
+            }
+            await writer(dest, CachedPrologue.ToArray()).ConfigureAwait(false);
+            int written = CachedPrologue.Count;
+            IList<byte> encodedContent = EncodeContents().ToList();
+            UpdateMetaDictionary(encodedContent);
+            written += await dictWriter(MetaDictionary, dest).ConfigureAwait(false);
+            await writer(dest, _streamStart).ConfigureAwait(false);
+            await writer(dest, encodedContent.ToArray()).ConfigureAwait(false );
+            await writer(dest, _streamEnd).ConfigureAwait(false);
+            written += _streamStart.Length;
+            written += encodedContent.Count;
+            written += _streamEnd.Length;
+            await writer(dest, CachedEpilogue.ToArray()).ConfigureAwait(false);
             written += CachedPrologue.Count + CachedEpilogue.Count;
             return written;
         }
