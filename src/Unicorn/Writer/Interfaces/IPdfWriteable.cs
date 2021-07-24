@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace Unicorn.Writer.Interfaces
 {
@@ -13,5 +14,12 @@ namespace Unicorn.Writer.Interfaces
         /// <param name="stream">The stream to write the object to.</param>
         /// <returns>The number of bytes written.</returns>
         int WriteTo(Stream stream);
+
+        /// <summary>
+        /// Write the object to a <see cref="Stream" />, asynchronously.
+        /// </summary>
+        /// <param name="stream">The stream to write the object to.</param>
+        /// <returns>The number of bytes written.</returns>
+        Task<int> WriteToAsync(Stream stream);
     }
 }
