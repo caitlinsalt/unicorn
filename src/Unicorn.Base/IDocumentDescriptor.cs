@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace Unicorn.Base
 {
@@ -55,5 +56,11 @@ namespace Unicorn.Base
         /// </summary>
         /// <param name="destination">The <see cref="Stream" /> to write the document content to.</param>
         void Write(Stream destination);
+
+        /// <summary>
+        /// Write a copy of the document content to the given stream, asynchronously.
+        /// </summary>
+        /// <param name="destination">The <see cref="Stream" /> to write the document content to.</param>
+        Task WriteAsync(Stream destination);
     }
 }
