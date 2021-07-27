@@ -255,6 +255,23 @@ namespace Unicorn
             return SplitAt(splitIndex, maxHeight);
         }
 
+        /// <summary>
+        /// Split this paragraph at the given line, which becomes the first line of the new paragraph.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// If the <c>idx</c> parameter is 0, this object is not modified and <c>null</c> is returned.  If it is not but is within range, this object is modified
+        /// in-place with line <c>idx</c> and those after it removed, and a new paragraph is returned with the line at <c>idx</c> as its first line.  This object
+        /// will have its overspill flags reset, but either paragraph may still be overspilling.
+        /// </para>
+        /// <para>
+        /// Unlike the <see cref="Split(double?, WidowsAndOrphans)" /> method, this method does not prevent single-line paragraphs being created.
+        /// </para>
+        /// </remarks>
+        /// <param name="idx">The index of the line which will become the first line of the new paragraph.</param>
+        /// <param name="maxHeight">The maximum height of the new paragraph.</param>
+        /// <returns>A new paragraph split from this one, or <c>null</c> if the paragraph is not split.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">The <c>idx</c> parameter is less than 0, or greater than or equal to the number of lines in the paragraph.</exception>
         public Paragraph SplitAt(int idx, double? maxHeight)
         {
             if (idx < 0 || idx >= _lines.Count)
