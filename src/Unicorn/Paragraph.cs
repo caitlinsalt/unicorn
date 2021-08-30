@@ -70,7 +70,7 @@ namespace Unicorn
             get
             {
                 double marginSum = Margins.Left + Margins.Right;
-                if (_lines != null)
+                if (_lines != null && _lines.Any())
                 {
                     return _lines.Max(l => l.MinWidth) + marginSum;
                 }
@@ -81,7 +81,7 @@ namespace Unicorn
         /// <summary>
         /// The paragraph content.
         /// </summary>
-        public IList<Line> Lines => _lines;
+        public IReadOnlyList<Line> Lines => _lines;
 
         private readonly List<Line> _lines = new List<Line>();
 
@@ -98,7 +98,7 @@ namespace Unicorn
         }
 
         /// <summary>
-        /// Constructor with all available parameters.
+        /// Constructor with maximun size, orientation and alignment parameters.
         /// </summary>
         /// <param name="maxWidth">The ideal paragraph width.</param>
         /// <param name="maxHeight">The ideal paragraph height, or null if not specified.</param>
@@ -334,7 +334,7 @@ namespace Unicorn
 
         private void TestOverspills()
         {
-            if (_lines.Any(l => l.OverspillWidth))
+            if (_lines.Any(l => l.OverspillWidth) || _lines.Any(l => l.MinWidth > MaximumWidth))
             {
                 OverspillWidth = true;
             }

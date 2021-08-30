@@ -7,7 +7,7 @@ namespace Unicorn
     /// <summary>
     /// Represents a word - a block of characters that must not be separated.
     /// </summary>
-    public class Word : IDrawable
+    public class Word : IWord
     {
         /// <summary>
         /// The textual content of this word.
