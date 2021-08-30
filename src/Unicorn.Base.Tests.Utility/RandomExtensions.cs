@@ -108,6 +108,30 @@ namespace Unicorn.Base.Tests.Utility
         /// <exception cref="ArgumentNullException">Thrown if the <c>rnd</c> parameter is <c>null</c>.</exception>
         public static FlateCompressionLevel NextFlateCompressionLevel(this Random rnd) 
             => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_compressionLevels);
+
+        private static readonly HorizontalAlignment[] _validHorizontalAlignments = 
+            new[] { HorizontalAlignment.Left, HorizontalAlignment.Centred, HorizontalAlignment.Right, HorizontalAlignment.Justified };
+
+        /// <summary>
+        /// Return a random <see cref="HorizontalAlignment" /> value.
+        /// </summary>
+        /// <param name="rnd">The random generator.</param>
+        /// <returns>A random <see cref="HorizontalAlignment" /> value.</returns>
+        /// <exception cref="ArgumentNullException">The <c>rnd</c> parameter is <c>null</c>.</exception>
+        public static HorizontalAlignment NextHorizontalAlignment(this Random rnd)
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_validHorizontalAlignments);
+
+        private static readonly VerticalAlignment[] _validVerticalAlignments =
+            new[] { VerticalAlignment.Bottom, VerticalAlignment.Baseline, VerticalAlignment.Centred, VerticalAlignment.Top };
+
+        /// <summary>
+        /// Return a random <see cref="VerticalAlignment" /> value.
+        /// </summary>
+        /// <param name="rnd">The random generator.</param>
+        /// <returns>A random <see cref="VerticalAlignment" /> value.</returns>
+        /// <exception cref="ArgumentNullException">The <c>rnd</c> parameter is <c>null</c>.</exception>
+        public static VerticalAlignment NextVerticalAlignment(this Random rnd)
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_validVerticalAlignments);
     }
 
 #pragma warning restore CA5394 // Do not use insecure randomness
