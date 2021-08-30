@@ -11,14 +11,15 @@ namespace Unicorn.Tests.Unit
 
         private MarginSet _testObject;
 
+#pragma warning disable CA5394 // Do not use insecure randomness
+
         [TestInitialize]
-        public void SetUpTest()
-        {
-            _testObject = new(_rnd.NextDouble() * 1000, _rnd.NextDouble() * 1000, _rnd.NextDouble() * 1000, _rnd.NextDouble() * 1000);
-        }
+        public void SetUpTest() => _testObject = new(_rnd.NextDouble() * 1000, _rnd.NextDouble() * 1000, _rnd.NextDouble() * 1000, _rnd.NextDouble() * 1000);
+
+#pragma warning restore CA5394 // Do not use insecure randomness
 
 #pragma warning disable CA1707 // Identifiers should not contain underscores
-        
+
         [TestMethod]
         public void MarginSetClass_ConstructorWithNoParameters_SetsTopPropertyToZero()
         {
