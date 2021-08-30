@@ -241,6 +241,16 @@ namespace Tests.Utility.Extensions
         }
 
         /// <summary>
+        /// Returns a random <see cref="double" /> value, between zero and a bound.  The bound can be above or below zero.
+        /// </summary>
+        /// <param name="random">The random generator.</param>
+        /// <param name="scale">The upper or lower bound of the returned range, the other bound being zero.</param>
+        /// <returns>A random double value.</returns>
+        /// <exception cref="ArgumentNullException"><c>random</c> is <c>null</c>.</exception>
+        public static double NextDouble(this Random random, double scale)
+            => random is null ? throw new ArgumentNullException(nameof(random)) : random.NextDouble() * scale;
+
+        /// <summary>
         /// Returns a random <see cref="double"/> value, with a 1-in-10 chance of being <c>null</c>, scaled by a factor.
         /// </summary>
         /// <param name="random">The random generator.</param>
