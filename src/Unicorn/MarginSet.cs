@@ -53,5 +53,11 @@
         /// Bottom margin size.
         /// </summary>
         public double Bottom { get; set; }
+
+        /// <summary>
+        /// Make a copy of this object.
+        /// </summary>
+        /// <returns>A new <see cref="MarginSet" /> instance with the same properties as this.</returns>
+        public MarginSet Clone() => new MarginSet(Top, Right, Bottom, Left);
     }
 }

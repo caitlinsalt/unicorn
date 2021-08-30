@@ -2,6 +2,9 @@
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
 using Tests.Utility.Extensions;
+using Unicorn.Tests.Unit.TestHelpers.Mocks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Unicorn.Tests.Unit.TestHelpers
 {
@@ -150,6 +153,73 @@ namespace Unicorn.Tests.Unit.TestHelpers
 
         public static CmykColour NextCmykColour(this Random rnd)
             => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new CmykColour(rnd.NextDouble(), rnd.NextDouble(), rnd.NextDouble(), rnd.NextDouble());
+
+        private static Orientation[] _validOrientations = 
+            new[] { Orientation.Normal, Orientation.RotatedLeft, Orientation.RotatedRight, Orientation.UpsideDown, Orientation.Freestyle };
+
+        public static Orientation NextOrientation(this Random rnd)
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_validOrientations);
+
+        public static MarginSet NextMarginSet(this Random rnd)
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new(rnd.NextDouble(10), rnd.NextDouble(10), rnd.NextDouble(10), rnd.NextDouble(10));
+
+        public static MockWord NextMockWord(this Random rnd)
+        {
+            if (rnd is null)
+            {
+                throw new ArgumentNullException(nameof(rnd));
+            }
+            double contentWidth = rnd.NextDouble(20);
+            double postSpace = rnd.NextDouble(10);
+            return new(contentWidth, contentWidth + postSpace, rnd.NextDouble(10), rnd.NextDouble(10));
+        }
+
+        public static Line NextLineUnderWidth(this Random rnd, double maxWidth)
+        {
+            if (rnd is null)
+            {
+                throw new ArgumentNullException(nameof(rnd));
+            }
+            if (maxWidth <= 0)
+            {
+                throw new ArgumentException("Maximum width cannot be zero or negative", nameof(maxWidth));
+            }
+            List<IWord> mockWords = new();
+            while (true)
+            {
+                IWord word = rnd.NextMockWord();
+                if (mockWords.Sum(w => w.MinWidth) + word.MinWidth > maxWidth)
+                {
+                    if (mockWords.Any())
+                    {
+                        return new Line(mockWords);
+                    }
+                }
+                else
+                {
+                    mockWords.Add(word);
+                }
+            }
+        }
+
+        public static Line NextLineOverWidth(this Random rnd, double minWidth)
+        {
+            if (rnd is null)
+            {
+                throw new ArgumentNullException(nameof(rnd));
+            }
+            List<IWord> mockWords = new();
+            while (mockWords.Sum(w => w.MinWidth) < minWidth)
+            {
+                mockWords.Add(rnd.NextMockWord());
+            }
+            return new Line(mockWords);
+        }
+
+        private static readonly WidowsAndOrphans[] _validWidowsAndOrphans = new[] { WidowsAndOrphans.Prevent, WidowsAndOrphans.Avoid, WidowsAndOrphans.Allow };
+
+        public static WidowsAndOrphans NextWidowsAndOrphans(this Random rnd)
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_validWidowsAndOrphans);
 
 #pragma warning restore CA5394 // Do not use insecure randomness
 

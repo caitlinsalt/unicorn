@@ -49,11 +49,30 @@ namespace Unicorn.TextConvert
                     {
                         Console.Out.WriteLine($"Adding page {pageCount++} (paragraph {paraCount})");
                     }
-                    page = document.AppendPage();
-                    page.CurrentVerticalCursor = page.TopMarginPosition;
+                    var newPage = document.AppendPage();
+                    newPage.CurrentVerticalCursor = newPage.TopMarginPosition;
+                    var newPara = outputPara.Split(newPage.BottomMarginPosition - newPage.CurrentVerticalCursor);
+                    if (!outputPara.OverspillHeight)
+                    {
+                        outputPara.DrawAt(page.PageGraphics, page.LeftMarginPosition, page.CurrentVerticalCursor);
+                    }
+                    else
+                    {
+                        outputPara.DrawAt(newPage.PageGraphics, newPage.LeftMarginPosition, newPage.CurrentVerticalCursor);
+                        newPage.CurrentVerticalCursor += outputPara.ContentHeight;
+                    }
+                    if (newPara != null)
+                    {
+                        newPara.DrawAt(newPage.PageGraphics, newPage.LeftMarginPosition, newPage.CurrentVerticalCursor);
+                        newPage.CurrentVerticalCursor += newPara.ContentHeight;
+                    }
+                    page = newPage;
                 }
-                outputPara.DrawAt(page.PageGraphics, page.LeftMarginPosition, page.CurrentVerticalCursor);
-                page.CurrentVerticalCursor += outputPara.ContentHeight;
+                else
+                {
+                    outputPara.DrawAt(page.PageGraphics, page.LeftMarginPosition, page.CurrentVerticalCursor);
+                    page.CurrentVerticalCursor += outputPara.ContentHeight;
+                }
                 paraCount++;
             }
             using FileStream outputStream = new(options.Out, FileMode.Create, FileAccess.Write);
