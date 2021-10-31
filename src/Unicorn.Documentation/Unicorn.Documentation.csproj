@@ -11,4 +11,11 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Unicorn.Base\Unicorn.Base.csproj" />
+    <ProjectReference Include="..\Unicorn.FontTools.StandardFonts\Unicorn.FontTools.StandardFonts.csproj" />
+    <ProjectReference Include="..\Unicorn.FontTools\Unicorn.FontTools.csproj" />
+    <ProjectReference Include="..\Unicorn\Unicorn.csproj" />
+  </ItemGroup>
+
 </Project>

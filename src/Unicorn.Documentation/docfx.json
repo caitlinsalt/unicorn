@@ -4,8 +4,12 @@
       "src": [
         {
           "files": [
-            "src/**.csproj"
-          ]
+            "Unicorn/Unicorn.csproj",
+            "Unicorn.Base/Unicorn.Base.csproj",
+            "Unicorn.FontTools/Unicorn.FontTools.csproj",
+            "Unicorn.FontTools.StandardFonts/Unicorn.FontTools.StandardFonts.csproj"
+          ],
+          "src": ".."
         }
       ],
       "dest": "api",
