@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using Unicorn.Base;
@@ -27,7 +28,7 @@ namespace Unicorn.TextConvert
             var font = fontFinder.FindFont(string.IsNullOrWhiteSpace(options.FontName) ? _defaultFontName : options.FontName, options.FontSize);
             if (font is null)
             {
-                await Console.Error.WriteLineAsync($"Font {options.FontName} not found.").ConfigureAwait(false);
+                await Console.Error.WriteLineAsync(string.Format(CultureInfo.CurrentCulture, Resources.Program_FontNotFoundError, options.FontName)).ConfigureAwait(false);
                 return;
             }
             PdfDocument document = new();
@@ -49,7 +50,7 @@ namespace Unicorn.TextConvert
                 {
                     if (options.Verbose)
                     {
-                        await Console.Out.WriteLineAsync($"Adding page {pageCount++} (paragraph {paraCount})").ConfigureAwait(false);
+                        await Console.Out.WriteLineAsync(string.Format(CultureInfo.CurrentCulture, Resources.Program_NewPageMessage, pageCount++, paraCount)).ConfigureAwait(false);
                     }
                     var newPage = document.AppendPage();
                     newPage.CurrentVerticalCursor = newPage.TopMarginPosition;
