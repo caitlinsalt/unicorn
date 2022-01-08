@@ -27,7 +27,7 @@ namespace Unicorn.TextConvert
             var font = fontFinder.FindFont(string.IsNullOrWhiteSpace(options.FontName) ? _defaultFontName : options.FontName, options.FontSize);
             if (font is null)
             {
-                Console.Error.WriteLine($"Font {options.FontName} not found.");
+                await Console.Error.WriteLineAsync($"Font {options.FontName} not found.").ConfigureAwait(false);
                 return;
             }
             PdfDocument document = new();
@@ -35,7 +35,9 @@ namespace Unicorn.TextConvert
             page.CurrentVerticalCursor = page.TopMarginPosition;
             MarginSet margins = new(0, 0, 12, 0);
             using StreamReader inputReader = new(options.In);
+#pragma warning disable CA2007 // Consider calling ConfigureAwait on the awaited task
             await using StreamedParagraphProvider inputProvider = new(inputReader);
+#pragma warning restore CA2007 // Consider calling ConfigureAwait on the awaited task
             int pageCount = 0;
             int paraCount = 0;
             await foreach (var para in inputProvider.GetParagraphsAsync())
@@ -47,7 +49,7 @@ namespace Unicorn.TextConvert
                 {
                     if (options.Verbose)
                     {
-                        Console.Out.WriteLine($"Adding page {pageCount++} (paragraph {paraCount})");
+                        await Console.Out.WriteLineAsync($"Adding page {pageCount++} (paragraph {paraCount})").ConfigureAwait(false);
                     }
                     var newPage = document.AppendPage();
                     newPage.CurrentVerticalCursor = newPage.TopMarginPosition;
