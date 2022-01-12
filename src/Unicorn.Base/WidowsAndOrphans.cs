@@ -1,4 +1,4 @@
-﻿namespace Unicorn
+﻿namespace Unicorn.Base
 {
     /// <summary>
     /// Whether or not "widows and orphans" (partial paragraphs containing a single line) should be allowed or prevented by text layout routines within the library,

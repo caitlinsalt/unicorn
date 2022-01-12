@@ -25,6 +25,11 @@ namespace Unicorn
         public double Height => Contents.Count > 0 ? Contents.Select(c => c.Y + c.Height).Max() : 0;
 
         /// <summary>
+        /// The height of the area, computed from the coordinates and heights of the area's contents.
+        /// </summary>
+        public double ContentHeight => Height;
+
+        /// <summary>
         /// Default constructor.
         /// </summary>
         public Area()

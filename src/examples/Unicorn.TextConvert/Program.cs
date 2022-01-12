@@ -43,7 +43,7 @@ namespace Unicorn.TextConvert
             int paraCount = 0;
             await foreach (var para in inputProvider.GetParagraphsAsync())
             {
-                Paragraph outputPara = new(page.PageAvailableWidth, page.BottomMarginPosition - page.CurrentVerticalCursor, Orientation.Normal, para.Alignment, 
+                Paragraph outputPara = new(page.PageAvailableWidth, page.PageAvailableHeight, Orientation.Normal, para.Alignment, 
                     VerticalAlignment.Top, margins);
                 outputPara.AddText(para.Content, font, page.PageGraphics);
                 if (outputPara.OverspillHeight)
@@ -53,10 +53,9 @@ namespace Unicorn.TextConvert
                         await Console.Out.WriteLineAsync(string.Format(CultureInfo.CurrentCulture, Resources.Program_NewPageMessage, pageCount++, paraCount)).ConfigureAwait(false);
                     }
                     var newPage = document.AppendPage();
-                    newPage.CurrentVerticalCursor = newPage.TopMarginPosition;
-                    var newPara = outputPara.Split(newPage.BottomMarginPosition - newPage.CurrentVerticalCursor);
+                    var newPara = outputPara.Split(newPage.PageAvailableHeight);
                     if (!outputPara.OverspillHeight)
-                    {
+                    {   
                         outputPara.DrawAt(page.PageGraphics, page.LeftMarginPosition, page.CurrentVerticalCursor);
                     }
                     else
