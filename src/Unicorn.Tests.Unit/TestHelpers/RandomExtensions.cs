@@ -5,6 +5,7 @@ using Tests.Utility.Extensions;
 using Unicorn.Tests.Unit.TestHelpers.Mocks;
 using System.Collections.Generic;
 using System.Linq;
+using Unicorn.Base;
 
 namespace Unicorn.Tests.Unit.TestHelpers
 {
@@ -215,11 +216,6 @@ namespace Unicorn.Tests.Unit.TestHelpers
             }
             return new Line(mockWords);
         }
-
-        private static readonly WidowsAndOrphans[] _validWidowsAndOrphans = new[] { WidowsAndOrphans.Prevent, WidowsAndOrphans.Avoid, WidowsAndOrphans.Allow };
-
-        public static WidowsAndOrphans NextWidowsAndOrphans(this Random rnd)
-            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_validWidowsAndOrphans);
 
 #pragma warning restore CA5394 // Do not use insecure randomness
 
