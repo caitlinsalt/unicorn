@@ -19,7 +19,7 @@ namespace Unicorn.Writer {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -147,6 +147,15 @@ namespace Unicorn.Writer {
         internal static string Structural_PdfCrossRefTable_SetSlot_Invalid_ObjectId_Error {
             get {
                 return ResourceManager.GetString("Structural_PdfCrossRefTable_SetSlot_Invalid_ObjectId_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A drawable object was split, but did not shrink and did not fit on a blank page..
+        /// </summary>
+        internal static string Structural_PdfPage_Drawable_Split_Failed_Error {
+            get {
+                return ResourceManager.GetString("Structural_PdfPage_Drawable_Split_Failed_Error", resourceCulture);
             }
         }
         
