@@ -47,7 +47,7 @@ namespace Unicorn.TextConvert
                     VerticalAlignment.Top, margins);
                 outputPara.AddText(para.Content, font, page.PageGraphics);
                 var oldPage = page;
-                page = page.LayOut(para as ISplittable<Paragraph>, document);
+                page = page.LayOut(outputPara, document);
                 if (page != oldPage && options.Verbose)
                 {
                     await Console.Out.WriteLineAsync(string.Format(CultureInfo.CurrentCulture, Resources.Program_NewPageMessage, pageCount++, paraCount)).ConfigureAwait(false);
