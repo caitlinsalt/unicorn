@@ -82,7 +82,7 @@ namespace Unicorn.Base
         /// <typeparam name="T">The type of splittable being handled.</typeparam>
         /// <param name="splittable">The item to be drawn on the page.</param>
         /// <param name="document">The document to which the page belongs, to be used in creating a new page.</param>
-        /// <returns>The page descriptor of a new page, if one was created, or <c>null</c> if the item fitted on this page.</returns>
+        /// <returns>The page descriptor of a new page, if one was created, or <c>this</c> if the item fitted on this page.</returns>
         IPageDescriptor LayOut<T>(ISplittable<T> splittable, IDocumentDescriptor document) where T : ISplittable<T>;
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Unicorn.Base
         /// <typeparam name="T">The type of splittable being handled.</typeparam>
         /// <param name="splittable">The item to be drawn on the page.</param>
         /// <param name="pageGenerator">A function to be called to create a new page if one is required.</param>
-        /// <returns>The page descriptor of a new page, if one was created, or <c>null</c> if the item fitted on this page.</returns>
+        /// <returns>The page descriptor of a new page, if one was created, or <c>this</c> if the item fitted on this page.</returns>
         IPageDescriptor LayOut<T>(ISplittable<T> splittable, Func<IPageDescriptor> pageGenerator) where T : ISplittable<T>;
     }
 }

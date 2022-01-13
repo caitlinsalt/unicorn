@@ -200,7 +200,7 @@ namespace Unicorn.Writer.Structural
         /// <typeparam name="T">The type of splittable being handled.</typeparam>
         /// <param name="splittable">The item to be drawn on the page.</param>
         /// <param name="pageGenerator">A function which, when called, will return an <see cref="IPageDescriptor" /> representing a new page in the current document.</param>
-        /// <returns>The page descriptor of a new page, if one was created, or <c>null</c> if the item fitted on this page.</returns>
+        /// <returns>The page descriptor of a new page, if one was created, or this object if the item fitted on this page.</returns>
         /// <exception cref="ArgumentNullException">The <c>splittable</c> parameter is <c>null</c>, or the <c>pageGenerator</c> parameter is <c>null</c>.</exception>
         /// <exception cref="DrawableSplitException">
         /// The <c>splittable</c> parameter would not fit on the current page or on the page returned by the <c>pageGenerator</c> parameter, and when split, 
@@ -220,7 +220,7 @@ namespace Unicorn.Writer.Structural
             if (!splittable.OverspillHeight)
             {
                 LayOut(splittable);
-                return null;
+                return this;
             }
 
             IPageDescriptor newPage = pageGenerator();
@@ -254,7 +254,7 @@ namespace Unicorn.Writer.Structural
         /// <typeparam name="T">The type of splittable being handled.</typeparam>
         /// <param name="splittable">The item to be drawn on the page.</param>
         /// <param name="document">The document to which the page belongs, to be used in creating a new page.</param>
-        /// <returns>The page descriptor of a new page, if one was created, or <c>null</c> if the item fitted on this page.</returns>
+        /// <returns>The page descriptor of a new page, if one was created, or this object if the item fitted on this page.</returns>
         /// <exception cref="ArgumentNullException">The <c>splittable</c> parameter is <c>null</c>.</exception>
         /// <exception cref="NullReferenceException">The <c>document</c> parameter is <c>null</c> and a new page was required.</exception>
         /// <exception cref="DrawableSplitException">
