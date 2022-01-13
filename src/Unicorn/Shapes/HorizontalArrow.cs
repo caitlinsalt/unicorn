@@ -46,9 +46,14 @@ namespace Unicorn.Shapes
         public double Width => Length;
 
         /// <summary>
-        /// The total height of the drawable - for a horizontal arrow this is equal to its <see cref="Height" />.
+        /// The total height of the drawable - for a horizontal arrow this is equal to its <see cref="HeadBreadth" />.
         /// </summary>
         public double Height => HeadBreadth;
+
+        /// <summary>
+        /// The total height of the drawable - for a horizontal arrow this is equal to its <see cref="HeadBreadth" />.
+        /// </summary>
+        public double ContentHeight => HeadBreadth;
 
         /// <summary>
         /// Constructor

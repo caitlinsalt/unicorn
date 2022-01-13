@@ -44,6 +44,11 @@ namespace Unicorn.Writer
         public double DefaultVerticalMarginProportion { get; set; }
 
         /// <summary>
+        /// The current active page in this document.
+        /// </summary>
+        public IPageDescriptor CurrentPage { get; private set; }
+
+        /// <summary>
         /// Default constructor.  Creates a document which defaults to A4 portrait pages with all margins 6% of the page dimensions.
         /// </summary>
         public PdfDocument() : this(PhysicalPageSize.A4, PageOrientation.Portrait, 0.06, 0.06)
@@ -103,10 +108,18 @@ namespace Unicorn.Writer
         /// Append a new page to the document, with default size, orientation and margins.
         /// </summary>
         /// <returns>An <see cref="IPageDescriptor" /> describing the new page.</returns>
-        public IPageDescriptor AppendPage()
+        public IPageDescriptor AppendDefaultPage()
         {
             return AppendPage(DefaultPhysicalPageSize, DefaultPageOrientation, DefaultHorizontalMarginProportion, DefaultVerticalMarginProportion);
         }
+
+        /// <summary>
+        /// Append a new page to the document.  If the document was not empty, the new page will duplicate the previous page's size, orientation and margin.
+        /// If the document was empty, the new page will have the default size, orientation and margin.
+        /// </summary>
+        /// <returns>An <see cref="IPageDescriptor" /> describing the new page.</returns>
+        public IPageDescriptor AppendPage()
+            => CurrentPage is null ? AppendDefaultPage() : AppendPage(CurrentPage.PageSize, CurrentPage.PageOrientation, CurrentPage.HorizontalMarginProportion, CurrentPage.VerticalMarginProportion);
 
         /// <summary>
         /// Write the document to a stream.
