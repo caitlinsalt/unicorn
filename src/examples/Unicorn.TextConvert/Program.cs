@@ -46,34 +46,11 @@ namespace Unicorn.TextConvert
                 Paragraph outputPara = new(page.PageAvailableWidth, page.PageAvailableHeight, Orientation.Normal, para.Alignment, 
                     VerticalAlignment.Top, margins);
                 outputPara.AddText(para.Content, font, page.PageGraphics);
-                if (outputPara.OverspillHeight)
+                var oldPage = page;
+                page = page.LayOut(para as ISplittable<Paragraph>, document);
+                if (page != oldPage && options.Verbose)
                 {
-                    if (options.Verbose)
-                    {
-                        await Console.Out.WriteLineAsync(string.Format(CultureInfo.CurrentCulture, Resources.Program_NewPageMessage, pageCount++, paraCount)).ConfigureAwait(false);
-                    }
-                    var newPage = document.AppendPage();
-                    var newPara = outputPara.Split(newPage.PageAvailableHeight);
-                    if (!outputPara.OverspillHeight)
-                    {   
-                        outputPara.DrawAt(page.PageGraphics, page.LeftMarginPosition, page.CurrentVerticalCursor);
-                    }
-                    else
-                    {
-                        outputPara.DrawAt(newPage.PageGraphics, newPage.LeftMarginPosition, newPage.CurrentVerticalCursor);
-                        newPage.CurrentVerticalCursor += outputPara.ContentHeight;
-                    }
-                    if (newPara != null)
-                    {
-                        newPara.DrawAt(newPage.PageGraphics, newPage.LeftMarginPosition, newPage.CurrentVerticalCursor);
-                        newPage.CurrentVerticalCursor += newPara.ContentHeight;
-                    }
-                    page = newPage;
-                }
-                else
-                {
-                    outputPara.DrawAt(page.PageGraphics, page.LeftMarginPosition, page.CurrentVerticalCursor);
-                    page.CurrentVerticalCursor += outputPara.ContentHeight;
+                    await Console.Out.WriteLineAsync(string.Format(CultureInfo.CurrentCulture, Resources.Program_NewPageMessage, pageCount++, paraCount)).ConfigureAwait(false);
                 }
                 paraCount++;
             }

@@ -217,6 +217,15 @@ namespace Unicorn.Tests.Unit.TestHelpers
             return new Line(mockWords);
         }
 
+        public static MockPositionedKnownSizeDrawable NextMockPositionedKnownSizeDrawable(this Random rnd)
+        {
+            if (rnd is null)
+            {
+                throw new ArgumentNullException(nameof(rnd));
+            }
+            return new MockPositionedKnownSizeDrawable(rnd.NextDouble(50), rnd.NextDouble(50), rnd.NextDouble(50), rnd.NextDouble(50));
+        }
+
 #pragma warning restore CA5394 // Do not use insecure randomness
 
     }
