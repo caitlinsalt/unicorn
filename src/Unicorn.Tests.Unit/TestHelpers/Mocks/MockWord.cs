@@ -15,6 +15,8 @@ namespace Unicorn.Tests.Unit.TestHelpers.Mocks
 
         public double ContentDescent { get; set; }
 
+        public double ContentHeight => ContentAscent + ContentDescent;
+
         public double MinWidth { get; set; }
 
         public void DrawAt(IGraphicsContext context, double x, double y)

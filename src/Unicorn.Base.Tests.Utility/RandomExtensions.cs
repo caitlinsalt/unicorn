@@ -132,6 +132,17 @@ namespace Unicorn.Base.Tests.Utility
         /// <exception cref="ArgumentNullException">The <c>rnd</c> parameter is <c>null</c>.</exception>
         public static VerticalAlignment NextVerticalAlignment(this Random rnd)
             => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_validVerticalAlignments);
+
+        private static readonly WidowsAndOrphans[] _validWidowsAndOrphans = new[] { WidowsAndOrphans.Prevent, WidowsAndOrphans.Avoid, WidowsAndOrphans.Allow };
+
+        /// <summary>
+        /// Return a random <see cref="WidowsAndOrphans" /> value.
+        /// </summary>
+        /// <param name="rnd">The random generator.</param>
+        /// <returns>A random <see cref="WidowsAndOrphans" /> value.</returns>
+        /// <exception cref="ArgumentNullException">The <c>rnd</c> parameter is <c>null</c>.</exception>
+        public static WidowsAndOrphans NextWidowsAndOrphans(this Random rnd)
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_validWidowsAndOrphans);
     }
 
 #pragma warning restore CA5394 // Do not use insecure randomness

@@ -9,7 +9,7 @@ namespace Unicorn
     /// <summary>
     /// A paragraph of text, consisting of a number of lines.
     /// </summary>
-    public class Paragraph : IDrawable
+    public class Paragraph : ISplittable, ISplittable<Paragraph>
     {
         /// <summary>
         /// The ideal maximum width of this paragraph.
@@ -254,6 +254,8 @@ namespace Unicorn
             }
             return SplitAt(splitIndex, maxHeight);
         }
+
+        ISplittable ISplittable.Split(double? maxHeight, WidowsAndOrphans waoControl) => Split(maxHeight, waoControl);
 
         /// <summary>
         /// Split this paragraph at the given line, which becomes the first line of the new paragraph.

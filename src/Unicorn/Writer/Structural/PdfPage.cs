@@ -1,5 +1,6 @@
 ﻿using System;
 using Unicorn.Base;
+using Unicorn.Exceptions;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
@@ -32,6 +33,16 @@ namespace Unicorn.Writer.Structural
         public IGraphicsContext PageGraphics { get; private set; }
 
         /// <summary>
+        /// The proportion of the total width of the page taken up by the left margin.
+        /// </summary>
+        public double HorizontalMarginProportion { get; private set; }
+
+        /// <summary>
+        /// The proportion of the total height of the page taken up by the top margin.
+        /// </summary>
+        public double VerticalMarginProportion { get; private set; }
+
+        /// <summary>
         /// The Y-coordinate of the top margin, in Unicorn coordinates.
         /// </summary>
         public double TopMarginPosition { get; private set; }
@@ -60,6 +71,12 @@ namespace Unicorn.Writer.Structural
         /// A saved Y-coordinate.  This is used purely by client code when laying out a page.
         /// </summary>
         public double CurrentVerticalCursor { get; set; }
+
+        /// <summary>
+        /// The amount of height left to use on the page, being the difference between the bottom margin position and the vertical cursor.  
+        /// Negative if the vertical cursor position has overspilled into the bottom margin.
+        /// </summary>
+        public double PageAvailableHeight => BottomMarginPosition - CurrentVerticalCursor;
 
         private double PageHeight { get; set; }
 
@@ -112,12 +129,14 @@ namespace Unicorn.Writer.Structural
             HomeDocument = homeDocument;
             PageSize = size;
             PageOrientation = orientation;
+            HorizontalMarginProportion = horizontalMarginProportion;
+            VerticalMarginProportion = verticalMarginProportion;
 
             UniSize pagePtSize = size.ToUniSize(orientation);
             PageHeight = pagePtSize.Height;
-            TopMarginPosition = pagePtSize.Height * verticalMarginProportion;
+            TopMarginPosition = pagePtSize.Height * VerticalMarginProportion;
             BottomMarginPosition = pagePtSize.Height - TopMarginPosition;
-            LeftMarginPosition = pagePtSize.Width * horizontalMarginProportion;
+            LeftMarginPosition = pagePtSize.Width * HorizontalMarginProportion;
             RightMarginPosition = pagePtSize.Width - LeftMarginPosition;
             PageAvailableWidth = RightMarginPosition - LeftMarginPosition;
             CurrentVerticalCursor = TopMarginPosition;
@@ -157,6 +176,92 @@ namespace Unicorn.Writer.Structural
         {
             PageGraphics.CloseGraphics();
         }
+
+        /// <summary>
+        /// Lay out a non-splittable drawable on the page, against the left margin, updating the vertical cursor.
+        /// </summary>
+        /// <param name="drawable"></param>
+        /// <exception cref="ArgumentNullException">The <c>drawable</c> parameter is <c>null</c>.</exception>
+        public void LayOut(IDrawable drawable)
+        {
+            if (drawable is null)
+            {
+                throw new ArgumentNullException(nameof(drawable));
+            }
+            drawable.DrawAt(PageGraphics, LeftMarginPosition, CurrentVerticalCursor);
+            CurrentVerticalCursor += drawable.ContentHeight;
+        }
+
+        /// <summary>
+        /// Lay out a splittable drawable on the page, against the left margin.  If the drawable is too tall to fit on
+        /// the page, a new page of the same dimensions is created, and an attempt is made to split the drawable across 
+        /// both pages.  If this attempt fails, the drawable is laid out on the new page.
+        /// </summary>
+        /// <typeparam name="T">The type of splittable being handled.</typeparam>
+        /// <param name="splittable">The item to be drawn on the page.</param>
+        /// <param name="pageGenerator">A function which, when called, will return an <see cref="IPageDescriptor" /> representing a new page in the current document.</param>
+        /// <returns>The page descriptor of a new page, if one was created, or this object if the item fitted on this page.</returns>
+        /// <exception cref="ArgumentNullException">The <c>splittable</c> parameter is <c>null</c>, or the <c>pageGenerator</c> parameter is <c>null</c>.</exception>
+        /// <exception cref="DrawableSplitException">
+        /// The <c>splittable</c> parameter would not fit on the current page or on the page returned by the <c>pageGenerator</c> parameter, and when split, 
+        /// its height was not reduced.
+        /// </exception>
+        public IPageDescriptor LayOut<T>(ISplittable<T> splittable, Func<IPageDescriptor> pageGenerator) where T : ISplittable<T>
+        {
+            if (splittable is null)
+            {
+                throw new ArgumentNullException(nameof(splittable));
+            }
+            if (pageGenerator is null)
+            {
+                throw new ArgumentNullException(nameof(pageGenerator));
+            }
+
+            if (!splittable.OverspillHeight)
+            {
+                LayOut(splittable);
+                return this;
+            }
+
+            IPageDescriptor newPage = pageGenerator();
+            double originalSplittableHeight = splittable.ContentHeight;
+            ISplittable<T> splitPortion = splittable.Split(newPage.PageAvailableHeight, WidowsAndOrphans.Prevent);
+            if (!splittable.OverspillHeight)
+            {
+                LayOut(splittable);
+            }
+            else if (splittable.ContentHeight < originalSplittableHeight || splittable.ContentHeight < newPage.PageAvailableHeight)
+            {
+                newPage.LayOut(splittable);
+            }
+            else
+            {
+                throw new DrawableSplitException(Resources.Structural_PdfPage_Drawable_Split_Failed_Error);
+            }
+            if (splitPortion != null)
+            {
+                newPage.LayOut(splitPortion, pageGenerator);
+            }
+
+            return newPage;
+        }
+
+        /// <summary>
+        /// Lay out a splittable drawable on the page, against the left margin.  If the drawable is too tall to fit on
+        /// the page, a new page of the same dimensions is created, and an attempt is made to split the drawable across 
+        /// both pages.  If this attempt fails, the drawable is laid out on the new page.
+        /// </summary>
+        /// <typeparam name="T">The type of splittable being handled.</typeparam>
+        /// <param name="splittable">The item to be drawn on the page.</param>
+        /// <param name="document">The document to which the page belongs, to be used in creating a new page.</param>
+        /// <returns>The page descriptor of a new page, if one was created, or this object if the item fitted on this page.</returns>
+        /// <exception cref="ArgumentNullException">The <c>splittable</c> parameter is <c>null</c>.</exception>
+        /// <exception cref="NullReferenceException">The <c>document</c> parameter is <c>null</c> and a new page was required.</exception>
+        /// <exception cref="DrawableSplitException">
+        /// The <c>splittable</c> parameter would not fit on the current page or on the page returned by the <c>pageGenerator</c> parameter, and when split, 
+        /// its height was not reduced.
+        /// </exception>
+        public IPageDescriptor LayOut<T>(ISplittable<T> splittable, IDocumentDescriptor document) where T : ISplittable<T> => LayOut(splittable, () => document.AppendPage());
 
         /// <summary>
         /// Construct the dictionary which will be written to the output to represent this object.
