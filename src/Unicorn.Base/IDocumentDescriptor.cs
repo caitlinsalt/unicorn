@@ -62,5 +62,9 @@ namespace Unicorn.Base
         /// </summary>
         /// <param name="destination">The <see cref="Stream" /> to write the document content to.</param>
         Task WriteAsync(Stream destination);
+
+        Task WritePartialAsync(Stream destination);
+
+        Task CloseDocumentAsync(Stream destination);
     }
 }

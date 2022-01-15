@@ -41,6 +41,7 @@ namespace Unicorn.TextConvert
 #pragma warning restore CA2007 // Consider calling ConfigureAwait on the awaited task
             int pageCount = 0;
             int paraCount = 0;
+            using FileStream outputStream = new(options.Out, FileMode.Create, FileAccess.Write);
             await foreach (var para in inputProvider.GetParagraphsAsync())
             {
                 Paragraph outputPara = new(page.PageAvailableWidth, page.BottomMarginPosition - page.CurrentVerticalCursor, Orientation.Normal, para.Alignment, 
@@ -52,6 +53,7 @@ namespace Unicorn.TextConvert
                     {
                         await Console.Out.WriteLineAsync(string.Format(CultureInfo.CurrentCulture, Resources.Program_NewPageMessage, pageCount++, paraCount)).ConfigureAwait(false);
                     }
+                    await document.WritePartialAsync(outputStream).ConfigureAwait(true);
                     var newPage = document.AppendPage();
                     newPage.CurrentVerticalCursor = newPage.TopMarginPosition;
                     var newPara = outputPara.Split(newPage.BottomMarginPosition - newPage.CurrentVerticalCursor);
@@ -78,7 +80,6 @@ namespace Unicorn.TextConvert
                 }
                 paraCount++;
             }
-            using FileStream outputStream = new(options.Out, FileMode.Create, FileAccess.Write);
             await document.WriteAsync(outputStream).ConfigureAwait(true);
         }
     }

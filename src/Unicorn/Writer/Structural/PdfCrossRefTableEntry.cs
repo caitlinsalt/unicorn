@@ -1,4 +1,5 @@
-﻿using Unicorn.Writer.Interfaces;
+﻿using System;
+using Unicorn.Writer.Interfaces;
 
 namespace Unicorn.Writer.Structural
 {
@@ -7,10 +8,9 @@ namespace Unicorn.Writer.Structural
     /// </summary>
     public class PdfCrossRefTableEntry
     {
-        /// <summary>
-        /// The indirect object which is the referent of this table entry.
-        /// </summary>
-        public IPdfIndirectObject Value { get; }
+        public int ObjectId { get; }
+
+        public int ObjectGeneration { get; }
 
         /// <summary>
         /// The address of the <see cref="Value" /> object within its PDF file, as a byte offset from the start of the file.
@@ -24,7 +24,12 @@ namespace Unicorn.Writer.Structural
         /// <param name="offset">The address of the object within its file.</param>
         public PdfCrossRefTableEntry(IPdfIndirectObject value, int offset)
         {
-            Value = value;
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+            ObjectId = value.ObjectId;
+            ObjectGeneration = value.Generation;
             Offset = offset;
         }
     }

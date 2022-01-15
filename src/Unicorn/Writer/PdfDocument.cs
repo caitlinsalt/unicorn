@@ -23,6 +23,9 @@ namespace Unicorn.Writer
         private readonly PdfPageTreeNode _pageRoot;
         private readonly Dictionary<string, PdfFont> _fontCache = new Dictionary<string, PdfFont>();
 
+        private int _bytesWritten;
+        private bool _headerWritten;
+
         /// <summary>
         /// The default size of new pages added to the document.
         /// </summary>
@@ -137,19 +140,47 @@ namespace Unicorn.Writer
             {
                 throw new ArgumentNullException(nameof(stream));
             }
-            int written = await PdfHeader.Value.WriteToAsync(stream).ConfigureAwait(false);
-            CloseAllPages();
-            foreach (IPdfIndirectObject indirectObject in _bodyObjects)
+            await WritePartialAsync(stream).ConfigureAwait(false);
+            await CloseDocumentAsync(stream).ConfigureAwait(false);
+            return _bytesWritten;
+        }
+
+        public async Task WritePartialAsync(Stream destination)
+        {
+            if (destination is null)
             {
-                _xrefTable.SetSlot(indirectObject, written);
-                written += indirectObject.WriteTo(stream);
+                throw new ArgumentNullException(nameof(destination));
+            }
+            if (!_headerWritten)
+            {
+                await WriteHeaderAsync(destination).ConfigureAwait(false);
+                _headerWritten = true;
             }
 
+            CloseAllPages();
+            Console.WriteLine($"{_bodyObjects.Count} objects to write.");
+            foreach (IPdfIndirectObject indirectObject in _bodyObjects)
+            {
+                Console.WriteLine($"Object {indirectObject.ObjectId} at {_bytesWritten}");
+                _xrefTable.SetSlot(indirectObject, _bytesWritten);
+                _bytesWritten += await indirectObject.WriteToAsync(destination).ConfigureAwait(false);
+            }
+
+            _bodyObjects.Clear();
+        }
+
+        public async Task CloseDocumentAsync(Stream destination)
+        {
             PdfTrailer trailer = new PdfTrailer(_root, _xrefTable);
-            trailer.SetCrossReferenceTableLocation(written);
-            written += await _xrefTable.WriteToAsync(stream).ConfigureAwait(false);
-            written += trailer.WriteTo(stream);
-            return written;
+            trailer.SetCrossReferenceTableLocation(_bytesWritten);
+            _bytesWritten += await _xrefTable.WriteToAsync(destination).ConfigureAwait(false);
+            _bytesWritten += await trailer.WriteToAsync(destination).ConfigureAwait(false);
+        }
+
+        private async Task WriteHeaderAsync(Stream destination)
+        {
+            _bytesWritten += await PdfHeader.Value.WriteToAsync(destination).ConfigureAwait(false);
+            _headerWritten = true;
         }
 
         /// <summary>

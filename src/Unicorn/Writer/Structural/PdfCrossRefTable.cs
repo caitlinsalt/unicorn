@@ -103,7 +103,7 @@ namespace Unicorn.Writer.Structural
 
         private static async Task<int> WriteEntryAsync(PdfCrossRefTableEntry entry, Stream stream)
         {
-            byte[] bytes = Encoding.ASCII.GetBytes(string.Format(CultureInfo.InvariantCulture, "{0:d10} {1:d5} n \xa", entry.Offset, entry.Value.Generation));
+            byte[] bytes = Encoding.ASCII.GetBytes(string.Format(CultureInfo.InvariantCulture, "{0:d10} {1:d5} n \xa", entry.Offset, entry.ObjectGeneration));
             await stream.WriteAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
             return bytes.Length;
         }
