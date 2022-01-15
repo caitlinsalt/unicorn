@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tests.Utility.Providers;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 
 namespace Unicorn.Tests.Unit.TestHelpers
 {
@@ -9,15 +9,15 @@ namespace Unicorn.Tests.Unit.TestHelpers
     {
         private static readonly Random _rnd = RandomProvider.Default;
 
-        internal double Width { get; private set; }
+        internal double Width { get; }
 
-        internal double Height { get; private set; }
+        internal double Height { get; }
 
         internal int ColumnIndex { get; set; }
 
         internal int RowIndex { get; set; }
 
-        internal List<Tuple<IGraphicsContext, double, double>> DrawContentsAtCalls { get; } = new List<Tuple<IGraphicsContext, double, double>>();
+        internal List<Tuple<IGraphicsContext, double, double>> DrawContentsAtCalls { get; } = new();
 
         internal FixedSizeTableCell(double width, double height)
         {
@@ -48,10 +48,10 @@ namespace Unicorn.Tests.Unit.TestHelpers
 
         internal static List<TableCell> GetCellList(int count)
         {
-            List<TableCell> output = new List<TableCell>(count);
+            List<TableCell> output = new(count);
             for (int i = 0; i < count; ++i)
             {
-                FixedSizeTableCell testCell = new FixedSizeTableCell(_rnd.NextDouble() * 20, _rnd.NextDouble() * 20);
+                FixedSizeTableCell testCell = new(_rnd.NextDouble() * 20, _rnd.NextDouble() * 20);
                 output.Add(testCell);
             }
             return output;

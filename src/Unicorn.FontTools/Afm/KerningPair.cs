@@ -53,33 +53,20 @@ namespace Unicorn.FontTools.Afm
         /// </summary>
         /// <param name="other">Another <see cref="KerningPair" /> value.</param>
         /// <returns><c>true</c> if the two values are equal, otherwise <c>false</c>.</returns>
-        public bool Equals(KerningPair other)
-        {
-            return this == other;
-        }
+        public bool Equals(KerningPair other) => this == other;
 
         /// <summary>
         /// Equality method.
         /// </summary>
         /// <param name="obj">Another object or value.</param>
         /// <returns><c>true</c> if the parameter is a <see cref="KerningPair" /> value equal to this one, <c>false</c> othewise.</returns>
-        public override bool Equals(object obj)
-        {
-            if (!(obj is KerningPair kp))
-            {
-                return false;
-            }
-            return Equals(kp);
-        }
+        public override bool Equals(object obj) => (obj is KerningPair other) && this == other;
 
         /// <summary>
         /// Hash method.
         /// </summary>
         /// <returns>A hash code for this value.</returns>
-        public override int GetHashCode()
-        {
-            return First.GetHashCode() ^ Second.GetHashCode() ^ KerningVector.GetHashCode();
-        }
+        public override int GetHashCode() => First.GetHashCode() ^ Second.GetHashCode() ^ KerningVector.GetHashCode();
 
         /// <summary>
         /// Equality operator.
@@ -87,10 +74,7 @@ namespace Unicorn.FontTools.Afm
         /// <param name="a">A <see cref="KerningPair" /> value.</param>
         /// <param name="b">A second <see cref="KerningPair" /> value.</param>
         /// <returns><c>true</c> if both operands are equal, <c>false</c> otherwise.</returns>
-        public static bool operator ==(KerningPair a, KerningPair b)
-        {
-            return a.First == b.First && a.Second == b.Second && a.KerningVector == b.KerningVector;
-        }
+        public static bool operator ==(KerningPair a, KerningPair b) => a.First == b.First && a.Second == b.Second && a.KerningVector == b.KerningVector;
 
         /// <summary>
         /// Inequality operator.
@@ -98,10 +82,7 @@ namespace Unicorn.FontTools.Afm
         /// <param name="a">A <see cref="KerningPair"/> value.</param>
         /// <param name="b">Another <see cref="KerningPair"/> value.</param>
         /// <returns><c>true</c> if the two values are different, <c>false</c> if they are equal.</returns>
-        public static bool operator !=(KerningPair a, KerningPair b)
-        {
-            return a.First != b.First || a.Second != b.Second || a.KerningVector != b.KerningVector;
-        }
+        public static bool operator !=(KerningPair a, KerningPair b) => a.First != b.First || a.Second != b.Second || a.KerningVector != b.KerningVector;
 
         /// <summary>
         /// Convert a kerning pair record into a <see cref="KerningPair" /> value.  A kerning pair record consists of a code starting <c>KP</c> specifying the record

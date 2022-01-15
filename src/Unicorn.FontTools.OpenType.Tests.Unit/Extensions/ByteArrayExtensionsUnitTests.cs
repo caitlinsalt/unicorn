@@ -3,7 +3,7 @@ using System;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
 using Unicorn.FontTools.OpenType;
-using Unicorn.FontTools.OpenType.Extensions;
+using Unicorn.FontTools.Extensions;
 
 namespace Unicorn.FontTools.OpenType.Tests.Unit.Extensions
 {
