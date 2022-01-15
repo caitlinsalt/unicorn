@@ -18,7 +18,7 @@ namespace Unicorn.FontTools.OpenTool
         private static void RunTool(Options options)
         {
             using MemoryMappedFile file = MemoryMappedFile.CreateFromFile(options.Path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
-            using OpenTypeFont font = new OpenTypeFont(file, options.Path);
+            using OpenTypeFont font = new(file, options.Path);
             Console.WriteLine($"File {options.Path} is a {font.OffsetHeader.FontKind} font.");
             if (options.ListTables)
             {
@@ -48,7 +48,10 @@ namespace Unicorn.FontTools.OpenTool
             }
             else
             {
-                t.Dump(Console.Out);
+                foreach (var str in t.Dump().FormatBlock())
+                {
+                    Console.Out.WriteLine(str);
+                }
             }
         }
     }

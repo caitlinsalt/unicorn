@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 
 namespace Unicorn
 {
@@ -17,24 +17,12 @@ namespace Unicorn
         /// <summary>
         /// The width of the area, computed from the coordinates and widths of the area's contents.
         /// </summary>
-        public double Width
-        {
-            get
-            {
-                return Contents.Count > 0 ? Contents.Select(c => c.X + c.Width).Max() : 0;
-            }
-        }
+        public double Width => Contents.Count > 0 ? Contents.Select(c => c.X + c.Width).Max() : 0;
 
         /// <summary>
         /// The height of the area, computed from the coordinates and heights of the area's contents.
         /// </summary>
-        public double Height
-        {
-            get
-            {
-                return Contents.Count > 0 ? Contents.Select(c => c.Y + c.Height).Max() : 0;
-            }
-        }
+        public double Height => Contents.Count > 0 ? Contents.Select(c => c.Y + c.Height).Max() : 0;
 
         /// <summary>
         /// Default constructor.

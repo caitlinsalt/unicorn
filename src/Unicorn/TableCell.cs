@@ -1,4 +1,4 @@
-﻿using Unicorn.CoreTypes;
+﻿using Unicorn.Base;
 
 namespace Unicorn
 {
@@ -45,46 +45,22 @@ namespace Unicorn
         /// <summary>
         /// The minimum total width of the cell content, equal to the sum of the content with and the left and right margin widths.
         /// </summary>
-        public double MinWidth
-        {
-            get
-            {
-                return ContentWidth + MarginLeft + MarginRight;
-            }
-        }
+        public double MinWidth => ContentWidth + MarginLeft + MarginRight;
 
         /// <summary>
         /// The minimum total height of the cell content, equal to the sum of the content ascent, content descent, top margin and bottom margin heights.
         /// </summary>
-        public double MinHeight
-        {
-            get
-            {
-                return ContentAscent + ContentDescent + MarginTop + MarginBottom;
-            }
-        }
+        public double MinHeight => ContentAscent + ContentDescent + MarginTop + MarginBottom;
 
         /// <summary>
         /// The minimum total cell ascent height, equal to the sum of the content ascent and the top margin.
         /// </summary>
-        public double MinAscent
-        {
-            get
-            {
-                return ContentAscent + MarginTop;
-            }
-        }
+        public double MinAscent => ContentAscent + MarginTop;
 
         /// <summary>
         /// The minimum total cell descent height, equal to the sum of the content descent and the bottom margin.
         /// </summary>
-        public double MinDescent
-        {
-            get
-            {
-                return ContentDescent + MarginBottom;
-            }
-        }
+        public double MinDescent => ContentDescent + MarginBottom;
 
         /// <summary>
         /// The effective width of the cell, which should be set by the <see cref="MeasureSize(IGraphicsContext)"/> method.

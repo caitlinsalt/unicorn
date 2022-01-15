@@ -42,33 +42,20 @@ namespace Unicorn.FontTools.Afm
         /// </summary>
         /// <param name="other">Another <see cref="WidthSet" /> value.</param>
         /// <returns><c>true</c> if the parameter is equal to this, <c>false</c> if not.</returns>
-        public bool Equals(WidthSet other)
-        {
-            return this == other;
-        }
+        public bool Equals(WidthSet other) => this == other;
 
         /// <summary>
         /// Equality-test method.
         /// </summary>
         /// <param name="obj">Another value or object.</param>
         /// <returns><c>true</c> if the parameter is a <see cref="WidthSet" /> value equal to this, <c>false</c> otherwise.</returns>
-        public override bool Equals(object obj)
-        {
-            if (!(obj is WidthSet ws))
-            {
-                return false;
-            }
-            return Equals(ws);
-        }
+        public override bool Equals(object obj) => (obj is WidthSet ws) && this == ws;
 
         /// <summary>
         /// Hash code generation method.
         /// </summary>
         /// <returns>An <c>int</c> hashcode.</returns>
-        public override int GetHashCode()
-        {
-            return General.GetHashCode() ^ Direction0.GetHashCode() ^ Direction1.GetHashCode();
-        }
+        public override int GetHashCode() => General.GetHashCode() ^ Direction0.GetHashCode() ^ Direction1.GetHashCode();
 
         /// <summary>
         /// Equality operator.
@@ -76,10 +63,7 @@ namespace Unicorn.FontTools.Afm
         /// <param name="a">A <see cref="WidthSet" /> value.</param>
         /// <param name="b">A <see cref="WidthSet" /> value.</param>
         /// <returns><c>true</c> if the two operands are equal, <c>false</c> if not.</returns>
-        public static bool operator ==(WidthSet a, WidthSet b)
-        {
-            return a.General == b.General && a.Direction0 == b.Direction0 && a.Direction1 == b.Direction1;
-        }
+        public static bool operator ==(WidthSet a, WidthSet b) => a.General == b.General && a.Direction0 == b.Direction0 && a.Direction1 == b.Direction1;
 
         /// <summary>
         /// Inequality operator.
@@ -87,9 +71,6 @@ namespace Unicorn.FontTools.Afm
         /// <param name="a">A <see cref="WidthSet" /> value.</param>
         /// <param name="b">A <see cref="WidthSet" /> value.</param>
         /// <returns><c>true</c> if the two operands are not equal, <c>false</c> if they are.</returns>
-        public static bool operator !=(WidthSet a, WidthSet b)
-        {
-            return a.General != b.General || a.Direction0 != b.Direction0 || a.Direction1 != b.Direction1;
-        }
+        public static bool operator !=(WidthSet a, WidthSet b) => a.General != b.General || a.Direction0 != b.Direction0 || a.Direction1 != b.Direction1;
     }
 }

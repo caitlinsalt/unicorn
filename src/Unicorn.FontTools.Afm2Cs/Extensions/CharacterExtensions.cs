@@ -12,7 +12,7 @@ namespace Unicorn.FontTools.Afm2Cs.Extensions
                 return " (Unicorn.FontTools.Afm.Character)null ";
             }
             string ligaturePart;
-            if (c.Ligatures.Count == 0)
+            if (!c.Ligatures.Any())
             {
                 ligaturePart = " System.Array.Empty<InitialLigatureSet>()";
             }

@@ -47,10 +47,7 @@ namespace Unicorn.FontTools.Afm
         /// <param name="i">The index of the item to get.</param>
         /// <returns>A <see cref="LigatureSet" /> value.</returns>
         /// <exception cref="IndexOutOfRangeException">Thrown if the parameter is not a valid index into the set.</exception>
-        public LigatureSet this[int i]
-        {
-            get => _arr[i];
-        }
+        public LigatureSet this[int i] => _arr[i];
 
         /// <summary>
         /// Get members of the set by character name of the second character, if they exist.
