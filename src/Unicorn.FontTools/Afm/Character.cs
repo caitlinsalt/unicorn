@@ -43,7 +43,7 @@ namespace Unicorn.FontTools.Afm
 
         /// <summary>
         /// Ligatures in which this character is the first of the pair of source characters.  Not populated unless 
-        /// <see cref="Character.ProcessLigatures(IDictionary{string, Character})" /> has been called.
+        /// <see cref="ProcessLigatures(IDictionary{string, Character})" /> has been called.
         /// </summary>
         public LigatureSetCollection Ligatures { get; private set; }
 
@@ -54,12 +54,12 @@ namespace Unicorn.FontTools.Afm
 
         /// <summary>
         /// This property is used to store ligature information whilst a file is being loaded.  Not populated after 
-        /// <see cref="Character.ProcessLigatures(IDictionary{string, Character})" /> has been called.
+        /// <see cref="ProcessLigatures(IDictionary{string, Character})" /> has been called.
         /// </summary>
         private List<InitialLigatureSet> InitialLigatures { get; set; }
 
         /// <summary>
-        /// Internal-only property-setting constructor.
+        /// Property-setting constructor.
         /// </summary>
         /// <param name="code">The character's encoded value.</param>
         /// <param name="name">The character name.</param>
@@ -68,7 +68,7 @@ namespace Unicorn.FontTools.Afm
         /// <param name="vvector">VVector property value.</param>
         /// <param name="boundingBox">Character bounding box.</param>
         /// <param name="ligatures">Initial ligature information.</param>
-        internal Character(short? code, string name, WidthSet xWidth, WidthSet yWidth, Vector? vvector, BoundingBox? boundingBox, 
+        public Character(short? code, string name, WidthSet xWidth, WidthSet yWidth, Vector? vvector, BoundingBox? boundingBox, 
             IEnumerable<InitialLigatureSet> ligatures)
         {
             Code = code;
@@ -82,10 +82,10 @@ namespace Unicorn.FontTools.Afm
         }
 
         /// <summary>
-        /// Populate the <see cref="Character.Ligatures" /> property, converting the character names given in the AFM file to references to the <see cref="Character" />
+        /// Populate the <see cref="Ligatures" /> property, converting the character names given in the AFM file to references to the <see cref="Character" />
         /// objects loaded from the font.
         /// </summary>
-        /// <param name="charmap">A dictionary of characters loaded in this AFM file, indexed by <see cref="Character.Name" />.</param>
+        /// <param name="charmap">A dictionary of characters loaded in this AFM file, indexed by <see cref="Name" />.</param>
         /// <exception cref="AfmFormatException">Thrown if the character's ligature information refers by name to characters that are not known to exist.</exception>
         public void ProcessLigatures(IDictionary<string, Character> charmap)
         {

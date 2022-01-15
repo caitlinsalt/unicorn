@@ -19,7 +19,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_ComputedHeightProperty_ReturnsSumOfComputedHeightPropertiesOfContents_IfParentPropertyIsNull()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList();
-            TableColumn testObject = new TableColumn { Parent = null };
+            TableColumn testObject = new() { Parent = null };
             testObject.AddRange(testContents);
 
             double testOutput = testObject.ComputedHeight;
@@ -31,8 +31,8 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_ComputedHeightProperty_ReturnSumOfComputedHeightPropertiesOfContentsPlusCalculatedGridLineWidths_IfParentPropertyIsNotNull()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList();
-            Table testParentProperty = new Table { RuleWidth = _rnd.NextDouble() * 3 };
-            TableColumn testObject = new TableColumn { Parent = testParentProperty };
+            Table testParentProperty = new() { RuleWidth = _rnd.NextDouble() * 3 };
+            TableColumn testObject = new() { Parent = testParentProperty };
             testObject.AddRange(testContents);
 
             double testOutput = testObject.ComputedHeight;
@@ -51,13 +51,15 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_IndexerSetMethod_InvalidatesEnumerator()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
 
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             foreach (TableCell cell in testObject)
             {
                 testObject[_rnd.Next(testContents.Count)] = _rnd.NextFixedSizeTableCell();
             }
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
 
             Assert.Fail();
         }
@@ -66,7 +68,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_AddMethod_IncreasesCountPropertyByOne()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList();
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             TableCell testParam = _rnd.NextFixedSizeTableCell();
 
@@ -79,13 +81,13 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_AddMethod_SetsItemWithIndexEqualToCountMinus1()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList();
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             TableCell testParam = _rnd.NextFixedSizeTableCell();
 
             testObject.Add(testParam);
 
-            Assert.AreSame(testParam, testObject[testObject.Count - 1]);
+            Assert.AreSame(testParam, testObject[^1]);
         }
 
         [TestMethod]
@@ -93,14 +95,16 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_AddMethod_InvalidatesEnumerator()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 40));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             TableCell testParam = _rnd.NextFixedSizeTableCell();
 
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             foreach (TableCell cell in testObject)
             {
                 testObject.Add(testParam);
             }
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
 
             Assert.Fail();
         }
@@ -109,7 +113,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_AddRangeMethod_IncreasesCountPropertyByAmountEqualToCountPropertyOfParameter()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList();
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             List<TableCell> testParam = FixedSizeTableCell.GetCellList();
 
@@ -122,7 +126,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_AddRangeMethod_SetsNewElementsInCollectionToCorrectValues()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList();
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             List<TableCell> testParam = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
 
@@ -139,14 +143,16 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_AddRangeMethod_InvalidatesEnumerator()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             List<TableCell> testParam = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
 
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             foreach (TableCell cell in testObject)
             {
                 testObject.AddRange(testParam);
             }
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
 
             Assert.Fail();
         }
@@ -155,7 +161,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_ClearMethod_SetsCountPropertyToZero()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList();
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
 
             testObject.Clear();
@@ -168,13 +174,15 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_ClearMethod_InvalidatesEnumerator()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
 
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             foreach (TableCell cell in testObject)
             {
                 testObject.Clear();
             }
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
 
             Assert.Fail();
         }
@@ -183,7 +191,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_GetEnumeratorMethod_ReturnsNewObjectOnEachCall()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList();
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
 
             IEnumerator<TableCell> testOutput0 = testObject.GetEnumerator();
@@ -198,7 +206,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_InsertMethod_IncreasesCountPropertyBy1_IfFirstParameterIsWithinRange()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             int testParam0 = _rnd.Next(testContents.Count);
             TableCell testParam1 = _rnd.NextFixedSizeTableCell();
@@ -212,7 +220,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_InsertMethod_SetsElementAtFirstParameterToSecondParameter_IfFirstParameterIsWithinRange()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             int testParam0 = _rnd.Next(testContents.Count);
             TableCell testParam1 = _rnd.NextFixedSizeTableCell();
@@ -226,7 +234,7 @@ namespace Unicorn.Tests.Unit
         public void TableColummClass_InsertMethod_IncreasesIndexesOfAllElementsWhichHadAnIndexEqualToFirstParameterOrHigherBy1_IfFirstParameterIsWithinRange()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             int testParam0 = _rnd.Next(testContents.Count);
             TableCell testParam1 = _rnd.NextFixedSizeTableCell();
@@ -244,15 +252,17 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_InsertMethod_InvalidatesEnumerator_IfFirstParameterIsWithinRange()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             int testParam0 = _rnd.Next(testContents.Count);
             TableCell testParam1 = _rnd.NextFixedSizeTableCell();
 
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             foreach (TableCell cell in testObject)
             {
                 testObject.Insert(testParam0, testParam1);
             }
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
 
             Assert.Fail();
         }
@@ -262,7 +272,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_InsertMethod_ThrowsIndexOutOfRangeException_IfFirstParameterIsLessThanZero()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             int testParam0 = _rnd.Next(1, int.MaxValue - 1) * -1;
             TableCell testParam1 = _rnd.NextFixedSizeTableCell();
@@ -276,7 +286,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_RemoveMethod_ReturnsFalse_IfCollectionDidNotContainParameter()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             TableCell testParam0 = _rnd.NextFixedSizeTableCell();
 
@@ -289,7 +299,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_RemoveMethod_DoesNotChangeCountProperty_IfCollectionDidNotContainParameter()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             TableCell testParam0 = _rnd.NextFixedSizeTableCell();
             int expectedValue = testObject.Count;
@@ -303,21 +313,24 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_RemoveMethod_DoesNotInvalidateEnumerator_IfCollectionDidNotContainParameter()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             TableCell testParam0 = _rnd.NextFixedSizeTableCell();
 
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             foreach (TableCell cell in testContents)
             {
                 _ = testObject.Remove(testParam0);
             }
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
+
         }
 
         [TestMethod]
         public void TableColumnClass_RemoveMethod_ReturnsTrue_IfCollectionContainedParameter()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             int removeIndex = _rnd.Next(testObject.Count);
             TableCell testParam = testObject[removeIndex];
@@ -331,7 +344,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_RemoveMethod_ReducesCountPropertyBy1_IfCollectionContainedParameter()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             int removeIndex = _rnd.Next(testObject.Count);
             TableCell testParam = testObject[removeIndex];
@@ -346,7 +359,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_RemoveMethod_RemovesParameterFromCollection_IfCollectionContainedParameter()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             int removeIndex = _rnd.Next(testObject.Count);
             TableCell testParam = testObject[removeIndex];
@@ -360,7 +373,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_RemoveMethod_ReducesIndexOfElementsInCollectionAfterParameterBy1_IfCollectionContainedParameter()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             int removeIndex = _rnd.Next(testObject.Count);
             TableCell testParam = testObject[removeIndex];
@@ -378,15 +391,17 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_RemoveMethod_InvalidatesEnumerator_IfCollectionContainedParameter()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             int removeIndex = _rnd.Next(testObject.Count);
             TableCell testParam = testObject[removeIndex];
 
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             foreach (TableCell cell in testObject)
             {
                 _ = testObject.Remove(testParam);
             }
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
 
             Assert.Fail();
         }
@@ -396,7 +411,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_RemoveAtMethod_ThrowsIndexOutOfRangeException_IfParameterIsLessThanZero()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             int testParam = _rnd.Next(1, int.MaxValue - 1) * -1;
 
@@ -410,7 +425,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_RemoveAtMethod_ThrowsIndexOutOfRangeException_IfParameterEqualsCountProperty()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             int testParam = testObject.Count;
 
@@ -424,7 +439,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_RemoveAtMethod_ThrowsIndexOutOfRangeException_IfParameterIsGreaterThanCountProperty()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             int testParam = _rnd.Next(testObject.Count + 1, int.MaxValue);
 
@@ -437,7 +452,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_RemoveAtMethod_ReducesCountPropertyBy1_IfParameterIsInRange()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             int testParam = _rnd.Next(testObject.Count);
             int expectedValue = testObject.Count - 1;
@@ -451,7 +466,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_RemoveAtMethod_RemovesElementAtIndexEqualToParameter_IfParameterIsInRange()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             int testParam = _rnd.Next(testObject.Count);
             TableCell removedItem = testObject[testParam];
@@ -465,7 +480,7 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_RemoveAtMethod_ReducedIndexesOfElementsWithIndexesGreaterThanParameterBy1_IfParameterIsInRange()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             int testParam = _rnd.Next(testObject.Count);
 
@@ -482,14 +497,16 @@ namespace Unicorn.Tests.Unit
         public void TableColumnClass_RemoveAtMethod_InvalidatesEnumerator_IfParameterIsInRange()
         {
             List<TableCell> testContents = FixedSizeTableCell.GetCellList(_rnd.Next(1, 32));
-            TableColumn testObject = new TableColumn();
+            TableColumn testObject = new();
             testObject.AddRange(testContents);
             int testParam = _rnd.Next(testObject.Count);
 
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             foreach (TableCell cell in testObject)
             {
                 testObject.RemoveAt(testParam);
             }
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
 
             Assert.Fail();
         }

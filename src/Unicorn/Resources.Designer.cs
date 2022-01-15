@@ -61,6 +61,33 @@ namespace Unicorn {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Colour levels must be between 0 and 1 inclusive..
+        /// </summary>
+        internal static string CmykColour_Error_ValueOutOfRange {
+            get {
+                return ResourceManager.GetString("CmykColour_Error_ValueOutOfRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Greyscale level must be between 0 and 1 inclusive..
+        /// </summary>
+        internal static string GreyscaleColour_Error_ValueOutOfRange {
+            get {
+                return ResourceManager.GetString("GreyscaleColour_Error_ValueOutOfRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Colour levels must be between 0 and 1 inclusive..
+        /// </summary>
+        internal static string RgbColour_Error_ValueOutOfRange {
+            get {
+                return ResourceManager.GetString("RgbColour_Error_ValueOutOfRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The destination array does not contain enough elements to store the collection..
         /// </summary>
         internal static string TableCellCollection_CopyTo_Error_InsufficientArrayLength {
