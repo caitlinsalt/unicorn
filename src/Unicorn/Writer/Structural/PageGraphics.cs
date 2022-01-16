@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Unicorn.Base;
+using Unicorn.Exceptions;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
@@ -23,6 +24,8 @@ namespace Unicorn.Writer.Structural
         private readonly Func<double, double> _yTransformer;
 
         private readonly Stack<GraphicsState> _stateStack = new Stack<GraphicsState>();
+
+        public PageState PageState { get; private set; }
 
         /// <summary>
         /// Current path stroking width.
@@ -63,6 +66,7 @@ namespace Unicorn.Writer.Structural
             _yTransformer = yTransform ?? (x => x);
             CurrentLineWidth = -1;
             CurrentDashStyle = UniDashStyle.Solid;
+            PageState = PageState.Open;
         }
 
         /// <summary>
@@ -71,6 +75,7 @@ namespace Unicorn.Writer.Structural
         /// <returns></returns>
         public IGraphicsState Save()
         {
+            CheckState();
             lock (_stateStack)
             {
                 GraphicsState gs = new GraphicsState(CurrentLineWidth, CurrentDashStyle, CurrentFont);
@@ -86,6 +91,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="state">The state to be restored.</param>
         public void Restore(IGraphicsState state)
         {
+            CheckState();
             if (!(state is GraphicsState gs))
             {
                 throw new ArgumentException(Resources.Structural_PageGraphics_RestoreWrongTypeError);
@@ -114,6 +120,11 @@ namespace Unicorn.Writer.Structural
         /// </summary>
         public void CloseGraphics()
         {
+            if (PageState == PageState.Closed)
+            {
+                return;
+            }
+            PageState = PageState.Closed;
             lock (_stateStack)
             {
                 while (_stateStack.Count > 0)
@@ -139,6 +150,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="around">The centre of rotation.</param>
         public void RotateAt(double angle, UniPoint around)
         {
+            CheckState();
             PdfOperator.ApplyTransformation(UniMatrix.RotationAt(MathsHelpers.DegToRad(-angle), new UniPoint(_xTransformer(around.X), _yTransformer(around.Y))))
                 .WriteTo(_page.ContentStream);
         }
@@ -207,6 +219,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="style">Dash pattern of the line.</param>
         public void DrawLine(double x1, double y1, double x2, double y2, IUniColour colour, double width, UniDashStyle style)
         {
+            CheckState();
             ChangeLineWidth(width);
             ChangeDashStyle(style);
             ChangeStrokingColour(colour);
@@ -229,7 +242,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="fillColour"></param>
         public void DrawFilledPolygon(IEnumerable<UniPoint> vertexes, IUniColour strokeColour, IUniColour fillColour)
         {
-
+            CheckState();
         }
 
         /// <summary>
@@ -275,6 +288,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="lineWidth">Stroke width.</param>
         public void DrawRectangle(double xTopLeft, double yTopLeft, double rectWidth, double rectHeight, IUniColour strokeColour, double lineWidth)
         {
+            CheckState();
             ChangeLineWidth(lineWidth);
             ChangeDashStyle(UniDashStyle.Solid);
             ChangeStrokingColour(strokeColour);
@@ -308,6 +322,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="lineWidth">Stroke width.</param>
         public void DrawRectangle(double xTopLeft, double yTopLeft, double rectWidth, double rectHeight, IUniColour strokeColour, IUniColour fillColour, double lineWidth)
         {
+            CheckState();
             ChangeLineWidth(lineWidth);
             ChangeDashStyle(UniDashStyle.Solid);
             ChangeStrokingColour(strokeColour);
@@ -337,6 +352,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="colour">The text colour.</param>
         public void DrawString(string text, IFontDescriptor font, double x, double y, IUniColour colour)
         {
+            CheckState();
             if (font is null)
             {
                 throw new ArgumentNullException(nameof(font));
@@ -371,6 +387,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="colour">The text colour.</param>
         public void DrawString(string text, IFontDescriptor font, UniRectangle rect, HorizontalAlignment hAlign, VerticalAlignment vAlign, IUniColour colour)
         {
+            CheckState();
             if (font is null)
             {
                 throw new ArgumentNullException(nameof(font));
@@ -418,6 +435,14 @@ namespace Unicorn.Writer.Structural
                 throw new ArgumentNullException(nameof(font));
             }
             return font.MeasureString(text);
+        }
+
+        private void CheckState()
+        {
+            if (PageState != PageState.Open)
+            {
+                throw new PageClosedException(Resources.Structural_PageGraphics_Page_Closed_Error);
+            }
         }
 
         private void ChangeLineWidth(double width)

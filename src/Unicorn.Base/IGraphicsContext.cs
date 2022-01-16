@@ -7,6 +7,8 @@ namespace Unicorn.Base
     /// </summary>
     public interface IGraphicsContext
     {
+        PageState PageState { get; }
+
         /// <summary>
         /// Carry out any operations needed to cleanly close the content stream for this graphics context, such as balancing any unbalanced PDF operators.
         /// </summary>
