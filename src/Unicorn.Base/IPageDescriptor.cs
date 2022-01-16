@@ -5,6 +5,8 @@
     /// </summary>
     public interface IPageDescriptor
     {
+        PageState PageState { get; }
+
         /// <summary>
         /// The graphics context for carrying out low level drawing operations to this page.
         /// </summary>

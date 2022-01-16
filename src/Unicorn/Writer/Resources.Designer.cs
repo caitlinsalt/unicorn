@@ -19,7 +19,7 @@ namespace Unicorn.Writer {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -129,6 +129,15 @@ namespace Unicorn.Writer {
         internal static string Primitives_PdfOperator_LineDashPattern_Index_Too_High_Error {
             get {
                 return ResourceManager.GetString("Primitives_PdfOperator_LineDashPattern_Index_Too_High_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The page has been closed and cannot be modified..
+        /// </summary>
+        internal static string Structural_PageGraphics_Page_Closed_Error {
+            get {
+                return ResourceManager.GetString("Structural_PageGraphics_Page_Closed_Error", resourceCulture);
             }
         }
         
