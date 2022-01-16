@@ -16,6 +16,8 @@ namespace Unicorn.Writer.Structural
         /// </summary>
         public PdfDocument HomeDocument { get; private set; }
 
+        public PageState PageState { get; private set; }
+
         /// <summary>
         /// The size of this page.
         /// </summary>
@@ -110,6 +112,7 @@ namespace Unicorn.Writer.Structural
             }
 
             HomeDocument = homeDocument;
+            PageState = PageState.Open;
             PageSize = size;
             PageOrientation = orientation;
 
@@ -155,6 +158,7 @@ namespace Unicorn.Writer.Structural
         /// </summary>
         public void ClosePage()
         {
+            PageState = PageState.Closed;
             PageGraphics.CloseGraphics();
         }
 
