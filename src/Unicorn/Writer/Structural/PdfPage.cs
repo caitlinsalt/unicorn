@@ -16,6 +16,9 @@ namespace Unicorn.Writer.Structural
         /// </summary>
         public PdfDocument HomeDocument { get; private set; }
 
+        /// <summary>
+        /// Whether or not the page is open for composition.
+        /// </summary>
         public PageState PageState { get; private set; }
 
         /// <summary>
