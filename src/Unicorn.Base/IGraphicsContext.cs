@@ -7,6 +7,9 @@ namespace Unicorn.Base
     /// </summary>
     public interface IGraphicsContext
     {
+        /// <summary>
+        /// Whether or not the parent page of this context is open for additional drawing, or completed.
+        /// </summary>
         PageState PageState { get; }
 
         /// <summary>
