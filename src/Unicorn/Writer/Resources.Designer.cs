@@ -133,6 +133,15 @@ namespace Unicorn.Writer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The page has been closed and cannot be modified..
+        /// </summary>
+        internal static string Structural_PageGraphics_Page_Closed_Error {
+            get {
+                return ResourceManager.GetString("Structural_PageGraphics_Page_Closed_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The program is trying to restore a graphics state from a different implementation library..
         /// </summary>
         internal static string Structural_PageGraphics_RestoreWrongTypeError {
