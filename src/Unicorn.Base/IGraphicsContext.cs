@@ -8,6 +8,11 @@ namespace Unicorn.Base
     public interface IGraphicsContext
     {
         /// <summary>
+        /// Whether or not the parent page of this context is open for additional drawing, or completed.
+        /// </summary>
+        PageState PageState { get; }
+
+        /// <summary>
         /// Carry out any operations needed to cleanly close the content stream for this graphics context, such as balancing any unbalanced PDF operators.
         /// </summary>
         void CloseGraphics();

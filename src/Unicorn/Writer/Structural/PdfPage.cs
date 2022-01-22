@@ -18,6 +18,11 @@ namespace Unicorn.Writer.Structural
         public PdfDocument HomeDocument { get; private set; }
 
         /// <summary>
+        /// Whether or not the page is open for composition.
+        /// </summary>
+        public PageState PageState { get; private set; }
+
+        /// <summary>
         /// The size of this page.
         /// </summary>
         public PhysicalPageSize PageSize { get; private set; }
@@ -127,6 +132,7 @@ namespace Unicorn.Writer.Structural
             }
 
             HomeDocument = homeDocument;
+            PageState = PageState.Open;
             PageSize = size;
             PageOrientation = orientation;
             HorizontalMarginProportion = horizontalMarginProportion;
@@ -174,6 +180,7 @@ namespace Unicorn.Writer.Structural
         /// </summary>
         public void ClosePage()
         {
+            PageState = PageState.Closed;
             PageGraphics.CloseGraphics();
         }
 

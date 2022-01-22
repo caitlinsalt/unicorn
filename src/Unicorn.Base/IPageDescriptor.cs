@@ -8,6 +8,11 @@ namespace Unicorn.Base
     public interface IPageDescriptor
     {
         /// <summary>
+        /// Whether or not this page is open for drawing, or completed and closed.
+        /// </summary>
+        PageState PageState { get; }
+
+        /// <summary>
         /// The graphics context for carrying out low level drawing operations to this page.
         /// </summary>
         IGraphicsContext PageGraphics { get; }
