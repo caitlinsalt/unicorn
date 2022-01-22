@@ -5,6 +5,9 @@
     /// </summary>
     public interface IPageDescriptor
     {
+        /// <summary>
+        /// Whether or not this page is open for drawing, or completed and closed.
+        /// </summary>
         PageState PageState { get; }
 
         /// <summary>
