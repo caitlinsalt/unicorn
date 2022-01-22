@@ -22,7 +22,7 @@ namespace Unicorn.Tests.Unit
         public void SetUpTest()
         {
             _testMargins = _rnd.NextMarginSet();
-            _testObject = new(_rnd.NextDouble(1000), _rnd.NextNullableDouble(1000), _rnd.NextOrientation(), _rnd.NextHorizontalAlignment(),
+            _testObject = new(20 + _rnd.NextDouble(1000), 20 + _rnd.NextNullableDouble(1000), _rnd.NextOrientation(), _rnd.NextHorizontalAlignment(),
                 _rnd.NextVerticalAlignment(), _testMargins);
         }
 
