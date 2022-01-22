@@ -210,10 +210,10 @@ namespace Unicorn.Tests.Unit.TestHelpers
                 throw new ArgumentNullException(nameof(rnd));
             }
             List<IWord> mockWords = new();
-            while (mockWords.Sum(w => w.MinWidth) < minWidth)
+            do
             {
                 mockWords.Add(rnd.NextMockWord());
-            }
+            } while (mockWords.Take(mockWords.Count - 1).Sum(w => w.MinWidth) + mockWords.Last().ContentWidth < minWidth);
             return new Line(mockWords);
         }
 
