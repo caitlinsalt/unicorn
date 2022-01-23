@@ -52,7 +52,7 @@ namespace Unicorn
         /// <summary>
         /// The height of this word.
         /// </summary>
-        public double MinHeight => ContentAscent + ContentDescent;
+        public double ContentHeight => ContentAscent + ContentDescent;
 
         /// <summary>
         /// Construct a <see cref="Word" /> instance. 

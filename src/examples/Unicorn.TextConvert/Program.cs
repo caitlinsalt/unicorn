@@ -44,39 +44,15 @@ namespace Unicorn.TextConvert
             using FileStream outputStream = new(options.Out, FileMode.Create, FileAccess.Write);
             await foreach (var para in inputProvider.GetParagraphsAsync())
             {
-                Paragraph outputPara = new(page.PageAvailableWidth, page.BottomMarginPosition - page.CurrentVerticalCursor, Orientation.Normal, para.Alignment, 
+                Paragraph outputPara = new(page.PageAvailableWidth, page.PageAvailableHeight, Orientation.Normal, para.Alignment, 
                     VerticalAlignment.Top, margins);
                 outputPara.AddText(para.Content, font, page.PageGraphics);
-                if (outputPara.OverspillHeight)
+                var oldPage = page;
+                page = page.LayOut(outputPara, document);
+                if (page != oldPage && options.Verbose)
                 {
-                    if (options.Verbose)
-                    {
-                        await Console.Out.WriteLineAsync(string.Format(CultureInfo.CurrentCulture, Resources.Program_NewPageMessage, pageCount++, paraCount)).ConfigureAwait(false);
-                    }
                     await document.WritePartialAsync(outputStream).ConfigureAwait(true);
-                    var newPage = document.AppendPage();
-                    newPage.CurrentVerticalCursor = newPage.TopMarginPosition;
-                    var newPara = outputPara.Split(newPage.BottomMarginPosition - newPage.CurrentVerticalCursor);
-                    if (!outputPara.OverspillHeight)
-                    {
-                        outputPara.DrawAt(page.PageGraphics, page.LeftMarginPosition, page.CurrentVerticalCursor);
-                    }
-                    else
-                    {
-                        outputPara.DrawAt(newPage.PageGraphics, newPage.LeftMarginPosition, newPage.CurrentVerticalCursor);
-                        newPage.CurrentVerticalCursor += outputPara.ContentHeight;
-                    }
-                    if (newPara != null)
-                    {
-                        newPara.DrawAt(newPage.PageGraphics, newPage.LeftMarginPosition, newPage.CurrentVerticalCursor);
-                        newPage.CurrentVerticalCursor += newPara.ContentHeight;
-                    }
-                    page = newPage;
-                }
-                else
-                {
-                    outputPara.DrawAt(page.PageGraphics, page.LeftMarginPosition, page.CurrentVerticalCursor);
-                    page.CurrentVerticalCursor += outputPara.ContentHeight;
+                    await Console.Out.WriteLineAsync(string.Format(CultureInfo.CurrentCulture, Resources.Program_NewPageMessage, pageCount++, paraCount)).ConfigureAwait(false);
                 }
                 paraCount++;
             }

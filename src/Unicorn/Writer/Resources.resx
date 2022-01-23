@@ -141,6 +141,9 @@
   <data name="Primitives_PdfOperator_LineDashPattern_Index_Too_High_Error" xml:space="preserve">
     <value>The start value of the line dash pattern operator must not be higher than the number of items in the pattern array.</value>
   </data>
+  <data name="Structural_PageGraphics_Page_Closed_Error" xml:space="preserve">
+    <value>The page has been closed and cannot be modified.</value>
+  </data>
   <data name="Structural_PageGraphics_RestoreWrongTypeError" xml:space="preserve">
     <value>The program is trying to restore a graphics state from a different implementation library.</value>
   </data>
@@ -152,6 +155,9 @@
   </data>
   <data name="Structural_PdfPageTreeItem_Invalid_ObjectId_Error" xml:space="preserve">
     <value>The object ID must be a positive integer.</value>
+  </data>
+  <data name="Structural_PdfPage_Drawable_Split_Failed_Error" xml:space="preserve">
+    <value>A drawable object was split, but did not shrink and did not fit on a blank page.</value>
   </data>
   <data name="Structural_PdfTrailer_SetCrossReferenceTableLocation_Invalid_Location_Error" xml:space="preserve">
     <value>The cross-reference table address {0} appeared to be invalid.</value>
