@@ -5,7 +5,7 @@ using Unicorn.CoreTypes;
 
 namespace Unicorn.Images
 {
-    public abstract class BaseImage : IImage
+    public abstract class BaseSourceImage : ISourceImage
     {
         public abstract int DotWidth { get; }
 

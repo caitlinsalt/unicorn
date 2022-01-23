@@ -6,7 +6,7 @@ using Unicorn.CoreTypes;
 
 namespace Unicorn.Images
 {
-    public class JpegImage : BaseImage
+    public class JpegSourceImage : BaseSourceImage
     {
         private Stream _dataStream;
 
@@ -14,8 +14,12 @@ namespace Unicorn.Images
 
         public override int DotHeight => throw new NotImplementedException();
 
-        public JpegImage(Stream stream)
+        public JpegSourceImage(Stream stream)
         {
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
             _dataStream = stream;
             stream.Seek(7, SeekOrigin.Begin);
 
