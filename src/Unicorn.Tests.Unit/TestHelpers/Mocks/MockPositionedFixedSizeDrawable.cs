@@ -2,7 +2,7 @@
 
 namespace Unicorn.Tests.Unit.TestHelpers.Mocks
 {
-    internal class MockPositionedKnownSizeDrawable : IPositionedKnownSizeDrawable
+    internal class MockPositionedFixedSizeDrawable : IPositionedFixedSizeDrawable
     {
         public double X { get; set; }
 
@@ -14,7 +14,7 @@ namespace Unicorn.Tests.Unit.TestHelpers.Mocks
 
         public double ContentHeight => Height;
 
-        public MockPositionedKnownSizeDrawable(double x, double y, double width, double height)
+        public MockPositionedFixedSizeDrawable(double x, double y, double width, double height)
         {
             X = x;
             Y = y;
