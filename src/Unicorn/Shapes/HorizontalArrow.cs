@@ -7,7 +7,7 @@ namespace Unicorn.Shapes
     /// <summary>
     /// A drawable that draws a horizontal arrow, with respect to the current context orientation.
     /// </summary>
-    public class HorizontalArrow : IDrawable, IKnownSizeDrawable
+    public class HorizontalArrow : IDrawable, IFixedSizeDrawable
     {
         /// <summary>
         /// Total length of the arrow from base to tip.

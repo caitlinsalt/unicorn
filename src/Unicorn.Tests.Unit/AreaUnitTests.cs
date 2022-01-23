@@ -14,7 +14,7 @@ namespace Unicorn.Tests.Unit
         private static readonly Random _rnd = RandomProvider.Default;
 
         private Area _testObject;
-        private List<MockPositionedKnownSizeDrawable> _mockContents;
+        private List<MockPositionedFixedSizeDrawable> _mockContents;
 
 #pragma warning disable CA5394 // Do not use insecure randomness
 
@@ -22,10 +22,10 @@ namespace Unicorn.Tests.Unit
         public void SetUpTest()
         {
             int itemCount = _rnd.Next(1, 20);
-            _mockContents = new List<MockPositionedKnownSizeDrawable>();
+            _mockContents = new List<MockPositionedFixedSizeDrawable>();
             for (int i = 0; i < itemCount; i++)
             {
-                _mockContents.Add(_rnd.NextMockPositionedKnownSizeDrawable());
+                _mockContents.Add(_rnd.NextMockPositionedFixedSizeDrawable());
             }
             _testObject = new Area(_mockContents);
         }
