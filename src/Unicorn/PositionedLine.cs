@@ -6,7 +6,7 @@ namespace Unicorn
     /// <summary>
     /// A <see cref="Line" /> of words which has a set location within its context or container.
     /// </summary>
-    public class PositionedLine : Line, IPositionedKnownSizeDrawable
+    public class PositionedLine : Line, IPositionedFixedSizeDrawable
     {
         /// <summary>
         /// The X-coordinate of the start of the line.
