@@ -1,6 +1,6 @@
 ﻿namespace Unicorn.CoreTypes
 {
-    public interface IImage
+    public interface ISourceImage
     {
         int DotWidth { get; }
 
