@@ -3,7 +3,7 @@
     /// <summary>
     /// A drawable object of known size.
     /// </summary>
-    public interface IKnownSizeDrawable : IDrawable
+    public interface IFixedSizeDrawable : IDrawable
     {
         /// <summary>
         /// The width of this drawable.
