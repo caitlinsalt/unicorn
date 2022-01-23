@@ -7,12 +7,12 @@ namespace Unicorn
     /// <summary>
     /// Represents a drawable container which contains drawable objects at fixed coordinates within the container.
     /// </summary>
-    public class Area : IKnownSizeDrawable
+    public class Area : IFixedSizeDrawable
     {
         /// <summary>
         /// The contents of the container.
         /// </summary>
-        public IList<IPositionedKnownSizeDrawable> Contents { get; private set; }
+        public IList<IPositionedFixedSizeDrawable> Contents { get; private set; }
 
         /// <summary>
         /// The width of the area, computed from the coordinates and widths of the area's contents.
@@ -34,14 +34,14 @@ namespace Unicorn
         /// </summary>
         public Area()
         {
-            Contents = new List<IPositionedKnownSizeDrawable>();
+            Contents = new List<IPositionedFixedSizeDrawable>();
         }
 
         /// <summary>
         /// Constructor which sets initial contents of the area.
         /// </summary>
         /// <param name="contents">The drawable contents of the area.</param>
-        public Area(IEnumerable<IPositionedKnownSizeDrawable> contents)
+        public Area(IEnumerable<IPositionedFixedSizeDrawable> contents)
         {
             Contents = contents.ToList();
         }
