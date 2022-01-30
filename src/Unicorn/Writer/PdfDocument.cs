@@ -20,6 +20,7 @@ namespace Unicorn.Writer
         private readonly PdfCrossRefTable _xrefTable = new PdfCrossRefTable();
         private readonly List<IPdfIndirectObject> _bodyObjects = new List<IPdfIndirectObject>();
         private readonly PdfPageTreeNode _pageRoot;
+        private PdfPageTreeNode _currentPageTreeNode;
         private readonly Dictionary<string, PdfFont> _fontCache = new Dictionary<string, PdfFont>();
 
         private int _bytesWritten;
@@ -68,6 +69,7 @@ namespace Unicorn.Writer
         public PdfDocument(PhysicalPageSize defaultPageSize, PageOrientation defaultOrientation, double defaultHorizontalMarginProportion, double defaultVerticalMarginProportion)
         {
             _pageRoot = new PdfPageTreeNode(null, _xrefTable.ClaimSlot());
+            _currentPageTreeNode = _pageRoot;
             _bodyObjects.Add(_pageRoot);
             //_root = new PdfCatalogue(_pageRoot, _xrefTable.ClaimSlot());
             //_bodyObjects.Add(_root);
@@ -89,10 +91,10 @@ namespace Unicorn.Writer
         public IPageDescriptor AppendPage(PhysicalPageSize size, PageOrientation orientation, double horizontalMarginProportion, double verticalMarginProportion)
         {
             PdfStream contentStream = new PdfStream(_xrefTable.ClaimSlot(), GetPageEncoders());
-            PdfPage page = new PdfPage(_pageRoot, _xrefTable.ClaimSlot(), this, size, orientation, horizontalMarginProportion, verticalMarginProportion, contentStream);
+            PdfPage page = new PdfPage(_currentPageTreeNode, _xrefTable.ClaimSlot(), this, size, orientation, horizontalMarginProportion, verticalMarginProportion, contentStream);
             _bodyObjects.Add(contentStream);
             _bodyObjects.Add(page);
-            _pageRoot.Add(page);
+            _currentPageTreeNode.Add(page);
             return page;
         }
 
@@ -152,12 +154,15 @@ namespace Unicorn.Writer
             {
                 throw new ArgumentNullException(nameof(stream));
             }
-            await WritePartialAsync(stream).ConfigureAwait(false);
+            CloseAllPages();
+            await WritePartialAsync(stream, false).ConfigureAwait(false);
             await CloseDocumentAsync(stream).ConfigureAwait(false);
             return _bytesWritten;
         }
 
-        public async Task WritePartialAsync(Stream destination)
+        public async Task WritePartialAsync(Stream destination) => await WritePartialAsync(destination, true).ConfigureAwait(false);
+
+        private async Task WritePartialAsync(Stream destination, bool prepareNewPageNode)
         {
             if (destination is null)
             {
@@ -169,14 +174,33 @@ namespace Unicorn.Writer
                 _headerWritten = true;
             }
 
-            CloseAllPages();
-            Console.WriteLine($"{_bodyObjects.Count} objects to write.");
-            foreach (IPdfIndirectObject indirectObject in _bodyObjects)
+            int finalObjectIndex = FindLastSafeObjectToWrite();
+            if (finalObjectIndex < 0)
             {
-                await WriteIndirectObjectAsync(indirectObject, destination).ConfigureAwait(false);
+                Console.WriteLine("No safe objects to write");
+                return;
             }
 
-            _bodyObjects.Clear();
+            PdfPageTreeNode nextPageTreeNode = null;
+            if (prepareNewPageNode)
+            {
+                nextPageTreeNode = new PdfPageTreeNode(_currentPageTreeNode, _xrefTable.ClaimSlot());
+                _currentPageTreeNode.Add(nextPageTreeNode);
+            }
+
+            Console.WriteLine($"{finalObjectIndex + 1} objects to write.");
+            for (int i = 0; i <= finalObjectIndex; ++i)
+            {
+                await WriteIndirectObjectAsync(_bodyObjects[i], destination).ConfigureAwait(false);
+            }
+
+            _bodyObjects.RemoveRange(0, finalObjectIndex + 1);
+
+            if (prepareNewPageNode)
+            {
+                _currentPageTreeNode = nextPageTreeNode;
+                _bodyObjects.Add(_currentPageTreeNode);
+            }
         }
 
         public async Task CloseDocumentAsync(Stream destination)
@@ -288,6 +312,32 @@ namespace Unicorn.Writer
             {
                 page.ClosePage();
             }
+        }
+
+        private int FindLastSafeObjectToWrite()
+        {
+            List<bool> objectFlags = new List<bool>(_bodyObjects.Count);
+            for (int i = 0; i < _bodyObjects.Count; i++)
+            {
+                if (!(_bodyObjects[i] is PdfPage || _bodyObjects[i] is PdfStream))
+                {
+                    objectFlags.Add(true);
+                }
+                if (_bodyObjects[i] is PdfPage)
+                {
+                    objectFlags.Add((_bodyObjects[i] as PdfPage).PageState == PageState.Closed);
+                }
+                if (_bodyObjects[i] is PdfStream)
+                {
+                    var parent = _bodyObjects.FirstOrDefault(b => b is PdfPage && object.ReferenceEquals((b as PdfPage).ContentStream, _bodyObjects[i])) as PdfPage;
+                    objectFlags.Add(parent.PageState == PageState.Closed);
+                }
+            }
+            if (objectFlags.All(f => f == true))
+            {
+                return _bodyObjects.Count - 1;
+            }
+            return objectFlags.FindIndex(f => f == false) - 1;
         }
     }
 }

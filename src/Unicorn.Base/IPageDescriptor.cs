@@ -100,5 +100,7 @@ namespace Unicorn.Base
         /// <param name="pageGenerator">A function to be called to create a new page if one is required.</param>
         /// <returns>The page descriptor of a new page, if one was created, or <c>this</c> if the item fitted on this page.</returns>
         IPageDescriptor LayOut<T>(ISplittable<T> splittable, Func<IPageDescriptor> pageGenerator) where T : ISplittable<T>;
+
+        void ClosePage();
     }
 }
