@@ -19,7 +19,6 @@ namespace Unicorn.Writer
     {
         private readonly PdfCrossRefTable _xrefTable = new PdfCrossRefTable();
         private readonly List<IPdfIndirectObject> _bodyObjects = new List<IPdfIndirectObject>();
-        private readonly PdfCatalogue _root;
         private readonly PdfPageTreeNode _pageRoot;
         private readonly Dictionary<string, PdfFont> _fontCache = new Dictionary<string, PdfFont>();
 
@@ -70,8 +69,8 @@ namespace Unicorn.Writer
         {
             _pageRoot = new PdfPageTreeNode(null, _xrefTable.ClaimSlot());
             _bodyObjects.Add(_pageRoot);
-            _root = new PdfCatalogue(_pageRoot, _xrefTable.ClaimSlot());
-            _bodyObjects.Add(_root);
+            //_root = new PdfCatalogue(_pageRoot, _xrefTable.ClaimSlot());
+            //_bodyObjects.Add(_root);
 
             DefaultPhysicalPageSize = defaultPageSize;
             DefaultPageOrientation = defaultOrientation;
@@ -174,9 +173,7 @@ namespace Unicorn.Writer
             Console.WriteLine($"{_bodyObjects.Count} objects to write.");
             foreach (IPdfIndirectObject indirectObject in _bodyObjects)
             {
-                Console.WriteLine($"Object {indirectObject.ObjectId} at {_bytesWritten}");
-                _xrefTable.SetSlot(indirectObject, _bytesWritten);
-                _bytesWritten += await indirectObject.WriteToAsync(destination).ConfigureAwait(false);
+                await WriteIndirectObjectAsync(indirectObject, destination).ConfigureAwait(false);
             }
 
             _bodyObjects.Clear();
@@ -184,10 +181,19 @@ namespace Unicorn.Writer
 
         public async Task CloseDocumentAsync(Stream destination)
         {
+            PdfCatalogue _root = new PdfCatalogue(_pageRoot, _xrefTable.ClaimSlot());
+            await WriteIndirectObjectAsync(_root, destination).ConfigureAwait(false);
             PdfTrailer trailer = new PdfTrailer(_root, _xrefTable);
             trailer.SetCrossReferenceTableLocation(_bytesWritten);
             _bytesWritten += await _xrefTable.WriteToAsync(destination).ConfigureAwait(false);
             _bytesWritten += await trailer.WriteToAsync(destination).ConfigureAwait(false);
+        }
+
+        private async Task WriteIndirectObjectAsync(IPdfIndirectObject indirectObject, Stream destination)
+        {
+            Console.WriteLine($"Object {indirectObject.ObjectId} at {_bytesWritten}");
+            _xrefTable.SetSlot(indirectObject, _bytesWritten);
+            _bytesWritten += await indirectObject.WriteToAsync(destination).ConfigureAwait(false);
         }
 
         private async Task WriteHeaderAsync(Stream destination)

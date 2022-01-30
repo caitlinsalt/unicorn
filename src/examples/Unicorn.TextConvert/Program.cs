@@ -51,7 +51,7 @@ namespace Unicorn.TextConvert
                 page = page.LayOut(outputPara, document);
                 if (page != oldPage && options.Verbose)
                 {
-                    await document.WritePartialAsync(outputStream).ConfigureAwait(true);
+                    //await document.WritePartialAsync(outputStream).ConfigureAwait(true);
                     await Console.Out.WriteLineAsync(string.Format(CultureInfo.CurrentCulture, Resources.Program_NewPageMessage, pageCount++, paraCount)).ConfigureAwait(false);
                 }
                 paraCount++;
