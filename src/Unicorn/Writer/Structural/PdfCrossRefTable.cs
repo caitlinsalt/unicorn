@@ -52,7 +52,7 @@ namespace Unicorn.Writer.Structural
             }
             if (value.ObjectId >= _contents.Count || value.ObjectId < 0)
             {
-                throw new ArgumentException(Resources.Structural_PdfCrossRefTable_SetSlot_Invalid_ObjectId_Error, nameof(value));
+                throw new ArgumentException(WriterResources.Structural_PdfCrossRefTable_SetSlot_Invalid_ObjectId_Error, nameof(value));
             }
             PdfCrossRefTableEntry entry = new PdfCrossRefTableEntry(value, offset);
             _contents[value.ObjectId] = entry;

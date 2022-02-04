@@ -40,9 +40,9 @@ namespace Unicorn
         /// <exception cref="ArgumentOutOfRangeException">Any of <c>red</c>, <c>green</c> or <c>blue</c> is less than zero or greater than one.</exception>
         public RgbColour(double red, double green, double blue)
         {
-            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(red, nameof(red), Resources.RgbColour_Error_ValueOutOfRange);
-            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(green, nameof(green), Resources.RgbColour_Error_ValueOutOfRange);
-            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(blue, nameof(blue), Resources.RgbColour_Error_ValueOutOfRange);
+            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(red, nameof(red), GeneralResources.RgbColour_Error_ValueOutOfRange);
+            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(green, nameof(green), GeneralResources.RgbColour_Error_ValueOutOfRange);
+            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(blue, nameof(blue), GeneralResources.RgbColour_Error_ValueOutOfRange);
 
             Red = red;
             Green = green;

@@ -38,7 +38,7 @@ namespace Unicorn.Writer.Structural
             if (location <= 8)
             {
                 throw new ArgumentOutOfRangeException(nameof(location),
-                    string.Format(CultureInfo.CurrentCulture, Resources.Structural_PdfTrailer_SetCrossReferenceTableLocation_Invalid_Location_Error, location));
+                    string.Format(CultureInfo.CurrentCulture, WriterResources.Structural_PdfTrailer_SetCrossReferenceTableLocation_Invalid_Location_Error, location));
             }
             _xrefLocation = location;
         }
@@ -59,7 +59,7 @@ namespace Unicorn.Writer.Structural
             }
             if (!_xrefLocation.HasValue)
             {
-                throw new InvalidOperationException(Resources.Structural_PdfTrailer_WriteTo_CrossRef_Location_Not_Known_Error);
+                throw new InvalidOperationException(WriterResources.Structural_PdfTrailer_WriteTo_CrossRef_Location_Not_Known_Error);
             }
             PdfDictionary dict = GetDictionary();
             int written = await StreamWriteAsync(stream, new byte[] { 0x74, 0x72, 0x61, 0x69, 0x6c, 0x65, 0x72, 0xa }).ConfigureAwait(false);                      // "trailer\n"
