@@ -10,9 +10,14 @@ namespace Unicorn.Writer.Primitives
     public class PdfReference : PdfSimpleObject, IEquatable<PdfReference>
     {
         /// <summary>
-        /// The object this reference refers to.
+        /// The ID of the object that this reference refers to.
         /// </summary>
-        public IPdfIndirectObject Value { get; }
+        public int ObjectId { get; }
+
+        /// <summary>
+        /// The generation number of the object that this reference refers to.
+        /// </summary>
+        public int Generation { get; }
         
         /// <summary>
         /// Value-setting constructor.
@@ -21,7 +26,12 @@ namespace Unicorn.Writer.Primitives
         /// <exception cref="ArgumentNullException">Thrown if the referent parameter is null.</exception>
         public PdfReference(IPdfIndirectObject referent)
         {
-            Value = referent ?? throw new ArgumentNullException(nameof(referent));
+            if (referent is null)
+            {
+                throw new ArgumentNullException(nameof(referent));
+            }
+            ObjectId = referent.ObjectId;
+            Generation = referent.Generation;
         }
 
         /// <summary>
@@ -30,7 +40,7 @@ namespace Unicorn.Writer.Primitives
         /// <returns>An array of bytes representing this object.</returns>
         protected override byte[] FormatBytes()
         {
-            return Encoding.ASCII.GetBytes($"{Value.ObjectId} {Value.Generation} R\xa");
+            return Encoding.ASCII.GetBytes($"{ObjectId} {Generation} R\xa");
         }
 
         /// <summary>
@@ -44,7 +54,7 @@ namespace Unicorn.Writer.Primitives
             {
                 return false;
             }
-            return Value.ObjectId == other.Value.ObjectId && Value.Generation == other.Value.Generation;
+            return ObjectId == other.ObjectId && Generation == other.Generation;
         }
 
         /// <summary>
@@ -68,7 +78,7 @@ namespace Unicorn.Writer.Primitives
         /// <returns>A hash code derived from the value of this object.</returns>
         public override int GetHashCode()
         {
-            return Value.ObjectId.GetHashCode() ^ Value.Generation.GetHashCode();
+            return ObjectId.GetHashCode() ^ Generation.GetHashCode();
         }
 
         /// <summary>
