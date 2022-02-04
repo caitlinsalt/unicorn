@@ -42,7 +42,7 @@ namespace Unicorn
         /// <exception cref="ArgumentOutOfRangeException"><c>grey</c> is less than 0 or greater than 1.</exception>
         public GreyscaleColour(double grey)
         {
-            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(grey, nameof(grey), Resources.GreyscaleColour_Error_ValueOutOfRange);
+            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(grey, nameof(grey), GeneralResources.GreyscaleColour_Error_ValueOutOfRange);
 
             GreyLevel = grey;
         }

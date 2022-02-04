@@ -115,7 +115,7 @@ namespace Unicorn
             }
             if (Count > array.Length - arrayIndex + 1)
             {
-                throw new ArgumentException(Resources.TableCellCollection_CopyTo_Error_InsufficientArrayLength, nameof(array));
+                throw new ArgumentException(GeneralResources.TableCellCollection_CopyTo_Error_InsufficientArrayLength, nameof(array));
             }
 
             for (int i = 0; i < Count; ++i)
@@ -315,7 +315,7 @@ namespace Unicorn
             {
                 if (_ver != _collection._version)
                 {
-                    throw new InvalidOperationException(Resources.TableCellCollection_Enumerator_Error_CollectionModified);
+                    throw new InvalidOperationException(GeneralResources.TableCellCollection_Enumerator_Error_CollectionModified);
                 }
             }
         }
