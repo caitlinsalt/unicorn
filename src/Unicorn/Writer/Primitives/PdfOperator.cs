@@ -54,12 +54,12 @@ namespace Unicorn.Writer.Primitives
             {
                 if (!(pattern[i] is PdfNumber))
                 {
-                    throw new ArgumentException(Resources.Primitives_PdfOperator_LineDashPattern_Content_Error, nameof(pattern));
+                    throw new ArgumentException(WriterResources.Primitives_PdfOperator_LineDashPattern_Content_Error, nameof(pattern));
                 }
             }
             if (start.Value > pattern.Length)
             {
-                throw new ArgumentException(Resources.Primitives_PdfOperator_LineDashPattern_Index_Too_High_Error);
+                throw new ArgumentException(WriterResources.Primitives_PdfOperator_LineDashPattern_Index_Too_High_Error);
             }
 
             return new PdfOperator("d").AddOperand(pattern, nameof(pattern)).AddOperand(start, nameof(start));
