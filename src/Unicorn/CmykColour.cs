@@ -46,10 +46,10 @@ namespace Unicorn
         /// <exception cref="ArgumentOutOfRangeException">One or more of the parameters is less than 0 or greater than 1.</exception>
         public CmykColour(double cyan, double magenta, double yellow, double black)
         {
-            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(cyan, nameof(cyan), Resources.CmykColour_Error_ValueOutOfRange);
-            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(magenta, nameof(magenta), Resources.CmykColour_Error_ValueOutOfRange);
-            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(yellow, nameof(yellow), Resources.CmykColour_Error_ValueOutOfRange);
-            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(black, nameof(black), Resources.CmykColour_Error_ValueOutOfRange);
+            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(cyan, nameof(cyan), GeneralResources.CmykColour_Error_ValueOutOfRange);
+            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(magenta, nameof(magenta), GeneralResources.CmykColour_Error_ValueOutOfRange);
+            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(yellow, nameof(yellow), GeneralResources.CmykColour_Error_ValueOutOfRange);
+            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(black, nameof(black), GeneralResources.CmykColour_Error_ValueOutOfRange);
 
             Cyan = cyan;
             Magenta = magenta;

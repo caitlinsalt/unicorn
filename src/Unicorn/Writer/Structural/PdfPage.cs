@@ -243,7 +243,7 @@ namespace Unicorn.Writer.Structural
             }
             else
             {
-                throw new DrawableSplitException(Resources.Structural_PdfPage_Drawable_Split_Failed_Error);
+                throw new DrawableSplitException(WriterResources.Structural_PdfPage_Drawable_Split_Failed_Error);
             }
             if (splitPortion != null)
             {

@@ -77,7 +77,7 @@ namespace Unicorn.Writer.Primitives
                     {
                         return _contents[key];
                     }
-                    throw new KeyNotFoundException(Resources.Primitives_PdfDictionary_Indexer_Key_Not_Found_Error);
+                    throw new KeyNotFoundException(WriterResources.Primitives_PdfDictionary_Indexer_Key_Not_Found_Error);
                 }
             }
             set
@@ -132,7 +132,7 @@ namespace Unicorn.Writer.Primitives
             {
                 if (_contents.ContainsKey(key))
                 {
-                    throw new ArgumentException(Resources.Primitives_PdfDictionary_Add_Duplicate_Key_Error, nameof(key));
+                    throw new ArgumentException(WriterResources.Primitives_PdfDictionary_Add_Duplicate_Key_Error, nameof(key));
                 }
                 _contents.Add(key, value);
             }
@@ -156,7 +156,7 @@ namespace Unicorn.Writer.Primitives
                 {
                     if (_contents.ContainsKey(item.Key))
                     {
-                        throw new ArgumentException(Resources.Primitives_PdfDictionary_Add_Duplicate_Key_Error, nameof(data));
+                        throw new ArgumentException(WriterResources.Primitives_PdfDictionary_Add_Duplicate_Key_Error, nameof(data));
                     }
                     _contents.Add(item.Key, item.Value);
                 }
