@@ -35,10 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Images\Resources.Designer.cs">
+    <Compile Update="Images\ImageLoadResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>ImageLoadResources.resx</DependentUpon>
     </Compile>
     <Compile Update="GeneralResources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -53,9 +53,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Images\Resources.resx">
+    <EmbeddedResource Update="Images\ImageLoadResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>ImageLoadResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="GeneralResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
