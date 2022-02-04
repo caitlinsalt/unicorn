@@ -99,7 +99,7 @@ namespace Unicorn.Writer.Structural
             CheckState();
             if (!(state is GraphicsState gs))
             {
-                throw new ArgumentException(Resources.Structural_PageGraphics_RestoreWrongTypeError);
+                throw new ArgumentException(WriterResources.Structural_PageGraphics_RestoreWrongTypeError);
             }
             lock (_stateStack)
             {
@@ -466,7 +466,7 @@ namespace Unicorn.Writer.Structural
         {
             if (PageState != PageState.Open)
             {
-                throw new PageClosedException(Resources.Structural_PageGraphics_Page_Closed_Error);
+                throw new PageClosedException(WriterResources.Structural_PageGraphics_Page_Closed_Error);
             }
         }
 
