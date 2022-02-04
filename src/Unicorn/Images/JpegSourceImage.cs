@@ -50,9 +50,9 @@ namespace Unicorn.Images
         {
             while (true)
             {
-                AdvanceToMarker(Resources.JpegSourceImage_SofNotFound);
+                AdvanceToMarker(ImageLoadResources.JpegSourceImage_SofNotFound);
                 int currentByte = _dataStream.ReadByte();
-                CheckEndOfStream(currentByte, Resources.JpegSourceImage_SofNotFound);
+                CheckEndOfStream(currentByte, ImageLoadResources.JpegSourceImage_SofNotFound);
                 if (IsStartOfFrameMarker(currentByte))
                 {
                     long rval = _dataStream.Position - 2;
@@ -66,8 +66,8 @@ namespace Unicorn.Images
         {
             const int yPixOffset = 5;
             _dataStream.Seek(_startOfFramePosition + yPixOffset, SeekOrigin.Begin);
-            DotHeight = LoadUShortFromCurrentPosition(Resources.JpegSourceImage_DimensionsNotFound);
-            DotWidth = LoadUShortFromCurrentPosition(Resources.JpegSourceImage_DimensionsNotFound);
+            DotHeight = LoadUShortFromCurrentPosition(ImageLoadResources.JpegSourceImage_DimensionsNotFound);
+            DotWidth = LoadUShortFromCurrentPosition(ImageLoadResources.JpegSourceImage_DimensionsNotFound);
             _dataStream.Seek(0, SeekOrigin.Begin);
         }
 
@@ -96,7 +96,7 @@ namespace Unicorn.Images
         {
             if (_dataStream.ReadByte() != 0xff || _dataStream.ReadByte() != 0xd8)
             {
-                throw new InvalidImageException(Resources.JpegSourceImage_SoiNotFound);
+                throw new InvalidImageException(ImageLoadResources.JpegSourceImage_SoiNotFound);
             }
         }
 
