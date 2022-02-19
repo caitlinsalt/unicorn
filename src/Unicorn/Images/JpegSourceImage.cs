@@ -48,9 +48,9 @@ namespace Unicorn.Images
 
         private long FindStartOfFrame()
         {
+            AdvanceToMarker(ImageLoadResources.JpegSourceImage_SofNotFound);
             while (true)
             {
-                AdvanceToMarker(ImageLoadResources.JpegSourceImage_SofNotFound);
                 int currentByte = _dataStream.ReadByte();
                 CheckEndOfStream(currentByte, ImageLoadResources.JpegSourceImage_SofNotFound);
                 if (IsStartOfFrameMarker(currentByte))
@@ -59,6 +59,7 @@ namespace Unicorn.Images
                     _dataStream.Seek(0, SeekOrigin.Begin);
                     return rval;
                 }
+                HopFromMarkerToMarker(ImageLoadResources.JpegSourceImage_SofNotFound);
             }
         }
 
@@ -79,6 +80,10 @@ namespace Unicorn.Images
             }   
         }
 
+        /// <summary>
+        /// This method moves to the next 0xFF byte in the stream.
+        /// </summary>
+        /// <param name="errorIfNotFound"></param>
         private void AdvanceToMarker(string errorIfNotFound)
         {
             int currentByte;
@@ -87,6 +92,22 @@ namespace Unicorn.Images
                 currentByte = _dataStream.ReadByte();
             } while (currentByte != -1 && currentByte != 255);
             CheckEndOfStream(currentByte, errorIfNotFound);
+        }
+
+        /// <summary>
+        /// This method assumes we have just read a marker, and therefore the stream is pointing at a block length word.  The method
+        /// reads that block length word and skips that distance forward, then checks that the byte we are pointing at is also a marker.
+        /// </summary>
+        /// <param name="errorMessage">The exception message to throw if the file structure is wrong.</param>
+        private void HopFromMarkerToMarker(string errorMessage)
+        {
+            int blockLength = LoadUShortFromCurrentPosition(errorMessage);
+            _dataStream.Seek(blockLength - 2, SeekOrigin.Current);
+            int currentByte = _dataStream.ReadByte();
+            if (currentByte != 255)
+            {
+                throw new InvalidImageException(errorMessage);
+            }
         }
 
         /// <summary>
