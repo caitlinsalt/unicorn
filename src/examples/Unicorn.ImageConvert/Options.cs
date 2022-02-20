@@ -5,7 +5,7 @@ namespace Unicorn.ImageConvert
     public class Options
     {
         [Option('o', "out", Required = true, HelpText = "Output file name.")]
-        public string? Out { get; set; }
+        public string Out { get; set; }
 
         [Option("verbose", Required = false, Default = false, HelpText = "Output progress information.")]
         public bool Verbose { get; set; }
@@ -14,6 +14,6 @@ namespace Unicorn.ImageConvert
         public bool Wireframe { get; set; }
 
         [Value(0)]
-        public IEnumerable<string>? InputFiles { get; set; }
+        public IEnumerable<string> InputFiles { get; set; }
     }
 }
