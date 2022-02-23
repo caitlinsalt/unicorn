@@ -30,7 +30,7 @@ namespace Unicorn.ImageConvert
             using SourceImageProviderCollection providers = new();
             foreach (string path in options.InputFiles)
             {
-                providers.Add(new SourceImageProvider(path));
+                providers.Add(new SourceImageProvider(path, options.Recursive));
             }
             PdfDocument document = new();
             IPageDescriptor currentPage = document.AppendPage();

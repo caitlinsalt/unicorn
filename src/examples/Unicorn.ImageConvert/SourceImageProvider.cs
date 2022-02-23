@@ -9,10 +9,12 @@ namespace Unicorn.ImageConvert
         private readonly List<BaseSourceImage> _images = new();
 
         private readonly string _sourcePath;
+        private readonly bool _recursive;
 
-        public SourceImageProvider(string sourcePath)
+        public SourceImageProvider(string sourcePath, bool recursive)
         {
             _sourcePath = sourcePath;
+            _recursive = recursive;
         }
 
         public async Task<IEnumerable<BaseSourceImage>> GetImagesAsync()
@@ -32,14 +34,26 @@ namespace Unicorn.ImageConvert
             }
             if (Directory.Exists(_sourcePath))
             {
-                foreach (string file in Directory.GetFiles(_sourcePath))
-                {
-                    await AddImageFromFile(file);
-                }
+                await AddImagesFromDirectory(_sourcePath);
             }
             else if (File.Exists(_sourcePath))
             {
                 await AddImageFromFile(_sourcePath);
+            }
+        }
+
+        private async Task AddImagesFromDirectory(string dirPath)
+        {
+            foreach (string file in Directory.GetFiles(dirPath))
+            {
+                await AddImageFromFile(file);
+            }
+            if (_recursive)
+            {
+                foreach (string dir in Directory.GetDirectories(dirPath))
+                {
+                    await AddImagesFromDirectory(dir);
+                }
             }
         }
 
