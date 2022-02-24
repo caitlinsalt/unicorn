@@ -70,6 +70,15 @@ namespace Unicorn.Images {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid JPEG image.  JFIF data block does not contain image resolution data..
+        /// </summary>
+        internal static string JpegSourceImage_ErrorReadingJFIFData {
+            get {
+                return ResourceManager.GetString("JpegSourceImage_ErrorReadingJFIFData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid JPEG image.  Could not find Start Of Frame marker..
         /// </summary>
         internal static string JpegSourceImage_SofNotFound {

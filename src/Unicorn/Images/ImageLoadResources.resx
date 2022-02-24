@@ -120,6 +120,9 @@
   <data name="JpegSourceImage_DimensionsNotFound" xml:space="preserve">
     <value>Invalid JPEG image.  Frame header is not long enough to contain image dimensions.</value>
   </data>
+  <data name="JpegSourceImage_ErrorReadingJFIFData" xml:space="preserve">
+    <value>Invalid JPEG image.  JFIF data block does not contain image resolution data.</value>
+  </data>
   <data name="JpegSourceImage_SofNotFound" xml:space="preserve">
     <value>Invalid JPEG image.  Could not find Start Of Frame marker.</value>
   </data>
