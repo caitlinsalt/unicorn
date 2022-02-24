@@ -20,11 +20,11 @@ namespace Unicorn.ImageConvert
             }
             if (options.Out is null)
             {
-                Console.Error.WriteLine(Resources.Program_OutputNameNotSpecifiedError);
+                await Console.Error.WriteLineAsync(Resources.Program_OutputNameNotSpecifiedError).ConfigureAwait(false);
             }
             if (!options.Wireframe)
             {
-                Console.Error.WriteLine(Resources.Program_WireframeOnlyError);
+                await Console.Error.WriteLineAsync(Resources.Program_WireframeOnlyError).ConfigureAwait(false);
                 return;
             }
             using SourceImageProviderCollection providers = new();
@@ -36,10 +36,10 @@ namespace Unicorn.ImageConvert
             IPageDescriptor currentPage = document.AppendPage();
             foreach (SourceImageProvider provider in providers)
             {
-                IEnumerable<BaseSourceImage> images = await provider.GetImagesAsync();
+                IEnumerable<BaseSourceImage> images = await provider.GetImagesAsync().ConfigureAwait(false);
                 foreach (BaseSourceImage sourceImage in images)
                 {
-                    ImageWireframe wf = new ImageWireframe(currentPage.PageAvailableWidth, currentPage.PageAvailableWidth / sourceImage.AspectRatio);
+                    ImageWireframe wf = new(currentPage.PageAvailableWidth, currentPage.PageAvailableWidth / sourceImage.AspectRatio);
                     if (currentPage.PageAvailableHeight > wf.Height)
                     {
                         currentPage.LayOut(wf);

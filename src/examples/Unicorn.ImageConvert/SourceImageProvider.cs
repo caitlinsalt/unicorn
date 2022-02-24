@@ -21,7 +21,7 @@ namespace Unicorn.ImageConvert
         {
             if (!_images.Any())
             {
-                await PopulateImagesAsync();
+                await PopulateImagesAsync().ConfigureAwait(false);
             }
             return _images.ToArray();
         }
@@ -34,11 +34,11 @@ namespace Unicorn.ImageConvert
             }
             if (Directory.Exists(_sourcePath))
             {
-                await AddImagesFromDirectory(_sourcePath);
+                await AddImagesFromDirectory(_sourcePath).ConfigureAwait(false);
             }
             else if (File.Exists(_sourcePath))
             {
-                await AddImageFromFile(_sourcePath);
+                await AddImageFromFile(_sourcePath).ConfigureAwait(false);
             }
         }
 
@@ -46,13 +46,13 @@ namespace Unicorn.ImageConvert
         {
             foreach (string file in Directory.GetFiles(dirPath))
             {
-                await AddImageFromFile(file);
+                await AddImageFromFile(file).ConfigureAwait(false);
             }
             if (_recursive)
             {
                 foreach (string dir in Directory.GetDirectories(dirPath))
                 {
-                    await AddImagesFromDirectory(dir);
+                    await AddImagesFromDirectory(dir).ConfigureAwait(false);
                 }
             }
         }
@@ -61,7 +61,7 @@ namespace Unicorn.ImageConvert
         {
             JpegSourceImage image = new();
             using FileStream stream = new(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-            await image.LoadFromAsync(stream);
+            await image.LoadFromAsync(stream).ConfigureAwait(false);
             _images.Add(image);
         }
 
