@@ -24,9 +24,9 @@ namespace Unicorn.Images
         public virtual int DotHeight { get; protected set; }
 
         /// <summary>
-        /// The image aspect ratio, as a fraction.
+        /// The image aspect ratio, as a width-over-height fraction.
         /// </summary>
-        public double AspectRatio => (double)DotWidth / DotHeight;
+        public virtual double AspectRatio => (double)DotWidth / DotHeight;
 
         /// <summary>
         /// Load the image from a stream.

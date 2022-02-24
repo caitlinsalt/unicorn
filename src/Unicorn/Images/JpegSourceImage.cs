@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Unicorn.Exceptions;
+using Unicorn.Images.Jpeg;
 
 namespace Unicorn.Images
 {
@@ -11,7 +13,27 @@ namespace Unicorn.Images
     /// </summary>
     public class JpegSourceImage : BaseSourceImage
     {
-        private long _startOfFramePosition = -1;
+        private readonly List<ImageDataBlock> _metadataBlocks = new List<ImageDataBlock>();
+
+        private ImageDataBlock StartOfFrameBlock => _metadataBlocks.FirstOrDefault(b => b.BlockType == ImageDataBlockType.StartOfFrame)
+            ?? throw new InvalidImageException(ImageLoadResources.JpegSourceImage_SofNotFound);
+
+        private ImageDataBlock JfifBlock => _metadataBlocks.FirstOrDefault(b => b.BlockType == ImageDataBlockType.Jfif);
+
+        /// <summary>
+        /// Horizontal resolution of the image in pixels per point.
+        /// </summary>
+        public double HorizontalDotsPerPoint { get; set; } = 1;
+
+        /// <summary>
+        /// Vertical resolution of the image in pixels per point.
+        /// </summary>
+        public double VerticalDotsPerPoint { get; set; } = 1;
+
+        /// <summary>
+        /// The image aspect ratio, as a width-over-height fraction.
+        /// </summary>
+        public override double AspectRatio => (DotWidth / HorizontalDotsPerPoint) / ((double) DotHeight / VerticalDotsPerPoint);
 
         /// <summary>
         /// Load a JPEG image from a stream.
@@ -42,72 +64,97 @@ namespace Unicorn.Images
         {
             await base.LoadFromAsync(stream).ConfigureAwait(false);
             CheckStartOfImageMarker();
-            _startOfFramePosition = FindStartOfFrame();
+            PopulateDataBlocks();
             PopulateSizes();
         }
 
-        private long FindStartOfFrame()
+        /// <summary>
+        /// Scan through the file header blocks loading the positions of the data blocks, stopping when we reach
+        /// Start Of Scan.  Uses the length of each block to find the start of the next, so that any images embedded
+        /// inside this one are skipped over.
+        /// </summary>
+        /// <exception cref="InvalidImageException">A data block has been found with the wrong length.</exception>
+        private void PopulateDataBlocks()
         {
-            AdvanceToMarker(ImageLoadResources.JpegSourceImage_SofNotFound);
             while (true)
             {
+                long startOfBlock = _dataStream.Position;
                 int currentByte = _dataStream.ReadByte();
-                CheckEndOfStream(currentByte, ImageLoadResources.JpegSourceImage_SofNotFound);
-                if (IsStartOfFrameMarker(currentByte))
+                if (currentByte == -1)
                 {
-                    long rval = _dataStream.Position - 2;
-                    _dataStream.Seek(0, SeekOrigin.Begin);
-                    return rval;
+                    return;
                 }
-                HopFromMarkerToMarker(ImageLoadResources.JpegSourceImage_SofNotFound);
+                if (currentByte != 255)
+                {
+                    throw new InvalidImageException("wibble");
+                }
+
+                // Load the marker type byte.  If we have found a Start of Scan marker, stop loading metadata.
+                int typeByte = _dataStream.ReadByte();
+                if (typeByte == 0xda)
+                {
+                    return;
+                }
+
+                int length = LoadUShortFromCurrentPosition();
+                if (length < 2)
+                {
+                    throw new InvalidImageException("wibble");
+                }
+                int confirmationByteCount = length > 7 ? 5 : length - 2;
+                byte[] confirmationBytes = new byte[confirmationByteCount];
+                if (confirmationByteCount > 0)
+                {
+                    _dataStream.Read(confirmationBytes, 0, confirmationByteCount);
+                }
+                _metadataBlocks.Add(new ImageDataBlock(startOfBlock, typeByte, length, confirmationBytes));
+                _dataStream.Seek(length - (confirmationByteCount + 2), SeekOrigin.Current);
             }
         }
 
+        /// <summary>
+        /// Load the image dimensions from the frame header, and the image resolution from the JFIF header if available.
+        /// </summary>
+        /// <exception cref="InvalidImageException">The file is truncated midway through either the frame header or the JFIF header.</exception>
         private void PopulateSizes()
         {
             const int yPixOffset = 5;
-            _dataStream.Seek(_startOfFramePosition + yPixOffset, SeekOrigin.Begin);
-            DotHeight = LoadUShortFromCurrentPosition(ImageLoadResources.JpegSourceImage_DimensionsNotFound);
-            DotWidth = LoadUShortFromCurrentPosition(ImageLoadResources.JpegSourceImage_DimensionsNotFound);
+            _dataStream.Seek(StartOfFrameBlock.StartOffset + yPixOffset, SeekOrigin.Begin);
+            DotHeight = LoadUShortFromCurrentPosition();
+            DotWidth = LoadUShortFromCurrentPosition();
+            if (DotWidth < 0 || DotHeight < 0)
+            {
+                throw new InvalidImageException(ImageLoadResources.JpegSourceImage_DimensionsNotFound);
+            }
+            if (JfifBlock != null)
+            {
+                PopulateDotsPerPoint();
+            }
             _dataStream.Seek(0, SeekOrigin.Begin);
         }
 
-        private static void CheckEndOfStream(int b, string errorMessage)
+        private void PopulateDotsPerPoint()
         {
-            if (b == -1)
+            const int unitsOffset = 11;
+            _dataStream.Seek(JfifBlock.StartOffset + unitsOffset, SeekOrigin.Begin);
+            int unitsByte = _dataStream.ReadByte();
+            int xDensity = LoadUShortFromCurrentPosition();
+            int yDensity = LoadUShortFromCurrentPosition();
+            if (yDensity < 0)
             {
-                throw new InvalidImageException(errorMessage);
-            }   
-        }
-
-        /// <summary>
-        /// This method moves to the next 0xFF byte in the stream.
-        /// </summary>
-        /// <param name="errorIfNotFound"></param>
-        private void AdvanceToMarker(string errorIfNotFound)
-        {
-            int currentByte;
-            do
-            {
-                currentByte = _dataStream.ReadByte();
-            } while (currentByte != -1 && currentByte != 255);
-            CheckEndOfStream(currentByte, errorIfNotFound);
-        }
-
-        /// <summary>
-        /// This method assumes we have just read a marker, and therefore the stream is pointing at a block length word.  The method
-        /// reads that block length word and skips that distance forward, then checks that the byte we are pointing at is also a marker.
-        /// </summary>
-        /// <param name="errorMessage">The exception message to throw if the file structure is wrong.</param>
-        private void HopFromMarkerToMarker(string errorMessage)
-        {
-            int blockLength = LoadUShortFromCurrentPosition(errorMessage);
-            _dataStream.Seek(blockLength - 2, SeekOrigin.Current);
-            int currentByte = _dataStream.ReadByte();
-            if (currentByte != 255)
-            {
-                throw new InvalidImageException(errorMessage);
+                throw new InvalidImageException(ImageLoadResources.JpegSourceImage_ErrorReadingJFIFData);
             }
+            double conversionConstant = 1;
+            if (unitsByte == 1) // Resolution is in dots per in.
+            {
+                conversionConstant = 72;
+            }
+            else if (unitsByte == 2) // Resolution is in dots per cm.
+            {
+                conversionConstant = 28.3464567;
+            }
+            HorizontalDotsPerPoint = xDensity / conversionConstant;
+            VerticalDotsPerPoint = yDensity / conversionConstant;
         }
 
         /// <summary>
@@ -121,24 +168,15 @@ namespace Unicorn.Images
             }
         }
 
-        private static bool IsStartOfFrameMarker(int markerSecondByte)
+        private int LoadUShortFromCurrentPosition()
         {
-            // These values are from the JPEG specification: note they are not a contiguous sequence.
-            int[] validMarkers = { 0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf };
-            return validMarkers.Contains(markerSecondByte);
-        }
-
-        private int CheckedByteRead(string errorMessage)
-        {
-            int b = _dataStream.ReadByte();
-            if (b == -1)
+            int highByte = _dataStream.ReadByte();
+            int lowByte = _dataStream.ReadByte();
+            if (highByte == -1 || lowByte == -1)
             {
-                throw new InvalidImageException(errorMessage);
+                return -1;
             }
-            return b;
+            return (highByte << 8) | lowByte;
         }
-
-        private int LoadUShortFromCurrentPosition(string errorMessage)
-            => (CheckedByteRead(errorMessage) << 8) | (CheckedByteRead(errorMessage));
     }
 }

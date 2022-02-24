@@ -9,10 +9,14 @@
 
   <ItemGroup>
     <None Remove="TestData\exampleJpegImage01.jpg" />
+    <None Remove="TestData\exampleJpegImage02.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="TestData\exampleJpegImage01.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\exampleJpegImage02.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

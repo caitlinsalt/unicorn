@@ -9,8 +9,10 @@ namespace Unicorn.Tests.Integration.Images
     public class JpegSourceImageIntegrationTests
     {
         private readonly string _sourceImagePath = Path.Combine("TestData", "exampleJpegImage01.jpg");
+        private readonly string _sourceImagePathWithNonSquarePixels = Path.Combine("TestData", "exampleJpegImage02.jpg");
         private const int _sourceImageWidth = 823;
         private const int _sourceImageHeight = 581;
+        private const double _sourceImageWithNonSquarePixelsAspectRatio = 805 / (double)568;
 
         [TestMethod]
         public async Task JpegSourceImageClass_LoadFromAsyncMethod_DoesNotThrowException()
@@ -52,6 +54,17 @@ namespace Unicorn.Tests.Integration.Images
             await testObject.LoadFromAsync(sourceDataStream);
 
             Assert.AreEqual(_sourceImageWidth / (double)_sourceImageHeight, testObject.AspectRatio);
+        }
+
+        [TestMethod]
+        public async Task JpegSourceImageClass_LoadFromAsyncMethod_SetsAspectRatioPropertyToCorrectValue_IfImagePixelsAreNotSquare()
+        {
+            using FileStream sourceDataStream = new(_sourceImagePathWithNonSquarePixels, FileMode.Open, FileAccess.Read);
+            using JpegSourceImage testObject = new();
+
+            await testObject.LoadFromAsync(sourceDataStream);
+
+            Assert.AreEqual(_sourceImageWithNonSquarePixelsAspectRatio, testObject.AspectRatio);
         }
     }
 }
