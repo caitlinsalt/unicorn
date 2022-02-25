@@ -57,6 +57,11 @@ namespace Unicorn
         public double ComputedHeight => MaximumHeight ?? ContentHeight;
 
         /// <summary>
+        /// The total height of the object including margins.
+        /// </summary>
+        public double Height => ComputedHeight + Margins.Top + Margins.Bottom;
+
+        /// <summary>
         /// The height of the content of this paragraph, being the sum of the individual line heights plus the height of the margins.  This may be less than the computed height if a height has 
         /// been manually set, and may be more than the computed height if there is vertical overspill.
         /// </summary>

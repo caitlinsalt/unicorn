@@ -30,9 +30,14 @@ namespace Unicorn
         public double ContentDescent => Content.Max(w => w.ContentDescent);
 
         /// <summary>
-        /// The total height of the line.
+        /// The drawable height of the line.
         /// </summary>
         public double ContentHeight => ContentAscent + ContentDescent;
+
+        /// <summary>
+        /// The total height of the line.
+        /// </summary>
+        public double Height => ContentHeight;
 
         /// <summary>
         /// The distance from the baseline to the top of the line, equal to the ascent.

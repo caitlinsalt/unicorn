@@ -62,51 +62,55 @@ namespace Unicorn.Tests.Unit
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void ImageWireframeClass_ConstructorWithDoubleAndISourceImageParameters_ThrowsArgumentNullException_IfSecondParameterIsNull()
+        public void ImageWireframeClass_ConstructorWithDoubleISourceImageAndMarginSetParameters_ThrowsArgumentNullException_IfSecondParameterIsNull()
         {
             double testParam0 = _rnd.NextDouble(500);
             ISourceImage testParam1 = null;
+            MarginSet testParam2 = null;
 
-            _ = new ImageWireframe(testParam0, testParam1);
+            _ = new ImageWireframe(testParam0, testParam1, testParam2);
 
             Assert.Fail();
         }
 
         [TestMethod]
-        public void ImageWireframeClass_ConstructorWithDoubleAndISourceImageParameters_SetsWidthPropertyToValueOfFirstParameter()
+        public void ImageWireframeClass_ConstructorWithDoubleISourceImageAndMarginSetParameters_SetsWidthPropertyToValueOfFirstParameter()
         {
             double testParam0 = _rnd.NextDouble(500);
             Mock<ISourceImage> testParam1 = new();
+            MarginSet testParam2 = null;
             double expectedHeight = _rnd.NextDouble(500);
             testParam1.Setup(i => i.AspectRatio).Returns(testParam0 / expectedHeight);
 
-            var testOutput = new ImageWireframe(testParam0, testParam1.Object);
+            var testOutput = new ImageWireframe(testParam0, testParam1.Object, testParam2);
 
             Assert.AreEqual(testParam0, testOutput.Width);
         }
 
         [TestMethod]
-        public void ImageWireframeClass_ConstructorWithDoubleAndISourceImageParameters_SetsHeightPropertyToCorrectValue()
+        public void ImageWireframeClass_ConstructorWithDoubleISourceImageAndMarginSetParameters_SetsHeightPropertyToCorrectValue()
         {
             double testParam0 = _rnd.NextDouble(500);
             Mock<ISourceImage> testParam1 = new();
+            MarginSet testParam2 = null;
             double expectedHeight = _rnd.NextDouble(500);
             testParam1.Setup(i => i.AspectRatio).Returns(testParam0 / expectedHeight);
 
-            var testOutput = new ImageWireframe(testParam0, testParam1.Object);
+            var testOutput = new ImageWireframe(testParam0, testParam1.Object, testParam2);
 
             Assert.AreEqual(expectedHeight, testOutput.Height, 0.00000001);
         }
 
         [TestMethod]
-        public void ImageWireframeClass_ConstructorWithDoubleAndISourceImageParameters_SetsContentHeightPropertyToExpectedValue()
+        public void ImageWireframeClass_ConstructorWithDoubleISourceImageAndMarginSetParameters_SetsContentHeightPropertyToExpectedValue()
         {
             double testParam0 = _rnd.NextDouble(500);
             Mock<ISourceImage> testParam1 = new();
+            MarginSet testParam2 = null;
             double expectedHeight = _rnd.NextDouble(500);
             testParam1.Setup(i => i.AspectRatio).Returns(testParam0 / expectedHeight);
 
-            var testOutput = new ImageWireframe(testParam0, testParam1.Object);
+            var testOutput = new ImageWireframe(testParam0, testParam1.Object, testParam2);
 
             Assert.AreEqual(expectedHeight, testOutput.ContentHeight, 0.00000001);
         }
