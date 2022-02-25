@@ -55,6 +55,11 @@ namespace Unicorn
         public double ContentHeight => ContentAscent + ContentDescent;
 
         /// <summary>
+        /// The height of this word.
+        /// </summary>
+        public double Height => ContentHeight;
+
+        /// <summary>
         /// Construct a <see cref="Word" /> instance. 
         /// </summary>
         /// <param name="content">The textual content of the word.</param>

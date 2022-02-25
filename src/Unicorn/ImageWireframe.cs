@@ -12,27 +12,46 @@ namespace Unicorn
         /// <summary>
         /// Width of the "image".
         /// </summary>
-        public double Width { get; private set; }
+        public double Width => ContentWidth + MarginSet.Left + MarginSet.Right;
 
         /// <summary>
         /// Height of the "image".
         /// </summary>
-        public double Height { get; private set; }
+        public double Height => ContentHeight + MarginSet.Top + MarginSet.Bottom;
+
+        /// <summary>
+        /// Margins of the "image".
+        /// </summary>
+        public MarginSet MarginSet { get; private set; }
 
         /// <summary>
         /// Height of the "image".
         /// </summary>
-        public double ContentHeight => Height;
+        public double ContentHeight { get; private set; }
+
+        /// <summary>
+        /// Width of the "image".
+        /// </summary>
+        public double ContentWidth { get; private set; }
 
         /// <summary>
         /// Constructor with width and height parameters.
         /// </summary>
         /// <param name="width">Image width.</param>
         /// <param name="height">Image height.</param>
-        public ImageWireframe(double width, double height)
+        public ImageWireframe(double width, double height) : this(width, height, new MarginSet()) { }
+
+        /// <summary>
+        /// Constructor with width, height and margin parameters.
+        /// </summary>
+        /// <param name="width">Image width.</param>
+        /// <param name="height">Image height.</param>
+        /// <param name="margins">Margin around the image.</param>
+        public ImageWireframe(double width, double height, MarginSet margins)
         {
-            Width = width;
-            Height = height;
+            ContentWidth = width;
+            ContentHeight = height;
+            MarginSet = margins ?? new MarginSet();
         }
 
         /// <summary>
@@ -40,15 +59,17 @@ namespace Unicorn
         /// </summary>
         /// <param name="width">Image width.</param>
         /// <param name="source">Source image for the aspect ratio of this image.</param>
+        /// <param name="margins">Margin around the image</param>
         /// <exception cref="ArgumentNullException"><c>source</c> is <c>null</c>.</exception>
-        public ImageWireframe(double width, ISourceImage source)
+        public ImageWireframe(double width, ISourceImage source, MarginSet margins)
         {
             if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
-            Width = width;
-            Height = width / source.AspectRatio;
+            ContentWidth = width;
+            ContentHeight = width / source.AspectRatio;
+            MarginSet = margins ?? new MarginSet();
         }
 
         /// <summary>
@@ -64,9 +85,11 @@ namespace Unicorn
             {
                 throw new ArgumentNullException(nameof(context));
             }
-            context.DrawRectangle(x, y, Width, Height);
-            context.DrawLine(x, y, x + Width, y + Height);
-            context.DrawLine(x + Width, y, x, y + Height);
+            double leftEdge = x + MarginSet.Left;
+            double topEdge = y + MarginSet.Top;
+            context.DrawRectangle(leftEdge, topEdge, ContentWidth, ContentHeight);
+            context.DrawLine(leftEdge, topEdge, leftEdge + ContentWidth, topEdge + ContentHeight);
+            context.DrawLine(leftEdge + ContentWidth, topEdge, leftEdge, topEdge + ContentHeight);
         }
     }
 }
