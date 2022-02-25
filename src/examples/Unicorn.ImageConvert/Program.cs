@@ -34,12 +34,13 @@ namespace Unicorn.ImageConvert
             }
             PdfDocument document = new();
             IPageDescriptor currentPage = document.AppendPage();
+            MarginSet margins = new(0, 0, 36, 0);
             foreach (SourceImageProvider provider in providers)
             {
                 IEnumerable<BaseSourceImage> images = await provider.GetImagesAsync().ConfigureAwait(false);
                 foreach (BaseSourceImage sourceImage in images)
                 {
-                    ImageWireframe wf = new(currentPage.PageAvailableWidth, currentPage.PageAvailableWidth / sourceImage.AspectRatio);
+                    ImageWireframe wf = new(currentPage.PageAvailableWidth, currentPage.PageAvailableWidth / sourceImage.AspectRatio, margins);
                     if (currentPage.PageAvailableHeight > wf.Height)
                     {
                         currentPage.LayOut(wf);
@@ -53,7 +54,7 @@ namespace Unicorn.ImageConvert
                         }
                         else
                         {
-                            currentPage.LayOut(new ImageWireframe(currentPage.PageAvailableWidth, currentPage.PageAvailableWidth * sourceImage.AspectRatio));
+                            currentPage.LayOut(new ImageWireframe(currentPage.PageAvailableWidth, currentPage.PageAvailableWidth * sourceImage.AspectRatio, margins));
                         }
                     }
                 }

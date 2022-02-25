@@ -39,6 +39,11 @@ namespace Unicorn
         public double ContentHeight => _columns.Any() ? _columns.First(c => c != null).ComputedHeight : 0;
 
         /// <summary>
+        /// The total height of the table.
+        /// </summary>
+        public double Height => ContentHeight;
+
+        /// <summary>
         /// Default constructor.
         /// </summary>
         public Table()
