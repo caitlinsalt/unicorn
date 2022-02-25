@@ -196,7 +196,7 @@ namespace Unicorn.Writer.Structural
                 throw new ArgumentNullException(nameof(drawable));
             }
             drawable.DrawAt(PageGraphics, LeftMarginPosition, CurrentVerticalCursor);
-            CurrentVerticalCursor += drawable.ContentHeight;
+            CurrentVerticalCursor += drawable.Height;
         }
 
         /// <summary>
