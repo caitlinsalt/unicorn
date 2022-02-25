@@ -59,10 +59,24 @@ namespace Unicorn.ImageConvert
 
         private async Task AddImageFromFile(string filePath)
         {
-            JpegSourceImage image = new();
-            using FileStream stream = new(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-            await image.LoadFromAsync(stream).ConfigureAwait(false);
-            _images.Add(image);
+            BaseSourceImage image = ConstructSource(filePath);
+            if (image != null)
+            {
+                using FileStream stream = new(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                await image.LoadFromAsync(stream).ConfigureAwait(false);
+                _images.Add(image);
+            }
+        }
+
+        private static BaseSourceImage ConstructSource(string filePath)
+        {
+            string[] jpegExtensions = { ".jpg", ".jpeg", ".jpe", ".jif", ".jfif" };
+            string fileExtension = Path.GetExtension(filePath);
+            if (jpegExtensions.Any(e => e.Equals(fileExtension, StringComparison.OrdinalIgnoreCase)))
+            {
+                return new JpegSourceImage();
+            }
+            return null;
         }
 
         #region Dispose pattern
