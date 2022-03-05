@@ -194,6 +194,8 @@ namespace Unicorn.Images.Jpeg
                 case ExifTagId.SubjectArea:
                 case ExifTagId.SubjectLocation:
                     return typeof(int[]);
+                case ExifTagId.ExifPointer:
+                case ExifTagId.GPSPointer:
                 case ExifTagId.ImageWidth:
                 case ExifTagId.ImageLength:
                 case ExifTagId.RowsPerStrip:
