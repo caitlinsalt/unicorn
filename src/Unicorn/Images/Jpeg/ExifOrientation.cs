@@ -2,6 +2,7 @@
 {
     internal enum ExifOrientation
     {
+        // These values are defined in the EXIF spec.
         Normal = 1,
         FlippedHorizontally = 2,
         Rotated180 = 3,
