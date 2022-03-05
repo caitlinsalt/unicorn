@@ -126,9 +126,6 @@
   <data name="ExifSegment_ImpossibleTagDataType" xml:space="preserve">
     <value>Invalid EXIF image.  Invalid EXIF tag data type found.</value>
   </data>
-  <data name="ExifSegment_WrongTagDataCount" xml:space="preserve">
-    <value>Invalid EXIF image.  The EXIF data contained multiple values, but a single value was expected, in tag {0}.</value>
-  </data>
   <data name="ExifSegment_WrongTagDataType" xml:space="preserve">
     <value>Invalid EXIF image.  The EXIF data does not match the specification.  Type mismatch in tag {0}.  Expected type was {1}; found type {2}.</value>
   </data>

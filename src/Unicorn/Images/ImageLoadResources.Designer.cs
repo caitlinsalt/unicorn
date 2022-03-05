@@ -88,15 +88,6 @@ namespace Unicorn.Images {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid EXIF image.  The EXIF data contained multiple values, but a single value was expected, in tag {0}..
-        /// </summary>
-        internal static string ExifSegment_WrongTagDataCount {
-            get {
-                return ResourceManager.GetString("ExifSegment_WrongTagDataCount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Invalid EXIF image.  The EXIF data does not match the specification.  Type mismatch in tag {0}.  Expected type was {1}; found type {2}..
         /// </summary>
         internal static string ExifSegment_WrongTagDataType {

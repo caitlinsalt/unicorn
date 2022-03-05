@@ -113,15 +113,25 @@ namespace Unicorn.Images
         {
             const int yPixOffset = 5;
             _dataStream.Seek(StartOfFrameBlock.StartOffset + yPixOffset, SeekOrigin.Begin);
-            DotHeight = _dataStream.ReadBigEndianUShort();
-            DotWidth = _dataStream.ReadBigEndianUShort();
-            if (DotWidth < 0 || DotHeight < 0)
+            int rawHeight = _dataStream.ReadBigEndianUShort();
+            int rawWidth = _dataStream.ReadBigEndianUShort();
+            if (rawWidth < 0 || rawHeight < 0)
             {
                 throw new InvalidImageException(ImageLoadResources.JpegSourceImage_DimensionsNotFound);
             }
             if (JfifBlock != null)
             {
                 PopulateDotsPerPoint();
+            }
+            if (ExifSegment?.Orientation != null && ExifSegment.Orientation.Value.IsQuarterRotated())
+            {
+                DotWidth = rawHeight;
+                DotHeight = rawWidth;
+            }
+            else
+            {
+                DotWidth = rawWidth;
+                DotHeight = rawHeight;
             }
             _dataStream.Seek(0, SeekOrigin.Begin);
         }

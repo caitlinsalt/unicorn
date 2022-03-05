@@ -35,6 +35,7 @@ namespace Unicorn.Images.Jpeg
             {
                 var segment = new ExifSegment(startOffset, length);
                 await segment.PopulateSegmentAsync(dataStream, startOffset).ConfigureAwait(false);
+                return segment;
             }
             return new ImageDataBlock(startOffset, length, ImageDataBlockType.Unknown);
         }

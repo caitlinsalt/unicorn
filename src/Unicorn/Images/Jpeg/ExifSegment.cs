@@ -16,12 +16,15 @@ namespace Unicorn.Images.Jpeg
         private Func<byte[], int, long> _readInt;
         private Func<byte[], int, int> _readUShort;
         private Func<Stream, int> _readUShortFromStream;
+        private ExifTag _orientationTag;
 
         private long _exifOffset = -1;
         private long _gpsOffset = -1;
 
         internal IEnumerable<ExifTag> Tags => _tags.ToArray();
 
+        internal ExifOrientation? Orientation => (ExifOrientation)(_orientationTag?.Value);
+            
         internal ExifSegment(long startOffset, int length) : base(startOffset, length, ImageDataBlockType.Exif) { }
 
         internal async Task PopulateSegmentAsync(Stream dataStream, long exifOffset)
@@ -85,23 +88,21 @@ namespace Unicorn.Images.Jpeg
             ExifTagId tagId = (ExifTagId)_readUShort(buffer, tagOffset);
             ExifStorageType fileDefinedStorageType = (ExifStorageType)_readUShort(buffer, tagOffset + 2);
             ExifStorageType specDefiinedStorageType = tagId.StorageType();
-            if (specDefiinedStorageType != ExifStorageType.ReadFromFile && specDefiinedStorageType != fileDefinedStorageType)
-            {
-                throw new InvalidImageException(string.Format(CultureInfo.CurrentCulture, ImageLoadResources.ExifSegment_WrongTagDataType, 
-                    tagId.ToString(), specDefiinedStorageType.ToString(), fileDefinedStorageType.ToString()));
-            }
+
+            // There are too many real-life EXIF files whose data isn't exactly to spec, to throw an exception on tag type mismatch.
+            //if (specDefiinedStorageType != ExifStorageType.ReadFromFile && specDefiinedStorageType != fileDefinedStorageType)
+            //{
+            //    throw new InvalidImageException(string.Format(CultureInfo.CurrentCulture, ImageLoadResources.ExifSegment_WrongTagDataType, 
+            //        tagId.ToString(), specDefiinedStorageType.ToString(), fileDefinedStorageType.ToString()));
+            //}
+
             long count = _readUInt(buffer, tagOffset + 4);
             if (count == 0)
             {
                 return;
             }
             Type expectedDataType = tagId.DataType();
-            if (expectedDataType != typeof(string) && !expectedDataType.IsArray && count > 1)
-            {
-                throw new InvalidImageException(string.Format(CultureInfo.CurrentCulture, ImageLoadResources.ExifSegment_WrongTagDataCount, 
-                    tagId.ToString()));
-            }
-            ExifTag theTag = new ExifTag(await ReadTagValue(buffer, tagOffset, count, fileDefinedStorageType, expectedDataType.IsArray, dataStream, addressBase).ConfigureAwait(false), tagId);
+            ExifTag theTag = new ExifTag(await ReadTagValue(buffer, tagOffset, count, fileDefinedStorageType, expectedDataType.IsArray || count > 1, dataStream, addressBase).ConfigureAwait(false), tagId);
             if (theTag.Id == ExifTagId.ExifPointer)
             {
                 _exifOffset = (long)theTag.Value;
@@ -113,6 +114,15 @@ namespace Unicorn.Images.Jpeg
             else
             {
                 _tags.Add(theTag);
+            }
+            AddSpecialTags(theTag);
+        }
+
+        private void AddSpecialTags(ExifTag theTag)
+        {
+            if (theTag.Id == ExifTagId.Orientation && theTag.Value.GetType() == typeof(int))
+            {
+                _orientationTag = theTag;
             }
         }
 
@@ -224,7 +234,16 @@ namespace Unicorn.Images.Jpeg
             await PopulateSubBuffer(buffer, tagOffset, theBytes, dataStream, addressBase).ConfigureAwait(false);
             for (int i = 0; i < valueCount; ++i)
             {
-                theOutput[i] = readerMethod(theBytes, i * 8) / (decimal)readerMethod(theBytes, i * 8 + 4);
+                decimal top = readerMethod(theBytes, i * 8);
+                decimal bottom = readerMethod(theBytes, i * 8 + 4);
+                if (bottom == 0)
+                {
+                    theOutput[i] = top == 0 ? 0 : decimal.MaxValue;
+                }
+                else
+                {
+                    theOutput[i] = top / bottom;
+                }
             }
             if (arrayExpected)
             {
