@@ -2,6 +2,7 @@
 {
     internal enum ExifStorageType
     {
+        // These values are defined in the EXIF spec.
         Byte         = 1,     // Unsigned byte.
         Ascii        = 2,     // String.
         Short        = 3,     // Unsigned short.

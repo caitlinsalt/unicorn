@@ -4,6 +4,12 @@ namespace Unicorn.Images.Jpeg
 {
     internal static class ExifTagIdExtensions
     {
+        /// <summary>
+        /// Storage type of each type of EXIF tag.  This is as per the spec; real files do not
+        /// necessarily follow it!
+        /// </summary>
+        /// <param name="tagId">A type of EXIF tag.</param>
+        /// <returns>The EXIF data type of the give tag.</returns>
         internal static ExifStorageType StorageType(this ExifTagId tagId)
         {
             switch (tagId)
@@ -63,7 +69,7 @@ namespace Unicorn.Images.Jpeg
                 case ExifTagId.GpsDifferential:
                     return ExifStorageType.Short;
                 case ExifTagId.ExifPointer:
-                case ExifTagId.GPSPointer:
+                case ExifTagId.GpsPointer:
                 case ExifTagId.InteroperabilityPointer:
                 case ExifTagId.JPEGInterchangeFormat:
                 case ExifTagId.JPEGInterchangeFormatLength:
@@ -140,6 +146,16 @@ namespace Unicorn.Images.Jpeg
             }
         }
 
+        /// <summary>
+        /// Get the C# data type of a given EXIF tag, assuming the EXIF tag follows the spec.  This
+        /// method is used to distinguish between scalar-valued tags and tags containing single-element
+        /// arrays.
+        /// </summary>
+        /// <param name="tagId">A type of EXIF tag.</param>
+        /// <returns>
+        /// The C# type that the tag reading code will return, if the tag is written with
+        /// the EXIF data type given in the specification.
+        /// </returns>
         internal static Type DataType(this ExifTagId tagId)
         {
             switch (tagId)
@@ -195,7 +211,7 @@ namespace Unicorn.Images.Jpeg
                 case ExifTagId.SubjectLocation:
                     return typeof(int[]);
                 case ExifTagId.ExifPointer:
-                case ExifTagId.GPSPointer:
+                case ExifTagId.GpsPointer:
                 case ExifTagId.ImageWidth:
                 case ExifTagId.ImageLength:
                 case ExifTagId.RowsPerStrip:
