@@ -68,7 +68,7 @@
         ExifPointer                 = 0x8769,
         ExposureProgram             = 0x8822,
         SpectralSensitivity         = 0x8824,
-        GPSPointer                  = 0x8825,
+        GpsPointer                  = 0x8825,
         ISOSpeedRatings             = 0x8827,
         OECF                        = 0x8828,
         ExifVersion                 = 0x9000,

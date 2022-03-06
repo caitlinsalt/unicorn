@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unicorn.Exceptions;
@@ -27,9 +27,10 @@ namespace Unicorn.Images.Jpeg
             
         internal ExifSegment(long startOffset, int length) : base(startOffset, length, ImageDataBlockType.Exif) { }
 
-        internal async Task PopulateSegmentAsync(Stream dataStream, long exifOffset)
+        internal async Task PopulateSegmentAsync(Stream dataStream)
         {
-            long tiffHeaderBase = exifOffset + 10;
+            const int TIFF_HEADER_OFFSET = 10;
+            long tiffHeaderBase = StartOffset + TIFF_HEADER_OFFSET;
             long initialIfdAddress = await PopulateTiffHeaderDataAsync(dataStream, tiffHeaderBase).ConfigureAwait(false);
             await ReadIfdAsync(dataStream, initialIfdAddress, tiffHeaderBase).ConfigureAwait(false);
             if (_exifOffset > 0)
@@ -107,7 +108,7 @@ namespace Unicorn.Images.Jpeg
             {
                 _exifOffset = (long)theTag.Value;
             }
-            else if (theTag.Id == ExifTagId.GPSPointer)
+            else if (theTag.Id == ExifTagId.GpsPointer)
             {
                 _gpsOffset = (long)theTag.Value;
             }
@@ -136,7 +137,7 @@ namespace Unicorn.Images.Jpeg
                 case ExifStorageType.Undefined:
                     return await ReadTagByteValueAsync(buffer, tagOffset, valueCount, arrayExpected, dataStream, addressBase).ConfigureAwait(false);
                 case ExifStorageType.Ascii:
-                    return await ReadTagStringValueAsync(buffer, tagOffset, valueCount, arrayExpected, dataStream, addressBase).ConfigureAwait(false);
+                    return await ReadTagStringValueAsync(buffer, tagOffset, valueCount, dataStream, addressBase).ConfigureAwait(false);
                 case ExifStorageType.Short:
                     return await ReadTagUShortValueAsync(buffer, tagOffset, valueCount, arrayExpected, dataStream, addressBase).ConfigureAwait(false);
                 case ExifStorageType.Long:
@@ -252,7 +253,7 @@ namespace Unicorn.Images.Jpeg
             return theOutput[0];
         }
 
-        private async Task<object> ReadTagStringValueAsync(byte[] buffer, int tagOffset, long valueCount, bool arrayExpected, Stream dataStream, long addressBase)
+        private async Task<object> ReadTagStringValueAsync(byte[] buffer, int tagOffset, long valueCount, Stream dataStream, long addressBase)
         {
             byte[] bytes = new byte[valueCount];
             if (valueCount <= 4)
@@ -263,7 +264,9 @@ namespace Unicorn.Images.Jpeg
             {
                 await PopulateSubBuffer(buffer, tagOffset, bytes, dataStream, addressBase).ConfigureAwait(false);
             }
-            return Encoding.ASCII.GetString(bytes);
+
+            // In EXIF strings, the tag length field should include the terminating NUL, and GetString() does not strip this.
+            return Encoding.ASCII.GetString(bytes.TakeWhile(b => b != 0).ToArray());
         }
 
         private async Task PopulateSubBuffer(byte[] mainBuffer, int offset, byte[] subBuffer, Stream dataStream, long addressBase)
