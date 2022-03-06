@@ -1,5 +1,7 @@
 ﻿namespace Unicorn.Images.Jpeg
 {
+    // These values are set in the EXIF spec.  Individual device manufacturers
+    // or software publishes may define additional ones.
     internal enum ExifTagId
     {
         GpsVersionId                = 0x0000,
