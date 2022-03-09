@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Unicorn.Exceptions;
+using Unicorn.Helpers;
 using Unicorn.Images.Jpeg;
 
 namespace Unicorn.Images
@@ -19,6 +20,8 @@ namespace Unicorn.Images
             ?? throw new InvalidImageException(ImageLoadResources.JpegSourceImage_SofNotFound);
 
         private ImageDataBlock JfifBlock => _metadataBlocks.FirstOrDefault(b => b.BlockType == ImageDataBlockType.Jfif);
+
+        private ExifSegment ExifSegment => _metadataBlocks.FirstOrDefault(b => b is ExifSegment) as ExifSegment;
 
         /// <summary>
         /// Horizontal resolution of the image in pixels per point.
@@ -64,7 +67,7 @@ namespace Unicorn.Images
         {
             await base.LoadFromAsync(stream).ConfigureAwait(false);
             CheckStartOfImageMarker();
-            PopulateDataBlocks();
+            await PopulateDataBlocksAsync().ConfigureAwait(false);
             PopulateSizes();
         }
 
@@ -74,7 +77,7 @@ namespace Unicorn.Images
         /// inside this one are skipped over.
         /// </summary>
         /// <exception cref="InvalidImageException">A data block has been found with the wrong length.</exception>
-        private void PopulateDataBlocks()
+        private async Task PopulateDataBlocksAsync()
         {
             while (true)
             {
@@ -96,19 +99,9 @@ namespace Unicorn.Images
                     return;
                 }
 
-                int length = LoadUShortFromCurrentPosition();
-                if (length < 2)
-                {
-                    throw new InvalidImageException("wibble");
-                }
-                int confirmationByteCount = length > 7 ? 5 : length - 2;
-                byte[] confirmationBytes = new byte[confirmationByteCount];
-                if (confirmationByteCount > 0)
-                {
-                    _dataStream.Read(confirmationBytes, 0, confirmationByteCount);
-                }
-                _metadataBlocks.Add(new ImageDataBlock(startOfBlock, typeByte, length, confirmationBytes));
-                _dataStream.Seek(length - (confirmationByteCount + 2), SeekOrigin.Current);
+                ImageDataBlock newBlock = await ImageDataBlockFactory.CreateBlockAsync(_dataStream, startOfBlock, typeByte).ConfigureAwait(false);
+                _metadataBlocks.Add(newBlock);
+                _dataStream.Seek(startOfBlock + newBlock.Length + 2, SeekOrigin.Begin);
             }
         }
 
@@ -120,15 +113,25 @@ namespace Unicorn.Images
         {
             const int yPixOffset = 5;
             _dataStream.Seek(StartOfFrameBlock.StartOffset + yPixOffset, SeekOrigin.Begin);
-            DotHeight = LoadUShortFromCurrentPosition();
-            DotWidth = LoadUShortFromCurrentPosition();
-            if (DotWidth < 0 || DotHeight < 0)
+            int rawHeight = _dataStream.ReadBigEndianUShort();
+            int rawWidth = _dataStream.ReadBigEndianUShort();
+            if (rawWidth < 0 || rawHeight < 0)
             {
                 throw new InvalidImageException(ImageLoadResources.JpegSourceImage_DimensionsNotFound);
             }
             if (JfifBlock != null)
             {
                 PopulateDotsPerPoint();
+            }
+            if (ExifSegment?.Orientation != null && ExifSegment.Orientation.Value.IsQuarterRotated())
+            {
+                DotWidth = rawHeight;
+                DotHeight = rawWidth;
+            }
+            else
+            {
+                DotWidth = rawWidth;
+                DotHeight = rawHeight;
             }
             _dataStream.Seek(0, SeekOrigin.Begin);
         }
@@ -138,8 +141,8 @@ namespace Unicorn.Images
             const int unitsOffset = 11;
             _dataStream.Seek(JfifBlock.StartOffset + unitsOffset, SeekOrigin.Begin);
             int unitsByte = _dataStream.ReadByte();
-            int xDensity = LoadUShortFromCurrentPosition();
-            int yDensity = LoadUShortFromCurrentPosition();
+            int xDensity = _dataStream.ReadBigEndianUShort();
+            int yDensity = _dataStream.ReadBigEndianUShort();
             if (yDensity < 0)
             {
                 throw new InvalidImageException(ImageLoadResources.JpegSourceImage_ErrorReadingJFIFData);
@@ -166,17 +169,6 @@ namespace Unicorn.Images
             {
                 throw new InvalidImageException(ImageLoadResources.JpegSourceImage_SoiNotFound);
             }
-        }
-
-        private int LoadUShortFromCurrentPosition()
-        {
-            int highByte = _dataStream.ReadByte();
-            int lowByte = _dataStream.ReadByte();
-            if (highByte == -1 || lowByte == -1)
-            {
-                return -1;
-            }
-            return (highByte << 8) | lowByte;
         }
     }
 }
