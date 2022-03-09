@@ -73,7 +73,7 @@ namespace Unicorn.Images
 
         /// <summary>
         /// Scan through the file header blocks loading the positions of the data blocks, stopping when we reach
-        /// Start Of Scan.  Uses the length of each block to find the start of the next, so that any images embedded
+        /// the end of the file.  Uses the length of each block to find the start of the next, so that any images embedded
         /// inside this one are skipped over.
         /// </summary>
         /// <exception cref="InvalidImageException">A data block has been found with the wrong length.</exception>
@@ -81,26 +81,31 @@ namespace Unicorn.Images
         {
             while (true)
             {
-                long startOfBlock = _dataStream.Position;
-                int currentByte = _dataStream.ReadByte();
-                if (currentByte == -1)
+                // We enter this loop assuming the stream pointer potentially is at the start of a data segment.
+                // We search forward for a segment marker.
+                int currentByte;
+                do
                 {
-                    return;
-                }
-                if (currentByte != 255)
-                {
-                    throw new InvalidImageException("wibble");
-                }
+                    currentByte = _dataStream.ReadByte();
+                    if (currentByte == -1)
+                    {
+                        return;
+                    }
+                } while (currentByte != 255);
+                long startOfBlock = _dataStream.Position - 1;
 
-                // Load the marker type byte.  If we have found a Start of Scan marker, stop loading metadata.
+                // Load the marker type byte.  If the type byte is apparently zero, this isn't really a segment marker,
+                // it's a "stuffed FF" byte inside other data.
                 int typeByte = _dataStream.ReadByte();
-                if (typeByte == 0xda)
+                if (typeByte == 0)
                 {
-                    return;
+                    continue;
                 }
 
                 ImageDataBlock newBlock = await ImageDataBlockFactory.CreateBlockAsync(_dataStream, startOfBlock, typeByte).ConfigureAwait(false);
                 _metadataBlocks.Add(newBlock);
+
+                // Reposition the stream pointer at the byte following the segment just loaded
                 _dataStream.Seek(startOfBlock + newBlock.Length + 2, SeekOrigin.Begin);
             }
         }
