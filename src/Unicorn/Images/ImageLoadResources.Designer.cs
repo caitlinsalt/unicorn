@@ -61,6 +61,42 @@ namespace Unicorn.Images {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid EXIF image.  The EXIF header has an incorrect format (magic answer bytes not found)..
+        /// </summary>
+        internal static string ExifSegment_AnswerToEverythingNotFound {
+            get {
+                return ResourceManager.GetString("ExifSegment_AnswerToEverythingNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid EXIF image.  The EXIF header has an incorrect format (endianness bytes not found)..
+        /// </summary>
+        internal static string ExifSegment_EndiannessMarkerNotFound {
+            get {
+                return ResourceManager.GetString("ExifSegment_EndiannessMarkerNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid EXIF image.  Invalid EXIF tag data type found..
+        /// </summary>
+        internal static string ExifSegment_ImpossibleTagDataType {
+            get {
+                return ResourceManager.GetString("ExifSegment_ImpossibleTagDataType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid EXIF image.  The EXIF data does not match the specification.  Type mismatch in tag {0}.  Expected type was {1}; found type {2}..
+        /// </summary>
+        internal static string ExifSegment_WrongTagDataType {
+            get {
+                return ResourceManager.GetString("ExifSegment_WrongTagDataType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid JPEG image.  Frame header is not long enough to contain image dimensions..
         /// </summary>
         internal static string JpegSourceImage_DimensionsNotFound {
