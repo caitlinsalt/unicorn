@@ -144,6 +144,14 @@ namespace Unicorn.Tests.Unit.TestHelpers
             ExifTagId.YResolution,
         };
 
+        private static readonly ImageDataBlockType[] _validImageDataBlockTypes = new[]
+        {
+            ImageDataBlockType.Unknown,
+            ImageDataBlockType.StartOfFrame,
+            ImageDataBlockType.Jfif,
+            ImageDataBlockType.Exif,
+        };
+
 #pragma warning disable CA5394 // Do not use insecure randomness
 
         internal static TableRuleStyle NextTableRuleStyle(this Random rnd) 
@@ -151,6 +159,9 @@ namespace Unicorn.Tests.Unit.TestHelpers
 
         internal static ExifTagId NextExifTagId(this Random rnd)
             => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_validExifTagIds);
+
+        internal static ImageDataBlockType NextImageDataBlockType(this Random rnd)
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_validImageDataBlockTypes);
 
         internal static FixedSizeTableCell NextFixedSizeTableCell(this Random rnd)
             => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new FixedSizeTableCell(rnd.NextDouble() * 100, rnd.NextDouble() * 100);
