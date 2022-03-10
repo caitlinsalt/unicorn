@@ -8,7 +8,7 @@ using Unicorn.Tests.Unit.TestHelpers;
 namespace Unicorn.Tests.Unit.Images.Jpeg
 {
     [TestClass]
-    public class ImageDataBlockUnitTests
+    public class JpegDataSegmentUnitTests
     {
         private static readonly Random _rnd = RandomProvider.Default;
 
@@ -16,37 +16,37 @@ namespace Unicorn.Tests.Unit.Images.Jpeg
 #pragma warning disable CA5394 // Do not use insecure randomness
 
         [TestMethod]
-        public void ImageDataBlockClass_Constructor_SetsStartOffsetPropertyToValueOfFirstParameter()
+        public void JpegDataSegmentClass_Constructor_SetsStartOffsetPropertyToValueOfFirstParameter()
         {
             long testParam0 = _rnd.NextLong();
             int testParam1 = _rnd.Next();
-            ImageDataBlockType testParam2 = _rnd.NextImageDataBlockType();
+            JpegDataSegmentType testParam2 = _rnd.NextJpegDataSegmentType();
 
-            ImageDataBlock testOutput = new(testParam0, testParam1, testParam2);
+            JpegDataSegment testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam0, testOutput.StartOffset);
         }
 
         [TestMethod]
-        public void ImageDataBlockClass_Constructor_SetsLengthPropertyToValueOfSecondParameter()
+        public void JpegDataSegmentClass_Constructor_SetsLengthPropertyToValueOfSecondParameter()
         {
             long testParam0 = _rnd.NextLong();
             int testParam1 = _rnd.Next();
-            ImageDataBlockType testParam2 = _rnd.NextImageDataBlockType();
+            JpegDataSegmentType testParam2 = _rnd.NextJpegDataSegmentType();
 
-            ImageDataBlock testOutput = new(testParam0, testParam1, testParam2);
+            JpegDataSegment testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam1, testOutput.Length);
         }
 
         [TestMethod]
-        public void ImageDataBlockClass_Constructor_SetsBlockTypePropertyToValueOfThirdParameter()
+        public void JpegDataSegmentClass_Constructor_SetsBlockTypePropertyToValueOfThirdParameter()
         {
             long testParam0 = _rnd.NextLong();
             int testParam1 = _rnd.Next();
-            ImageDataBlockType testParam2 = _rnd.NextImageDataBlockType();
+            JpegDataSegmentType testParam2 = _rnd.NextJpegDataSegmentType();
 
-            ImageDataBlock testOutput = new(testParam0, testParam1, testParam2);
+            JpegDataSegment testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam2, testOutput.BlockType);
         }

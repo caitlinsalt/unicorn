@@ -1,14 +1,14 @@
 ﻿namespace Unicorn.Images.Jpeg
 {
-    internal class ImageDataBlock
+    internal class JpegDataSegment
     {
         internal long StartOffset { get; }
 
         internal int Length { get; }   
 
-        internal ImageDataBlockType BlockType { get; }
+        internal JpegDataSegmentType BlockType { get; }
 
-        internal ImageDataBlock(long startOffset, int length, ImageDataBlockType kind)
+        internal JpegDataSegment(long startOffset, int length, JpegDataSegmentType kind)
         {
             StartOffset = startOffset;
             Length = length;

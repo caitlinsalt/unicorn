@@ -6,7 +6,7 @@ using Unicorn.Helpers;
 
 namespace Unicorn.Images.Jpeg
 {
-    internal static class ImageDataBlockFactory
+    internal static class JpegDataSegmentFactory
     {
         // Marker values for different types of JPEG "Start of frame" segments.
         private static readonly int[] START_OF_FRAME_MARKERS = { 0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf };
@@ -19,17 +19,17 @@ namespace Unicorn.Images.Jpeg
         private const int EXIF_MARKER = 0xe1;
         private static readonly byte[] EXIF_IDENTIFICATION_STRING = { 0x45, 0x78, 0x69, 0x66, 0, 0 };
 
-        internal static async Task<ImageDataBlock> CreateBlockAsync(Stream dataStream, long startOffset, int markerTypeByte)
+        internal static async Task<JpegDataSegment> CreateSegmentAsync(Stream dataStream, long startOffset, int markerTypeByte)
         {
             dataStream.Seek(startOffset + 2, SeekOrigin.Begin);
             int length = dataStream.ReadBigEndianUShort();
             if (IsStartOfFrameMarker(markerTypeByte))
             {
-                return new ImageDataBlock(startOffset, length, ImageDataBlockType.StartOfFrame);
+                return new JpegDataSegment(startOffset, length, JpegDataSegmentType.StartOfFrame);
             }
             if (await IsJfifSegmentAsync(dataStream, startOffset, markerTypeByte).ConfigureAwait(false))
             {
-                return new ImageDataBlock(startOffset, length, ImageDataBlockType.Jfif);
+                return new JpegDataSegment(startOffset, length, JpegDataSegmentType.Jfif);
             }
             if (await IsExifSegmentAsync(dataStream, startOffset, markerTypeByte).ConfigureAwait(false))
             {
@@ -37,7 +37,7 @@ namespace Unicorn.Images.Jpeg
                 await segment.PopulateSegmentAsync(dataStream).ConfigureAwait(false);
                 return segment;
             }
-            return new ImageDataBlock(startOffset, length, ImageDataBlockType.Unknown);
+            return new JpegDataSegment(startOffset, length, JpegDataSegmentType.Unknown);
         }
 
         private static bool IsStartOfFrameMarker(int markerByte) => START_OF_FRAME_MARKERS.Contains(markerByte);

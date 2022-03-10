@@ -14,14 +14,14 @@ namespace Unicorn.Images
     /// </summary>
     public class JpegSourceImage : BaseSourceImage
     {
-        private readonly List<ImageDataBlock> _metadataBlocks = new List<ImageDataBlock>();
+        private readonly List<JpegDataSegment> _dataSegments = new List<JpegDataSegment>();
 
-        private ImageDataBlock StartOfFrameBlock => _metadataBlocks.FirstOrDefault(b => b.BlockType == ImageDataBlockType.StartOfFrame)
+        private JpegDataSegment StartOfFrameSegment => _dataSegments.FirstOrDefault(b => b.BlockType == JpegDataSegmentType.StartOfFrame)
             ?? throw new InvalidImageException(ImageLoadResources.JpegSourceImage_SofNotFound);
 
-        private ImageDataBlock JfifBlock => _metadataBlocks.FirstOrDefault(b => b.BlockType == ImageDataBlockType.Jfif);
+        private JpegDataSegment JfifSegment => _dataSegments.FirstOrDefault(b => b.BlockType == JpegDataSegmentType.Jfif);
 
-        private ExifSegment ExifSegment => _metadataBlocks.FirstOrDefault(b => b is ExifSegment) as ExifSegment;
+        private ExifSegment ExifSegment => _dataSegments.FirstOrDefault(b => b is ExifSegment) as ExifSegment;
 
         /// <summary>
         /// Horizontal resolution of the image in pixels per point.
@@ -47,37 +47,48 @@ namespace Unicorn.Images
         /// <exception cref="ObjectDisposedException">The <c>stream</c> parameter is disposed, or the <see cref="JpegSourceImage" /> object is disposed.</exception>
         /// <exception cref="NotSupportedException">The <c>stream</c> parameter does not support reading.</exception>
         /// <exception cref="InvalidImageException">
-        /// The <c>stream</c> data does not begin with the JPEG "Start Of Image" marker, or the stream data does not contain a JPEG frame header, or the JPEG frame header
-        /// appears to be too short to contain an image size.
+        /// Any one of the following issues has been found in the image data:
+        /// <list type="bullet">
+        ///   <item><description>The <c>stream</c> data does not begin with the JPEG "Start Of Image" segment marker.</description></item>
+        ///   <item><description>The stream data does not contain a JPEG frame header segment.</description></item>
+        ///   <item><description>The JPEG frame header segment appears to be too short to contain an image size at the correct location.</description></item>
+        ///   <item><description>The data contains a JFIF segment, but it appears to be too short to contain image resolution data at the correct location.</description></item>
+        ///   <item><description>The data contains an EXIF segment, but it does not contain a valid byte order marker, or the magic number following.</description></item>
+        ///   <item><description>The data contains an EXIF segment, but it appears to contain pointers to locations outside the data stream.</description></item>
+        ///   <item><description>The data contains an EXIF segment, but it appears to contain tags with data types not listed in the EXIF specification.</description></item>
+        /// </list>
         /// </exception>
         /// <remarks>
         /// <para>
         /// This class does minimal syntax checking of the JPEG data, beyond confirming that it starts with the correct magic number, and that at some point in the data,
         /// it appears to contain a JPEG frame header which starts more than a few bytes from the end of the file, so that the image size can be read from the location it
-        /// will be in if the frame header is valid.  It does not do any other checking of the data.
+        /// will be in if the frame header is valid.  If the file contains a JFIF segment, the class also reads the image resolution.  If the file contains an EXIF segment,
+        /// the class checks that the EXIF segment contains a valid byte order marker and the "42" magic number that follows it; then tries to load all of the EXIF tags and
+        /// checks they all have a valid data type listed in the EXIF spec.  It doesn't check that the individual tags' data types are actually the ones defined in the spec,
+        /// but will throw an exception if the EXIF segment data tries to cause a buffer overflow by containing pointer values that point to locations outside the segment.
         /// </para>
         /// <para>
-        /// Depending on the type of <see cref="Stream" /> passed to this method, this method may throw additional exception types not listed here.
+        /// Depending on the type of <see cref="Stream" /> passed to this method, this method may throw additional exception types not listed here.  It may throw any
+        /// exception potentially throwable by <see cref="Stream.ReadAsync(byte[], int, int)" /> or <see cref="Stream.ReadByte"/>, for the given <see cref="Stream"/> implementation.
         /// </para>
         /// <para>
-        /// This method loads the entire data stream into memory.  It is the caller's responsibility to confirm that the data stream is not excessively large.
+        /// This method loads the entire data stream into memory.  It is the caller's responsibility to confirm that the data stream is not excessively large for their use case.
         /// </para>
         /// </remarks>
         public override async Task LoadFromAsync(Stream stream)
         {
             await base.LoadFromAsync(stream).ConfigureAwait(false);
             CheckStartOfImageMarker();
-            await PopulateDataBlocksAsync().ConfigureAwait(false);
+            await PopulateDataSegmentsAsync().ConfigureAwait(false);
             PopulateSizes();
         }
 
         /// <summary>
-        /// Scan through the file header blocks loading the positions of the data blocks, stopping when we reach
-        /// the end of the file.  Uses the length of each block to find the start of the next, so that any images embedded
-        /// inside this one are skipped over.
+        /// Scan through the file data segments, loading each one to the extent that we care about it.  For most segments only the 
+        /// name and location is loaded.  For an EXIF segment we load all the metadata tags but ignore any thumbnail.  Uses the length of 
+        /// each block to find the start of the next, so that the segments of any thumbnail images embedded inside this one are skipped over.
         /// </summary>
-        /// <exception cref="InvalidImageException">A data block has been found with the wrong length.</exception>
-        private async Task PopulateDataBlocksAsync()
+        private async Task PopulateDataSegmentsAsync()
         {
             while (true)
             {
@@ -92,7 +103,7 @@ namespace Unicorn.Images
                         return;
                     }
                 } while (currentByte != 255);
-                long startOfBlock = _dataStream.Position - 1;
+                long startOfSegment = _dataStream.Position - 1;
 
                 // Load the marker type byte.  If the type byte is apparently zero, this isn't really a segment marker,
                 // it's a "stuffed FF" byte inside other data.
@@ -102,29 +113,30 @@ namespace Unicorn.Images
                     continue;
                 }
 
-                ImageDataBlock newBlock = await ImageDataBlockFactory.CreateBlockAsync(_dataStream, startOfBlock, typeByte).ConfigureAwait(false);
-                _metadataBlocks.Add(newBlock);
+                JpegDataSegment newSegment = await JpegDataSegmentFactory.CreateSegmentAsync(_dataStream, startOfSegment, typeByte).ConfigureAwait(false);
+                _dataSegments.Add(newSegment);
 
                 // Reposition the stream pointer at the byte following the segment just loaded
-                _dataStream.Seek(startOfBlock + newBlock.Length + 2, SeekOrigin.Begin);
+                _dataStream.Seek(startOfSegment + newSegment.Length + 2, SeekOrigin.Begin);
             }
         }
 
         /// <summary>
-        /// Load the image dimensions from the frame header, and the image resolution from the JFIF header if available.
+        /// Load the image dimensions from the frame header segment, and the image resolution from the JFIF segment if available, taking account of 
+        /// any EXIF rotation tag present.
         /// </summary>
-        /// <exception cref="InvalidImageException">The file is truncated midway through either the frame header or the JFIF header.</exception>
+        /// <exception cref="InvalidImageException">The file is truncated midway through either the frame header segment or the JFIF segment.</exception>
         private void PopulateSizes()
         {
             const int yPixOffset = 5;
-            _dataStream.Seek(StartOfFrameBlock.StartOffset + yPixOffset, SeekOrigin.Begin);
+            _dataStream.Seek(StartOfFrameSegment.StartOffset + yPixOffset, SeekOrigin.Begin);
             int rawHeight = _dataStream.ReadBigEndianUShort();
             int rawWidth = _dataStream.ReadBigEndianUShort();
             if (rawWidth < 0 || rawHeight < 0)
             {
                 throw new InvalidImageException(ImageLoadResources.JpegSourceImage_DimensionsNotFound);
             }
-            if (JfifBlock != null)
+            if (JfifSegment != null)
             {
                 PopulateDotsPerPoint();
             }
@@ -144,7 +156,7 @@ namespace Unicorn.Images
         private void PopulateDotsPerPoint()
         {
             const int unitsOffset = 11;
-            _dataStream.Seek(JfifBlock.StartOffset + unitsOffset, SeekOrigin.Begin);
+            _dataStream.Seek(JfifSegment.StartOffset + unitsOffset, SeekOrigin.Begin);
             int unitsByte = _dataStream.ReadByte();
             int xDensity = _dataStream.ReadBigEndianUShort();
             int yDensity = _dataStream.ReadBigEndianUShort();
