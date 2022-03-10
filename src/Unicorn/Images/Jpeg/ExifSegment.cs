@@ -9,7 +9,7 @@ using Unicorn.Helpers;
 
 namespace Unicorn.Images.Jpeg
 {
-    internal class ExifSegment : ImageDataBlock
+    internal class ExifSegment : JpegDataSegment
     {
         private readonly List<ExifTag> _tags = new List<ExifTag>();
         private Func<byte[], int, long> _readUInt;
@@ -25,7 +25,7 @@ namespace Unicorn.Images.Jpeg
 
         internal ExifOrientation? Orientation => (ExifOrientation)(_orientationTag?.Value);
             
-        internal ExifSegment(long startOffset, int length) : base(startOffset, length, ImageDataBlockType.Exif) { }
+        internal ExifSegment(long startOffset, int length) : base(startOffset, length, JpegDataSegmentType.Exif) { }
 
         internal async Task PopulateSegmentAsync(Stream dataStream)
         {

@@ -1,6 +1,6 @@
 ﻿namespace Unicorn.Images.Jpeg
 {
-    internal enum ImageDataBlockType
+    internal enum JpegDataSegmentType
     {
         Unknown,
         StartOfFrame,
