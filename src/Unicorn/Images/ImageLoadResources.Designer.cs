@@ -61,7 +61,7 @@ namespace Unicorn.Images {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid EXIF image.  The EXIF header has an incorrect format (magic answer bytes not found)..
+        ///   Looks up a localized string similar to Invalid EXIF image.  The EXIF segment header has an incorrect format (magic answer bytes not found)..
         /// </summary>
         internal static string ExifSegment_AnswerToEverythingNotFound {
             get {
@@ -70,7 +70,7 @@ namespace Unicorn.Images {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid EXIF image.  The EXIF header has an incorrect format (endianness bytes not found)..
+        ///   Looks up a localized string similar to Invalid EXIF image.  The EXIF segment header has an incorrect format (endianness bytes not found)..
         /// </summary>
         internal static string ExifSegment_EndiannessMarkerNotFound {
             get {
@@ -88,7 +88,7 @@ namespace Unicorn.Images {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid EXIF image.  The EXIF data does not match the specification.  Type mismatch in tag {0}.  Expected type was {1}; found type {2}..
+        ///   Looks up a localized string similar to Invalid EXIF image.  The EXIF segment data does not match the specification.  Type mismatch in tag {0}.  Expected type was {1}; found type {2}..
         /// </summary>
         internal static string ExifSegment_WrongTagDataType {
             get {
@@ -106,7 +106,7 @@ namespace Unicorn.Images {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid JPEG image.  JFIF data block does not contain image resolution data..
+        ///   Looks up a localized string similar to Invalid JPEG image.  JFIF data segment does not contain image resolution data..
         /// </summary>
         internal static string JpegSourceImage_ErrorReadingJFIFData {
             get {
@@ -115,7 +115,7 @@ namespace Unicorn.Images {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid JPEG image.  Could not find Start Of Frame marker..
+        ///   Looks up a localized string similar to Invalid JPEG image.  Could not find Start Of Frame segment marker..
         /// </summary>
         internal static string JpegSourceImage_SofNotFound {
             get {
@@ -124,7 +124,7 @@ namespace Unicorn.Images {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid JPEG image.  Data does not begin with Start Of Image marker..
+        ///   Looks up a localized string similar to Invalid JPEG image.  Data does not begin with Start Of Image segment marker..
         /// </summary>
         internal static string JpegSourceImage_SoiNotFound {
             get {
