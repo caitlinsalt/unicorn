@@ -28,7 +28,7 @@ namespace Unicorn.Images.Jpeg
             
         internal ExifSegment(long startOffset, int length) : base(startOffset, length, JpegDataSegmentType.Exif) { }
 
-        internal async Task PopulateSegmentAsync(Stream dataStream)
+        internal override async Task PopulateSegmentAsync(Stream dataStream)
         {
             const int TIFF_HEADER_OFFSET = 10;
             long tiffHeaderBase = StartOffset + TIFF_HEADER_OFFSET;
