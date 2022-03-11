@@ -1,4 +1,7 @@
-﻿namespace Unicorn.Images.Jpeg
+﻿using System.IO;
+using System.Threading.Tasks;
+
+namespace Unicorn.Images.Jpeg
 {
     internal class JpegDataSegment
     {
@@ -14,5 +17,7 @@
             Length = length;
             BlockType = kind;
         }
+
+        internal virtual Task PopulateSegmentAsync(Stream dataStream) => Task.CompletedTask;
     }
 }
