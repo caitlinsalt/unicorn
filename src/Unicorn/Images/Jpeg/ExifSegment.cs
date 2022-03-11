@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unicorn.Base.Helpers.Extensions;
 using Unicorn.Exceptions;
 using Unicorn.Helpers;
 
@@ -13,7 +14,7 @@ namespace Unicorn.Images.Jpeg
     {
         private readonly List<ExifTag> _tags = new List<ExifTag>();
         private Func<byte[], int, long> _readUInt;
-        private Func<byte[], int, long> _readInt;
+        private Func<byte[], int, int> _readInt;
         private Func<byte[], int, int> _readUShort;
         private Func<Stream, int> _readUShortFromStream;
         private ExifTag _orientationTag;
@@ -204,7 +205,7 @@ namespace Unicorn.Images.Jpeg
 
         private async Task<object> ReadTagIntValueAsync(byte[] buffer, int tagOffset, long valueCount, ExifStorageType storageType, bool arrayExpected, Stream dataStream, long addressBase)
         {
-            Func<byte[], int, long> readerMethod = (storageType == ExifStorageType.Slong) ? _readInt : _readUInt;
+            Func<byte[], int, long> readerMethod = (storageType == ExifStorageType.Slong) ? ((a, f) => _readInt(a, f)) : _readUInt;
             if (valueCount == 1)
             {
                 long theValue = readerMethod(buffer, tagOffset + 8);
@@ -229,7 +230,7 @@ namespace Unicorn.Images.Jpeg
 
         private async Task<object> ReadTagRationalValueAsync(byte[] buffer, int tagOffset, long valueCount, ExifStorageType storageType, bool arrayExpected, Stream dataStream, long addressBase)
         {
-            Func<byte[], int, long> readerMethod = (storageType == ExifStorageType.Srational) ? _readInt : _readUInt;
+            Func<byte[], int, long> readerMethod = (storageType == ExifStorageType.Srational) ? ((a, f) => _readInt(a, f)) : _readUInt;
             byte[] theBytes = new byte[valueCount * 8];
             decimal[] theOutput = new decimal[valueCount];
             await PopulateSubBuffer(buffer, tagOffset, theBytes, dataStream, addressBase).ConfigureAwait(false);
