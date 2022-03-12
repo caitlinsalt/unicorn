@@ -16,13 +16,15 @@ namespace Unicorn.Tests.Integration.Images
         private const double _sourceImageWithNonSquarePixelsAspectRatio = 805 / (double)568;
         private const double _sourceImageWithExifRotationAspectRatio = 2592 / (double)3872;
 
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+
         [TestMethod]
         public async Task JpegSourceImageClass_LoadFromAsyncMethod_DoesNotThrowException()
         {
             using FileStream sourceDataStream = new(_sourceImagePath, FileMode.Open, FileAccess.Read);
             using JpegSourceImage testObject = new();
 
-            await testObject.LoadFromAsync(sourceDataStream);
+            await testObject.LoadFromAsync(sourceDataStream).ConfigureAwait(false);
         }
 
         [TestMethod]
@@ -31,7 +33,7 @@ namespace Unicorn.Tests.Integration.Images
             using FileStream sourceDataStream = new(_sourceImagePath, FileMode.Open, FileAccess.Read);
             using JpegSourceImage testObject = new();
 
-            await testObject.LoadFromAsync(sourceDataStream);
+            await testObject.LoadFromAsync(sourceDataStream).ConfigureAwait(false);
 
             Assert.AreEqual(_sourceImageWidth, testObject.DotWidth);
         }
@@ -42,7 +44,7 @@ namespace Unicorn.Tests.Integration.Images
             using FileStream sourceDataStream = new(_sourceImagePath, FileMode.Open, FileAccess.Read);
             using JpegSourceImage testObject = new();
 
-            await testObject.LoadFromAsync(sourceDataStream);
+            await testObject.LoadFromAsync(sourceDataStream).ConfigureAwait(false);
 
             Assert.AreEqual(_sourceImageHeight, testObject.DotHeight);
         }
@@ -53,7 +55,7 @@ namespace Unicorn.Tests.Integration.Images
             using FileStream sourceDataStream = new(_sourceImagePath, FileMode.Open, FileAccess.Read);
             using JpegSourceImage testObject = new();
 
-            await testObject.LoadFromAsync(sourceDataStream);
+            await testObject.LoadFromAsync(sourceDataStream).ConfigureAwait(false);
 
             Assert.AreEqual(_sourceImageWidth / (double)_sourceImageHeight, testObject.AspectRatio);
         }
@@ -64,7 +66,7 @@ namespace Unicorn.Tests.Integration.Images
             using FileStream sourceDataStream = new(_sourceImagePathWithNonSquarePixels, FileMode.Open, FileAccess.Read);
             using JpegSourceImage testObject = new();
 
-            await testObject.LoadFromAsync(sourceDataStream);
+            await testObject.LoadFromAsync(sourceDataStream).ConfigureAwait(false);
 
             Assert.AreEqual(_sourceImageWithNonSquarePixelsAspectRatio, testObject.AspectRatio);
         }
@@ -75,9 +77,12 @@ namespace Unicorn.Tests.Integration.Images
             using FileStream sourceDataStream = new(_sourceImagePathWithExifRotation, FileMode.Open, FileAccess.Read);
             using JpegSourceImage testObject = new();
 
-            await testObject.LoadFromAsync(sourceDataStream);
+            await testObject.LoadFromAsync(sourceDataStream).ConfigureAwait(false);
 
             Assert.AreEqual(_sourceImageWithExifRotationAspectRatio, testObject.AspectRatio);
         }
+
+#pragma warning restore CA1707 // Identifiers should not contain underscores
+
     }
 }

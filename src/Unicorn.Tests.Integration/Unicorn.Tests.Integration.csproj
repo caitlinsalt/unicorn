@@ -7,6 +7,10 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="TestData\exampleJpegImage01.jpg" />
     <None Remove="TestData\exampleJpegImage02.jpg" />
