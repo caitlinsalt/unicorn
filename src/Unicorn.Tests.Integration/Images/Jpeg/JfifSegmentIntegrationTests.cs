@@ -20,13 +20,15 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
         private const double _sourceImage02HorizontalDotsPerPoint = 1d;
         private const double _sourceImage02VerticalDotsPerPoint = 0.5;
 
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+
         [TestMethod]
         public async Task JfifSegmentClass_PopulateSegmentAsyncMethod_LoadsHorizontalDotsPerPointPropertyWithCorrectValue_IfTestFileIsExampleJpegImage01()
         {
             using FileStream sourceDataStream = new(_sourceImage01Path, FileMode.Open, FileAccess.Read);
             JfifSegment testObject = new(_sourceImage01JfifSegmentOffset, _sourceImage01JfifSegmentLength);
 
-            await testObject.PopulateSegmentAsync(sourceDataStream);
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
 
             Assert.AreEqual(_sourceImage01HorizontalDotsPerPoint, testObject.HorizontalDotsPerPoint);
         }
@@ -37,7 +39,7 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
             using FileStream sourceDataStream = new(_sourceImage01Path, FileMode.Open, FileAccess.Read);
             JfifSegment testObject = new(_sourceImage01JfifSegmentOffset, _sourceImage01JfifSegmentLength);
 
-            await testObject.PopulateSegmentAsync(sourceDataStream);
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
 
             Assert.AreEqual(_sourceImage01VerticalDotsPerPoint, testObject.VerticalDotsPerPoint);
         }
@@ -48,7 +50,7 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
             using FileStream sourceDataStream = new(_sourceImage02Path, FileMode.Open, FileAccess.Read);
             JfifSegment testObject = new(_sourceImage02JfifSegmentOffset, _sourceImage01JfifSegmentLength);
 
-            await testObject.PopulateSegmentAsync(sourceDataStream);
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
 
             Assert.AreEqual(_sourceImage02HorizontalDotsPerPoint, testObject.HorizontalDotsPerPoint);
         }
@@ -59,9 +61,12 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
             using FileStream sourceDataStream = new(_sourceImage02Path, FileMode.Open, FileAccess.Read);
             JfifSegment testObject = new(_sourceImage02JfifSegmentOffset, _sourceImage02JfifSegmentLength);
 
-            await testObject.PopulateSegmentAsync(sourceDataStream);
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
 
             Assert.AreEqual(_sourceImage02VerticalDotsPerPoint, testObject.VerticalDotsPerPoint);
         }
+
+#pragma warning restore CA1707 // Identifiers should not contain underscores
+
     }
 }
