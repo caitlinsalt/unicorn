@@ -39,7 +39,7 @@ namespace Unicorn.Images
         public override double AspectRatio => (DotWidth / HorizontalDotsPerPoint) / ((double) DotHeight / VerticalDotsPerPoint);
 
         /// <summary>
-        /// Load a JPEG image from a stream.
+        /// Load a JPEG image from a stream.  The stream's current position should be the first byte of the JPEG data
         /// </summary>
         /// <param name="stream">The source data stream.</param>
         /// <returns>A <see cref="Task" /> which will be completed when the image is loaded.</returns>
@@ -72,7 +72,8 @@ namespace Unicorn.Images
         /// exception potentially throwable by <see cref="Stream.ReadAsync(byte[], int, int)" /> or <see cref="Stream.ReadByte"/>, for the given <see cref="Stream"/> implementation.
         /// </para>
         /// <para>
-        /// This method loads the entire data stream into memory.  It is the caller's responsibility to confirm that the data stream is not excessively large for their use case.
+        /// This method loads data stream into memory, starting at its current position but continuing to the end of the stream, without checking for the End Of Image marker.
+        /// It is the caller's responsibility to confirm that the data stream is not excessively large for their use case.
         /// </para>
         /// </remarks>
         public override async Task LoadFromAsync(Stream stream)
