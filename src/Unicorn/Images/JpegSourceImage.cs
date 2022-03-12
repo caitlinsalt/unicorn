@@ -16,7 +16,7 @@ namespace Unicorn.Images
     {
         private readonly List<JpegDataSegment> _dataSegments = new List<JpegDataSegment>();
 
-        private JpegDataSegment StartOfFrameSegment => _dataSegments.FirstOrDefault(b => b.BlockType == JpegDataSegmentType.StartOfFrame)
+        private JpegDataSegment StartOfFrameSegment => _dataSegments.FirstOrDefault(b => b.SegmentType == JpegDataSegmentType.StartOfFrame)
             ?? throw new InvalidImageException(ImageLoadResources.JpegSourceImage_SofNotFound);
 
         private JfifSegment JfifSegment => _dataSegments.FirstOrDefault(b => b is JfifSegment) as JfifSegment;
@@ -117,7 +117,7 @@ namespace Unicorn.Images
                 _dataSegments.Add(newSegment);
 
                 // Reposition the stream pointer at the byte following the segment just loaded
-                _dataStream.Seek(startOfSegment + newSegment.Length + 2, SeekOrigin.Begin);
+                _dataStream.Seek(startOfSegment + newSegment.Length, SeekOrigin.Begin);
             }
         }
 
