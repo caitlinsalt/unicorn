@@ -16,8 +16,7 @@ namespace Unicorn.Images
     {
         private readonly List<JpegDataSegment> _dataSegments = new List<JpegDataSegment>();
 
-        private JpegDataSegment StartOfFrameSegment => _dataSegments.FirstOrDefault(b => b.SegmentType == JpegDataSegmentType.StartOfFrame)
-            ?? throw new InvalidImageException(ImageLoadResources.JpegSourceImage_SofNotFound);
+        private StartOfFrameSegment StartOfFrameSegment => _dataSegments.FirstOrDefault(b => b is StartOfFrameSegment) as StartOfFrameSegment;
 
         private JfifSegment JfifSegment => _dataSegments.FirstOrDefault(b => b is JfifSegment) as JfifSegment;
 
@@ -81,6 +80,10 @@ namespace Unicorn.Images
             await base.LoadFromAsync(stream).ConfigureAwait(false);
             CheckStartOfImageMarker();
             await PopulateDataSegmentsAsync().ConfigureAwait(false);
+            if (StartOfFrameSegment is null)
+            {
+                throw new InvalidImageException(ImageLoadResources.JpegSourceImage_SofNotFound);
+            }
             PopulateSizes();
         }
 
@@ -129,29 +132,20 @@ namespace Unicorn.Images
         /// <exception cref="InvalidImageException">The file is truncated midway through either the frame header segment or the JFIF segment.</exception>
         private void PopulateSizes()
         {
-            const int yPixOffset = 5;
-            _dataStream.Seek(StartOfFrameSegment.StartOffset + yPixOffset, SeekOrigin.Begin);
-            int rawHeight = _dataStream.ReadBigEndianUShort();
-            int rawWidth = _dataStream.ReadBigEndianUShort();
-            if (rawWidth < 0 || rawHeight < 0)
-            {
-                throw new InvalidImageException(ImageLoadResources.JpegSourceImage_DimensionsNotFound);
-            }
             if (JfifSegment != null)
             {
                 PopulateDotsPerPoint();
             }
             if (ExifSegment?.Orientation != null && ExifSegment.Orientation.Value.IsQuarterRotated())
             {
-                DotWidth = rawHeight;
-                DotHeight = rawWidth;
+                DotWidth = StartOfFrameSegment.DotHeight;
+                DotHeight = StartOfFrameSegment.DotWidth;
             }
             else
             {
-                DotWidth = rawWidth;
-                DotHeight = rawHeight;
+                DotWidth = StartOfFrameSegment.DotWidth;
+                DotHeight = StartOfFrameSegment.DotHeight;
             }
-            _dataStream.Seek(0, SeekOrigin.Begin);
         }
 
         private void PopulateDotsPerPoint()

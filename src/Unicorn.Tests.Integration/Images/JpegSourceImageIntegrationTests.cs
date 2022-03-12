@@ -8,6 +8,12 @@ namespace Unicorn.Tests.Integration.Images
     [TestClass]
     public class JpegSourceImageIntegrationTests
     {
+        // Example image 01 was created using a Samsung phone, then edited using GIMP.  It is a JFIF file that includes an EXIF segment.
+        // Example image 02 is example image 01 edited to have a lower resolution and intended to be displayed with non-square pixels, to
+        //     test the aspect ratio code handles these cases properly.  It also is a JFIF file with an EXIF segment.
+        // Example image 03 was created using a late-2000s Nikon camera and is exactly as written by the camera.  It is an EXIF file
+        //     and does not have a JFIF segment.  It uses the EXIF Orientation tag to indicate it should be rotated for display.
+
         private readonly string _sourceImagePath = Path.Combine("TestData", "exampleJpegImage01.jpg");
         private readonly string _sourceImagePathWithNonSquarePixels = Path.Combine("TestData", "exampleJpegImage02.jpg");
         private readonly string _sourceImagePathWithExifRotation = Path.Combine("TestData", "exampleJpegImage03.jpg");

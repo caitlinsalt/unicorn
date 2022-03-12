@@ -25,7 +25,7 @@ namespace Unicorn.Images.Jpeg
             int length = dataStream.ReadBigEndianUShort() + 2;
             if (IsStartOfFrameMarker(markerTypeByte))
             {
-                return new JpegDataSegment(startOffset, length, JpegDataSegmentType.StartOfFrame);
+                return await BuildPopulatableSegment(dataStream, () => new StartOfFrameSegment(startOffset, length)).ConfigureAwait(false);
             }
             if (await IsJfifSegmentAsync(dataStream, startOffset, markerTypeByte).ConfigureAwait(false))
             {
