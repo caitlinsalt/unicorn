@@ -22,7 +22,7 @@ namespace Unicorn.Images.Jpeg
         internal static async Task<JpegDataSegment> CreateSegmentAsync(Stream dataStream, long startOffset, int markerTypeByte)
         {
             dataStream.Seek(startOffset + 2, SeekOrigin.Begin);
-            int length = dataStream.ReadBigEndianUShort();
+            int length = dataStream.ReadBigEndianUShort() + 2;
             if (IsStartOfFrameMarker(markerTypeByte))
             {
                 return new JpegDataSegment(startOffset, length, JpegDataSegmentType.StartOfFrame);
