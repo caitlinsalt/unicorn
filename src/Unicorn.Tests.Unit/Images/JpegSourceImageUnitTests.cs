@@ -17,7 +17,7 @@ namespace Unicorn.Tests.Unit.Images
         public async Task JpegSourceImageClass_LoadFromAsyncMethod_ThrowsArgumentNullException_IfParameterIsNull()
         {
             Stream testParam = null;
-            JpegSourceImage testObject = new();
+            using JpegSourceImage testObject = new();
 
             await testObject.LoadFromAsync(testParam).ConfigureAwait(false);
 
