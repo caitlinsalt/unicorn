@@ -5,6 +5,10 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
+    <Version>0.1.0</Version>
+    <Authors>Caitlin Salt</Authors>
+    <Product>Unicorn</Product>
+    <Copyright>Copyright © 2022 Caitlin Salt</Copyright>
   </PropertyGroup>
 
   <PropertyGroup>
