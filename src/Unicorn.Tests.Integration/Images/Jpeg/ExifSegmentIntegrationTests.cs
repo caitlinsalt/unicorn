@@ -26,13 +26,15 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
         private const decimal _sourceImage03FNumber = 6.3m;
         private const int _sourceImage03Saturation = 2;
 
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+
         [TestMethod]
         public async Task ExifSegmentClass_PopulateSegmentAsyncMethod_LoadsMakerTagWithCorrectValue_IfTestFileIsExampleJpegImage01()
         {
             using FileStream sourceDataStream = new(_sourceImage01Path, FileMode.Open, FileAccess.Read);
             ExifSegment testObject = new(_sourceImage01ExifSegmentOffset, _sourceImage01ExifSegmentLength);
 
-            await testObject.PopulateSegmentAsync(sourceDataStream);
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
 
             var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.Make);
             Assert.IsNotNull(tag);
@@ -46,7 +48,7 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
             using FileStream sourceDataStream = new(_sourceImage01Path, FileMode.Open, FileAccess.Read);
             ExifSegment testObject = new(_sourceImage01ExifSegmentOffset, _sourceImage01ExifSegmentLength);
 
-            await testObject.PopulateSegmentAsync(sourceDataStream);
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
 
             var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.Model);
             Assert.IsNotNull(tag);
@@ -60,7 +62,7 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
             using FileStream sourceDataStream = new(_sourceImage01Path, FileMode.Open, FileAccess.Read);
             ExifSegment testObject = new(_sourceImage01ExifSegmentOffset, _sourceImage01ExifSegmentLength);
 
-            await testObject.PopulateSegmentAsync(sourceDataStream);
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
 
             var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.Software);
             Assert.IsNotNull(tag);
@@ -74,7 +76,7 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
             using FileStream sourceDataStream = new(_sourceImage01Path, FileMode.Open, FileAccess.Read);
             ExifSegment testObject = new(_sourceImage01ExifSegmentOffset, _sourceImage01ExifSegmentLength);
 
-            await testObject.PopulateSegmentAsync(sourceDataStream);
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
 
             var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.FNumber);
             Assert.IsNotNull(tag);
@@ -88,7 +90,7 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
             using FileStream sourceDataStream = new(_sourceImage01Path, FileMode.Open, FileAccess.Read);
             ExifSegment testObject = new(_sourceImage01ExifSegmentOffset, _sourceImage01ExifSegmentLength);
 
-            await testObject.PopulateSegmentAsync(sourceDataStream);
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
 
             var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.Saturation);
             Assert.IsNotNull(tag);
@@ -102,7 +104,7 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
             using FileStream sourceDataStream = new(_sourceImage03Path, FileMode.Open, FileAccess.Read);
             ExifSegment testObject = new(_sourceImage03ExifSegmentOffset, _sourceImage03ExifSegmentLength);
 
-            await testObject.PopulateSegmentAsync(sourceDataStream);
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
 
             var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.Make);
             Assert.IsNotNull(tag);
@@ -116,7 +118,7 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
             using FileStream sourceDataStream = new(_sourceImage03Path, FileMode.Open, FileAccess.Read);
             ExifSegment testObject = new(_sourceImage03ExifSegmentOffset, _sourceImage03ExifSegmentLength);
 
-            await testObject.PopulateSegmentAsync(sourceDataStream);
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
 
             var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.Model);
             Assert.IsNotNull(tag);
@@ -130,7 +132,7 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
             using FileStream sourceDataStream = new(_sourceImage03Path, FileMode.Open, FileAccess.Read);
             ExifSegment testObject = new(_sourceImage03ExifSegmentOffset, _sourceImage03ExifSegmentLength);
 
-            await testObject.PopulateSegmentAsync(sourceDataStream);
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
 
             var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.FNumber);
             Assert.IsNotNull(tag);
@@ -144,12 +146,15 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
             using FileStream sourceDataStream = new(_sourceImage03Path, FileMode.Open, FileAccess.Read);
             ExifSegment testObject = new(_sourceImage03ExifSegmentOffset, _sourceImage03ExifSegmentLength);
 
-            await testObject.PopulateSegmentAsync(sourceDataStream);
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
 
             var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.Saturation);
             Assert.IsNotNull(tag);
             Assert.AreEqual(typeof(int), tag.Value.GetType());
             Assert.AreEqual(_sourceImage03Saturation, (int)tag.Value);
         }
+
+#pragma warning restore CA1707 // Identifiers should not contain underscores
+
     }
 }
