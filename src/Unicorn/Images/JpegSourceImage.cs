@@ -16,10 +16,10 @@ namespace Unicorn.Images
     {
         private readonly List<JpegDataSegment> _dataSegments = new List<JpegDataSegment>();
 
-        private JpegDataSegment StartOfFrameSegment => _dataSegments.FirstOrDefault(b => b.BlockType == JpegDataSegmentType.StartOfFrame)
+        private JpegDataSegment StartOfFrameSegment => _dataSegments.FirstOrDefault(b => b.SegmentType == JpegDataSegmentType.StartOfFrame)
             ?? throw new InvalidImageException(ImageLoadResources.JpegSourceImage_SofNotFound);
 
-        private JpegDataSegment JfifSegment => _dataSegments.FirstOrDefault(b => b.BlockType == JpegDataSegmentType.Jfif);
+        private JfifSegment JfifSegment => _dataSegments.FirstOrDefault(b => b is JfifSegment) as JfifSegment;
 
         private ExifSegment ExifSegment => _dataSegments.FirstOrDefault(b => b is ExifSegment) as ExifSegment;
 
@@ -117,7 +117,7 @@ namespace Unicorn.Images
                 _dataSegments.Add(newSegment);
 
                 // Reposition the stream pointer at the byte following the segment just loaded
-                _dataStream.Seek(startOfSegment + newSegment.Length + 2, SeekOrigin.Begin);
+                _dataStream.Seek(startOfSegment + newSegment.Length, SeekOrigin.Begin);
             }
         }
 
@@ -155,26 +155,8 @@ namespace Unicorn.Images
 
         private void PopulateDotsPerPoint()
         {
-            const int unitsOffset = 11;
-            _dataStream.Seek(JfifSegment.StartOffset + unitsOffset, SeekOrigin.Begin);
-            int unitsByte = _dataStream.ReadByte();
-            int xDensity = _dataStream.ReadBigEndianUShort();
-            int yDensity = _dataStream.ReadBigEndianUShort();
-            if (yDensity < 0)
-            {
-                throw new InvalidImageException(ImageLoadResources.JpegSourceImage_ErrorReadingJFIFData);
-            }
-            double conversionConstant = 1;
-            if (unitsByte == 1) // Resolution is in dots per in.
-            {
-                conversionConstant = 72;
-            }
-            else if (unitsByte == 2) // Resolution is in dots per cm.
-            {
-                conversionConstant = 28.3464567;
-            }
-            HorizontalDotsPerPoint = xDensity / conversionConstant;
-            VerticalDotsPerPoint = yDensity / conversionConstant;
+            HorizontalDotsPerPoint = JfifSegment.HorizontalDotsPerPoint;
+            VerticalDotsPerPoint = JfifSegment.VerticalDotsPerPoint;
         }
 
         /// <summary>
