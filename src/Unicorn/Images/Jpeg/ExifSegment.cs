@@ -16,7 +16,6 @@ namespace Unicorn.Images.Jpeg
         private Func<byte[], int, long> _readUInt;
         private Func<byte[], int, int> _readInt;
         private Func<byte[], int, int> _readUShort;
-        private Func<Stream, int> _readUShortFromStream;
         private ExifTag _orientationTag;
 
         private long _exifOffset = -1;
@@ -28,7 +27,7 @@ namespace Unicorn.Images.Jpeg
             
         internal ExifSegment(long startOffset, int length) : base(startOffset, length, JpegDataSegmentType.Exif) { }
 
-        internal async Task PopulateSegmentAsync(Stream dataStream)
+        internal override async Task PopulateSegmentAsync(Stream dataStream)
         {
             const int TIFF_HEADER_OFFSET = 10;
             long tiffHeaderBase = StartOffset + TIFF_HEADER_OFFSET;
@@ -75,7 +74,9 @@ namespace Unicorn.Images.Jpeg
         private async Task ReadIfdAsync(Stream dataStream, long startAddress, long addressBase)
         {
             dataStream.Seek(startAddress, SeekOrigin.Begin);
-            int fieldCount = _readUShortFromStream(dataStream);
+            byte[] fieldCountBuffer = new byte[2];
+            await dataStream.ReadAsync(fieldCountBuffer, 0, fieldCountBuffer.Length).ConfigureAwait(false);
+            int fieldCount = _readUShort(fieldCountBuffer, 0);
             const int FIELD_SIZE = 12;
             byte[] tagBuffer = new byte[FIELD_SIZE * fieldCount];
             await dataStream.ReadAsync(tagBuffer, 0, FIELD_SIZE * fieldCount).ConfigureAwait(false);
@@ -283,7 +284,6 @@ namespace Unicorn.Images.Jpeg
             _readInt = ByteArrayExtensions.ReadBigEndianInt;
             _readUInt = ByteArrayExtensions.ReadBigEndianUInt;
             _readUShort = ByteArrayExtensions.ReadBigEndianUShort;
-            _readUShortFromStream = StreamExtensions.ReadBigEndianUShort;
         }
 
         private void SetUpLittleEndianMethods()
@@ -291,7 +291,6 @@ namespace Unicorn.Images.Jpeg
             _readInt = ByteArrayExtensions.ReadLittleEndianInt;
             _readUInt = ByteArrayExtensions.ReadLittleEndianUInt;
             _readUShort = ByteArrayExtensions.ReadLittleEndianUShort;
-            _readUShortFromStream = StreamExtensions.ReadLittleEndianUShort;
         }
     }
 }

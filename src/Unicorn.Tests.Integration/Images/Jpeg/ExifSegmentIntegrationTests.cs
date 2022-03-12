@@ -11,7 +11,7 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
     {
         private readonly string _sourceImage01Path = Path.Combine("TestData", "exampleJpegImage01.jpg");
         private const int _sourceImage01ExifSegmentOffset = 0x14;
-        private const int _sourceImage01ExifSegmentLength = 0x2a86;
+        private const int _sourceImage01ExifSegmentLength = 0x2a88;
         private const string _sourceImage01Maker = "samsung";
         private const string _sourceImage01Model = "SM-A127F";
         private const string _sourceImage01Software = "GIMP 2.10.28";
@@ -20,7 +20,7 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
 
         private readonly string _sourceImage03Path = Path.Combine("TestData", "exampleJpegImage03.jpg");
         private const int _sourceImage03ExifSegmentOffset = 0x2;
-        private const int _sourceImage03ExifSegmentLength = 0x94a6;
+        private const int _sourceImage03ExifSegmentLength = 0x94a8;
         private const string _sourceImage03Maker = "NIKON CORPORATION";
         private const string _sourceImage03Model = "NIKON D200";
         private const decimal _sourceImage03FNumber = 6.3m;

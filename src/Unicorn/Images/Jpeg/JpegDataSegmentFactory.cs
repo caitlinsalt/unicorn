@@ -22,22 +22,27 @@ namespace Unicorn.Images.Jpeg
         internal static async Task<JpegDataSegment> CreateSegmentAsync(Stream dataStream, long startOffset, int markerTypeByte)
         {
             dataStream.Seek(startOffset + 2, SeekOrigin.Begin);
-            int length = dataStream.ReadBigEndianUShort();
+            int length = dataStream.ReadBigEndianUShort() + 2;
             if (IsStartOfFrameMarker(markerTypeByte))
             {
                 return new JpegDataSegment(startOffset, length, JpegDataSegmentType.StartOfFrame);
             }
             if (await IsJfifSegmentAsync(dataStream, startOffset, markerTypeByte).ConfigureAwait(false))
             {
-                return new JpegDataSegment(startOffset, length, JpegDataSegmentType.Jfif);
+                return await BuildPopulatableSegment(dataStream, () => new JfifSegment(startOffset, length)).ConfigureAwait(false);
             }
             if (await IsExifSegmentAsync(dataStream, startOffset, markerTypeByte).ConfigureAwait(false))
             {
-                var segment = new ExifSegment(startOffset, length);
-                await segment.PopulateSegmentAsync(dataStream).ConfigureAwait(false);
-                return segment;
+                return await BuildPopulatableSegment(dataStream, () => new ExifSegment(startOffset, length)).ConfigureAwait(false);
             }
             return new JpegDataSegment(startOffset, length, JpegDataSegmentType.Unknown);
+        }
+
+        private static async Task<JpegDataSegment> BuildPopulatableSegment(Stream dataStream, Func<JpegDataSegment> constructor)
+        {
+            JpegDataSegment segment = constructor();
+            await segment.PopulateSegmentAsync(dataStream).ConfigureAwait(false);
+            return segment;
         }
 
         private static bool IsStartOfFrameMarker(int markerByte) => START_OF_FRAME_MARKERS.Contains(markerByte);

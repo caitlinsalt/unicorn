@@ -3,12 +3,11 @@ using System;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
 using Unicorn.Images.Jpeg;
-using Unicorn.Tests.Unit.TestHelpers;
 
 namespace Unicorn.Tests.Unit.Images.Jpeg
 {
     [TestClass]
-    public class JpegDataSegmentUnitTests
+    public class JfifSegmentUnitTests
     {
         private static readonly Random _rnd = RandomProvider.Default;
 
@@ -16,39 +15,36 @@ namespace Unicorn.Tests.Unit.Images.Jpeg
 #pragma warning disable CA5394 // Do not use insecure randomness
 
         [TestMethod]
-        public void JpegDataSegmentClass_Constructor_SetsStartOffsetPropertyToValueOfFirstParameter()
+        public void JfifSegmentClass_Constructor_SetsStartOffsetPropertyToFirstParameter()
         {
             long testParam0 = _rnd.NextLong();
             int testParam1 = _rnd.Next();
-            JpegDataSegmentType testParam2 = _rnd.NextJpegDataSegmentType();
 
-            JpegDataSegment testOutput = new(testParam0, testParam1, testParam2);
+            JfifSegment testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam0, testOutput.StartOffset);
         }
 
         [TestMethod]
-        public void JpegDataSegmentClass_Constructor_SetsLengthPropertyToValueOfSecondParameter()
+        public void JfifSegmentClass_Constructor_SetsLengthPropertyToSecondParameter()
         {
             long testParam0 = _rnd.NextLong();
             int testParam1 = _rnd.Next();
-            JpegDataSegmentType testParam2 = _rnd.NextJpegDataSegmentType();
 
-            JpegDataSegment testOutput = new(testParam0, testParam1, testParam2);
+            JfifSegment testOutput = new(testParam0, testParam1);
 
             Assert.AreEqual(testParam1, testOutput.Length);
         }
 
         [TestMethod]
-        public void JpegDataSegmentClass_Constructor_SetsBlockTypePropertyToValueOfThirdParameter()
+        public void JfifSegmentClass_Constructor_SetsSegmentTypePropertyToJfif()
         {
             long testParam0 = _rnd.NextLong();
             int testParam1 = _rnd.Next();
-            JpegDataSegmentType testParam2 = _rnd.NextJpegDataSegmentType();
 
-            JpegDataSegment testOutput = new(testParam0, testParam1, testParam2);
+            JfifSegment testOutput = new(testParam0, testParam1);
 
-            Assert.AreEqual(testParam2, testOutput.SegmentType);
+            Assert.AreEqual(JpegDataSegmentType.Jfif, testOutput.SegmentType);
         }
 
 #pragma warning restore CA5394 // Do not use insecure randomness
