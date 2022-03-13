@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Unicorn.Helpers;
+using Unicorn.Base.Helpers.Extensions;
 
 namespace Unicorn.Images.Jpeg
 {
@@ -21,8 +21,11 @@ namespace Unicorn.Images.Jpeg
 
         internal static async Task<JpegDataSegment> CreateSegmentAsync(Stream dataStream, long startOffset, int markerTypeByte)
         {
-            dataStream.Seek(startOffset + 2, SeekOrigin.Begin);
-            int length = dataStream.ReadBigEndianUShort() + 2;
+            const int lengthBytesOffset = 2;
+            byte[] buffer = new byte[2];
+            dataStream.Seek(startOffset + lengthBytesOffset, SeekOrigin.Begin);
+            await dataStream.ReadAsync(buffer, 0, lengthBytesOffset).ConfigureAwait(false);
+            int length = buffer.ReadBigEndianUShort() + 2;
             if (IsStartOfFrameMarker(markerTypeByte))
             {
                 return await BuildPopulatableSegment(dataStream, () => new StartOfFrameSegment(startOffset, length)).ConfigureAwait(false);
