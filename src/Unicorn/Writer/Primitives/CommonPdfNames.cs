@@ -12,9 +12,24 @@
         public static readonly PdfName BaseFont = new PdfName("BaseFont");
 
         /// <summary>
+        /// The /BitsPerComponent name.
+        /// </summary>
+        public static readonly PdfName BitsPerComponent = new PdfName("BitsPerComponent");
+
+        /// <summary>
         /// The /Catalog name.
         /// </summary>
         public static readonly PdfName Catalog = new PdfName("Catalog");
+
+        /// <summary>
+        /// The /ColorSpace name.
+        /// </summary>
+        public static readonly PdfName ColorSpace = new PdfName("ColorSpace");
+
+        /// <summary>
+        /// Alias for the /ColorSpace name, in case your code uses English spelling standards.
+        /// </summary>
+        public static PdfName ColourSpace => ColorSpace;
 
         /// <summary>
         /// The /Contents name.
@@ -45,6 +60,16 @@
         /// The /Font name.
         /// </summary>
         public static readonly PdfName Font = new PdfName("Font");
+
+        /// <summary>
+        /// The /Height name.
+        /// </summary>
+        public static readonly PdfName Height = new PdfName("Height");
+
+        /// <summary>
+        /// The /Image name.
+        /// </summary>
+        public static readonly PdfName Image = new PdfName("Image");
 
         /// <summary>
         /// The /Kids name.
@@ -107,8 +132,18 @@
         public static readonly PdfName Type = new PdfName("Type");
 
         /// <summary>
+        /// The /Width name.
+        /// </summary>
+        public static readonly PdfName Width = new PdfName("Width");
+
+        /// <summary>
         /// The /Widths name.
         /// </summary>
         public static readonly PdfName Widths = new PdfName("Widths");
+
+        /// <summary>
+        /// The /XObject name.
+        /// </summary>
+        public static readonly PdfName XObject = new PdfName("XObject");
     }
 }

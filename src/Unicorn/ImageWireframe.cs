@@ -1,6 +1,5 @@
 ﻿using System;
 using Unicorn.Base;
-using Unicorn.CoreTypes;
 
 namespace Unicorn
 {

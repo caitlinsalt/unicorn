@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Unicorn.Tests.Unit.TestHelpers;
 using Unicorn.Writer.Primitives;
+using Unicorn.Writer.Streams;
 
 namespace Unicorn.Tests.Unit.Writer.Primitives
 {

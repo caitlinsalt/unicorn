@@ -1,4 +1,4 @@
-﻿namespace Unicorn.CoreTypes
+﻿namespace Unicorn.Base
 {
     /// <summary>
     /// A raster image which may be embedded in a PDF.

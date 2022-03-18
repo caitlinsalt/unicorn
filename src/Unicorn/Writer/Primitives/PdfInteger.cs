@@ -10,11 +10,17 @@ namespace Unicorn.Writer.Primitives
     public class PdfInteger : PdfNumber, IEquatable<PdfInteger>
     {
         private static readonly Lazy<PdfInteger> _zero = new Lazy<PdfInteger>(() => new PdfInteger(0));
+        private static readonly Lazy<PdfInteger> _one = new Lazy<PdfInteger>(() => new PdfInteger(1));
 
         /// <summary>
         /// A canned <see cref="PdfInteger" /> instance for the value 0.
         /// </summary>
         public static PdfInteger Zero => _zero.Value;
+
+        /// <summary>
+        /// A canned <see cref="PdfInteger"/> instance for the value 1.
+        /// </summary>
+        public static PdfInteger One => _one.Value;
 
         /// <summary>
         /// The integer value of the object.

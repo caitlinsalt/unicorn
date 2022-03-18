@@ -11,5 +11,13 @@ namespace Unicorn.Helpers
                 throw new ArgumentOutOfRangeException(name, exceptionMessage);
             }
         }
+
+        internal static void CheckBitCountIsValid(int count, string name, string exceptionMessage)
+        {
+            if (!(count == 1 || count == 2 || count == 4 || count == 8))
+            {
+                throw new ArgumentOutOfRangeException(name, exceptionMessage);
+            }
+        }
     }
 }

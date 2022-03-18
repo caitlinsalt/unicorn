@@ -37,6 +37,20 @@ namespace Unicorn
         public double Black { get; private set; }
 
         /// <summary>
+        /// In general, in a PDF, the components of a colour are treated as continuous ranges between 0 and 1 inclusive.  The exception to this is when handling
+        /// rasterised image data, when the components are treated as unsigned integers.  When an instance of this colour is used in rasterised image data,
+        /// it is represented using 8 bits per component.
+        /// </summary>
+        public int BitsPerComponent => 8;
+
+        /// <summary>
+        /// In general, in a PDF, the components of a colour are treated as continuous ranges between 0 and 1 inclusive.  The exception to this is when handling
+        /// rasterised image data, when the components are treated as unsigned integers.  This property returns the value of this colour as an array of
+        /// four bytes, the bytes representing the four components (in order CMYK) each quantised over the range 0 to 255 inclusive.
+        /// </summary>
+        public IEnumerable<byte> ComponentData => new[] { Cyan.ScaleToByte(), Magenta.ScaleToByte(), Yellow.ScaleToByte(), Black.ScaleToByte() };
+
+        /// <summary>
         /// Construct an immutable <see cref="CmykColour" /> instance.
         /// </summary>
         /// <param name="cyan">The cyan level.</param>

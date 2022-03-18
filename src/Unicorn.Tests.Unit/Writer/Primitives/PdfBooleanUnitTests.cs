@@ -8,6 +8,7 @@ using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
 using Unicorn.Tests.Unit.TestHelpers;
 using Unicorn.Writer.Primitives;
+using Unicorn.Writer.Streams;
 
 namespace Unicorn.Tests.Unit.Writer.Primitives
 {

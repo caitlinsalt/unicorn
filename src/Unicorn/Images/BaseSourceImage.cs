@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 
 namespace Unicorn.Images
 {

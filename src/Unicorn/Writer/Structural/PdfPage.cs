@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Unicorn.Base;
 using Unicorn.Exceptions;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
+using Unicorn.Writer.Streams;
 
 namespace Unicorn.Writer.Structural
 {
@@ -97,6 +100,8 @@ namespace Unicorn.Writer.Structural
 
         private readonly PdfDictionary _fontDictionary = new PdfDictionary();
 
+        private readonly Dictionary<IPdfReference, PdfName> _reverseImageCache = new Dictionary<IPdfReference, PdfName>();
+
         /// <summary>
         /// Value-setting constructor.
         /// </summary>
@@ -173,6 +178,20 @@ namespace Unicorn.Writer.Structural
                 }
             }
             return fontObject;
+        }
+
+        public PdfName UseImage(IPdfReference imageReference)
+        {
+            lock (_reverseImageCache)
+            {
+                if (_reverseImageCache.ContainsKey(imageReference))
+                {
+                    return _reverseImageCache[imageReference];
+                }
+                var name = new PdfName($"UniImg{_reverseImageCache.Count}");
+                _reverseImageCache.Add(imageReference, name);
+                return name;
+            }
         }
 
         /// <summary>
@@ -281,6 +300,10 @@ namespace Unicorn.Writer.Structural
             if (_fontDictionary.Count > 0)
             {
                 resourceDictionary.Add(CommonPdfNames.Font, _fontDictionary);
+            }
+            if (_reverseImageCache.Count > 0)
+            {
+                resourceDictionary.AddRange(_reverseImageCache.Select(kp => new KeyValuePair<PdfName, IPdfPrimitiveObject>(kp.Value, kp.Key)));
             }
             dictionary.Add(CommonPdfNames.Type, CommonPdfNames.Page);
             dictionary.Add(CommonPdfNames.Parent, Parent.GetReference());

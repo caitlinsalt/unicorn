@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Unicorn.Helpers;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
+using Unicorn.Writer.Streams;
 
 namespace Unicorn.Writer.Primitives
 {
