@@ -35,6 +35,6 @@ namespace Unicorn.Writer.Interfaces
         /// </remarks>
         /// <param name="imageReference">Reference to an image stream that has been embedded in the document.</param>
         /// <returns>A <see cref="PdfName"/> which can be used to refer to the image in drawing operations on this page.</returns>
-        PdfName UseImage(IPdfReference imageReference);
+        IEmbeddedImageDescriptor UseImage(IPdfReference imageReference);
     }
 }

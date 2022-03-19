@@ -215,7 +215,12 @@ namespace Unicorn.Writer
             }
         }
 
-        public PdfReference UseImage(ISourceImage image)
+        /// <summary>
+        /// Embed an image stream into the document.
+        /// </summary>
+        /// <param name="image">The source image data to be embedded.</param>
+        /// <returns>A reference to the embedded image data within the document.</returns>
+        public IPdfReference UseImage(ISourceImage image)
         {
             PdfImageStream imageStream = ImageStreamFactory.CreateImageStream(image, _xrefTable.ClaimSlot(), GetStreamCompressionEncoders());
             _bodyObjects.Add(imageStream);

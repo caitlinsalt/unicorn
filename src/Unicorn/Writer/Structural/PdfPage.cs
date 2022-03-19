@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unicorn.Base;
 using Unicorn.Exceptions;
+using Unicorn.Images;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
@@ -180,17 +181,22 @@ namespace Unicorn.Writer.Structural
             return fontObject;
         }
 
-        public PdfName UseImage(IPdfReference imageReference)
+        /// <summary>
+        /// Add an image to a page's resources, so that it can be drawn on the page.
+        /// </summary>
+        /// <param name="imageReference">Reference to an image data stream, acquired by calling <see cref="PdfDocument.UseImage(ISourceImage)"/>.</param>
+        /// <returns>An <see cref="IEmbeddedImageDescriptor"/> which can be used to draw the image on the page.</returns>
+        public IEmbeddedImageDescriptor UseImage(IPdfReference imageReference)
         {
             lock (_reverseImageCache)
             {
                 if (_reverseImageCache.ContainsKey(imageReference))
                 {
-                    return _reverseImageCache[imageReference];
+                    return new EmbeddedImageDescriptor(this, _reverseImageCache[imageReference]);
                 }
                 var name = new PdfName($"UniImg{_reverseImageCache.Count}");
                 _reverseImageCache.Add(imageReference, name);
-                return name;
+                return new EmbeddedImageDescriptor(this, name);
             }
         }
 
@@ -303,7 +309,9 @@ namespace Unicorn.Writer.Structural
             }
             if (_reverseImageCache.Count > 0)
             {
-                resourceDictionary.AddRange(_reverseImageCache.Select(kp => new KeyValuePair<PdfName, IPdfPrimitiveObject>(kp.Value, kp.Key)));
+                PdfDictionary xobjDictionary = new PdfDictionary();
+                xobjDictionary.AddRange(_reverseImageCache.Select(kp => new KeyValuePair<PdfName, IPdfPrimitiveObject>(kp.Value, kp.Key)));
+                resourceDictionary.Add(CommonPdfNames.XObject, xobjDictionary);
             }
             dictionary.Add(CommonPdfNames.Type, CommonPdfNames.Page);
             dictionary.Add(CommonPdfNames.Parent, Parent.GetReference());
