@@ -479,7 +479,7 @@ namespace Unicorn.Writer.Structural
         public void DrawImage(IEmbeddedImageDescriptor image, double x, double y, double width, double height)
         {
             CheckState();
-            UniMatrix transform = UniMatrix.Translation(x, y) * UniMatrix.Scale(width, height);
+            UniMatrix transform = UniMatrix.Scale(width, height) * UniMatrix.Translation(_xTransformer(x), _yTransformer(y + height));
             PdfName imageName = (image as EmbeddedImageDescriptor)?.Name ?? new PdfName(image.ImageKey);
             PdfOperator.PushState().WriteTo(_page.ContentStream);
             PdfOperator.ApplyTransformation(transform).WriteTo(_page.ContentStream);

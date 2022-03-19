@@ -41,5 +41,11 @@ namespace Unicorn.Images
             DotWidth = width;
             DotHeight = height;
         }
+
+        /// <summary>
+        /// Construct an image with a 1:1 aspect ratio.
+        /// </summary>
+        /// <param name="colour">COlour of the image</param>
+        public SingleColourSourceImage(IColour colour) : this(colour, 1, 1) { }
     }
 }

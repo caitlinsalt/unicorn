@@ -8,7 +8,7 @@ namespace Unicorn
     /// <summary>
     /// An image object with a fixed size.
     /// </summary>
-    public class Image
+    public class Image : IFixedSizeDrawable
     {
         /// <summary>
         /// Width of the "image".
@@ -80,6 +80,13 @@ namespace Unicorn
             MarginSet = margins ?? new MarginSet();
         }
 
+        /// <summary>
+        /// Draw this image at the given location.
+        /// </summary>
+        /// <param name="context">The context to draw on.  The image's <see cref="ImageDescriptor" /> should be for the same page as the context.</param>
+        /// <param name="x">The X-coordinate of the top-left corner of the outside margin of the image.</param>
+        /// <param name="y">The Y-coordinate of the top-left corner of the outside margin of the image.</param>
+        /// <exception cref="ArgumentNullException"><c>context</c> is <c>null</c>.</exception>
         public void DrawAt(IGraphicsContext context, double x, double y)
         {
             if (context is null)
