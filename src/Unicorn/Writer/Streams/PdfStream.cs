@@ -17,6 +17,7 @@ namespace Unicorn.Writer.Streams
     /// </summary>
     public class PdfStream : PdfIndirectObject
     {
+        
         private readonly List<byte> _contents = new List<byte>();
         private readonly PdfDictionary _additionalMetadata;
 
@@ -27,9 +28,24 @@ namespace Unicorn.Writer.Streams
         private static readonly byte[] _streamEnd = new byte[] { 0xa, 0x65, 0x6e, 0x64, 0x73, 0x74, 0x72, 0x65, 0x61, 0x6d, 0xa };
 
         /// <summary>
+        /// The stream contents, exposed to descendent classes.
+        /// </summary>
+        protected IList<byte> InternalContents => _contents;
+
+        /// <summary>
+        /// A read-only copy of the stream contents.
+        /// </summary>
+        public IList<byte> Contents => InternalContents.ToList();
+
+        /// <summary>
         /// The stream metadata.
         /// </summary>
         protected PdfDictionary MetaDictionary { get; set; }
+
+        /// <summary>
+        /// Indicate whether or not the stream supports the addition of further data.
+        /// </summary>
+        public virtual bool CanAddData { get; private set; } = true;
 
         /// <summary>
         /// Constructor, with indirect object parameters.
@@ -58,11 +74,6 @@ namespace Unicorn.Writer.Streams
                 }
             }
         }
-
-        /// <summary>
-        /// A read-only copy of the stream contents.
-        /// </summary>
-        public IList<byte> Contents => _contents.ToList();
 
         /// <summary>
         /// The length of this object when converted into a stream of bytes.
@@ -94,7 +105,7 @@ namespace Unicorn.Writer.Streams
         /// Add data to the stream.
         /// </summary>
         /// <param name="bytes">The data to add to the stream.</param>
-        public void AddBytes(IEnumerable<byte> bytes)
+        public virtual void AddBytes(IEnumerable<byte> bytes)
         {
             _contents.AddRange(bytes);
         }
@@ -177,9 +188,9 @@ namespace Unicorn.Writer.Streams
         {
             if (_filterEncodingChain.Count == 0)
             {
-                return _contents;
+                return InternalContents;
             }
-            IEnumerable<byte> current = _contents;
+            IEnumerable<byte> current = InternalContents;
             foreach (IPdfFilterEncoder encoder in _filterEncodingChain)
             {
                 current = encoder.Encode(current);

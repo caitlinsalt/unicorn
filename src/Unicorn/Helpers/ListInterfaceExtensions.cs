@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Unicorn.Writer.Extensions
+namespace Unicorn.Helpers
 {
-    /// <summary>
-    /// Extension methods for the <see cref="IList{T}" /> type.
-    /// </summary>
-    public static class IListExtensions
+    internal static class ListInterfaceExtensions
     {
         /// <summary>
         /// Utility method to make up for there being a <see cref="List{T}.AddRange" /> method but no <c>IList&lt;T&gt;.AddRange</c> method.
@@ -14,7 +11,7 @@ namespace Unicorn.Writer.Extensions
         /// <typeparam name="T">The type of elements in the <see cref="IList{T}"/>.</typeparam>
         /// <param name="list">The collection to add elements to.</param>
         /// <param name="collection">The collection of elements to be added.</param>
-        public static void AddRange<T>(this IList<T> list, IEnumerable<T> collection)
+        internal static void AddRange<T>(this IList<T> list, IEnumerable<T> collection)
         {
             if (list is List<T> concrete)
             {

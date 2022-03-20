@@ -133,6 +133,15 @@ namespace Unicorn.Writer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional data cannot be appended to an image data stream..
+        /// </summary>
+        internal static string Streams_PdfImageStream_AddBytes_InvalidOperation_Error {
+            get {
+                return ResourceManager.GetString("Streams_PdfImageStream_AddBytes_InvalidOperation_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The page has been closed and cannot be modified..
         /// </summary>
         internal static string Structural_PageGraphics_Page_Closed_Error {

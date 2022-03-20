@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
+using Unicorn.Helpers;
 using Unicorn.Tests.Unit.TestHelpers.Mocks;
-using Unicorn.Writer.Extensions;
 
-namespace Unicorn.Tests.Unit.Writer.Extensions
+namespace Unicorn.Tests.Unit.Helpers
 {
     [TestClass]
-    public class IListExtensionsUnitTests
+    public class ListInterfaceExtensions
     {
         private static readonly Random _rnd = RandomProvider.Default;
 
@@ -33,7 +33,7 @@ namespace Unicorn.Tests.Unit.Writer.Extensions
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void IListExtensionsClass_AddRangeMethod_ThrowsArgumentNullException_IfFirstParameterIsNull()
+        public void ListInterfaceExtensionsClass_AddRangeMethod_ThrowsArgumentNullException_IfFirstParameterIsNull()
         {
             IList<string> testParam0 = null;
             IEnumerable<string> testParam1 = Array.Empty<string>();
@@ -45,7 +45,7 @@ namespace Unicorn.Tests.Unit.Writer.Extensions
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void IListExtensionsClass_AddRangeMethod_ThrowsArgumentNullException_IfFirstParameterIsAListAndSecondParameterIsNull()
+        public void ListInterfaceExtensionsClass_AddRangeMethod_ThrowsArgumentNullException_IfFirstParameterIsAListAndSecondParameterIsNull()
         {
             IList<string> testParam0 = new List<string>();
             IEnumerable<string> testParam1 = null;
@@ -57,7 +57,7 @@ namespace Unicorn.Tests.Unit.Writer.Extensions
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void IListExtensionsClass_AddRangeMethod_ThrowsArgumentNullException_IfFirstParameterIsNotAListAndSecondParameterIsNull()
+        public void ListInterfaceExtensionsClass_AddRangeMethod_ThrowsArgumentNullException_IfFirstParameterIsNotAListAndSecondParameterIsNull()
         {
             IList<string> testParam0 = new MockList<string>();
             IEnumerable<string> testParam1 = null;
@@ -68,7 +68,7 @@ namespace Unicorn.Tests.Unit.Writer.Extensions
         }
 
         [TestMethod]
-        public void IListExtensionsClass_AddRangeMethod_ChangesLengthOfFirstParameterToExpectedValue_IfFirstParameterIsAListAndSecondParameterIsNotNull()
+        public void ListInterfaceExtensionsClass_AddRangeMethod_ChangesLengthOfFirstParameterToExpectedValue_IfFirstParameterIsAListAndSecondParameterIsNotNull()
         {
             string[] baseData0 = GetStringData();
             string[] baseData1 = GetStringData();
@@ -81,7 +81,7 @@ namespace Unicorn.Tests.Unit.Writer.Extensions
         }
 
         [TestMethod]
-        public void IListExtensionsClass_AddRangeMethod_ChangesLengthOfFirstParameterToExpectedValue_IfFirstParameterIsNotAListAndSecondParameterIsNotNull()
+        public void ListInterfaceExtensionsClass_AddRangeMethod_ChangesLengthOfFirstParameterToExpectedValue_IfFirstParameterIsNotAListAndSecondParameterIsNotNull()
         {
             string[] baseData0 = GetStringData();
             string[] baseData1 = GetStringData();
@@ -94,7 +94,7 @@ namespace Unicorn.Tests.Unit.Writer.Extensions
         }
 
         [TestMethod]
-        public void IListExtensionsClass_AddRangeMethod_LeavesFirstParameterWithExpectedContent_IfFirstParameterIsAListAndSecondParameterIsNotNull()
+        public void ListInterfaceExtensionsClass_AddRangeMethod_LeavesFirstParameterWithExpectedContent_IfFirstParameterIsAListAndSecondParameterIsNotNull()
         {
             string[] baseData0 = GetStringData();
             string[] baseData1 = GetStringData();
@@ -114,7 +114,7 @@ namespace Unicorn.Tests.Unit.Writer.Extensions
         }
 
         [TestMethod]
-        public void IListExtensionsClass_AddRangeMethod_LeavesFirstParameterWithExpectedContent_IfFirstParameterIsNotAListAndSecondParameterIsNotNull()
+        public void ListInterfaceExtensionsClass_AddRangeMethod_LeavesFirstParameterWithExpectedContent_IfFirstParameterIsNotAListAndSecondParameterIsNotNull()
         {
             string[] baseData0 = GetStringData();
             string[] baseData1 = GetStringData();
