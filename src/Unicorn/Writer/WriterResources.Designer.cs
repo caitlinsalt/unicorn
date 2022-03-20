@@ -142,6 +142,15 @@ namespace Unicorn.Writer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The specific image descriptor belongs to a different page..
+        /// </summary>
+        internal static string Structural_PageGraphics_DrawImage_Wrong_Page_Error {
+            get {
+                return ResourceManager.GetString("Structural_PageGraphics_DrawImage_Wrong_Page_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The page has been closed and cannot be modified..
         /// </summary>
         internal static string Structural_PageGraphics_Page_Closed_Error {

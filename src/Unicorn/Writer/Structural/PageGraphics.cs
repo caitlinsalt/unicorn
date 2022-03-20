@@ -466,19 +466,24 @@ namespace Unicorn.Writer.Structural
         /// <summary>
         /// Draw an image.
         /// </summary>
-        /// <remarks>
-        /// At present we make no checks that the image descriptor belongs to the correct page.  If it does not,
-        /// the behaviour when the document is viewed will vary depending on the circumstances and the document 
-        /// viewer, but will almost certainly be incorrect.  Issue #155.
-        /// </remarks>
         /// <param name="image">The image to draw.</param>
         /// <param name="x">The X-coordinate of the top left corner of the image.</param>
         /// <param name="y">The Y-coordinate of the top left corner of the image.</param>
         /// <param name="width">The width of the image.</param>
         /// <param name="height">The height of the image.</param>
+        /// <exception cref="ArgumentNullException"><c>image</c> is <c>null</c>.</exception>
+        /// <exception cref="InvalidOperationException"><c>image</c> belongs to a different page to this context.</exception>
         public void DrawImage(IEmbeddedImageDescriptor image, double x, double y, double width, double height)
         {
             CheckState();
+            if (image is null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+            if (image.ParentPage != _page)
+            {
+                throw new InvalidOperationException(WriterResources.Structural_PageGraphics_DrawImage_Wrong_Page_Error);
+            }
             UniMatrix transform = UniMatrix.Scale(width, height) * UniMatrix.Translation(_xTransformer(x), _yTransformer(y + height));
             PdfName imageName = (image as EmbeddedImageDescriptor)?.Name ?? new PdfName(image.ImageKey);
             PdfOperator.PushState().WriteTo(_page.ContentStream);
