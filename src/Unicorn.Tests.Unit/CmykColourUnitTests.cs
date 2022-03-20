@@ -39,7 +39,7 @@ namespace Unicorn.Tests.Unit
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void CmykColour_Constructor_ThrowsArgumentOutOfRangeException_IfFirstParameterIsNegative()
+        public void CmykColourClass_Constructor_ThrowsArgumentOutOfRangeException_IfFirstParameterIsNegative()
         {
             _ = new CmykColour(_cyanValue * -1, _magentaValue, _yellowValue, _blackValue);
 
@@ -48,7 +48,7 @@ namespace Unicorn.Tests.Unit
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void CmykColour_Constructor_ThrowsArgumentOutOfRangeException_IfFirstParameterIsGreaterThanOne()
+        public void CmykColourClass_Constructor_ThrowsArgumentOutOfRangeException_IfFirstParameterIsGreaterThanOne()
         {
             _ = new CmykColour(_cyanValue + 1, _magentaValue, _yellowValue, _blackValue);
 
@@ -57,7 +57,7 @@ namespace Unicorn.Tests.Unit
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void CmykColour_Constructor_ThrowsArgumentOutOfRangeException_IfSecondParameterIsNegative()
+        public void CmykColourClass_Constructor_ThrowsArgumentOutOfRangeException_IfSecondParameterIsNegative()
         {
             _ = new CmykColour(_cyanValue, _magentaValue * -1, _yellowValue, _blackValue);
 
@@ -66,7 +66,7 @@ namespace Unicorn.Tests.Unit
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void CmykColour_Constructor_ThrowsArgumentOutOfRangeException_IfSecondParameterIsGreaterThanOne()
+        public void CmykColourClass_Constructor_ThrowsArgumentOutOfRangeException_IfSecondParameterIsGreaterThanOne()
         {
             _ = new CmykColour(_cyanValue, _magentaValue + 1, _yellowValue, _blackValue);
 
@@ -75,7 +75,7 @@ namespace Unicorn.Tests.Unit
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void CmykColour_Constructor_ThrowsArgumentOutOfRangeException_IfThirdParameterIsNegative()
+        public void CmykColourClass_Constructor_ThrowsArgumentOutOfRangeException_IfThirdParameterIsNegative()
         {
             _ = new CmykColour(_cyanValue, _magentaValue, _yellowValue * -1, _blackValue);
 
@@ -84,7 +84,7 @@ namespace Unicorn.Tests.Unit
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void CmykColour_Constructor_ThrowsArgumentOutOfRangeException_IfThirdParameterIsGreaterThanOne()
+        public void CmykColourClass_Constructor_ThrowsArgumentOutOfRangeException_IfThirdParameterIsGreaterThanOne()
         {
             _ = new CmykColour(_cyanValue, _magentaValue, _yellowValue + 1, _blackValue);
 
@@ -93,7 +93,7 @@ namespace Unicorn.Tests.Unit
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void CmykColour_Constructor_ThrowsArgumentOutOfRangeException_IfFourthParameterIsNegative()
+        public void CmykColourClass_Constructor_ThrowsArgumentOutOfRangeException_IfFourthParameterIsNegative()
         {
             _ = new CmykColour(_cyanValue, _magentaValue, _yellowValue, _blackValue * -1);
 
@@ -102,7 +102,7 @@ namespace Unicorn.Tests.Unit
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void CmykColour_Constructor_ThrowsArgumentOutOfRangeException_IfFourthParameterIsGreaterThanOne()
+        public void CmykColourClass_Constructor_ThrowsArgumentOutOfRangeException_IfFourthParameterIsGreaterThanOne()
         {
             _ = new CmykColour(_cyanValue, _magentaValue, _yellowValue, _blackValue + 1);
 
@@ -110,7 +110,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_Constructor_SetsCyanPropertyToValueOfFirstParameter()
+        public void CmykColourClass_Constructor_SetsCyanPropertyToValueOfFirstParameter()
         {
             CmykColour testObject = new(_cyanValue, _magentaValue, _yellowValue, _blackValue);
 
@@ -118,7 +118,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_Constructor_SetsMagentaPropertyToValueOfSecondParameter()
+        public void CmykColourClass_Constructor_SetsMagentaPropertyToValueOfSecondParameter()
         {
             CmykColour testObject = new(_cyanValue, _magentaValue, _yellowValue, _blackValue);
 
@@ -126,7 +126,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_Constructor_SetsYellowPropertyToValueOfThirdParameter()
+        public void CmykColourClass_Constructor_SetsYellowPropertyToValueOfThirdParameter()
         {
             CmykColour testObject = new(_cyanValue, _magentaValue, _yellowValue, _blackValue);
 
@@ -134,7 +134,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_Constructor_SetsBlackPropertyToValueOfFourthParameter()
+        public void CmykColourClass_Constructor_SetsBlackPropertyToValueOfFourthParameter()
         {
             CmykColour testObject = new(_cyanValue, _magentaValue, _yellowValue, _blackValue);
 
@@ -142,7 +142,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_ColourSpaceNameProperty_EqualsDeviceCmyk()
+        public void CmykColourClass_ColourSpaceNameProperty_EqualsDeviceCmyk()
         {
             Assert.AreEqual("DeviceCMYK", _testObject.ColourSpaceName);
         }
@@ -165,7 +165,7 @@ namespace Unicorn.Tests.Unit
         public void CmykColourClass_ComponentDataProperty_FirstElementIsEqualToExpectedValue()
         {
             int expectedValue = _rnd.Next(byte.MaxValue + 1);
-            CmykColour testObject = new CmykColour(expectedValue / 256d, _testObject.Magenta, _testObject.Yellow, _testObject.Black);
+            var testObject = new CmykColour(expectedValue / 256d, _testObject.Magenta, _testObject.Yellow, _testObject.Black);
 
             IEnumerable<byte> testOutput = testObject.ComponentData;
 
@@ -176,7 +176,7 @@ namespace Unicorn.Tests.Unit
         public void CmykColourClass_ComponentDataProperty_SecondElementIsEqualToExpectedValue()
         {
             int expectedValue = _rnd.Next(byte.MaxValue);
-            CmykColour testObject = new CmykColour(_testObject.Cyan, expectedValue / 256d, _testObject.Yellow, _testObject.Black);
+            var testObject = new CmykColour(_testObject.Cyan, expectedValue / 256d, _testObject.Yellow, _testObject.Black);
 
             IEnumerable<byte> testOutput = testObject.ComponentData;
 
@@ -187,7 +187,7 @@ namespace Unicorn.Tests.Unit
         public void CmykColourClass_ComponentDataProperty_ThirdElementIsEqualToExpectedValue()
         {
             int expectedValue = _rnd.Next(byte.MaxValue);
-            CmykColour testObject = new CmykColour(_testObject.Cyan, _testObject.Magenta, expectedValue / 256d, _testObject.Black);
+            var testObject = new CmykColour(_testObject.Cyan, _testObject.Magenta, expectedValue / 256d, _testObject.Black);
 
             IEnumerable<byte> testOutput = testObject.ComponentData;
 
@@ -198,7 +198,7 @@ namespace Unicorn.Tests.Unit
         public void CmykColourClass_ComponentDataProperty_FourthElementIsEqualToExpectedValue()
         {
             int expectedValue = _rnd.Next(byte.MaxValue);
-            CmykColour testObject = new CmykColour(_testObject.Cyan, _testObject.Magenta, _testObject.Yellow, expectedValue / 256d);
+            var testObject = new CmykColour(_testObject.Cyan, _testObject.Magenta, _testObject.Yellow, expectedValue / 256d);
 
             IEnumerable<byte> testOutput = testObject.ComponentData;
 
@@ -208,7 +208,7 @@ namespace Unicorn.Tests.Unit
 #pragma warning restore CA5394 // Do not use insecure randomness
 
         [TestMethod]
-        public void CmykColour_StrokeSelectionOperatorsMethod_ReturnsEmptySequence_IfParameterIsThis()
+        public void CmykColourClass_StrokeSelectionOperatorsMethod_ReturnsEmptySequence_IfParameterIsThis()
         {
             var testOutput = _testObject.StrokeSelectionOperators(_testObject).ToArray();
 
@@ -216,7 +216,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_StrokeSelectionOperatorsMethod_ReturnsEmptySequence_IfParameterIsEqualToThis()
+        public void CmykColourClass_StrokeSelectionOperatorsMethod_ReturnsEmptySequence_IfParameterIsEqualToThis()
         {
             var testParam = new CmykColour(_cyanValue, _magentaValue, _yellowValue, _blackValue);
 
@@ -226,7 +226,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_StrokeSelectionOperatorsMethod_ReturnsSequenceOfOneElement_IfParameterIsNull()
+        public void CmykColourClass_StrokeSelectionOperatorsMethod_ReturnsSequenceOfOneElement_IfParameterIsNull()
         {
             var testOutput = _testObject.StrokeSelectionOperators(null).ToArray();
 
@@ -234,7 +234,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorK_IfParameterIsNull()
+        public void CmykColourClass_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorK_IfParameterIsNull()
         {
             var testOutput = _testObject.StrokeSelectionOperators(null).First();
 
@@ -242,7 +242,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_StrokeSelectionOperatorsMethod_ReturnsSequenceContaininsPdfOperatorWithFourOperands_IfParameterIsNull()
+        public void CmykColourClass_StrokeSelectionOperatorsMethod_ReturnsSequenceContaininsPdfOperatorWithFourOperands_IfParameterIsNull()
         {
             var testOutput = _testObject.StrokeSelectionOperators(null).First();
 
@@ -250,7 +250,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithFirstOperandEqualToCyanProperty_IfParameterIsNull()
+        public void CmykColourClass_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithFirstOperandEqualToCyanProperty_IfParameterIsNull()
         {
             var testOutput = _testObject.StrokeSelectionOperators(null).First();
 
@@ -259,7 +259,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithSecondOperandEqualToMagentaProperty_IfParameterIsNull()
+        public void CmykColourClass_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithSecondOperandEqualToMagentaProperty_IfParameterIsNull()
         {
             var testOutput = _testObject.StrokeSelectionOperators(null).First();
 
@@ -268,7 +268,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithThirdOperandEqualToYellowProperty_IfParameterIsNull()
+        public void CmykColourClass_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithThirdOperandEqualToYellowProperty_IfParameterIsNull()
         {
             var testOutput = _testObject.StrokeSelectionOperators(null).First();
 
@@ -277,7 +277,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithFourthOperandEqualToBlackProperty_IfParameterIsNull()
+        public void CmykColourClass_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithFourthOperandEqualToBlackProperty_IfParameterIsNull()
         {
             var testOutput = _testObject.StrokeSelectionOperators(null).First();
 
@@ -286,7 +286,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_StrokeSelectionOperatorsMethod_ReturnsSequenceOfOneElement_IfParameterIsAnotherColour()
+        public void CmykColourClass_StrokeSelectionOperatorsMethod_ReturnsSequenceOfOneElement_IfParameterIsAnotherColour()
         {
             var testOutput = _testObject.StrokeSelectionOperators(_otherColour.Object).ToArray();
 
@@ -294,7 +294,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorK_IfParameterIsAnotherColour()
+        public void CmykColourClass_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorK_IfParameterIsAnotherColour()
         {
             var testOutput = _testObject.StrokeSelectionOperators(_otherColour.Object).First();
 
@@ -302,7 +302,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_StrokeSelectionOperatorsMethod_ReturnsSequenceContaininsPdfOperatorWithFourOperands_IfParameterIsAnotherColour()
+        public void CmykColourClass_StrokeSelectionOperatorsMethod_ReturnsSequenceContaininsPdfOperatorWithFourOperands_IfParameterIsAnotherColour()
         {
             var testOutput = _testObject.StrokeSelectionOperators(_otherColour.Object).First();
 
@@ -310,7 +310,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithFirstOperandEqualToCyanProperty_IfParameterIsAnotherColour()
+        public void CmykColourClass_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithFirstOperandEqualToCyanProperty_IfParameterIsAnotherColour()
         {
             var testOutput = _testObject.StrokeSelectionOperators(_otherColour.Object).First();
 
@@ -319,7 +319,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithSecondOperandEqualToMagentaProperty_IfParameterIsAnotherColour()
+        public void CmykColourClass_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithSecondOperandEqualToMagentaProperty_IfParameterIsAnotherColour()
         {
             var testOutput = _testObject.StrokeSelectionOperators(_otherColour.Object).First();
 
@@ -328,7 +328,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithThirdOperandEqualToYellowProperty_IfParameterIsAnotherColour()
+        public void CmykColourClass_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithThirdOperandEqualToYellowProperty_IfParameterIsAnotherColour()
         {
             var testOutput = _testObject.StrokeSelectionOperators(_otherColour.Object).First();
 
@@ -337,7 +337,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithFourthOperandEqualToBlackProperty_IfParameterIsAnotherColour()
+        public void CmykColourClass_StrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithFourthOperandEqualToBlackProperty_IfParameterIsAnotherColour()
         {
             var testOutput = _testObject.StrokeSelectionOperators(_otherColour.Object).First();
 
@@ -346,7 +346,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_NonStrokeSelectionOperatorsMethod_ReturnsEmptySequence_IfParameterIsThis()
+        public void CmykColourClass_NonStrokeSelectionOperatorsMethod_ReturnsEmptySequence_IfParameterIsThis()
         {
             var testOutput = _testObject.NonStrokeSelectionOperators(_testObject).ToArray();
 
@@ -354,7 +354,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_NonStrokeSelectionOperatorsMethod_ReturnsEmptySequence_IfParameterIsEqualToThis()
+        public void CmykColourClass_NonStrokeSelectionOperatorsMethod_ReturnsEmptySequence_IfParameterIsEqualToThis()
         {
             var testParam = new CmykColour(_cyanValue, _magentaValue, _yellowValue, _blackValue);
 
@@ -364,7 +364,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_NonStrokeSelectionOperatorsMethod_ReturnsSequenceOfOneElement_IfParameterIsNull()
+        public void CmykColourClass_NonStrokeSelectionOperatorsMethod_ReturnsSequenceOfOneElement_IfParameterIsNull()
         {
             var testOutput = _testObject.NonStrokeSelectionOperators(null).ToArray();
 
@@ -372,7 +372,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatork_IfParameterIsNull()
+        public void CmykColourClass_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatork_IfParameterIsNull()
         {
             var testOutput = _testObject.NonStrokeSelectionOperators(null).First();
 
@@ -380,7 +380,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContaininsPdfOperatorWithFourOperands_IfParameterIsNull()
+        public void CmykColourClass_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContaininsPdfOperatorWithFourOperands_IfParameterIsNull()
         {
             var testOutput = _testObject.NonStrokeSelectionOperators(null).First();
 
@@ -388,7 +388,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithFirstOperandEqualToCyanProperty_IfParameterIsNull()
+        public void CmykColourClass_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithFirstOperandEqualToCyanProperty_IfParameterIsNull()
         {
             var testOutput = _testObject.NonStrokeSelectionOperators(null).First();
 
@@ -397,7 +397,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithSecondOperandEqualToMagentaProperty_IfParameterIsNull()
+        public void CmykColourClass_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithSecondOperandEqualToMagentaProperty_IfParameterIsNull()
         {
             var testOutput = _testObject.NonStrokeSelectionOperators(null).First();
 
@@ -406,7 +406,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithThirdOperandEqualToYellowProperty_IfParameterIsNull()
+        public void CmykColourClass_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithThirdOperandEqualToYellowProperty_IfParameterIsNull()
         {
             var testOutput = _testObject.NonStrokeSelectionOperators(null).First();
 
@@ -415,7 +415,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithFourthOperandEqualToBlackProperty_IfParameterIsNull()
+        public void CmykColourClass_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithFourthOperandEqualToBlackProperty_IfParameterIsNull()
         {
             var testOutput = _testObject.NonStrokeSelectionOperators(null).First();
 
@@ -424,7 +424,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_NonStrokeSelectionOperatorsMethod_ReturnsSequenceOfOneElement_IfParameterIsAnotherColour()
+        public void CmykColourClass_NonStrokeSelectionOperatorsMethod_ReturnsSequenceOfOneElement_IfParameterIsAnotherColour()
         {
             var testOutput = _testObject.NonStrokeSelectionOperators(_otherColour.Object).ToArray();
 
@@ -432,7 +432,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatork_IfParameterIsAnotherColour()
+        public void CmykColourClass_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatork_IfParameterIsAnotherColour()
         {
             var testOutput = _testObject.NonStrokeSelectionOperators(_otherColour.Object).First();
 
@@ -440,7 +440,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContaininsPdfOperatorWithFourOperands_IfParameterIsAnotherColour()
+        public void CmykColourClass_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContaininsPdfOperatorWithFourOperands_IfParameterIsAnotherColour()
         {
             var testOutput = _testObject.NonStrokeSelectionOperators(_otherColour.Object).First();
 
@@ -448,7 +448,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithFirstOperandEqualToCyanProperty_IfParameterIsAnotherColour()
+        public void CmykColourClass_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithFirstOperandEqualToCyanProperty_IfParameterIsAnotherColour()
         {
             var testOutput = _testObject.NonStrokeSelectionOperators(_otherColour.Object).First();
 
@@ -457,7 +457,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithSecondOperandEqualToMagentaProperty_IfParameterIsAnotherColour()
+        public void CmykColourClass_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithSecondOperandEqualToMagentaProperty_IfParameterIsAnotherColour()
         {
             var testOutput = _testObject.NonStrokeSelectionOperators(_otherColour.Object).First();
 
@@ -466,7 +466,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithThirdOperandEqualToYellowProperty_IfParameterIsAnotherColour()
+        public void CmykColourClass_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithThirdOperandEqualToYellowProperty_IfParameterIsAnotherColour()
         {
             var testOutput = _testObject.NonStrokeSelectionOperators(_otherColour.Object).First();
 
@@ -475,7 +475,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithFourthOperandEqualToBlackProperty_IfParameterIsAnotherColour()
+        public void CmykColourClass_NonStrokeSelectionOperatorsMethod_ReturnsSequenceContainingPdfOperatorWithFourthOperandEqualToBlackProperty_IfParameterIsAnotherColour()
         {
             var testOutput = _testObject.NonStrokeSelectionOperators(_otherColour.Object).First();
 
@@ -484,7 +484,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualityOperatorWithCmykColourFirst_ReturnsTrue_IfBothOperandsAreNull()
+        public void CmykColourClass_EqualityOperatorWithCmykColourFirst_ReturnsTrue_IfBothOperandsAreNull()
         {
             CmykColour operand0 = null;
             IUniColour operand1 = null;
@@ -497,7 +497,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualityOperatorWithCmykColourFirst_ReturnsFalse_IfFirstOperandIsNull()
+        public void CmykColourClass_EqualityOperatorWithCmykColourFirst_ReturnsFalse_IfFirstOperandIsNull()
         {
             CmykColour operand0 = null;
             IUniColour operand1 = _otherColour.Object;
@@ -508,7 +508,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualityOperatorWithCmykColourFirst_ReturnsFalse_IfSecondOperandIsNull()
+        public void CmykColourClass_EqualityOperatorWithCmykColourFirst_ReturnsFalse_IfSecondOperandIsNull()
         {
             CmykColour operand0 = _testObject;
             IUniColour operand1 = null;
@@ -519,7 +519,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualityOperatorWithCmykColourFirst_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithSameColourLevels()
+        public void CmykColourClass_EqualityOperatorWithCmykColourFirst_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithSameColourLevels()
         {
             CmykColour operand0 = _testObject;
             IUniColour operand1 = new CmykColour(_testObject.Cyan, _testObject.Magenta, _testObject.Yellow, _testObject.Black);
@@ -530,7 +530,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualityOperatorWithCmykColourFirst_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithDifferentCyanLevel()
+        public void CmykColourClass_EqualityOperatorWithCmykColourFirst_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithDifferentCyanLevel()
         {
             CmykColour operand0 = _testObject;
             IUniColour operand1 = new CmykColour(_rnd.NextDoubleNotInSet(_testObject.Cyan), _testObject.Magenta, _testObject.Yellow, _testObject.Black);
@@ -541,7 +541,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualityOperatorWithCmykColourFirst_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithDifferentMagentaLevel()
+        public void CmykColourClass_EqualityOperatorWithCmykColourFirst_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithDifferentMagentaLevel()
         {
             CmykColour operand0 = _testObject;
             IUniColour operand1 = new CmykColour(_testObject.Cyan, _rnd.NextDoubleNotInSet(_testObject.Magenta), _testObject.Yellow, _testObject.Black);
@@ -552,7 +552,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualityOperatorWithCmykColourFirst_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithDifferentYellowLevel()
+        public void CmykColourClass_EqualityOperatorWithCmykColourFirst_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithDifferentYellowLevel()
         {
             CmykColour operand0 = _testObject;
             IUniColour operand1 = new CmykColour(_testObject.Cyan, _testObject.Magenta, _rnd.NextDoubleNotInSet(_testObject.Yellow), _testObject.Black);
@@ -563,7 +563,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualityOperatorWithCmykColourFirst_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithDifferentBlackLevel()
+        public void CmykColourClass_EqualityOperatorWithCmykColourFirst_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithDifferentBlackLevel()
         {
             CmykColour operand0 = _testObject;
             IUniColour operand1 = new CmykColour(_testObject.Cyan, _testObject.Magenta, _testObject.Yellow, _rnd.NextDoubleNotInSet(_testObject.Black));
@@ -574,7 +574,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualityOperatorWithCmykColourSecond_ReturnsTrue_IfBothOperandsAreNull()
+        public void CmykColourClass_EqualityOperatorWithCmykColourSecond_ReturnsTrue_IfBothOperandsAreNull()
         {
             IUniColour operand0 = null;
             CmykColour operand1 = null;
@@ -587,7 +587,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualityOperatorWithCmykColourSecond_ReturnsFalse_IfFirstOperandIsNull()
+        public void CmykColourClass_EqualityOperatorWithCmykColourSecond_ReturnsFalse_IfFirstOperandIsNull()
         {
             IUniColour operand0 = null;
             CmykColour operand1 = _testObject;
@@ -598,7 +598,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualityOperatorWithCmykColourSecond_ReturnsFalse_IfSecondOperandIsNull()
+        public void CmykColourClass_EqualityOperatorWithCmykColourSecond_ReturnsFalse_IfSecondOperandIsNull()
         {
             IUniColour operand0 = _otherColour.Object;
             CmykColour operand1 = null;
@@ -609,7 +609,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualityOperatorWithCmykColourSecond_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithSameColourLevels()
+        public void CmykColourClass_EqualityOperatorWithCmykColourSecond_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithSameColourLevels()
         {
             IUniColour operand0 = _testObject;
             CmykColour operand1 = new(_testObject.Cyan, _testObject.Magenta, _testObject.Yellow, _testObject.Black);
@@ -620,7 +620,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualityOperatorWithCmykColourSecond_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithDifferentCyanLevel()
+        public void CmykColourClass_EqualityOperatorWithCmykColourSecond_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithDifferentCyanLevel()
         {
             IUniColour operand0 = _testObject;
             CmykColour operand1 = new(_rnd.NextDoubleNotInSet(_testObject.Cyan), _testObject.Magenta, _testObject.Yellow, _testObject.Black);
@@ -631,7 +631,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualityOperatorWithCmykColourSecond_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithDifferentMagentaLevel()
+        public void CmykColourClass_EqualityOperatorWithCmykColourSecond_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithDifferentMagentaLevel()
         {
             IUniColour operand0 = _testObject;
             CmykColour operand1 = new(_testObject.Cyan, _rnd.NextDoubleNotInSet(_testObject.Magenta), _testObject.Yellow, _testObject.Black);
@@ -642,7 +642,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualityOperatorWithCmykColourSecond_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithDifferentYellowLevel()
+        public void CmykColourClass_EqualityOperatorWithCmykColourSecond_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithDifferentYellowLevel()
         {
             IUniColour operand0 = _testObject;
             CmykColour operand1 = new(_testObject.Cyan, _testObject.Magenta, _rnd.NextDoubleNotInSet(_testObject.Yellow), _testObject.Black);
@@ -653,7 +653,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualityOperatorWithCmykColourSecond_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithDifferentBlackLevel()
+        public void CmykColourClass_EqualityOperatorWithCmykColourSecond_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithDifferentBlackLevel()
         {
             IUniColour operand0 = _testObject;
             CmykColour operand1 = new(_testObject.Cyan, _testObject.Magenta, _testObject.Yellow, _rnd.NextDoubleNotInSet(_testObject.Black));
@@ -664,7 +664,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_InequalityOperatorWithCmykColourFirst_ReturnsFalse_IfBothOperandsAreNull()
+        public void CmykColourClass_InequalityOperatorWithCmykColourFirst_ReturnsFalse_IfBothOperandsAreNull()
         {
             CmykColour operand0 = null;
             IUniColour operand1 = null;
@@ -677,7 +677,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_InequalityOperatorWithCmykColourFirst_ReturnsTrue_IfFirstOperandIsNull()
+        public void CmykColourClass_InequalityOperatorWithCmykColourFirst_ReturnsTrue_IfFirstOperandIsNull()
         {
             CmykColour operand0 = null;
             IUniColour operand1 = _otherColour.Object;
@@ -688,7 +688,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_InequalityOperatorWithCmykColourFirst_ReturnsTrue_IfSecondOperandIsNull()
+        public void CmykColourClass_InequalityOperatorWithCmykColourFirst_ReturnsTrue_IfSecondOperandIsNull()
         {
             CmykColour operand0 = _testObject;
             IUniColour operand1 = null;
@@ -699,7 +699,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_InequalityOperatorWithCmykColourFirst_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithSameColourLevels()
+        public void CmykColourClass_InequalityOperatorWithCmykColourFirst_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithSameColourLevels()
         {
             CmykColour operand0 = _testObject;
             IUniColour operand1 = new CmykColour(_testObject.Cyan, _testObject.Magenta, _testObject.Yellow, _testObject.Black);
@@ -710,7 +710,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_InequalityOperatorWithCmykColourFirst_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithDifferentCyanLevel()
+        public void CmykColourClass_InequalityOperatorWithCmykColourFirst_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithDifferentCyanLevel()
         {
             CmykColour operand0 = _testObject;
             IUniColour operand1 = new CmykColour(_rnd.NextDoubleNotInSet(_testObject.Cyan), _testObject.Magenta, _testObject.Yellow, _testObject.Black);
@@ -721,7 +721,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_InequalityOperatorWithCmykColourFirst_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithDifferentMagentaLevel()
+        public void CmykColourClass_InequalityOperatorWithCmykColourFirst_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithDifferentMagentaLevel()
         {
             CmykColour operand0 = _testObject;
             IUniColour operand1 = new CmykColour(_testObject.Cyan, _rnd.NextDoubleNotInSet(_testObject.Magenta), _testObject.Yellow, _testObject.Black);
@@ -732,7 +732,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_InequalityOperatorWithCmykColourFirst_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithDifferentYellowLevel()
+        public void CmykColourClass_InequalityOperatorWithCmykColourFirst_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithDifferentYellowLevel()
         {
             CmykColour operand0 = _testObject;
             IUniColour operand1 = new CmykColour(_testObject.Cyan, _testObject.Magenta, _rnd.NextDoubleNotInSet(_testObject.Yellow), _testObject.Black);
@@ -743,7 +743,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_InequalityOperatorWithCmykColourFirst_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithDifferentBlackLevel()
+        public void CmykColourClass_InequalityOperatorWithCmykColourFirst_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithDifferentBlackLevel()
         {
             CmykColour operand0 = _testObject;
             IUniColour operand1 = new CmykColour(_testObject.Cyan, _testObject.Magenta, _testObject.Yellow, _rnd.NextDoubleNotInSet(_testObject.Black));
@@ -754,7 +754,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_InequalityOperatorWithCmykColourSecond_ReturnsFalse_IfBothOperandsAreNull()
+        public void CmykColourClass_InequalityOperatorWithCmykColourSecond_ReturnsFalse_IfBothOperandsAreNull()
         {
             IUniColour operand0 = null;
             CmykColour operand1 = null;
@@ -767,7 +767,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_InequalityOperatorWithCmykColourSecond_ReturnsTrue_IfFirstOperandIsNull()
+        public void CmykColourClass_InequalityOperatorWithCmykColourSecond_ReturnsTrue_IfFirstOperandIsNull()
         {
             IUniColour operand0 = null;
             CmykColour operand1 = _testObject;
@@ -778,7 +778,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_InequalityOperatorWithCmykColourSecond_ReturnsTrue_IfSecondOperandIsNull()
+        public void CmykColourClass_InequalityOperatorWithCmykColourSecond_ReturnsTrue_IfSecondOperandIsNull()
         {
             IUniColour operand0 = _otherColour.Object;
             CmykColour operand1 = null;
@@ -789,7 +789,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_InequalityOperatorWithCmykColourSecond_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithSameColourLevels()
+        public void CmykColourClass_InequalityOperatorWithCmykColourSecond_ReturnsFalse_IfSecondOperandIsCmykColourObjectWithSameColourLevels()
         {
             IUniColour operand0 = _testObject;
             CmykColour operand1 = new(_testObject.Cyan, _testObject.Magenta, _testObject.Yellow, _testObject.Black);
@@ -800,7 +800,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_InequalityOperatorWithCmykColourSecond_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithDifferentCyanLevel()
+        public void CmykColourClass_InequalityOperatorWithCmykColourSecond_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithDifferentCyanLevel()
         {
             IUniColour operand0 = _testObject;
             CmykColour operand1 = new(_rnd.NextDoubleNotInSet(_testObject.Cyan), _testObject.Magenta, _testObject.Yellow, _testObject.Black);
@@ -811,7 +811,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_InequalityOperatorWithCmykColourSecond_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithDifferentMagentaLevel()
+        public void CmykColourClass_InequalityOperatorWithCmykColourSecond_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithDifferentMagentaLevel()
         {
             IUniColour operand0 = _testObject;
             CmykColour operand1 = new(_testObject.Cyan, _rnd.NextDoubleNotInSet(_testObject.Magenta), _testObject.Yellow, _testObject.Black);
@@ -822,7 +822,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_InequalityOperatorWithCmykColourSecond_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithDifferentYellowLevel()
+        public void CmykColourClass_InequalityOperatorWithCmykColourSecond_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithDifferentYellowLevel()
         {
             IUniColour operand0 = _testObject;
             CmykColour operand1 = new(_testObject.Cyan, _testObject.Magenta, _rnd.NextDoubleNotInSet(_testObject.Yellow), _testObject.Black);
@@ -833,7 +833,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_InequalityOperatorWithCmykColourSecond_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithDifferentBlackLevel()
+        public void CmykColourClass_InequalityOperatorWithCmykColourSecond_ReturnsTrue_IfSecondOperandIsCmykColourObjectWithDifferentBlackLevel()
         {
             IUniColour operand0 = _testObject;
             CmykColour operand1 = new(_testObject.Cyan, _testObject.Magenta, _testObject.Yellow, _rnd.NextDoubleNotInSet(_testObject.Black));
@@ -844,7 +844,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualsMethodWithIUniColourParameter_ReturnsFalse_IfParameterIsNull()
+        public void CmykColourClass_EqualsMethodWithIUniColourParameter_ReturnsFalse_IfParameterIsNull()
         {
             IUniColour param0 = null;
 
@@ -854,7 +854,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualsMethodWithIUniColourParameter_ReturnsFalse_IfParameterIsNotACmykColourObject()
+        public void CmykColourClass_EqualsMethodWithIUniColourParameter_ReturnsFalse_IfParameterIsNotACmykColourObject()
         {
             IUniColour param0 = _otherColour.Object;
 
@@ -864,7 +864,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualsMethodWithIUniColourParameter_ReturnsTrue_IfParameterIsThis()
+        public void CmykColourClass_EqualsMethodWithIUniColourParameter_ReturnsTrue_IfParameterIsThis()
         {
             bool testOutput = _testObject.Equals(_testObject);
 
@@ -872,7 +872,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualsMethodWithIUniColourParameter_ReturnsTrue_IfParameterIsCmykColourObjectWithSameColourLevels()
+        public void CmykColourClass_EqualsMethodWithIUniColourParameter_ReturnsTrue_IfParameterIsCmykColourObjectWithSameColourLevels()
         {
             IUniColour param0 = new CmykColour(_testObject.Cyan, _testObject.Magenta, _testObject.Yellow, _testObject.Black);
 
@@ -892,7 +892,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualsMethodWithIUniColourParameter_ReturnsFalse_IfParameterIsCmykColourObjectWithDifferentMagentaLevel()
+        public void CmykColourClass_EqualsMethodWithIUniColourParameter_ReturnsFalse_IfParameterIsCmykColourObjectWithDifferentMagentaLevel()
         {
             IUniColour param0 = new CmykColour(_testObject.Cyan, _rnd.NextDoubleNotInSet(_testObject.Magenta), _testObject.Yellow, _testObject.Black);
 
@@ -902,7 +902,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualsMethodWithIUniColourParameter_ReturnsFalse_IfParameterIsCmykColourObjectWithDifferentYellowLevel()
+        public void CmykColourClass_EqualsMethodWithIUniColourParameter_ReturnsFalse_IfParameterIsCmykColourObjectWithDifferentYellowLevel()
         {
             IUniColour param0 = new CmykColour(_testObject.Cyan, _testObject.Magenta, _rnd.NextDoubleNotInSet(_testObject.Yellow), _testObject.Black);
 
@@ -912,7 +912,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualsMethodWithIUniColourParameter_ReturnsFalse_IfParameterIsCmykColourObjectWithDifferentBlackLevel()
+        public void CmykColourClass_EqualsMethodWithIUniColourParameter_ReturnsFalse_IfParameterIsCmykColourObjectWithDifferentBlackLevel()
         {
             IUniColour param0 = new CmykColour(_testObject.Cyan, _testObject.Magenta, _testObject.Yellow, _rnd.NextDoubleNotInSet(_testObject.Black));
 
@@ -922,7 +922,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualsMethodWithObjectParameter_ReturnsFalse_IfParameterIsNull()
+        public void CmykColourClass_EqualsMethodWithObjectParameter_ReturnsFalse_IfParameterIsNull()
         {
             object param0 = null;
 
@@ -932,7 +932,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualsMethodWithObjectParameter_ReturnsFalse_IfParameterIsNotACmykColourObject()
+        public void CmykColourClass_EqualsMethodWithObjectParameter_ReturnsFalse_IfParameterIsNotACmykColourObject()
         {
             object param0 = _otherColour.Object;
 
@@ -942,7 +942,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualsMethodWithObjectParameter_ReturnsFalse_IfParameterIsNotAnIUniColourObject()
+        public void CmykColourClass_EqualsMethodWithObjectParameter_ReturnsFalse_IfParameterIsNotAnIUniColourObject()
         {
             object param0 = "Dim lliw";
 
@@ -952,7 +952,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualsMethodWithObjectParameter_ReturnsTrue_IfParameterIsThis()
+        public void CmykColourClass_EqualsMethodWithObjectParameter_ReturnsTrue_IfParameterIsThis()
         {
             bool testOutput = _testObject.Equals((object)_testObject);
 
@@ -960,7 +960,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualsMethodWithObjectParameter_ReturnsTrue_IfParameterIsCmykColourObjectWithSameColourLevels()
+        public void CmykColourClass_EqualsMethodWithObjectParameter_ReturnsTrue_IfParameterIsCmykColourObjectWithSameColourLevels()
         {
             object param0 = new CmykColour(_testObject.Cyan, _testObject.Magenta, _testObject.Yellow, _testObject.Black);
 
@@ -970,7 +970,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualsMethodWithObjectParameter_ReturnsFalse_IfParameterIsCmykColourObjectWithDifferentCyanLevel()
+        public void CmykColourClass_EqualsMethodWithObjectParameter_ReturnsFalse_IfParameterIsCmykColourObjectWithDifferentCyanLevel()
         {
             object param0 = new CmykColour(_rnd.NextDoubleNotInSet(_testObject.Cyan), _testObject.Magenta, _testObject.Yellow, _testObject.Black);
 
@@ -980,7 +980,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualsMethodWithObjectParameter_ReturnsFalse_IfParameterIsCmykColourObjectWithDifferentMagentaLevel()
+        public void CmykColourClass_EqualsMethodWithObjectParameter_ReturnsFalse_IfParameterIsCmykColourObjectWithDifferentMagentaLevel()
         {
             object param0 = new CmykColour(_testObject.Cyan, _rnd.NextDoubleNotInSet(_testObject.Magenta), _testObject.Yellow, _testObject.Black);
 
@@ -990,7 +990,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualsMethodWithObjectParameter_ReturnsFalse_IfParameterIsCmykColourObjectWithDifferentYellowLevel()
+        public void CmykColourClass_EqualsMethodWithObjectParameter_ReturnsFalse_IfParameterIsCmykColourObjectWithDifferentYellowLevel()
         {
             object param0 = new CmykColour(_testObject.Cyan, _testObject.Magenta, _rnd.NextDoubleNotInSet(_testObject.Yellow), _testObject.Black);
 
@@ -1000,7 +1000,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_EqualsMethodWithObjectParameter_ReturnsFalse_IfParameterIsCmykColourObjectWithDifferentBlackLevel()
+        public void CmykColourClass_EqualsMethodWithObjectParameter_ReturnsFalse_IfParameterIsCmykColourObjectWithDifferentBlackLevel()
         {
             object param0 = new CmykColour(_testObject.Cyan, _testObject.Magenta, _testObject.Yellow, _rnd.NextDoubleNotInSet(_testObject.Black));
 
@@ -1011,7 +1011,7 @@ namespace Unicorn.Tests.Unit
 
         // Warning: this method has an approx 1/2bn chance of failing due to hash collision.
         [TestMethod]
-        public void CmykColour_GetHashCodeMethod_ReturnsDifferentValueForTwoDifferentColours()
+        public void CmykColourClass_GetHashCodeMethod_ReturnsDifferentValueForTwoDifferentColours()
         {
             CmykColour altTestObject = new(_rnd.NextDoubleNotInSet(_testObject.Cyan), _rnd.NextDoubleNotInSet(_testObject.Magenta), 
                 _rnd.NextDoubleNotInSet(_testObject.Yellow), _rnd.NextDoubleNotInSet(_testObject.Black));
@@ -1023,7 +1023,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_GetHashCodeMethod_ReturnsSameValueWhenCalledTwiceOnSameObject()
+        public void CmykColourClass_GetHashCodeMethod_ReturnsSameValueWhenCalledTwiceOnSameObject()
         {
             int testOutput0 = _testObject.GetHashCode();
             int testOutput1 = _testObject.GetHashCode();
@@ -1032,7 +1032,7 @@ namespace Unicorn.Tests.Unit
         }
 
         [TestMethod]
-        public void CmykColour_GetHashCodeMethod_ReturnsSameValueWhenCalledOnEqualObjects()
+        public void CmykColourClass_GetHashCodeMethod_ReturnsSameValueWhenCalledOnEqualObjects()
         {
             CmykColour altTestObject = new(_testObject.Cyan, _testObject.Magenta, _testObject.Yellow, _testObject.Black);
 
