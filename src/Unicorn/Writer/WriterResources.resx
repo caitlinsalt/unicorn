@@ -144,6 +144,9 @@
   <data name="Streams_PdfImageStream_AddBytes_InvalidOperation_Error" xml:space="preserve">
     <value>Additional data cannot be appended to an image data stream.</value>
   </data>
+  <data name="Structural_PageGraphics_DrawImage_Wrong_Page_Error" xml:space="preserve">
+    <value>The specific image descriptor belongs to a different page.</value>
+  </data>
   <data name="Structural_PageGraphics_Page_Closed_Error" xml:space="preserve">
     <value>The page has been closed and cannot be modified.</value>
   </data>
