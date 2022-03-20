@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Unicorn.Base;
@@ -27,6 +28,11 @@ namespace Unicorn.Images
         /// The image aspect ratio, as a width-over-height fraction.
         /// </summary>
         public virtual double AspectRatio => (double)DotWidth / DotHeight;
+
+        /// <summary>
+        /// The binary data for this image.
+        /// </summary>
+        public virtual IEnumerable<byte> RawData => _dataStream.ToArray();
 
         /// <summary>
         /// Load the image from a stream.

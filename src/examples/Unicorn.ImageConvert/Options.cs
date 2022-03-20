@@ -13,6 +13,9 @@ namespace Unicorn.ImageConvert
         [Option('w', "wireframe", Required = false, Default = false, HelpText = "Produce wireframe file without actual images")]
         public bool Wireframe { get; set; }
 
+        [Option('m', "mock", Required = false, Default = false, HelpText = "Produce wireframe with mocked blocks of colour rather than actual images.")]
+        public bool Mock { get; set; }
+
         [Option('r', "recursive", Required = false, Default = false, HelpText = "Recurse into subfolders")]
         public bool Recursive { get; set; }
 
