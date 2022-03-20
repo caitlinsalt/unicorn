@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Unicorn.Base;
 using Unicorn.Exceptions;
+using Unicorn.Images;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
+using Unicorn.Writer.Streams;
 
 namespace Unicorn.Writer.Structural
 {
@@ -97,6 +101,8 @@ namespace Unicorn.Writer.Structural
 
         private readonly PdfDictionary _fontDictionary = new PdfDictionary();
 
+        private readonly Dictionary<IPdfReference, PdfName> _reverseImageCache = new Dictionary<IPdfReference, PdfName>();
+
         /// <summary>
         /// Value-setting constructor.
         /// </summary>
@@ -173,6 +179,25 @@ namespace Unicorn.Writer.Structural
                 }
             }
             return fontObject;
+        }
+
+        /// <summary>
+        /// Add an image to a page's resources, so that it can be drawn on the page.
+        /// </summary>
+        /// <param name="imageReference">Reference to an image data stream, acquired by calling <see cref="PdfDocument.UseImage(ISourceImage)"/>.</param>
+        /// <returns>An <see cref="IEmbeddedImageDescriptor"/> which can be used to draw the image on the page.</returns>
+        public IEmbeddedImageDescriptor UseImage(IPdfReference imageReference)
+        {
+            lock (_reverseImageCache)
+            {
+                if (_reverseImageCache.ContainsKey(imageReference))
+                {
+                    return new EmbeddedImageDescriptor(this, _reverseImageCache[imageReference]);
+                }
+                var name = new PdfName($"UniImg{_reverseImageCache.Count}");
+                _reverseImageCache.Add(imageReference, name);
+                return new EmbeddedImageDescriptor(this, name);
+            }
         }
 
         /// <summary>
@@ -281,6 +306,12 @@ namespace Unicorn.Writer.Structural
             if (_fontDictionary.Count > 0)
             {
                 resourceDictionary.Add(CommonPdfNames.Font, _fontDictionary);
+            }
+            if (_reverseImageCache.Count > 0)
+            {
+                PdfDictionary xobjDictionary = new PdfDictionary();
+                xobjDictionary.AddRange(_reverseImageCache.Select(kp => new KeyValuePair<PdfName, IPdfPrimitiveObject>(kp.Value, kp.Key)));
+                resourceDictionary.Add(CommonPdfNames.XObject, xobjDictionary);
             }
             dictionary.Add(CommonPdfNames.Type, CommonPdfNames.Page);
             dictionary.Add(CommonPdfNames.Parent, Parent.GetReference());

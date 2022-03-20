@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Unicorn.Base;
 using Unicorn.Exceptions;
+using Unicorn.Images;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
@@ -460,6 +461,30 @@ namespace Unicorn.Writer.Structural
                 throw new ArgumentNullException(nameof(font));
             }
             return font.MeasureString(text);
+        }
+
+        /// <summary>
+        /// Draw an image.
+        /// </summary>
+        /// <remarks>
+        /// At present we make no checks that the image descriptor belongs to the correct page.  If it does not,
+        /// the behaviour when the document is viewed will vary depending on the circumstances and the document 
+        /// viewer, but will almost certainly be incorrect.  Issue #155.
+        /// </remarks>
+        /// <param name="image">The image to draw.</param>
+        /// <param name="x">The X-coordinate of the top left corner of the image.</param>
+        /// <param name="y">The Y-coordinate of the top left corner of the image.</param>
+        /// <param name="width">The width of the image.</param>
+        /// <param name="height">The height of the image.</param>
+        public void DrawImage(IEmbeddedImageDescriptor image, double x, double y, double width, double height)
+        {
+            CheckState();
+            UniMatrix transform = UniMatrix.Scale(width, height) * UniMatrix.Translation(_xTransformer(x), _yTransformer(y + height));
+            PdfName imageName = (image as EmbeddedImageDescriptor)?.Name ?? new PdfName(image.ImageKey);
+            PdfOperator.PushState().WriteTo(_page.ContentStream);
+            PdfOperator.ApplyTransformation(transform).WriteTo(_page.ContentStream);
+            PdfOperator.DrawObject(imageName).WriteTo(_page.ContentStream);
+            PdfOperator.PopState().WriteTo(_page.ContentStream);
         }
 
         private void CheckState()

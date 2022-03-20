@@ -7,7 +7,7 @@ namespace Unicorn.Writer.Primitives
     /// <summary>
     /// Immutable class representing a reference to a PDF indirect object.
     /// </summary>
-    public class PdfReference : PdfSimpleObject, IEquatable<PdfReference>
+    public class PdfReference : PdfSimpleObject, IPdfReference, IEquatable<PdfReference>
     {
         /// <summary>
         /// The ID of the object that this reference refers to.

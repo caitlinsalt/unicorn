@@ -149,7 +149,15 @@ namespace Unicorn.Base
         /// </summary>
         /// <param name="vector">The translation vector.</param>
         /// <returns>A <see cref="UniMatrix" /> value which represents a translation by the given vector.</returns>
-        public static UniMatrix Translation(UniPoint vector) => new UniMatrix(1, 0, 0, 1, vector.X, vector.Y);
+        public static UniMatrix Translation(UniPoint vector) => Translation(vector.X, vector.Y);
+
+        /// <summary>
+        /// Create a transformation matrix representing a Cartesian translation.  The parameters represent the X and Y componnts of the translation.
+        /// </summary>
+        /// <param name="x">The X component of the translation.</param>
+        /// <param name="y">The Y component of the translation.</param>
+        /// <returns>A <see cref="UniMatrix"/> value which represents a translation by the given vectors.</returns>
+        public static UniMatrix Translation(double x, double y) => new UniMatrix(1, 0, 0, 1, x, y);
 
         /// <summary>
         /// Create a transformation matrix representing a rotation around the origin.
@@ -163,6 +171,21 @@ namespace Unicorn.Base
 
             return new UniMatrix(cos, sin, -sin, cos, 0, 0);
         }
+
+        /// <summary>
+        /// Create a transformation matrix representing a scaling transformation.  The parameter is a uniform scaling factor.
+        /// </summary>
+        /// <param name="factor">The scaling factor.</param>
+        /// <returns>A <see cref="UniMatrix"/> value representing scaling about the origin by the given factor.</returns>
+        public static UniMatrix Scale(double factor) => Scale(factor, factor);
+
+        /// <summary>
+        /// Creste a transformation matrix representing a scaling transformation by different factors on each axis.
+        /// </summary>
+        /// <param name="xFactor">The horizontal scaling factor.</param>
+        /// <param name="yFactor">The vertical scaling factor.</param>
+        /// <returns>A <see cref="UniMatrix"/> value representing scaing about the origin by the given factors.</returns>
+        public static UniMatrix Scale(double xFactor, double yFactor) => new UniMatrix(xFactor, 0, 0, yFactor, 0, 0);
 
         /// <summary>
         /// Create a transformation matrix representing a rotation around an arbitrary point.  Consists of a translation to the origin, a rotation, and then a

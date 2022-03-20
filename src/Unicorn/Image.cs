@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Unicorn.Base;
 
 namespace Unicorn
 {
     /// <summary>
-    /// A wireframe image object, with a fixed size, 
+    /// An image object with a fixed size.
     /// </summary>
-    public class ImageWireframe : IFixedSizeDrawable
+    public class Image : IFixedSizeDrawable
     {
         /// <summary>
         /// Width of the "image".
@@ -34,11 +36,16 @@ namespace Unicorn
         public double ContentWidth { get; private set; }
 
         /// <summary>
+        /// Descriptor for the image data.
+        /// </summary>
+        public IEmbeddedImageDescriptor ImageDescriptor { get; set; }
+
+        /// <summary>
         /// Constructor with width and height parameters.
         /// </summary>
         /// <param name="width">Image width.</param>
         /// <param name="height">Image height.</param>
-        public ImageWireframe(double width, double height) : this(width, height, new MarginSet()) { }
+        public Image(double width, double height) : this(width, height, new MarginSet()) { }
 
         /// <summary>
         /// Constructor with width, height and margin parameters.
@@ -46,7 +53,7 @@ namespace Unicorn
         /// <param name="width">Image width.</param>
         /// <param name="height">Image height.</param>
         /// <param name="margins">Margin around the image.</param>
-        public ImageWireframe(double width, double height, MarginSet margins)
+        public Image(double width, double height, MarginSet margins)
         {
             ContentWidth = width;
             ContentHeight = height;
@@ -58,25 +65,27 @@ namespace Unicorn
         /// </summary>
         /// <param name="width">Image width.</param>
         /// <param name="source">Source image for the aspect ratio of this image.</param>
+        /// <param name="image">Embedded image data to use to draw this image.</param>
         /// <param name="margins">Margin around the image</param>
         /// <exception cref="ArgumentNullException"><c>source</c> is <c>null</c>.</exception>
-        public ImageWireframe(double width, ISourceImage source, MarginSet margins)
+        public Image(double width, ISourceImage source, IEmbeddedImageDescriptor image, MarginSet margins)
         {
             if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
+            ImageDescriptor = image;
             ContentWidth = width;
             ContentHeight = width / source.AspectRatio;
             MarginSet = margins ?? new MarginSet();
         }
 
         /// <summary>
-        /// Draw this "image" onto a context.
+        /// Draw this image at the given location.
         /// </summary>
-        /// <param name="context">The context to draw the "image" onto.</param>
-        /// <param name="x">The x-coordinate of the top-left corner of the "image".</param>
-        /// <param name="y">The y-coordinate of the top-left corner of the "image".</param>
+        /// <param name="context">The context to draw on.  The image's <see cref="ImageDescriptor" /> should be for the same page as the context.</param>
+        /// <param name="x">The X-coordinate of the top-left corner of the outside margin of the image.</param>
+        /// <param name="y">The Y-coordinate of the top-left corner of the outside margin of the image.</param>
         /// <exception cref="ArgumentNullException"><c>context</c> is <c>null</c>.</exception>
         public void DrawAt(IGraphicsContext context, double x, double y)
         {
@@ -84,11 +93,13 @@ namespace Unicorn
             {
                 throw new ArgumentNullException(nameof(context));
             }
+            if (ImageDescriptor is null)
+            {
+                return;
+            }
             double leftEdge = x + MarginSet.Left;
             double topEdge = y + MarginSet.Top;
-            context.DrawRectangle(leftEdge, topEdge, ContentWidth, ContentHeight);
-            context.DrawLine(leftEdge, topEdge, leftEdge + ContentWidth, topEdge + ContentHeight);
-            context.DrawLine(leftEdge + ContentWidth, topEdge, leftEdge, topEdge + ContentHeight);
+            context.DrawImage(ImageDescriptor, leftEdge, topEdge, ContentWidth, ContentHeight);
         }
     }
 }

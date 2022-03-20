@@ -12,6 +12,7 @@ using Unicorn.Tests.Unit.TestHelpers;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
+using Unicorn.Writer.Streams;
 using Unicorn.Writer.Structural;
 
 namespace Unicorn.Tests.Unit.Writer.Structural

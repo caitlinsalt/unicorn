@@ -1,6 +1,7 @@
 ﻿using System;
 using Unicorn.Base;
 using Unicorn.Writer.Primitives;
+using Unicorn.Writer.Streams;
 
 namespace Unicorn.Writer.Structural
 {

@@ -21,6 +21,20 @@ namespace Unicorn
         /// </summary>
         public double GreyLevel { get; private set; }
 
+        /// <summary>
+        /// In general, in a PDF, the components of a colour are treated as continuous ranges between 0 and 1 inclusive.  The exception to this is when handling
+        /// rasterised image data, when the components are treated as unsigned integers.  When an instance of this colour is used in rasterised image data,
+        /// it is represented as an 8 bit integer.
+        /// </summary>
+        public int BitsPerComponent => 8;
+
+        /// <summary>
+        /// In general, in a PDF, the components of a colour are treated as continuous ranges between 0 and 1 inclusive.  The exception to this is when handling
+        /// rasterised image data, when the components are treated as unsigned integers.  This property returns the value of this colour as an array of one
+        /// element, that being its greyscale value quantised over the range 0 to 255 inclusive.
+        /// </summary>
+        public IEnumerable<byte> ComponentData => new[] { GreyLevel.ScaleToByte() };
+
         private static readonly Lazy<GreyscaleColour> _black = new Lazy<GreyscaleColour>(() => new GreyscaleColour(0));
 
         /// <summary>

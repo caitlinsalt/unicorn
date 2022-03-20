@@ -138,6 +138,13 @@ namespace Unicorn.Writer.Primitives
         public static PdfOperator DrawText(PdfByteString str) => new PdfOperator("Tj").AddOperand(str, nameof(str));
 
         /// <summary>
+        /// Create an instance of the "Do" operator, for drawing objects.
+        /// </summary>
+        /// <param name="objName">The name of the object to draw.</param>
+        /// <returns>A <see cref="PdfOperator"/> instance representing a "Do" operator and its operand.</returns>
+        public static PdfOperator DrawObject(PdfName objName) => new PdfOperator("Do").AddOperand(objName, nameof(objName));
+
+        /// <summary>
         /// Create an instance of the "cm" operator, for applying a transformation matrix to the graphics state.
         /// </summary>
         /// <param name="transformationMatrix"></param>

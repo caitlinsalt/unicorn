@@ -232,5 +232,18 @@ namespace Unicorn.Base
         /// <param name="font">Font to use when measuring what size the text will be on render.</param>
         /// <returns>The dimensions of the text's bounding box.</returns>
         UniTextSize MeasureString(string text, IFontDescriptor font);
+
+        /// <summary>
+        /// Draw an image at a location, scaled to a particular size.
+        /// </summary>
+        /// <remarks>
+        /// If the <c>image</c> parameter does not refer to the same page as the graphics context, you may get unexpected results.
+        /// </remarks>
+        /// <param name="image">The image to draw</param>
+        /// <param name="x">X coordinate of the top left corner of the image.</param>
+        /// <param name="y">Y coordinate of the top left corner of the image.</param>
+        /// <param name="width">Width of the image.</param>
+        /// <param name="height">Height of the image.</param>
+        void DrawImage(IEmbeddedImageDescriptor image, double x, double y, double width, double height);
     }
 }

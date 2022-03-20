@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Unicorn.Writer.Interfaces;
+using Unicorn.Writer.Primitives;
 
-namespace Unicorn.Writer.Primitives
+namespace Unicorn.Writer.Streams
 {
 
 #pragma warning disable CA1711 // Identifiers should not have incorrect suffix.  This is a "stream" in the PDF sense if not in the .NET sense.
@@ -26,6 +27,11 @@ namespace Unicorn.Writer.Primitives
         private static readonly byte[] _streamEnd = new byte[] { 0xa, 0x65, 0x6e, 0x64, 0x73, 0x74, 0x72, 0x65, 0x61, 0x6d, 0xa };
 
         /// <summary>
+        /// The stream metadata.
+        /// </summary>
+        protected PdfDictionary MetaDictionary { get; set; }
+
+        /// <summary>
         /// Constructor, with indirect object parameters.
         /// </summary>
         /// <param name="objectId">An indirect object ID obtained from a cross-reference table.</param>
@@ -33,7 +39,7 @@ namespace Unicorn.Writer.Primitives
         /// <param name="filters">The sequence of filters to apply to the stream data.  As Unicorn is focused on writing output, these are in encoding order.</param>
         /// <param name="additionalMetadata">A dictionary of additional metadata to include in the stream metadata dictionary.  This must not contain any of 
         /// the standard metadata keys that may appear in the dictionary, such as <c>/Length</c> or <c>/Filter</c>, or an exception will be thrown either in
-        /// this method or at any point later in execution.</param>
+        /// this method or at any point later in execution.  Note: this is not to be confused with the "/Metadata" property of "/XObject" streams.</param>
         public PdfStream(int objectId, IEnumerable<IPdfFilterEncoder> filters = null, PdfDictionary additionalMetadata = null, int generation = 0) 
             : base(objectId, generation)
         {
@@ -74,8 +80,6 @@ namespace Unicorn.Writer.Primitives
                 return CachedPrologue.Count + CachedEpilogue.Count + MetaDictionary.ByteLength + encodedContent.Count + _streamStart.Length + _streamEnd.Length;
             }
         }
-
-        private PdfDictionary MetaDictionary { get; set; }
 
         private void UpdateMetaDictionary(IEnumerable<byte> encodedContent)
         {

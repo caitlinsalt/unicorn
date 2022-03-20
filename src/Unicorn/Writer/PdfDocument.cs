@@ -8,6 +8,7 @@ using Unicorn.Helpers;
 using Unicorn.Writer.Filters;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
+using Unicorn.Writer.Streams;
 using Unicorn.Writer.Structural;
 
 namespace Unicorn.Writer
@@ -212,6 +213,18 @@ namespace Unicorn.Writer
                 _bodyObjects.Add(pdfFont);
                 return pdfFont;
             }
+        }
+
+        /// <summary>
+        /// Embed an image stream into the document.
+        /// </summary>
+        /// <param name="image">The source image data to be embedded.</param>
+        /// <returns>A reference to the embedded image data within the document.</returns>
+        public IPdfReference UseImage(ISourceImage image)
+        {
+            PdfImageStream imageStream = ImageStreamFactory.CreateImageStream(image, _xrefTable.ClaimSlot(), GetStreamCompressionEncoders());
+            _bodyObjects.Add(imageStream);
+            return new PdfReference(imageStream);
         }
 
         private static IEnumerable<IPdfFilterEncoder> GetFontEncoders()

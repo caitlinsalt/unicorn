@@ -9,6 +9,7 @@ using Unicorn.Base.Tests.Utility;
 using Unicorn.Tests.Unit.TestHelpers;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Primitives;
+using Unicorn.Writer.Streams;
 
 namespace Unicorn.Tests.Unit.Writer.Primitives
 {
