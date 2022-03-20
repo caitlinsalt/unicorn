@@ -141,6 +141,9 @@
   <data name="Primitives_PdfOperator_LineDashPattern_Index_Too_High_Error" xml:space="preserve">
     <value>The start value of the line dash pattern operator must not be higher than the number of items in the pattern array.</value>
   </data>
+  <data name="Streams_PdfImageStream_AddBytes_InvalidOperation_Error" xml:space="preserve">
+    <value>Additional data cannot be appended to an image data stream.</value>
+  </data>
   <data name="Structural_PageGraphics_Page_Closed_Error" xml:space="preserve">
     <value>The page has been closed and cannot be modified.</value>
   </data>

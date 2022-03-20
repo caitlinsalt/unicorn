@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
 
@@ -26,6 +27,14 @@ namespace Unicorn.Writer.Streams
             MetaDictionary.Add(CommonPdfNames.Type, CommonPdfNames.XObject);
             MetaDictionary.Add(CommonPdfNames.Subtype, CommonPdfNames.Image);
         }
+
+        /// <summary>
+        /// Indicate that this stream cannot have further data added.
+        /// </summary>
+        public override bool CanAddData => false;
+
+        public override void AddBytes(IEnumerable<byte> bytes)
+            => throw new InvalidOperationException(WriterResources.Streams_PdfImageStream_AddBytes_InvalidOperation_Error);
     }
 
 #pragma warning restore CA1711 // Identifiers should not have incorrect suffix

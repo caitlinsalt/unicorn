@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unicorn.Helpers;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
 
@@ -32,7 +33,7 @@ namespace Unicorn.Writer.Streams
             MetaDictionary.Add(CommonPdfNames.Height, PdfInteger.One);
             MetaDictionary.Add(CommonPdfNames.ColourSpace, new PdfName(colour.ColourSpaceName));
             MetaDictionary.Add(CommonPdfNames.BitsPerComponent, new PdfInteger(colour.BitsPerComponent));
-            AddBytes(colour.ComponentData);
+            InternalContents.AddRange(colour.ComponentData);
         }
     }
 
