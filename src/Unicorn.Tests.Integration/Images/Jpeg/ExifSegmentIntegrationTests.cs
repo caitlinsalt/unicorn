@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Unicorn.Exceptions;
 using Unicorn.Images.Jpeg;
 
 namespace Unicorn.Tests.Integration.Images.Jpeg
@@ -25,6 +26,10 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
         private const string _sourceImage03Model = "NIKON D200";
         private const decimal _sourceImage03FNumber = 6.3m;
         private const int _sourceImage03Saturation = 2;
+
+        private readonly string _sourceImage04Path = Path.Combine("TestData", "exampleJpegImage04BadExifData.jpg");
+        private const int _sourceImage04ExifSegmentOffset = 0x14;
+        private const int _sourceImage04ExifSegmentLength = 0x2a88;
 
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 
@@ -152,6 +157,19 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
             Assert.IsNotNull(tag);
             Assert.AreEqual(typeof(int), tag.Value.GetType());
             Assert.AreEqual(_sourceImage03Saturation, (int)tag.Value);
+        }
+
+        // Test image 04 has an EXIF segment whose ExifPointer tag is corrupt - it points to a value outside the EXIF segment.
+        [TestMethod]
+        [ExpectedException(typeof(InvalidImageException))]
+        public async Task ExifSegmentClass_PopulateSegmentAsyncMethod_ThrowsException_IfTestFileIsExampleJpegImage04()
+        {
+            using FileStream soureDataStream = new(_sourceImage04Path, FileMode.Open, FileAccess.Read);
+            ExifSegment testObject = new(_sourceImage04ExifSegmentOffset, _sourceImage04ExifSegmentLength);
+
+            await testObject.PopulateSegmentAsync(soureDataStream).ConfigureAwait(false);
+
+            Assert.Fail();
         }
 
 #pragma warning restore CA1707 // Identifiers should not contain underscores

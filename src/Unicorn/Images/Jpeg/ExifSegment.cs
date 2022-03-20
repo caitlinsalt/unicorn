@@ -6,12 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Unicorn.Base.Helpers.Extensions;
 using Unicorn.Exceptions;
-using Unicorn.Helpers;
 
 namespace Unicorn.Images.Jpeg
 {
     internal class ExifSegment : JpegDataSegment
     {
+        // The offset from the start of the segment to the start of the TIFF header.
+        private const int TIFF_HEADER_OFFSET = 10;
+
         private readonly List<ExifTag> _tags = new List<ExifTag>();
         private Func<byte[], int, long> _readUInt;
         private Func<byte[], int, int> _readInt;
@@ -29,7 +31,6 @@ namespace Unicorn.Images.Jpeg
 
         internal override async Task PopulateSegmentAsync(Stream dataStream)
         {
-            const int TIFF_HEADER_OFFSET = 10;
             long tiffHeaderBase = StartOffset + TIFF_HEADER_OFFSET;
             long initialIfdAddress = await PopulateTiffHeaderDataAsync(dataStream, tiffHeaderBase).ConfigureAwait(false);
             await ReadIfdAsync(dataStream, initialIfdAddress, tiffHeaderBase).ConfigureAwait(false);
@@ -109,10 +110,18 @@ namespace Unicorn.Images.Jpeg
             if (theTag.Id == ExifTagId.ExifPointer)
             {
                 _exifOffset = (long)theTag.Value;
+                if (TIFF_HEADER_OFFSET + _exifOffset > Length)
+                {
+                    throw new InvalidImageException(ImageLoadResources.ExifSegment_InvalidExifPointer);
+                }
             }
             else if (theTag.Id == ExifTagId.GpsPointer)
             {
                 _gpsOffset = (long)theTag.Value;
+                if (TIFF_HEADER_OFFSET + _gpsOffset > Length)
+                {
+                    throw new InvalidImageException(ImageLoadResources.ExifSegment_InvalidGpsPointer);
+                }
             }
             else
             {
