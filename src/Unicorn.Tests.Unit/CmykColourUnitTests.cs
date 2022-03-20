@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
@@ -33,8 +34,6 @@ namespace Unicorn.Tests.Unit
             _testObject = new CmykColour(_cyanValue, _magentaValue, _yellowValue, _blackValue);
             _otherColour = new Mock<IUniColour>();
         }
-
-#pragma warning restore CA5394 // Do not use insecure randomness
 
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 
@@ -147,6 +146,66 @@ namespace Unicorn.Tests.Unit
         {
             Assert.AreEqual("DeviceCMYK", _testObject.ColourSpaceName);
         }
+
+        [TestMethod]
+        public void CmykColourClass_BitsPerComponentProperty_Equals8()
+        {
+            Assert.AreEqual(8, _testObject.BitsPerComponent);
+        }
+
+        [TestMethod]
+        public void CmykColourClass_ComponentDataProperty_HasFourElements()
+        {
+            IEnumerable<byte> testOutput = _testObject.ComponentData;
+
+            Assert.AreEqual(4, testOutput.Count());
+        }
+
+        [TestMethod]
+        public void CmykColourClass_ComponentDataProperty_FirstElementIsEqualToExpectedValue()
+        {
+            int expectedValue = _rnd.Next(byte.MaxValue + 1);
+            CmykColour testObject = new CmykColour(expectedValue / 256d, _testObject.Magenta, _testObject.Yellow, _testObject.Black);
+
+            IEnumerable<byte> testOutput = testObject.ComponentData;
+
+            Assert.AreEqual(expectedValue, testOutput.First());
+        }
+
+        [TestMethod]
+        public void CmykColourClass_ComponentDataProperty_SecondElementIsEqualToExpectedValue()
+        {
+            int expectedValue = _rnd.Next(byte.MaxValue);
+            CmykColour testObject = new CmykColour(_testObject.Cyan, expectedValue / 256d, _testObject.Yellow, _testObject.Black);
+
+            IEnumerable<byte> testOutput = testObject.ComponentData;
+
+            Assert.AreEqual(expectedValue, testOutput.Skip(1).First());
+        }
+
+        [TestMethod]
+        public void CmykColourClass_ComponentDataProperty_ThirdElementIsEqualToExpectedValue()
+        {
+            int expectedValue = _rnd.Next(byte.MaxValue);
+            CmykColour testObject = new CmykColour(_testObject.Cyan, _testObject.Magenta, expectedValue / 256d, _testObject.Black);
+
+            IEnumerable<byte> testOutput = testObject.ComponentData;
+
+            Assert.AreEqual(expectedValue, testOutput.Skip(2).First());
+        }
+
+        [TestMethod]
+        public void CmykColourClass_ComponentDataProperty_FourthElementIsEqualToExpectedValue()
+        {
+            int expectedValue = _rnd.Next(byte.MaxValue);
+            CmykColour testObject = new CmykColour(_testObject.Cyan, _testObject.Magenta, _testObject.Yellow, expectedValue / 256d);
+
+            IEnumerable<byte> testOutput = testObject.ComponentData;
+
+            Assert.AreEqual(expectedValue, testOutput.Skip(3).First());
+        }
+
+#pragma warning restore CA5394 // Do not use insecure randomness
 
         [TestMethod]
         public void CmykColour_StrokeSelectionOperatorsMethod_ReturnsEmptySequence_IfParameterIsThis()

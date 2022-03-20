@@ -19,16 +19,16 @@
         {
             if (d >= 1)
             {
-                return 255;
+                return byte.MaxValue;
             }
             if (d <= 0)
             {
                 return 0;
             }
-            int b = (int)(d * 256);
-            if (b >= 256)
+            int b = (int)(d * (byte.MaxValue + 1));
+            if (b > byte.MaxValue)
             {
-                b = 255;
+                b = byte.MaxValue;
             }
             return (byte)b;
         }

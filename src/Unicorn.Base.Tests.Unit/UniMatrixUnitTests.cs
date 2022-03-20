@@ -842,7 +842,7 @@ namespace Unicorn.Base.Tests.Unit
         }
 
         [TestMethod]
-        public void UniMatrixStruct_TranslationMethod_ReturnsValueWithR0C0PropertyEqualTo1()
+        public void UniMatrixStruct_TranslationMethodWithUniPointParameter_ReturnsValueWithR0C0PropertyEqualTo1()
         {
             UniPoint testParam = _rnd.NextUniPoint();
 
@@ -852,7 +852,7 @@ namespace Unicorn.Base.Tests.Unit
         }
 
         [TestMethod]
-        public void UniMatrixStruct_TranslationMethod_ReturnsValueWithR0C1PropertyEqualTo0()
+        public void UniMatrixStruct_TranslationMethodWithUniPointParameter_ReturnsValueWithR0C1PropertyEqualTo0()
         {
             UniPoint testParam = _rnd.NextUniPoint();
 
@@ -862,7 +862,7 @@ namespace Unicorn.Base.Tests.Unit
         }
 
         [TestMethod]
-        public void UniMatrixStruct_TranslationMethod_ReturnsValueWithR1C0PropertyEqualTo0()
+        public void UniMatrixStruct_TranslationMethodWithUniPointParameter_ReturnsValueWithR1C0PropertyEqualTo0()
         {
             UniPoint testParam = _rnd.NextUniPoint();
 
@@ -872,7 +872,7 @@ namespace Unicorn.Base.Tests.Unit
         }
 
         [TestMethod]
-        public void UniMatrixStruct_TranslationMethod_ReturnsValueWithR1C1PropertyEqualTo1()
+        public void UniMatrixStruct_TranslationMethodWithUniPointParameter_ReturnsValueWithR1C1PropertyEqualTo1()
         {
             UniPoint testParam = _rnd.NextUniPoint();
 
@@ -882,7 +882,7 @@ namespace Unicorn.Base.Tests.Unit
         }
 
         [TestMethod]
-        public void UniMatrixStruct_TranslationMethod_ReturnsValueWithR2C0PropertyEqualToXPropertyOfParameter()
+        public void UniMatrixStruct_TranslationMethodWithUniPointParameter_ReturnsValueWithR2C0PropertyEqualToXPropertyOfParameter()
         {
             UniPoint testParam = _rnd.NextUniPoint();
 
@@ -892,13 +892,79 @@ namespace Unicorn.Base.Tests.Unit
         }
 
         [TestMethod]
-        public void UniMatrixStruct_TranslationMethod_ReturnsValueWithR2C1PropertyEqualToYPropertyOfParameter()
+        public void UniMatrixStruct_TranslationMethodWithUniPointParameter_ReturnsValueWithR2C1PropertyEqualToYPropertyOfParameter()
         {
             UniPoint testParam = _rnd.NextUniPoint();
 
             UniMatrix testOutput = UniMatrix.Translation(testParam);
 
             Assert.AreEqual(testParam.Y, testOutput.R2C1);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_TranslationMethodWithTwoDoubleParameters_ReturnsValueWithR0C0PropertyEqualTo1()
+        {
+            double testParam0 = _rnd.NextDouble(500);
+            double testParam1 = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Translation(testParam0, testParam1);
+
+            Assert.AreEqual(1d, testOutput.R0C0);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_TranslationMethodWithTwoDoubleParameters_ReturnsValueWithR0C1PropertyEqualTo0()
+        {
+            double testParam0 = _rnd.NextDouble(500);
+            double testParam1 = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Translation(testParam0, testParam1);
+
+            Assert.AreEqual(0d, testOutput.R0C1);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_TranslationMethodWithTwoDoubleParameters_ReturnsValueWithR1C0PropertyEqualTo0()
+        {
+            double testParam0 = _rnd.NextDouble(500);
+            double testParam1 = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Translation(testParam0, testParam1);
+
+            Assert.AreEqual(0d, testOutput.R1C0);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_TranslationMethodWithTwoDoubleParameters_ReturnsValueWithR1C1PropertyEqualTo1()
+        {
+            double testParam0 = _rnd.NextDouble(500);
+            double testParam1 = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Translation(testParam0, testParam1);
+
+            Assert.AreEqual(1d, testOutput.R1C1);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_TranslationMethodWithTwoDoubleParameters_ReturnsValueWithR2C0PropertyEqualToXPropertyOfParameter()
+        {
+            double testParam0 = _rnd.NextDouble(500);
+            double testParam1 = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Translation(testParam0, testParam1);
+
+            Assert.AreEqual(testParam0, testOutput.R2C0);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_TranslationMethodWithTwoDoubleParameters_ReturnsValueWithR2C1PropertyEqualToSecondParameter()
+        {
+            double testParam0 = _rnd.NextDouble(500);
+            double testParam1 = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Translation(testParam0, testParam1);
+
+            Assert.AreEqual(testParam1, testOutput.R2C1);
         }
 
         [TestMethod]
@@ -1035,6 +1101,132 @@ namespace Unicorn.Base.Tests.Unit
 
             double expectedValue = testParam1.Y - ((testParam1.X * Math.Sin(testParam0)) + (testParam1.Y * Math.Cos(testParam0)));
             Assert.AreEqual(expectedValue, testOutput.R2C1);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_ScaleMethodWithOneDoubleParaeter_ReturnsValueWithR0C0PropertyEqualToParameter()
+        {
+            double testParam = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Scale(testParam);
+
+            Assert.AreEqual(testParam, testOutput.R0C0);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_ScaleMethodWithOneDoubleParaeter_ReturnsValueWithR0C1PropertyEqualTo0()
+        {
+            double testParam = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Scale(testParam);
+
+            Assert.AreEqual(0, testOutput.R0C1);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_ScaleMethodWithOneDoubleParaeter_ReturnsValueWithR1C0PropertyEqualTo0()
+        {
+            double testParam = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Scale(testParam);
+
+            Assert.AreEqual(0, testOutput.R1C0);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_ScaleMethodWithOneDoubleParaeter_ReturnsValueWithR1C1PropertyEqualToParameter()
+        {
+            double testParam = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Scale(testParam);
+
+            Assert.AreEqual(testParam, testOutput.R1C1);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_ScaleMethodWithOneDoubleParaeter_ReturnsValueWithR2C0PropertyEqualTo0()
+        {
+            double testParam = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Scale(testParam);
+
+            Assert.AreEqual(0, testOutput.R2C0);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_ScaleMethodWithOneDoubleParaeter_ReturnsValueWithR2C1PropertyEqualTo0()
+        {
+            double testParam = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Scale(testParam);
+
+            Assert.AreEqual(0, testOutput.R2C1);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_ScaleMethodWithTwoDoubleParaeters_ReturnsValueWithR0C0PropertyEqualToFirstParameter()
+        {
+            double testParam0 = _rnd.NextDouble(500);
+            double testParam1 = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Scale(testParam0, testParam1);
+
+            Assert.AreEqual(testParam0, testOutput.R0C0);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_ScaleMethodWithTwoDoubleParaeters_ReturnsValueWithR0C1PropertyEqualTo0()
+        {
+            double testParam0 = _rnd.NextDouble(500);
+            double testParam1 = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Scale(testParam0, testParam1);
+
+            Assert.AreEqual(0, testOutput.R0C1);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_ScaleMethodWithTwoDoubleParaeters_ReturnsValueWithR1C0PropertyEqualTo0()
+        {
+            double testParam0 = _rnd.NextDouble(500);
+            double testParam1 = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Scale(testParam0, testParam1);
+
+            Assert.AreEqual(0, testOutput.R1C0);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_ScaleMethodWithTwoDoubleParaeters_ReturnsValueWithR1C1PropertyEqualToSecondParameter()
+        {
+            double testParam0 = _rnd.NextDouble(500);
+            double testParam1 = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Scale(testParam0, testParam1);
+
+            Assert.AreEqual(testParam1, testOutput.R1C1);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_ScaleMethodWithTwoDoubleParaeters_ReturnsValueWithR2C0PropertyEqualTo0()
+        {
+            double testParam0 = _rnd.NextDouble(500);
+            double testParam1 = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Scale(testParam0, testParam1);
+
+            Assert.AreEqual(0, testOutput.R2C0);
+        }
+
+        [TestMethod]
+        public void UniMatrixStruct_ScaleMethodWithTwoDoubleParaeters_ReturnsValueWithR2C1PropertyEqualTo0()
+        {
+            double testParam0 = _rnd.NextDouble(500);
+            double testParam1 = _rnd.NextDouble(500);
+
+            UniMatrix testOutput = UniMatrix.Scale(testParam0, testParam1);
+
+            Assert.AreEqual(0, testOutput.R2C1);
         }
 
 #pragma warning restore CA5394 // Do not use insecure randomness
