@@ -29,7 +29,10 @@ namespace Unicorn.Images
         /// </summary>
         public virtual double AspectRatio => (double)DotWidth / DotHeight;
 
-        public IEnumerable<byte> RawData => _dataStream.ToArray();
+        /// <summary>
+        /// The binary data for this image.
+        /// </summary>
+        public virtual IEnumerable<byte> RawData => _dataStream.ToArray();
 
         /// <summary>
         /// Load the image from a stream.

@@ -33,6 +33,11 @@ namespace Unicorn.Writer.Streams
         /// </summary>
         public override bool CanAddData => false;
 
+        /// <summary>
+        /// Attempt (and fail) to add bytes to the data stream.
+        /// </summary>
+        /// <param name="bytes">THe data to attempt to add to the data stream.</param>
+        /// <exception cref="InvalidOperationException">Always thrown, because image streams cannot have additional data appended.</exception>
         public override void AddBytes(IEnumerable<byte> bytes)
             => throw new InvalidOperationException(WriterResources.Streams_PdfImageStream_AddBytes_InvalidOperation_Error);
     }
