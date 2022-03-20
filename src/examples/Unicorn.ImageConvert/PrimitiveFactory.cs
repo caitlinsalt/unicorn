@@ -6,21 +6,21 @@ namespace Unicorn.ImageConvert
 {
     internal class PrimitiveFactory
     {
-        private readonly bool _wireframeMode;
+        private readonly ImageMode _wireframeMode;
 
         private readonly IList<IPdfReference> _sources;
 
         private int _flipCount;
 
-        internal PrimitiveFactory(bool wireframeMode, IList<IPdfReference> sourceImages)
+        internal PrimitiveFactory(ImageMode mode, IList<IPdfReference> sourceImages)
         {
-            _wireframeMode = wireframeMode;
+            _wireframeMode = mode;
             _sources = sourceImages;
         }
 
         internal IFixedSizeDrawable CreatePrimitive(double width, double height, MarginSet margins)
         {
-            if (_wireframeMode)
+            if (_wireframeMode == ImageMode.Wireframe)
             {
                 return new ImageWireframe(width, height, margins);
             }
@@ -38,13 +38,20 @@ namespace Unicorn.ImageConvert
             return ifd;
         }
 
-        internal void LayOutOnPage(IPageDescriptor page, IFixedSizeDrawable drawable)
+        internal void LayOutOnPage(IPageDescriptor page, IPdfReference sourceReference, IFixedSizeDrawable drawable)
         {
             IEmbeddedImageDescriptor descriptor = null;
-            if (!_wireframeMode)
+            if (_wireframeMode != ImageMode.Wireframe)
             {
                 PdfPage thePage = page as PdfPage;
-                descriptor = thePage.UseImage(_sources[_flipCount++]);
+                if (_wireframeMode == ImageMode.Mock)
+                {
+                    descriptor = thePage.UseImage(_sources[_flipCount++]);
+                }
+                else
+                {
+                    descriptor = thePage.UseImage(sourceReference);
+                }
                 Image theImage = drawable as Image;
                 theImage.ImageDescriptor = descriptor;
                 if (_flipCount >= _sources.Count)

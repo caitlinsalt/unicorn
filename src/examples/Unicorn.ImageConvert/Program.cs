@@ -25,6 +25,7 @@ namespace Unicorn.ImageConvert
             {
                 await Console.Error.WriteLineAsync(Resources.Program_OutputNameNotSpecifiedError).ConfigureAwait(false);
             }
+            ImageMode mode = GetImageMode(options);
             using SourceImageProviderCollection providers = new();
             foreach (string path in options.InputFiles)
             {
@@ -32,12 +33,12 @@ namespace Unicorn.ImageConvert
             }
             PdfDocument document = new();
             List<IPdfReference> imageReferences = new();
-            if (!options.Wireframe)
+            if (mode == ImageMode.Mock)
             {
                 imageReferences.Add(document.UseImage(new SingleColourSourceImage(new RgbColour(0.3569, 0.8078, 0.9804))));
                 imageReferences.Add(document.UseImage(new SingleColourSourceImage(new RgbColour(0.9608, 0.6627, 0.7216))));
             }
-            PrimitiveFactory factory = new PrimitiveFactory(options.Wireframe, imageReferences);
+            PrimitiveFactory factory = new(mode, imageReferences);
             IPageDescriptor currentPage = document.AppendPage();
             MarginSet margins = new(0, 0, 36, 0);
             foreach (SourceImageProvider provider in providers)
@@ -46,20 +47,38 @@ namespace Unicorn.ImageConvert
                 foreach (BaseSourceImage sourceImage in images)
                 {
                     var wf = factory.CreatePrimitive(currentPage.PageAvailableWidth, currentPage.PageAvailableWidth / sourceImage.AspectRatio, margins);
+                    IPdfReference reference = null;
+                    if (mode == ImageMode.Normal)
+                    {
+                        reference = document.UseImage(sourceImage);
+                    }
                     if (currentPage.PageAvailableHeight > wf.Height)
                     {
-                        factory.LayOutOnPage(currentPage, wf);
+                        factory.LayOutOnPage(currentPage, reference, wf);
                     }
                     else
                     {
                         currentPage = document.AppendPage();
-                        factory.LayOutOnPage(currentPage, wf);
+                        factory.LayOutOnPage(currentPage, reference, wf);
                     }
                 }
             }
 
             using FileStream outputStream = new(options.Out, FileMode.Create, FileAccess.Write);
             await document.WriteAsync(outputStream).ConfigureAwait(true);
+        }
+
+        private static ImageMode GetImageMode(Options options)
+        {
+            if (options.Wireframe)
+            {
+                return ImageMode.Wireframe;
+            }
+            if (options.Mock)
+            {
+                return ImageMode.Mock;
+            }
+            return ImageMode.Normal;
         }
     }
 }

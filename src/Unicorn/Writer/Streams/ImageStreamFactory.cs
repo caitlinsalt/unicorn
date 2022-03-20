@@ -18,6 +18,10 @@ namespace Unicorn.Writer.Streams
             {
                 return new PdfMockImageStream(objectId, mockImage.ImageColour, filters, generation);
             }
+            if (sourceImage is JpegSourceImage jpegImage)
+            {
+                return new PdfJpegImageStream(objectId, jpegImage, generation);
+            }
             throw new NotSupportedException($"Unspoorted image type {sourceImage.GetType().Name}");
         }
     }
