@@ -200,7 +200,7 @@ namespace Unicorn.Writer
                     if (font.RequiresEmbedding)
                     {
                         PdfDictionary meta = new PdfDictionary { { new PdfName("Length1"), new PdfInteger((int)font.EmbeddingLength) } };
-                        embed = new PdfStream(_xrefTable.ClaimSlot(), GetFontEncoders(), meta);
+                        embed = new PdfStream(_xrefTable.ClaimSlot(), GetBinaryStreamEncoders(), meta);
                         embed.AddBytes(font.EmbeddingData);
                         embeddingKey = font.EmbeddingKey;
                         _bodyObjects.Add(embed);
@@ -222,12 +222,12 @@ namespace Unicorn.Writer
         /// <returns>A reference to the embedded image data within the document.</returns>
         public IPdfReference UseImage(ISourceImage image)
         {
-            PdfImageStream imageStream = ImageStreamFactory.CreateImageStream(image, _xrefTable.ClaimSlot(), GetStreamCompressionEncoders());
+            PdfImageStream imageStream = ImageStreamFactory.CreateImageStream(image, _xrefTable.ClaimSlot(), GetBinaryStreamEncoders());
             _bodyObjects.Add(imageStream);
             return new PdfReference(imageStream);
         }
 
-        private static IEnumerable<IPdfFilterEncoder> GetFontEncoders()
+        private static IEnumerable<IPdfFilterEncoder> GetBinaryStreamEncoders()
         {
             if (Features.SelectedStreamFeatures.HasFlag(Features.StreamFeatures.CompressBinaryStreams))
             {
