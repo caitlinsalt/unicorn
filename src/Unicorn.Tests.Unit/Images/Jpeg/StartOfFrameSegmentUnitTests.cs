@@ -3,6 +3,7 @@ using System;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
 using Unicorn.Images.Jpeg;
+using Unicorn.Tests.Unit.TestHelpers;
 
 namespace Unicorn.Tests.Unit.Images.Jpeg
 {
@@ -19,8 +20,9 @@ namespace Unicorn.Tests.Unit.Images.Jpeg
         {
             long testParam0 = _rnd.NextLong();
             int testParam1 = _rnd.Next();
+            JpegEncodingMode testParam2 = _rnd.NextJpegEncodingMode();
 
-            StartOfFrameSegment testOutput = new(testParam0, testParam1);
+            StartOfFrameSegment testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam0, testOutput.StartOffset);
         }
@@ -30,10 +32,23 @@ namespace Unicorn.Tests.Unit.Images.Jpeg
         {
             long testParam0 = _rnd.NextLong();
             int testParam1 = _rnd.Next();
+            JpegEncodingMode testParam2 = _rnd.NextJpegEncodingMode();
 
-            StartOfFrameSegment testOutput = new(testParam0, testParam1);
+            StartOfFrameSegment testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(testParam1, testOutput.Length);
+        }
+        
+        [TestMethod]
+        public void StartOfFrameSegmentClass_Constructor_SetsEncodingModehPropertyToValueOfThirdParameter()
+        {
+            long testParam0 = _rnd.NextLong();
+            int testParam1 = _rnd.Next();
+            JpegEncodingMode testParam2 = _rnd.NextJpegEncodingMode();
+
+            StartOfFrameSegment testOutput = new(testParam0, testParam1, testParam2);
+
+            Assert.AreEqual(testParam2, testOutput.EncodingMode);
         }
 
         [TestMethod]
@@ -41,8 +56,9 @@ namespace Unicorn.Tests.Unit.Images.Jpeg
         {
             long testParam0 = _rnd.NextLong();
             int testParam1 = _rnd.Next();
+            JpegEncodingMode testParam2 = _rnd.NextJpegEncodingMode();
 
-            StartOfFrameSegment testOutput = new(testParam0, testParam1);
+            StartOfFrameSegment testOutput = new(testParam0, testParam1, testParam2);
 
             Assert.AreEqual(JpegDataSegmentType.StartOfFrame, testOutput.SegmentType);
         }

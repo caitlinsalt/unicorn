@@ -28,7 +28,8 @@ namespace Unicorn.Images.Jpeg
             int length = buffer.ReadBigEndianUShort() + 2;
             if (IsStartOfFrameMarker(markerTypeByte))
             {
-                return await BuildPopulatableSegment(dataStream, () => new StartOfFrameSegment(startOffset, length)).ConfigureAwait(false);
+                return await BuildPopulatableSegment(dataStream, () => new StartOfFrameSegment(startOffset, length, GetEncodingMode(markerTypeByte)))
+                    .ConfigureAwait(false);
             }
             if (await IsJfifSegmentAsync(dataStream, startOffset, markerTypeByte).ConfigureAwait(false))
             {
@@ -73,6 +74,15 @@ namespace Unicorn.Images.Jpeg
                 }
             }
             return true;
+        }
+
+        private static JpegEncodingMode GetEncodingMode(int markerTypeByte)
+        {
+            if (markerTypeByte == 0xc2 || markerTypeByte == 0xc6 || markerTypeByte == 0xca || markerTypeByte == 0xce)
+            {
+                return JpegEncodingMode.Progressive;
+            }
+            return JpegEncodingMode.Sequential;
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Unicorn.Base.Helpers.Extensions;
 using Unicorn.Exceptions;
@@ -14,7 +11,12 @@ namespace Unicorn.Images.Jpeg
 
         internal int DotHeight { get; private set; }
 
-        internal StartOfFrameSegment(long startOffset, int length) : base(startOffset, length, JpegDataSegmentType.StartOfFrame) { }
+        internal JpegEncodingMode EncodingMode { get; private set; }
+
+        internal StartOfFrameSegment(long startOffset, int length, JpegEncodingMode encodingMode) : base(startOffset, length, JpegDataSegmentType.StartOfFrame) 
+        {
+            EncodingMode = encodingMode;
+        }
 
         internal override async Task PopulateSegmentAsync(Stream dataStream)
         {

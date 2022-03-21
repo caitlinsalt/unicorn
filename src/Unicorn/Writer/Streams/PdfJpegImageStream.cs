@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Unicorn.Helpers;
 using Unicorn.Images;
+using Unicorn.Images.Jpeg;
 using Unicorn.Writer.Filters;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
@@ -24,7 +24,8 @@ namespace Unicorn.Writer.Streams
         /// <param name="objectId">The ID of the stream.</param>
         /// <param name="sourceImage">The image that the stream shiuld contain.</param>
         /// <param name="generation">The object generation number (usually 0).</param>
-        public PdfJpegImageStream(int objectId, JpegSourceImage sourceImage, int generation = 0) : base(objectId, GetJpegFilterEncoders(), generation)
+        public PdfJpegImageStream(int objectId, JpegSourceImage sourceImage, int generation = 0) : 
+            base(objectId, GetJpegFilterEncoders(sourceImage.EncodingMode), generation)
         {
             if (sourceImage is null)
             {
@@ -37,10 +38,10 @@ namespace Unicorn.Writer.Streams
             InternalContents.AddRange(sourceImage.RawData);
         }
 
-        private static IEnumerable<IPdfFilterEncoder> GetJpegFilterEncoders()
+        private static IEnumerable<IPdfFilterEncoder> GetJpegFilterEncoders(JpegEncodingMode encodingMode)
         {
             var encoders = new List<IPdfFilterEncoder>() { JpegFakeEncoder.Instance };
-            if (Features.SelectedStreamFeatures.HasFlag(Features.StreamFeatures.AsciiEncodeBinaryStreams))
+            if (encodingMode != JpegEncodingMode.Progressive && Features.SelectedStreamFeatures.HasFlag(Features.StreamFeatures.AsciiEncodeBinaryStreams))
             {
                 encoders.Add(Ascii85Encoder.Instance);
             }

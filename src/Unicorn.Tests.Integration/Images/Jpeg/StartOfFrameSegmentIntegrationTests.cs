@@ -30,7 +30,7 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
         public async Task StartOfFrameSegmentClass_PopulateSegmentAsyncMethod_SetsDotWidthPropertyToCorrectValue_IfTestFileIsExampleJpegImage01()
         {
             using FileStream sourceDataStream = new(_sourceImage01Path, FileMode.Open, FileAccess.Read);
-            StartOfFrameSegment testObject = new(_sourceImage01StartOfFrameOffset, _sourceImage01SegmentLength);
+            StartOfFrameSegment testObject = new(_sourceImage01StartOfFrameOffset, _sourceImage01SegmentLength, JpegEncodingMode.Sequential);
 
             await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
 
@@ -41,7 +41,7 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
         public async Task StartOfFrameSegmentClass_PopulateSegmentAsyncMethod_SetsDotHeightPropertyToCorrectValue_IfTestFileIsExampleJpegImage01()
         {
             using FileStream sourceDataStream = new(_sourceImage01Path, FileMode.Open, FileAccess.Read);
-            StartOfFrameSegment testObject = new(_sourceImage01StartOfFrameOffset, _sourceImage01SegmentLength);
+            StartOfFrameSegment testObject = new(_sourceImage01StartOfFrameOffset, _sourceImage01SegmentLength, JpegEncodingMode.Sequential);
 
             await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
 
@@ -52,7 +52,7 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
         public async Task StartOfFrameSegmentClass_PopulateSegmentAsyncMethod_SetsDotWidthPropertyToCorrectValue_IfTestFileIsExampleJpegImage03()
         {
             using FileStream sourceDataStream = new(_sourceImage03Path, FileMode.Open, FileAccess.Read);
-            StartOfFrameSegment testObject = new(_sourceImage03StartOfFrameOffset, _sourceImage03SegmentLength);
+            StartOfFrameSegment testObject = new(_sourceImage03StartOfFrameOffset, _sourceImage03SegmentLength, JpegEncodingMode.Sequential);
 
             await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
 
@@ -63,7 +63,7 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
         public async Task StartOfFrameSegmentClass_PopulateSegmentAsyncMethod_SetsDotHeightPropertyToCorrectValue_IfTestFileIsExampleJpegImage03()
         {
             using FileStream sourceDataStream = new(_sourceImage03Path, FileMode.Open, FileAccess.Read);
-            StartOfFrameSegment testObject = new(_sourceImage03StartOfFrameOffset, _sourceImage03SegmentLength);
+            StartOfFrameSegment testObject = new(_sourceImage03StartOfFrameOffset, _sourceImage03SegmentLength, JpegEncodingMode.Sequential);
 
             await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
 
