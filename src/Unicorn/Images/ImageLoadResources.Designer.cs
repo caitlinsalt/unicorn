@@ -88,6 +88,33 @@ namespace Unicorn.Images {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid EXIF image.  One of the internal pointers overflows the EXIF data (the EXIF pointer)..
+        /// </summary>
+        internal static string ExifSegment_InvalidExifPointer {
+            get {
+                return ResourceManager.GetString("ExifSegment_InvalidExifPointer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid EXIF image.  One of the internal pointers overflows the EXIF data (the GPS pointer)..
+        /// </summary>
+        internal static string ExifSegment_InvalidGpsPointer {
+            get {
+                return ResourceManager.GetString("ExifSegment_InvalidGpsPointer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid EXIF image.  One of the internal tag data pointers overflows the EXIF data..
+        /// </summary>
+        internal static string ExifSegment_InvalidTagDataPointer {
+            get {
+                return ResourceManager.GetString("ExifSegment_InvalidTagDataPointer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid EXIF image.  The EXIF segment data does not match the specification.  Type mismatch in tag {0}.  Expected type was {1}; found type {2}..
         /// </summary>
         internal static string ExifSegment_WrongTagDataType {
