@@ -132,6 +132,9 @@
   <data name="ExifSegment_InvalidGpsPointer" xml:space="preserve">
     <value>Invalid EXIF image.  One of the internal pointers overflows the EXIF data (the GPS pointer).</value>
   </data>
+  <data name="ExifSegment_InvalidTagDataPointer" xml:space="preserve">
+    <value>Invalid EXIF image.  One of the internal tag data pointers overflows the EXIF data.</value>
+  </data>
   <data name="ExifSegment_WrongTagDataType" xml:space="preserve">
     <value>Invalid EXIF image.  The EXIF segment data does not match the specification.  Type mismatch in tag {0}.  Expected type was {1}; found type {2}.</value>
   </data>

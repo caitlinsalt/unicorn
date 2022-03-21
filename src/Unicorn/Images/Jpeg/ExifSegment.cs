@@ -284,6 +284,10 @@ namespace Unicorn.Images.Jpeg
         {
             const int DATA_ADDRESS_OFFSET = 8;
             long subBufferOffset = _readUInt(mainBuffer, offset + DATA_ADDRESS_OFFSET);
+            if (addressBase + subBufferOffset > StartOffset + Length)
+            {
+                throw new InvalidImageException(ImageLoadResources.ExifSegment_InvalidTagDataPointer);
+            }
             dataStream.Seek(addressBase + subBufferOffset, SeekOrigin.Begin);
             await dataStream.ReadAsync(subBuffer, 0, subBuffer.Length).ConfigureAwait(false);
         }
