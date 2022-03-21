@@ -116,6 +116,11 @@ namespace Unicorn.Images
                 {
                     continue;
                 }
+                // Check for the EOI marker
+                if (typeByte == 0xd9)
+                {
+                    return;
+                }
 
                 JpegDataSegment newSegment = await JpegDataSegmentFactory.CreateSegmentAsync(_dataStream, startOfSegment, typeByte).ConfigureAwait(false);
                 _dataSegments.Add(newSegment);
