@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Unicorn.Base;
 
@@ -13,6 +14,7 @@ namespace Unicorn.Images
     {
         private protected readonly MemoryStream _dataStream = new MemoryStream();
         private bool disposedValue;
+        private string _cachedFingerprint;
 
         /// <summary>
         /// The image width in pixels.
@@ -33,6 +35,11 @@ namespace Unicorn.Images
         /// The binary data for this image.
         /// </summary>
         public virtual IEnumerable<byte> RawData => _dataStream.ToArray();
+
+        /// <summary>
+        /// A string that uniquely identifies this image.
+        /// </summary>
+        public virtual string Fingerprint => _cachedFingerprint ?? ComputeFingerprint();
 
         /// <summary>
         /// Load the image from a stream.
@@ -56,8 +63,23 @@ namespace Unicorn.Images
             {
                 throw new ArgumentNullException(nameof(stream));
             }
+            _cachedFingerprint = null;
             await stream.CopyToAsync(_dataStream).ConfigureAwait(false);
             _dataStream.Seek(0, SeekOrigin.Begin);
+            ComputeFingerprint();
+            _dataStream.Seek(0, SeekOrigin.Begin);
+        }
+
+        private string ComputeFingerprint()
+        {
+            using (SHA256 hashComputer = SHA256.Create())
+            {
+                byte[] hash = hashComputer.ComputeHash(_dataStream);
+                // When we drop .NET Framework support, switch to Convert.ToHexString()
+                _cachedFingerprint = BitConverter.ToString(hash).Replace("-", "");
+            }
+
+            return _cachedFingerprint;
         }
 
         #region Dispose pattern implementation
