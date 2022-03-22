@@ -99,7 +99,7 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
         [TestMethod]
         public async Task JpegDataSegmentFactoryClass_CreateSegmentAsyncMethod_ReturnsStartOfFrameSegmentWithCorrectEncodingMode_ForTestImage03()
         {
-            using FileStream sourceDataStream = new(_sourceImage01Path, FileMode.Open, FileAccess.Read);
+            using FileStream sourceDataStream = new(_sourceImage03Path, FileMode.Open, FileAccess.Read);
 
             JpegDataSegment testOutput = await JpegDataSegmentFactory.CreateSegmentAsync(sourceDataStream,
                 _sourceImage03StartOfFrameSegmentOffset, _sourceImage03StartOfFrameSegmentMarkerByte).ConfigureAwait(false);

@@ -25,7 +25,7 @@ namespace Unicorn.Writer.Streams
         /// <param name="sourceImage">The image that the stream shiuld contain.</param>
         /// <param name="generation">The object generation number (usually 0).</param>
         public PdfJpegImageStream(int objectId, JpegSourceImage sourceImage, int generation = 0) : 
-            base(objectId, GetJpegFilterEncoders(sourceImage.EncodingMode), generation)
+            base(objectId, GetJpegFilterEncoders(sourceImage?.EncodingMode), generation)
         {
             if (sourceImage is null)
             {
@@ -38,7 +38,7 @@ namespace Unicorn.Writer.Streams
             InternalContents.AddRange(sourceImage.RawData);
         }
 
-        private static IEnumerable<IPdfFilterEncoder> GetJpegFilterEncoders(JpegEncodingMode encodingMode)
+        private static IEnumerable<IPdfFilterEncoder> GetJpegFilterEncoders(JpegEncodingMode? encodingMode)
         {
             var encoders = new List<IPdfFilterEncoder>() { JpegFakeEncoder.Instance };
             if (encodingMode != JpegEncodingMode.Progressive && Features.SelectedStreamFeatures.HasFlag(Features.StreamFeatures.AsciiEncodeBinaryStreams))

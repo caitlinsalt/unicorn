@@ -36,6 +36,9 @@ namespace Unicorn.Images
         /// </summary>
         public override double AspectRatio => (DotWidth / HorizontalDotsPerPoint) / ((double) DotHeight / VerticalDotsPerPoint);
 
+        /// <summary>
+        /// The encoding mode of the JPEG (sequential or progressive).
+        /// </summary>
         public JpegEncodingMode EncodingMode => StartOfFrameSegment?.EncodingMode ?? JpegEncodingMode.Sequential;
 
         /// <summary>
