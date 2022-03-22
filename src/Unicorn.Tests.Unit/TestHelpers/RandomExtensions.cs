@@ -152,6 +152,12 @@ namespace Unicorn.Tests.Unit.TestHelpers
             JpegDataSegmentType.Exif,
         };
 
+        private static readonly JpegEncodingMode[] _validJpegEncodingMode = new[]
+        {
+            JpegEncodingMode.Sequential,
+            JpegEncodingMode.Progressive,
+        };
+
 #pragma warning disable CA5394 // Do not use insecure randomness
 
         internal static TableRuleStyle NextTableRuleStyle(this Random rnd) 
@@ -162,6 +168,9 @@ namespace Unicorn.Tests.Unit.TestHelpers
 
         internal static JpegDataSegmentType NextJpegDataSegmentType(this Random rnd)
             => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_validJpegDataSegmentTypes);
+
+        internal static JpegEncodingMode NextJpegEncodingMode(this Random rnd)
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_validJpegEncodingMode);
 
         internal static FixedSizeTableCell NextFixedSizeTableCell(this Random rnd)
             => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : new FixedSizeTableCell(rnd.NextDouble() * 100, rnd.NextDouble() * 100);

@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Unicorn.Exceptions;
-using Unicorn.Helpers;
 using Unicorn.Images.Jpeg;
 
 namespace Unicorn.Images
@@ -36,6 +35,11 @@ namespace Unicorn.Images
         /// The image aspect ratio, as a width-over-height fraction.
         /// </summary>
         public override double AspectRatio => (DotWidth / HorizontalDotsPerPoint) / ((double) DotHeight / VerticalDotsPerPoint);
+
+        /// <summary>
+        /// The encoding mode of the JPEG (sequential or progressive).
+        /// </summary>
+        public JpegEncodingMode EncodingMode => StartOfFrameSegment?.EncodingMode ?? JpegEncodingMode.Sequential;
 
         /// <summary>
         /// Load a JPEG image from a stream.  The stream's current position should be the first byte of the JPEG data

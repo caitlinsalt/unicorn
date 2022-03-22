@@ -10,6 +10,7 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
     public class JpegDataSegmentFactoryIntegrationTests
     {
         private readonly string _sourceImage01Path = Path.Combine("TestData", "exampleJpegImage01.jpg");
+        private readonly string _sourceImage03Path = Path.Combine("TestData", "exampleJpegImage03.jpg");
 
         private const int _sourceImage01StartOfFrameSegmentOffset = 0x3a4f;
         private const int _sourceImage01StartOfFrameSegmentMarkerByte = 0xc2;
@@ -20,6 +21,9 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
         // but it is not an Exif segment and must not be detected as such.
         private const int _sourceImage01UnknownSegmentOffset = 0x2a9c;
         private const int _sourceImage01UnknownSegmentMarkerByte = 0xe1;
+
+        private const int _sourceImage03StartOfFrameSegmentOffset = 0x9530;
+        private const int _sourceImage03StartOfFrameSegmentMarkerByte = 0xc0;
 
         private const int _exifSegmentMarkerByte = 0xe1;
         private const int _jfifSegmentMarkerByte = 0xe0;
@@ -39,6 +43,20 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
             StartOfFrameSegment segment = (StartOfFrameSegment)testOutput;
             Assert.IsTrue(segment.DotWidth != 0);
             Assert.IsTrue(segment.DotHeight != 0);
+        }
+
+        [TestMethod]
+        public async Task JpegDataSegmentFactoryClass_CreateSegmentAsyncMethod_ReturnsStartOfFrameSegmentWithCorrectEncodingMode_ForTestImage01()
+        {
+            using FileStream sourceDataStream = new(_sourceImage01Path, FileMode.Open, FileAccess.Read);
+
+            JpegDataSegment testOutput = await JpegDataSegmentFactory.CreateSegmentAsync(sourceDataStream,
+                _sourceImage01StartOfFrameSegmentOffset, _sourceImage01StartOfFrameSegmentMarkerByte).ConfigureAwait(false);
+
+            Assert.IsNotNull(testOutput);
+            Assert.IsInstanceOfType(testOutput, typeof(StartOfFrameSegment));
+            StartOfFrameSegment segment = (StartOfFrameSegment)testOutput;
+            Assert.AreEqual(JpegEncodingMode.Progressive, segment.EncodingMode);
         }
 
         [TestMethod]
@@ -76,6 +94,20 @@ namespace Unicorn.Tests.Integration.Images.Jpeg
 
             Assert.IsNotNull(testOutput);
             Assert.AreEqual(JpegDataSegmentType.Unknown, testOutput.SegmentType);
+        }
+
+        [TestMethod]
+        public async Task JpegDataSegmentFactoryClass_CreateSegmentAsyncMethod_ReturnsStartOfFrameSegmentWithCorrectEncodingMode_ForTestImage03()
+        {
+            using FileStream sourceDataStream = new(_sourceImage03Path, FileMode.Open, FileAccess.Read);
+
+            JpegDataSegment testOutput = await JpegDataSegmentFactory.CreateSegmentAsync(sourceDataStream,
+                _sourceImage03StartOfFrameSegmentOffset, _sourceImage03StartOfFrameSegmentMarkerByte).ConfigureAwait(false);
+
+            Assert.IsNotNull(testOutput);
+            Assert.IsInstanceOfType(testOutput, typeof(StartOfFrameSegment));
+            StartOfFrameSegment segment = (StartOfFrameSegment)testOutput;
+            Assert.AreEqual(JpegEncodingMode.Sequential, segment.EncodingMode);
         }
 
 #pragma warning restore CA1707 // Identifiers should not contain underscores

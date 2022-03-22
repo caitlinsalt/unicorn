@@ -11,6 +11,9 @@ namespace Unicorn.Images.Jpeg
         // Marker values for different types of JPEG "Start of frame" segments.
         private static readonly int[] START_OF_FRAME_MARKERS = { 0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf };
 
+        // Which of the above indicate a progressively-encoded file.
+        private static readonly int[] PROGRESSIVE_START_OF_FRAME_MARKERS = { 0xc2, 0xc6, 0xca, 0xce };
+
         // Marker value and identification string for JFIF segments.  The marker value is the JPEG APP0 marker; the identification string is "JFIF" followed by a NUL byte.
         private const int JFIF_MARKER = 0xe0;
         private static readonly byte[] JFIF_IDENTIFICATION_STRING = { 0x4a, 0x46, 0x49, 0x46, 0 };
@@ -28,7 +31,8 @@ namespace Unicorn.Images.Jpeg
             int length = buffer.ReadBigEndianUShort() + 2;
             if (IsStartOfFrameMarker(markerTypeByte))
             {
-                return await BuildPopulatableSegment(dataStream, () => new StartOfFrameSegment(startOffset, length)).ConfigureAwait(false);
+                return await BuildPopulatableSegment(dataStream, () => new StartOfFrameSegment(startOffset, length, GetEncodingMode(markerTypeByte)))
+                    .ConfigureAwait(false);
             }
             if (await IsJfifSegmentAsync(dataStream, startOffset, markerTypeByte).ConfigureAwait(false))
             {
@@ -73,6 +77,15 @@ namespace Unicorn.Images.Jpeg
                 }
             }
             return true;
+        }
+
+        private static JpegEncodingMode GetEncodingMode(int markerTypeByte)
+        {
+            if (PROGRESSIVE_START_OF_FRAME_MARKERS.Contains(markerTypeByte))
+            {
+                return JpegEncodingMode.Progressive;
+            }
+            return JpegEncodingMode.Sequential;
         }
     }
 }
