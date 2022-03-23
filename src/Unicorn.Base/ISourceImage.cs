@@ -6,6 +6,11 @@
     public interface ISourceImage
     {
         /// <summary>
+        /// A string that uniquely identifies this image.
+        /// </summary>
+        string Fingerprint { get; }
+
+        /// <summary>
         /// Width of the image in pixels.
         /// </summary>
         int DotWidth { get; }

@@ -23,6 +23,7 @@ namespace Unicorn.Writer
         private readonly PdfCatalogue _root;
         private readonly PdfPageTreeNode _pageRoot;
         private readonly Dictionary<string, PdfFont> _fontCache = new Dictionary<string, PdfFont>();
+        private readonly Dictionary<string, IPdfReference> _imageCache = new Dictionary<string, IPdfReference>();
 
         /// <summary>
         /// The default size of new pages added to the document.
@@ -222,9 +223,22 @@ namespace Unicorn.Writer
         /// <returns>A reference to the embedded image data within the document.</returns>
         public IPdfReference UseImage(ISourceImage image)
         {
-            PdfImageStream imageStream = ImageStreamFactory.CreateImageStream(image, _xrefTable.ClaimSlot(), GetBinaryStreamEncoders());
-            _bodyObjects.Add(imageStream);
-            return new PdfReference(imageStream);
+            if (image is null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+            lock (_imageCache)
+            {
+                if (_imageCache.TryGetValue(image.Fingerprint, out IPdfReference cachedStream))
+                {
+                    return cachedStream;
+                }
+                PdfImageStream imageStream = ImageStreamFactory.CreateImageStream(image, _xrefTable.ClaimSlot(), GetBinaryStreamEncoders());
+                _bodyObjects.Add(imageStream);
+                IPdfReference reference = new PdfReference(imageStream);
+                _imageCache.Add(image.Fingerprint, reference);
+                return reference;
+            }
         }
 
         private static IEnumerable<IPdfFilterEncoder> GetBinaryStreamEncoders()

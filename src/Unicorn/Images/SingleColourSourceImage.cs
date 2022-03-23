@@ -1,4 +1,6 @@
-﻿using Unicorn.Base;
+﻿using System;
+using System.Globalization;
+using Unicorn.Base;
 
 namespace Unicorn.Images
 {
@@ -30,6 +32,11 @@ namespace Unicorn.Images
         public double AspectRatio => (double)DotWidth / DotHeight;
 
         /// <summary>
+        /// A string that uniquely identifies this image.
+        /// </summary>
+        public string Fingerprint => ImageColour.GetType().Name + "SSI" + ImageColour.GetHashCode().ToString(CultureInfo.InvariantCulture);
+
+        /// <summary>
         /// Property-setting constructor.
         /// </summary>
         /// <param name="colour">Colour of the image.</param>
@@ -37,6 +44,10 @@ namespace Unicorn.Images
         /// <param name="height">Height of the image.</param>
         public SingleColourSourceImage(IColour colour, int width, int height)
         {
+            if (colour is null)
+            {
+                throw new ArgumentNullException(nameof(colour));
+            }
             ImageColour = colour;
             DotWidth = width;
             DotHeight = height;
