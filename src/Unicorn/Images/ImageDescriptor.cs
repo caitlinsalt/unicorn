@@ -9,7 +9,7 @@ namespace Unicorn.Images
     /// </summary>
     public class ImageDescriptor : IImageDescriptor
     {
-        private readonly Dictionary<IPageDescriptor, PdfName> _pageNames = new Dictionary<IPageDescriptor, PdfName>();
+        private readonly Dictionary<IPageDescriptor, string> _pageNames = new Dictionary<IPageDescriptor, string>();
 
         /// <summary>
         /// The document the image has been embedded into.
@@ -65,11 +65,11 @@ namespace Unicorn.Images
             }
             lock (_pageNames)
             {
-                if (_pageNames.TryGetValue(pageDescriptor, out PdfName currentName))
+                if (_pageNames.TryGetValue(pageDescriptor, out string currentName))
                 {
-                    return currentName.Value;
+                    return currentName;
                 }
-                _pageNames.Add(pageDescriptor, new PdfName(preferredName));
+                _pageNames.Add(pageDescriptor, preferredName);
                 return preferredName;
             }
         }
@@ -85,9 +85,9 @@ namespace Unicorn.Images
             {
                 return null;
             }
-            if (_pageNames.TryGetValue(pageDescriptor, out PdfName name))
+            if (_pageNames.TryGetValue(pageDescriptor, out string name))
             {
-                return name.Value;
+                return name;
             }
             return null;
         }
