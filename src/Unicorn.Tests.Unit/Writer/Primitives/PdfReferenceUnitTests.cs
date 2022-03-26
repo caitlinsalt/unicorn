@@ -2,6 +2,7 @@
 using Moq;
 using System;
 using Tests.Utility.Providers;
+using Unicorn.Base;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
 
@@ -66,6 +67,46 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
             var testOutput = _testObject.Equals(_testObject);
 
             Assert.IsTrue(testOutput);
+        }
+
+        [TestMethod]
+        public void PdfReferenceClass_FromInternalReferenceMethod_ReturnsObjectWithCorrectObjectIdProperty_IfParameterIsPdfReference()
+        {
+            PdfReference testOutput = PdfReference.FromInternalReference(_testObject);
+
+            Assert.AreEqual(_testObject.ObjectId, testOutput.ObjectId);
+        }
+
+        [TestMethod]
+        public void PdfReferenceClass_FromInternalReferenceMethod_ReturnsObjectWithCorrectGenerationProperty_IfParameterIsPdfReference()
+        {
+            PdfReference testOutput = PdfReference.FromInternalReference(_testObject);
+
+            Assert.AreEqual(_testObject.Generation, testOutput.Generation);
+        }
+
+        [TestMethod]
+        public void PdfReferenceClass_FromInternalReferenceMethod_ReturnsObjectWithCorrectObjectIdProperty_IfParameterIsNotPdfReference()
+        {
+            Mock<IPdfInternalReference> mockParam = new();
+            mockParam.Setup(r => r.ObjectId).Returns(_testObjectId);
+            mockParam.Setup(r => r.Version).Returns(_testGeneration);
+
+            PdfReference testOutput = PdfReference.FromInternalReference(mockParam.Object);
+
+            Assert.AreEqual(_testObjectId, testOutput.ObjectId);
+        }
+
+        [TestMethod]
+        public void PdfReferenceClass_FromInternalReferenceMethod_ReturnsObjectWithCorrectGenerationProperty_IfParameterIsNotPdfReference()
+        {
+            Mock<IPdfInternalReference> mockParam = new();
+            mockParam.Setup(r => r.ObjectId).Returns(_testObjectId);
+            mockParam.Setup(r => r.Version).Returns(_testGeneration);
+
+            PdfReference testOutput = PdfReference.FromInternalReference(mockParam.Object);
+
+            Assert.AreEqual(_testGeneration, testOutput.Generation);
         }
 
 #pragma warning restore CA1707 // Identifiers should not contain underscores

@@ -38,7 +38,7 @@ namespace Unicorn
         /// <summary>
         /// Descriptor for the image data.
         /// </summary>
-        public IEmbeddedImageDescriptor ImageDescriptor { get; set; }
+        public IImageDescriptor ImageDescriptor { get; set; }
 
         /// <summary>
         /// Constructor with width and height parameters.
@@ -68,7 +68,7 @@ namespace Unicorn
         /// <param name="image">Embedded image data to use to draw this image.</param>
         /// <param name="margins">Margin around the image</param>
         /// <exception cref="ArgumentNullException"><c>source</c> is <c>null</c>.</exception>
-        public Image(double width, ISourceImage source, IEmbeddedImageDescriptor image, MarginSet margins)
+        public Image(double width, ISourceImage source, IImageDescriptor image, MarginSet margins)
         {
             if (source is null)
             {

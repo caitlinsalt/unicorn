@@ -473,22 +473,22 @@ namespace Unicorn.Writer.Structural
         /// <param name="height">The height of the image.</param>
         /// <exception cref="ArgumentNullException"><c>image</c> is <c>null</c>.</exception>
         /// <exception cref="InvalidOperationException"><c>image</c> belongs to a different page to this context.</exception>
-        public void DrawImage(IEmbeddedImageDescriptor image, double x, double y, double width, double height)
+        public void DrawImage(IImageDescriptor image, double x, double y, double width, double height)
         {
             CheckState();
             if (image is null)
             {
                 throw new ArgumentNullException(nameof(image));
             }
-            if (image.ParentPage != _page)
+            string imageName = image.GetNameOnPage(_page);
+            if (imageName is null)
             {
                 throw new InvalidOperationException(WriterResources.Structural_PageGraphics_DrawImage_Wrong_Page_Error);
             }
             UniMatrix transform = UniMatrix.Scale(width, height) * UniMatrix.Translation(_xTransformer(x), _yTransformer(y + height));
-            PdfName imageName = (image as EmbeddedImageDescriptor)?.Name ?? new PdfName(image.ImageKey);
             PdfOperator.PushState().WriteTo(_page.ContentStream);
             PdfOperator.ApplyTransformation(transform).WriteTo(_page.ContentStream);
-            PdfOperator.DrawObject(imageName).WriteTo(_page.ContentStream);
+            PdfOperator.DrawObject(new PdfName(imageName)).WriteTo(_page.ContentStream);
             PdfOperator.PopState().WriteTo(_page.ContentStream);
         }
 

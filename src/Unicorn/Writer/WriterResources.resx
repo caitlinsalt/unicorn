@@ -165,6 +165,9 @@
   <data name="Structural_PdfPage_Drawable_Split_Failed_Error" xml:space="preserve">
     <value>A drawable object was split, but did not shrink and did not fit on a blank page.</value>
   </data>
+  <data name="Structural_PdfPage_UseImage_Image_From_Wrong_Document_Error" xml:space="preserve">
+    <value>An image from a different document was added to a page.  Embed the source image in the correct document first.</value>
+  </data>
   <data name="Structural_PdfTrailer_SetCrossReferenceTableLocation_Invalid_Location_Error" xml:space="preserve">
     <value>The cross-reference table address {0} appeared to be invalid.</value>
   </data>

@@ -187,6 +187,15 @@ namespace Unicorn.Writer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An image from a different document was added to a page.  Embed the source image in the correct document first..
+        /// </summary>
+        internal static string Structural_PdfPage_UseImage_Image_From_Wrong_Document_Error {
+            get {
+                return ResourceManager.GetString("Structural_PdfPage_UseImage_Image_From_Wrong_Document_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The generation number must be a non-negative integer..
         /// </summary>
         internal static string Structural_PdfPageTreeItem_Invalid_Generation_Error {
