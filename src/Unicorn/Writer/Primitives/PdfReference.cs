@@ -40,6 +40,27 @@ namespace Unicorn.Writer.Primitives
             Generation = referent.Generation;
         }
 
+        private PdfReference(int objectId, int generation)
+        {
+            ObjectId = objectId;
+            Generation = generation;
+        }
+
+        public static PdfReference FromInternalReference(IPdfInternalReference reference)
+        {
+            if (reference is null)
+            {
+                return null;
+            }
+            if (reference is PdfReference pdfReference)
+            {
+                return pdfReference;
+            }
+            return new PdfReference(reference.ObjectId, reference.Version);
+        }
+
+
+
         /// <summary>
         /// Converts this object to an array of bytes.
         /// </summary>

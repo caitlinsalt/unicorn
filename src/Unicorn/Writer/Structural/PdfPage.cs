@@ -100,7 +100,7 @@ namespace Unicorn.Writer.Structural
 
         private readonly PdfDictionary _fontDictionary = new PdfDictionary();
 
-        private readonly Dictionary<IPdfReference, PdfName> _reverseImageCache = new Dictionary<IPdfReference, PdfName>();
+        private readonly Dictionary<IPdfInternalReference, PdfName> _reverseImageCache = new Dictionary<IPdfInternalReference, PdfName>();
 
         private int _imageCount;
 
@@ -197,7 +197,14 @@ namespace Unicorn.Writer.Structural
             {
                 throw new InvalidOperationException(WriterResources.Structural_PdfPage_UseImage_Image_From_Wrong_Document_Error);
             }
-            image.UseOnPage(this, $"UniImg{_imageCount++}");
+            string refName = image.UseOnPage(this, $"UniImg{_reverseImageCache.Count}");
+            lock (_reverseImageCache)
+            {
+                if (!_reverseImageCache.ContainsKey(image.DataStream))
+                {
+                    _reverseImageCache.Add(image.DataStream, new PdfName(refName));
+                }
+            }
             return image;
         }
 
@@ -326,7 +333,9 @@ namespace Unicorn.Writer.Structural
             if (_reverseImageCache.Count > 0)
             {
                 PdfDictionary xobjDictionary = new PdfDictionary();
-                xobjDictionary.AddRange(_reverseImageCache.Select(kp => new KeyValuePair<PdfName, IPdfPrimitiveObject>(kp.Value, kp.Key)));
+                xobjDictionary.AddRange(
+                    _reverseImageCache.Select(kp => new KeyValuePair<PdfName, IPdfPrimitiveObject>(kp.Value, PdfReference.FromInternalReference(kp.Key)))
+                );
                 resourceDictionary.Add(CommonPdfNames.XObject, xobjDictionary);
             }
             dictionary.Add(CommonPdfNames.Type, CommonPdfNames.Page);
