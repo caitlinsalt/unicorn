@@ -46,6 +46,14 @@ namespace Unicorn.Writer.Primitives
             Generation = generation;
         }
 
+        /// <summary>
+        /// Convert any <see cref="IPdfInternalReference"/> implementation into a <see cref="PdfReference"/>
+        /// </summary>
+        /// <param name="reference">An <see cref="IPdfInternalReference"/>.</param>
+        /// <returns>
+        /// A <see cref="PdfReference"/> referring to the same PDF object as the parameter.  
+        /// If the paraeter is a <see cref="PdfReference"/> instance, it may itself be returned.
+        /// </returns>
         public static PdfReference FromInternalReference(IPdfInternalReference reference)
         {
             if (reference is null)
@@ -58,8 +66,6 @@ namespace Unicorn.Writer.Primitives
             }
             return new PdfReference(reference.ObjectId, reference.Version);
         }
-
-
 
         /// <summary>
         /// Converts this object to an array of bytes.
