@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Unicorn.Base;
 using Unicorn.Helpers;
+using Unicorn.Images;
 using Unicorn.Writer.Filters;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
@@ -23,7 +24,7 @@ namespace Unicorn.Writer
         private readonly PdfCatalogue _root;
         private readonly PdfPageTreeNode _pageRoot;
         private readonly Dictionary<string, PdfFont> _fontCache = new Dictionary<string, PdfFont>();
-        private readonly Dictionary<string, IPdfReference> _imageCache = new Dictionary<string, IPdfReference>();
+        private readonly Dictionary<string, IImageDescriptor> _imageCache = new Dictionary<string, IImageDescriptor>();
 
         /// <summary>
         /// The default size of new pages added to the document.
@@ -221,7 +222,7 @@ namespace Unicorn.Writer
         /// </summary>
         /// <param name="image">The source image data to be embedded.</param>
         /// <returns>A reference to the embedded image data within the document.</returns>
-        public IPdfReference UseImage(ISourceImage image)
+        public IImageDescriptor UseImage(ISourceImage image)
         {
             if (image is null)
             {
@@ -229,15 +230,16 @@ namespace Unicorn.Writer
             }
             lock (_imageCache)
             {
-                if (_imageCache.TryGetValue(image.Fingerprint, out IPdfReference cachedStream))
+                if (_imageCache.TryGetValue(image.Fingerprint, out IImageDescriptor cachedImage))
                 {
-                    return cachedStream;
+                    return cachedImage;
                 }
                 PdfImageStream imageStream = ImageStreamFactory.CreateImageStream(image, _xrefTable.ClaimSlot(), GetBinaryStreamEncoders());
                 _bodyObjects.Add(imageStream);
-                IPdfReference reference = new PdfReference(imageStream);
-                _imageCache.Add(image.Fingerprint, reference);
-                return reference;
+                IPdfInternalReference reference = new PdfReference(imageStream);
+                ImageDescriptor descriptor = new ImageDescriptor(this, reference, image.Fingerprint);
+                _imageCache.Add(image.Fingerprint, descriptor);
+                return descriptor;
             }
         }
 

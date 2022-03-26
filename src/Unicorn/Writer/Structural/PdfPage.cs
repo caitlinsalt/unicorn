@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Unicorn.Base;
 using Unicorn.Exceptions;
-using Unicorn.Images;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
@@ -14,7 +13,7 @@ namespace Unicorn.Writer.Structural
     /// <summary>
     /// Class representing a page in a PDF document.
     /// </summary>
-    public class PdfPage : PdfPageTreeItem, IPageDescriptor, IPdfPage
+    public class PdfPage : PdfPageTreeItem, IPageDescriptor, IPdfPage, IEquatable<PdfPage>, IEquatable<IPageDescriptor>
     {
         /// <summary>
         /// The <see cref="PdfDocument" /> that contains this page.
@@ -103,6 +102,8 @@ namespace Unicorn.Writer.Structural
 
         private readonly Dictionary<IPdfReference, PdfName> _reverseImageCache = new Dictionary<IPdfReference, PdfName>();
 
+        private int _imageCount;
+
         /// <summary>
         /// Value-setting constructor.
         /// </summary>
@@ -175,29 +176,44 @@ namespace Unicorn.Writer.Structural
             {
                 if (!_fontDictionary.ContainsKey(fontObject.InternalName))
                 {
-                    _fontDictionary.Add(fontObject.InternalName, fontObject.GetReference());
+                    _fontDictionary.Add(fontObject.InternalName, fontObject.Reference());
                 }
             }
             return fontObject;
         }
 
         /// <summary>
-        /// Add an image to a page's resources, so that it can be drawn on the page.
+        /// Use an image which has already been embedded into the document on this page also.
         /// </summary>
-        /// <param name="imageReference">Reference to an image data stream, acquired by calling <see cref="PdfDocument.UseImage(ISourceImage)"/>.</param>
-        /// <returns>An <see cref="IEmbeddedImageDescriptor"/> which can be used to draw the image on the page.</returns>
-        public IEmbeddedImageDescriptor UseImage(IPdfReference imageReference)
+        /// <param name="image">The image to potentially use on this page.</param>
+        /// <returns>An <see cref="IImageDescriptor"/> which describes how the image has been embedded in the document.</returns>
+        public IImageDescriptor UseImage(IImageDescriptor image)
         {
-            lock (_reverseImageCache)
+            if (image is null)
             {
-                if (_reverseImageCache.ContainsKey(imageReference))
-                {
-                    return new EmbeddedImageDescriptor(this, _reverseImageCache[imageReference]);
-                }
-                var name = new PdfName($"UniImg{_reverseImageCache.Count}");
-                _reverseImageCache.Add(imageReference, name);
-                return new EmbeddedImageDescriptor(this, name);
+                throw new ArgumentNullException(nameof(image));
             }
+            if (image.Document != HomeDocument)
+            {
+                throw new InvalidOperationException(WriterResources.Structural_PdfPage_UseImage_Image_From_Wrong_Document_Error);
+            }
+            image.UseOnPage(this, $"UniImg{_imageCount++}");
+            return image;
+        }
+
+        /// <summary>
+        /// Prepare to use an image on a page, embedding it in the document if necessary.
+        /// </summary>
+        /// <param name="image">The image to potentially use on this page.</param>
+        /// <returns>An <see cref="IImageDescriptor"/> which describes how the image has been embedded in the document.</returns>
+        public IImageDescriptor UseImage(ISourceImage image)
+        {
+            if (image is null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+            IImageDescriptor descriptor = HomeDocument.UseImage(image);
+            return UseImage(descriptor);
         }
 
         /// <summary>
@@ -314,14 +330,125 @@ namespace Unicorn.Writer.Structural
                 resourceDictionary.Add(CommonPdfNames.XObject, xobjDictionary);
             }
             dictionary.Add(CommonPdfNames.Type, CommonPdfNames.Page);
-            dictionary.Add(CommonPdfNames.Parent, Parent.GetReference());
+            dictionary.Add(CommonPdfNames.Parent, Parent.Reference());
             dictionary.Add(CommonPdfNames.Resources, resourceDictionary);
             dictionary.Add(CommonPdfNames.MediaBox, MediaBox);
             if (ContentStream != null)
             {
-                dictionary.Add(CommonPdfNames.Contents, ContentStream.GetReference());
+                dictionary.Add(CommonPdfNames.Contents, ContentStream.Reference());
             }
             return dictionary;
         }
+
+        /// <summary>
+        /// Equality comparer
+        /// </summary>
+        /// <param name="other">The <see cref="IPageDescriptor"/> to compare.</param>
+        /// <returns><c>true</c> if the objects are equal, <c>false</c> otherwise.</returns>
+        public bool Equals(IPageDescriptor other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            if (other is PdfPage otherPage)
+            {
+                return Equals(otherPage);
+            }
+            return base.Equals(other);
+        }
+
+        /// <summary>
+        /// Equality comparer.  Pages are considered equal if they belong to the same document, and have the same address within the document.
+        /// </summary>
+        /// <param name="other">The <see cref="PdfPage"/> to compare.</param>
+        /// <returns><c>true</c> if the objects are equal, <c>false</c> otherise.</returns>
+        public bool Equals(PdfPage other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            return HomeDocument == other.HomeDocument && ObjectId == other.ObjectId && Generation == other.Generation;
+        }
+
+        /// <summary>
+        /// Equality comparer.
+        /// </summary>
+        /// <param name="obj">The object to compare.</param>
+        /// <returns><c>true</c> if the objects are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is PdfPage pageObj)
+            {
+                return Equals(pageObj);
+            }
+            return base.Equals(obj);
+        }
+
+        /// <summary>
+        /// Hash code function.
+        /// </summary>
+        /// <returns>A hash code for the current object.</returns>
+        public override int GetHashCode()
+        {
+            return HomeDocument.GetHashCode() ^ ObjectId ^ Generation;
+        }
+
+        /// <summary>
+        /// Equaity operator.
+        /// </summary>
+        /// <param name="a">A <see cref="PdfPage"/> instance.</param>
+        /// <param name="b">A <see cref="PdfPage"/> instance.</param>
+        /// <returns><c>true</c> if the operands are equal, <c>false</c> otherwise.</returns>
+        public static bool operator ==(PdfPage a, PdfPage b) => (a == null) ? b == null : a.Equals(b);
+
+        /// <summary>
+        /// Inequality operator.
+        /// </summary>
+        /// <param name="a">A <see cref="PdfPage"/> instance.</param>
+        /// <param name="b">A <see cref="PdfPage"/> instance.</param>
+        /// <returns><c>true</c> if the operands are not equal, <c>false</c> if they are.</returns>
+        public static bool operator !=(PdfPage a, PdfPage b) => !(a == b);
+
+        /// <summary>
+        /// Equaity operator.
+        /// </summary>
+        /// <param name="a">A <see cref="PdfPage"/> instance.</param>
+        /// <param name="b">An <see cref="IPageDescriptor"/> instance.</param>
+        /// <returns><c>true</c> if the operands are equal, <c>false</c> otherwise.</returns>
+        public static bool operator ==(PdfPage a, IPageDescriptor b) => a != null && a.Equals(b);
+
+        /// <summary>
+        /// Inequality operator.
+        /// </summary>
+        /// <param name="a">A <see cref="PdfPage"/> instance.</param>
+        /// <param name="b">An <see cref="IPageDescriptor"/> instance.</param>
+        /// <returns><c>true</c> if the operands are not equal, <c>false</c> if they are.</returns>
+        public static bool operator !=(PdfPage a, IPageDescriptor b) => !(a == b);
+
+        /// <summary>
+        /// Equaity operator.
+        /// </summary>
+        /// <param name="a">An <see cref="IPageDescriptor"/> instance.</param>
+        /// <param name="b">A <see cref="PdfPage"/> instance.</param>
+        /// <returns><c>true</c> if the operands are equal, <c>false</c> otherwise.</returns>
+        public static bool operator ==(IPageDescriptor a, PdfPage b) => b == a;
+
+        /// <summary>
+        /// Inequality operator.
+        /// </summary>
+        /// <param name="a">An <see cref="IPageDescriptor"/> instance.</param>
+        /// <param name="b">A <see cref="PdfPage"/> instance.</param>
+        /// <returns><c>true</c> if the operands are not equal, <c>false</c> if they are.</returns>
+        public static bool operator !=(IPageDescriptor a, PdfPage b) => b != a;
     }
 }

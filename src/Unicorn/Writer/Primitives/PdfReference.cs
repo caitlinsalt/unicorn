@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Unicorn.Base;
 using Unicorn.Writer.Interfaces;
 
 namespace Unicorn.Writer.Primitives
@@ -7,7 +8,7 @@ namespace Unicorn.Writer.Primitives
     /// <summary>
     /// Immutable class representing a reference to a PDF indirect object.
     /// </summary>
-    public class PdfReference : PdfSimpleObject, IPdfReference, IEquatable<PdfReference>
+    public class PdfReference : PdfSimpleObject, IPdfReference, IPdfInternalReference, IEquatable<PdfReference>
     {
         /// <summary>
         /// The ID of the object that this reference refers to.
@@ -18,6 +19,11 @@ namespace Unicorn.Writer.Primitives
         /// The generation number of the object that this reference refers to.
         /// </summary>
         public int Generation { get; }
+
+        /// <summary>
+        /// The generation number of the object that this reference refers to.
+        /// </summary>
+        public int Version => Generation;
         
         /// <summary>
         /// Value-setting constructor.

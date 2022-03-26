@@ -244,6 +244,6 @@ namespace Unicorn.Base
         /// <param name="y">Y coordinate of the top left corner of the image.</param>
         /// <param name="width">Width of the image.</param>
         /// <param name="height">Height of the image.</param>
-        void DrawImage(IEmbeddedImageDescriptor image, double x, double y, double width, double height);
+        void DrawImage(IImageDescriptor image, double x, double y, double width, double height);
     }
 }

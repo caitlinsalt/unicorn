@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unicorn.Helpers;
-using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Streams;
 
@@ -260,7 +259,7 @@ namespace Unicorn.Writer.Primitives
         /// Get a <see cref="PdfReference" /> instance that refers to this object.
         /// </summary>
         /// <returns>A <see cref="PdfReference" /></returns>
-        public PdfReference GetReference()
+        public IPdfReference Reference()
         {
             return _reference ?? (_reference = new PdfReference(this));
         }

@@ -74,6 +74,20 @@ namespace Unicorn.Base
         double PageAvailableHeight { get; }
 
         /// <summary>
+        /// Prepare to use an image on a page, embedding it in the document if necessary.
+        /// </summary>
+        /// <param name="image">The image to potentially use on this page.</param>
+        /// <returns>An <see cref="IImageDescriptor"/> which describes how the image has been embedded in the document.</returns>
+        IImageDescriptor UseImage(ISourceImage image);
+
+        /// <summary>
+        /// Use an image which has already been embedded into the document on this page also.
+        /// </summary>
+        /// <param name="image">The image to potentially use on this page.</param>
+        /// <returns>An <see cref="IImageDescriptor"/> which describes how the image has been embedded in the document.</returns>
+        IImageDescriptor UseImage(IImageDescriptor image);
+
+        /// <summary>
         /// Lay out a non-splittable drawable on the page, against the left margin, updating the vertical cursor.
         /// </summary>
         /// <param name="drawable"></param>

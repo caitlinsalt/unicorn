@@ -116,7 +116,7 @@ namespace Unicorn.Writer.Structural
             };
             if (_embeddingKey.Length != 0 && EmbeddedData != null)
             {
-                d.Add(new PdfName(_embeddingKey), EmbeddedData.GetReference());
+                d.Add(new PdfName(_embeddingKey), EmbeddedData.Reference());
             }
             return d;
         }
