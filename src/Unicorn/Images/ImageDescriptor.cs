@@ -27,16 +27,23 @@ namespace Unicorn.Images
         public IPdfInternalReference DataStream { get; }
 
         /// <summary>
+        /// The rotation transformation that should be applied to the image when drawing.
+        /// </summary>
+        public RightAngleRotation Rotation { get; }
+
+        /// <summary>
         /// Property-setting constructor.
         /// </summary>
         /// <param name="parent">The page on which this image can be used.</param>
         /// <param name="dataStream">The address of the image's data stream within the document.</param>
         /// <param name="fingerprint">The image's unique identification string.</param>
-        public ImageDescriptor(IDocumentDescriptor parent, IPdfInternalReference dataStream, string fingerprint)
+        /// <param name="rotation">Rotation transformation that should be applied to the image on drawing.</param>
+        public ImageDescriptor(IDocumentDescriptor parent, IPdfInternalReference dataStream, string fingerprint, RightAngleRotation rotation)
         {
             Document = parent;
             DataStream = dataStream;
             ImageFingerprint = fingerprint;
+            Rotation = rotation;
         }
 
         /// <summary>

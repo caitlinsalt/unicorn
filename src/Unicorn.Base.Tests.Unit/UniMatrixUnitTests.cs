@@ -155,6 +155,19 @@ namespace Unicorn.Base.Tests.Unit
         }
 
         [TestMethod]
+        public void UniMatrixStruct_IdentityProperty_HasCorrectValuesForAnIdentityMatrix()
+        {
+            UniMatrix testOutput = UniMatrix.Identity;
+
+            Assert.AreEqual(1, testOutput.R0C0);
+            Assert.AreEqual(0, testOutput.R0C1);
+            Assert.AreEqual(0, testOutput.R1C0);
+            Assert.AreEqual(1, testOutput.R1C1);
+            Assert.AreEqual(0, testOutput.R2C0);
+            Assert.AreEqual(0, testOutput.R2C1);
+        }
+
+        [TestMethod]
         public void UniMatrixStruct_EqualsMethodWithUniMatrixParameter_ReturnsTrue_IfParameterIsSameValueAsThis()
         {
             UniMatrix testValue = GetTestValue();

@@ -17,14 +17,24 @@ namespace Unicorn.Images
         private string _cachedFingerprint;
 
         /// <summary>
-        /// The image width in pixels.
+        /// The image width in pixels, after any necessary rotation transformation.
         /// </summary>
         public virtual int DotWidth { get; protected set; }
 
         /// <summary>
-        /// The image height in pixels.
+        /// The image height in pixels, after any necessary rotation transformation.
         /// </summary>
         public virtual int DotHeight { get; protected set; }
+
+        /// <summary>
+        /// The image width in pixels, before any necessary rotation transformation.
+        /// </summary>
+        public virtual int RawDotWidth { get; protected set; }
+
+        /// <summary>
+        /// The image height in pixels, before any necessary rotation transformation.
+        /// </summary>
+        public virtual int RawDotHeight { get; protected set; }
 
         /// <summary>
         /// The image aspect ratio, as a width-over-height fraction.
@@ -40,6 +50,13 @@ namespace Unicorn.Images
         /// A string that uniquely identifies this image.
         /// </summary>
         public virtual string Fingerprint => _cachedFingerprint ?? ComputeFingerprint();
+
+        /// <summary>
+        /// Rotation operation that should be carried out on the image before drawing it.
+        /// The <see cref="DotWidth"/> and <see cref="DotHeight"/> properties must give
+        /// the width and height of the image after this transformation, not before.
+        /// </summary>
+        public abstract RightAngleRotation DrawingRotation { get; }
 
         /// <summary>
         /// Load the image from a stream.

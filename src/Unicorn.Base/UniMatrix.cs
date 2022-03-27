@@ -11,32 +11,39 @@ namespace Unicorn.Base
         /// <summary>
         /// Matrix member row 0, column 0.
         /// </summary>
-        public double R0C0 { get; private set; }
+        public double R0C0 { get; }
 
         /// <summary>
         /// Matrix member row 0, column 1.
         /// </summary>
-        public double R0C1 { get; private set; }
+        public double R0C1 { get; }
 
         /// <summary>
         /// Matrix member row 1, column 0.
         /// </summary>
-        public double R1C0 { get; private set; }
+        public double R1C0 { get; }
 
         /// <summary>
         /// Matrix member row 1, column 1.
         /// </summary>
-        public double R1C1 { get; private set; }
+        public double R1C1 { get; }
 
         /// <summary>
         /// Matrix member row 2, column 0.
         /// </summary>
-        public double R2C0 { get; private set; }
+        public double R2C0 { get; }
 
         /// <summary>
         /// Matrix member row 2, column 1.
         /// </summary>
-        public double R2C1 { get; private set; }
+        public double R2C1 { get; }
+
+        private static readonly Lazy<UniMatrix> _identity = new Lazy<UniMatrix>(() => new UniMatrix(1, 0, 0, 1, 0, 0));
+
+        /// <summary>
+        /// The identity matrix, representing a no-operation transformation.
+        /// </summary>
+        public static UniMatrix Identity => _identity.Value;
 
         /// <summary>
         /// Constructor.

@@ -1,13 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
 using Unicorn.Base;
+using Unicorn.Base.Tests.Utility;
 using Unicorn.Images;
 
 namespace Unicorn.Tests.Unit.Images
@@ -20,6 +17,7 @@ namespace Unicorn.Tests.Unit.Images
         private Mock<IDocumentDescriptor> _mockDocument;
         private Mock<IPdfInternalReference> _mockStreamReference;
         private string _mockFingerprint;
+        private RightAngleRotation _mockRightAngleRotation;
 
         private ImageDescriptor _testObject;
 
@@ -29,8 +27,9 @@ namespace Unicorn.Tests.Unit.Images
             _mockDocument = new();
             _mockStreamReference = new();
             _mockFingerprint = _rnd.NextHexString(32);
+            _mockRightAngleRotation = _rnd.NextRightAngleRotation();
 
-            _testObject = new(_mockDocument.Object, _mockStreamReference.Object, _mockFingerprint);
+            _testObject = new(_mockDocument.Object, _mockStreamReference.Object, _mockFingerprint, _mockRightAngleRotation);
         }
 
 #pragma warning disable CA1707 // Identifiers should not contain underscores
@@ -41,8 +40,9 @@ namespace Unicorn.Tests.Unit.Images
             IDocumentDescriptor testParam0 = new Mock<IDocumentDescriptor>().Object;
             IPdfInternalReference testParam1 = new Mock<IPdfInternalReference>().Object;
             string testParam2 = _rnd.NextHexString(32);
+            RightAngleRotation testParam3 = _rnd.NextRightAngleRotation();
 
-            ImageDescriptor testOutput = new(testParam0, testParam1, testParam2);
+            ImageDescriptor testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreSame(testParam0, testOutput.Document);
         }
@@ -53,8 +53,9 @@ namespace Unicorn.Tests.Unit.Images
             IDocumentDescriptor testParam0 = new Mock<IDocumentDescriptor>().Object;
             IPdfInternalReference testParam1 = new Mock<IPdfInternalReference>().Object;
             string testParam2 = _rnd.NextHexString(32);
+            RightAngleRotation testParam3 = _rnd.NextRightAngleRotation();
 
-            ImageDescriptor testOutput = new(testParam0, testParam1, testParam2);
+            ImageDescriptor testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreSame(testParam1, testOutput.DataStream);
         }
@@ -65,10 +66,24 @@ namespace Unicorn.Tests.Unit.Images
             IDocumentDescriptor testParam0 = new Mock<IDocumentDescriptor>().Object;
             IPdfInternalReference testParam1 = new Mock<IPdfInternalReference>().Object;
             string testParam2 = _rnd.NextHexString(32);
+            RightAngleRotation testParam3 = _rnd.NextRightAngleRotation();
 
-            ImageDescriptor testOutput = new(testParam0, testParam1, testParam2);
+            ImageDescriptor testOutput = new(testParam0, testParam1, testParam2, testParam3);
 
             Assert.AreEqual(testParam2, testOutput.ImageFingerprint);
+        }
+
+        [TestMethod]
+        public void ImageDescriptorClass_Constructor_SetsRotationPropertyToValueOfFourthParameter()
+        {
+            IDocumentDescriptor testParam0 = new Mock<IDocumentDescriptor>().Object;
+            IPdfInternalReference testParam1 = new Mock<IPdfInternalReference>().Object;
+            string testParam2 = _rnd.NextHexString(32);
+            RightAngleRotation testParam3 = _rnd.NextRightAngleRotation();
+
+            ImageDescriptor testOutput = new(testParam0, testParam1, testParam2, testParam3);
+
+            Assert.AreEqual(testParam3 , testOutput.Rotation);
         }
 
 #pragma warning disable CA5394 // Do not use insecure randomness

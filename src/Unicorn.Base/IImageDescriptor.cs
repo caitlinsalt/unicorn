@@ -21,6 +21,11 @@
         IPdfInternalReference DataStream { get; }
 
         /// <summary>
+        /// How the image should be rotated on drawing.
+        /// </summary>
+        RightAngleRotation Rotation { get; }
+
+        /// <summary>
         /// Record that this image may be used on a specific page.
         /// </summary>
         /// <param name="pageDescriptor">The page this image is used on.</param>

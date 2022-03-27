@@ -237,7 +237,7 @@ namespace Unicorn.Writer
                 PdfImageStream imageStream = ImageStreamFactory.CreateImageStream(image, _xrefTable.ClaimSlot(), GetBinaryStreamEncoders());
                 _bodyObjects.Add(imageStream);
                 IPdfInternalReference reference = new PdfReference(imageStream);
-                ImageDescriptor descriptor = new ImageDescriptor(this, reference, image.Fingerprint);
+                ImageDescriptor descriptor = new ImageDescriptor(this, reference, image.Fingerprint, image.DrawingRotation);
                 _imageCache.Add(image.Fingerprint, descriptor);
                 return descriptor;
             }

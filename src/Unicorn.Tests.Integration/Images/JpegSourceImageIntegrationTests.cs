@@ -21,6 +21,8 @@ namespace Unicorn.Tests.Integration.Images
         private const int _sourceImageHeight = 581;
         private const double _sourceImageWithNonSquarePixelsAspectRatio = 805 / (double)568;
         private const double _sourceImageWithExifRotationAspectRatio = 2592 / (double)3872;
+        private const int _sourceImage03Width = 2592;
+        private const int _sourceImage03Height = 3872;
 
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 
@@ -45,6 +47,17 @@ namespace Unicorn.Tests.Integration.Images
         }
 
         [TestMethod]
+        public async Task JpegSourceImageClass_LoadFromAsyncMethod_SetsRawDotWidthPropertyToCorrectValue()
+        {
+            using FileStream sourceDataStream = new(_sourceImagePath, FileMode.Open, FileAccess.Read);
+            using JpegSourceImage testObject = new();
+
+            await testObject.LoadFromAsync(sourceDataStream).ConfigureAwait(false);
+
+            Assert.AreEqual(_sourceImageWidth, testObject.RawDotWidth);
+        }
+
+        [TestMethod]
         public async Task JpegSourceImageClass_LoadFromAsyncMethod_SetsDotHeightPropertyToCorrectValue()
         {
             using FileStream sourceDataStream = new(_sourceImagePath, FileMode.Open, FileAccess.Read);
@@ -53,6 +66,17 @@ namespace Unicorn.Tests.Integration.Images
             await testObject.LoadFromAsync(sourceDataStream).ConfigureAwait(false);
 
             Assert.AreEqual(_sourceImageHeight, testObject.DotHeight);
+        }
+
+        [TestMethod]
+        public async Task JpegSourceImageClass_LoadFromAsyncMethod_SetsRawDotHeightPropertyToCorrectValue()
+        {
+            using FileStream sourceDataStream = new(_sourceImagePath, FileMode.Open, FileAccess.Read);
+            using JpegSourceImage testObject = new();
+
+            await testObject.LoadFromAsync(sourceDataStream).ConfigureAwait(false);
+
+            Assert.AreEqual(_sourceImageHeight, testObject.RawDotHeight);
         }
 
         [TestMethod]
@@ -86,6 +110,50 @@ namespace Unicorn.Tests.Integration.Images
             await testObject.LoadFromAsync(sourceDataStream).ConfigureAwait(false);
 
             Assert.AreEqual(_sourceImageWithExifRotationAspectRatio, testObject.AspectRatio);
+        }
+
+        [TestMethod]
+        public async Task JpegSourceImageClass_LoadFromAsyncMethod_SetsDotWidthPropertyToCorrectValue_IfImageIsRotatedWithExifTag()
+        {
+            using FileStream sourceDataStream = new(_sourceImagePathWithExifRotation, FileMode.Open, FileAccess.Read);
+            using JpegSourceImage testObject = new();
+
+            await testObject.LoadFromAsync(sourceDataStream).ConfigureAwait(false);
+
+            Assert.AreEqual(_sourceImage03Width, testObject.DotWidth);
+        }
+
+        [TestMethod]
+        public async Task JpegSourceImageClass_LoadFromAsyncMethod_SetsRawDotWidthPropertyToCorrectValue_IfImageIsRotatedWithExifTag()
+        {
+            using FileStream sourceDataStream = new(_sourceImagePathWithExifRotation, FileMode.Open, FileAccess.Read);
+            using JpegSourceImage testObject = new();
+
+            await testObject.LoadFromAsync(sourceDataStream).ConfigureAwait(false);
+
+            Assert.AreEqual(_sourceImage03Height, testObject.RawDotWidth);
+        }
+
+        [TestMethod]
+        public async Task JpegSourceImageClass_LoadFromAsyncMethod_SetsDotHeightPropertyToCorrectValue_IfImageIsRotatedWithExifTag()
+        {
+            using FileStream sourceDataStream = new(_sourceImagePathWithExifRotation, FileMode.Open, FileAccess.Read);
+            using JpegSourceImage testObject = new();
+
+            await testObject.LoadFromAsync(sourceDataStream).ConfigureAwait(false);
+
+            Assert.AreEqual(_sourceImage03Height, testObject.DotHeight);
+        }
+
+        [TestMethod]
+        public async Task JpegSourceImageClass_LoadFromAsyncMethod_SetsRawDotHeightPropertyToCorrectValue_IfImageIsRotatedWithExifTag()
+        {
+            using FileStream sourceDataStream = new(_sourceImagePathWithExifRotation, FileMode.Open, FileAccess.Read);
+            using JpegSourceImage testObject = new();
+
+            await testObject.LoadFromAsync(sourceDataStream).ConfigureAwait(false);
+
+            Assert.AreEqual(_sourceImage03Width, testObject.RawDotHeight);
         }
 
 #pragma warning restore CA1707 // Identifiers should not contain underscores
