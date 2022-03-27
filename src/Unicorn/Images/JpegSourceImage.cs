@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Unicorn.Base;
 using Unicorn.Exceptions;
 using Unicorn.Images.Jpeg;
 
@@ -35,6 +36,12 @@ namespace Unicorn.Images
         /// The image aspect ratio, as a width-over-height fraction.
         /// </summary>
         public override double AspectRatio => (DotWidth / HorizontalDotsPerPoint) / ((double) DotHeight / VerticalDotsPerPoint);
+
+        /// <summary>
+        /// Rotation transformation to be applied to the image before drawing it.
+        /// </summary>
+        public override RightAngleRotation DrawingRotation 
+            => ExifSegment?.Orientation != null ? ExifSegment.Orientation.Value.ToRightAngleRotation() : RightAngleRotation.None;
 
         /// <summary>
         /// The encoding mode of the JPEG (sequential or progressive).

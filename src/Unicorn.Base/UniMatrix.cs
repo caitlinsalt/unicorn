@@ -39,6 +39,11 @@ namespace Unicorn.Base
         public double R2C1 { get; private set; }
 
         /// <summary>
+        /// The identity matrix, representing a no-operation transformation.
+        /// </summary>
+        public static UniMatrix Identity => new UniMatrix(1, 0, 0, 1, 0, 0);
+
+        /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="a">Value for the <see cref="R0C0" /> property.</param>

@@ -37,6 +37,11 @@ namespace Unicorn.Images
         public string Fingerprint => ImageColour.GetType().Name + "SSI" + ImageColour.GetHashCode().ToString(CultureInfo.InvariantCulture);
 
         /// <summary>
+        /// Single colour images do not need to be rotated to any specific orientation.
+        /// </summary>
+        public RightAngleRotation DrawingRotation => RightAngleRotation.None;
+
+        /// <summary>
         /// Property-setting constructor.
         /// </summary>
         /// <param name="colour">Colour of the image.</param>

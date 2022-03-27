@@ -485,7 +485,28 @@ namespace Unicorn.Writer.Structural
             {
                 throw new InvalidOperationException(WriterResources.Structural_PageGraphics_DrawImage_Wrong_Page_Error);
             }
-            UniMatrix transform = UniMatrix.Scale(width, height) * UniMatrix.Translation(_xTransformer(x), _yTransformer(y + height));
+            UniMatrix transform;
+            if (image.Rotation == RightAngleRotation.Clockwise90)
+            {
+                transform = UniMatrix.RotationAt(-Math.PI / 2, new UniPoint(0.5, 0.5));
+            }
+            else if (image.Rotation == RightAngleRotation.Anticlockwise90)
+            {
+                transform = UniMatrix.RotationAt(Math.PI / 2, new UniPoint(0.5, 0.5));
+            }
+            else if (image.Rotation == RightAngleRotation.Full180)
+            {
+                transform = UniMatrix.RotationAt(Math.PI, new UniPoint(0.5, 0.5));
+            }
+            else
+            {
+                transform = UniMatrix.Identity;
+            }
+            //transform = transform * UniMatrix.Scale(width, height) * UniMatrix.Translation(_xTransformer(x), _yTransformer(y + height));
+
+            transform = /* transform * */ UniMatrix.Scale(72);
+            //transform = UniMatrix.Identity;
+
             PdfOperator.PushState().WriteTo(_page.ContentStream);
             PdfOperator.ApplyTransformation(transform).WriteTo(_page.ContentStream);
             PdfOperator.DrawObject(new PdfName(imageName)).WriteTo(_page.ContentStream);
