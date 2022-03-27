@@ -42,6 +42,6 @@ namespace Unicorn.Writer
         /// Feature toggles for writing PDF streams.
         /// </summary>
         public static StreamFeatures SelectedStreamFeatures { get; set; } = 
-            StreamFeatures.AsciiEncodeBinaryStreams | StreamFeatures.CompressBinaryStreams | StreamFeatures.CompressPageContentStreams | StreamFeatures.RemoveExifDataFromJpegStreams;
+            StreamFeatures.AsciiEncodeBinaryStreams | StreamFeatures.CompressBinaryStreams | StreamFeatures.CompressPageContentStreams;
     }
 }

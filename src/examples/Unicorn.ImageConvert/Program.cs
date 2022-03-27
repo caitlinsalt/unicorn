@@ -25,6 +25,7 @@ namespace Unicorn.ImageConvert
             {
                 await Console.Error.WriteLineAsync(Resources.Program_OutputNameNotSpecifiedError).ConfigureAwait(false);
             }
+            SetFeatures(options);
             ImageMode mode = GetImageMode(options);
             using SourceImageProviderCollection providers = new();
             foreach (string path in options.InputFiles)
@@ -56,6 +57,18 @@ namespace Unicorn.ImageConvert
 
             using FileStream outputStream = new(options.Out, FileMode.Create, FileAccess.Write);
             await document.WriteAsync(outputStream).ConfigureAwait(true);
+        }
+
+        private static void SetFeatures(Options options)
+        {
+            if (options.StripExif)
+            {
+                Features.SelectedStreamFeatures |= Features.StreamFeatures.RemoveExifDataFromJpegStreams;
+            }
+            else
+            {
+                Features.SelectedStreamFeatures &= ~Features.StreamFeatures.RemoveExifDataFromJpegStreams;
+            }
         }
 
         private static ImageMode GetImageMode(Options options)
