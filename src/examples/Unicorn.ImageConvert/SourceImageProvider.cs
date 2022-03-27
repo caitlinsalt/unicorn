@@ -40,6 +40,13 @@ namespace Unicorn.ImageConvert
             {
                 await AddImageFromFile(_sourcePath).ConfigureAwait(false);
             }
+
+            // Work around a CommandLineParser issue where filenames containing spaces have a spurious
+            // double-quote character appened
+            else if (_sourcePath.EndsWith('"') && Directory.Exists(_sourcePath.TrimEnd('"')))
+            {
+                await AddImagesFromDirectory(_sourcePath.TrimEnd('"')).ConfigureAwait(false);
+            }
         }
 
         private async Task AddImagesFromDirectory(string dirPath)
