@@ -29,6 +29,7 @@ namespace Unicorn.ImageConvert
             using SourceImageProviderCollection providers = new();
             foreach (string path in options.InputFiles)
             {
+                Console.WriteLine($"Adding source {path}");
                 providers.Add(new SourceImageProvider(path, options.Recursive));
             }
             PdfDocument document = new();
