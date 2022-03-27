@@ -102,8 +102,6 @@ namespace Unicorn.Writer.Structural
 
         private readonly Dictionary<IPdfInternalReference, PdfName> _reverseImageCache = new Dictionary<IPdfInternalReference, PdfName>();
 
-        private int _imageCount;
-
         /// <summary>
         /// Value-setting constructor.
         /// </summary>
