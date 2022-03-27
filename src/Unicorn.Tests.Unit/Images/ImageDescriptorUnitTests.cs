@@ -73,6 +73,19 @@ namespace Unicorn.Tests.Unit.Images
             Assert.AreEqual(testParam2, testOutput.ImageFingerprint);
         }
 
+        [TestMethod]
+        public void ImageDescriptorClass_Constructor_SetsRotationPropertyToValueOfFourthParameter()
+        {
+            IDocumentDescriptor testParam0 = new Mock<IDocumentDescriptor>().Object;
+            IPdfInternalReference testParam1 = new Mock<IPdfInternalReference>().Object;
+            string testParam2 = _rnd.NextHexString(32);
+            RightAngleRotation testParam3 = _rnd.NextRightAngleRotation();
+
+            ImageDescriptor testOutput = new(testParam0, testParam1, testParam2, testParam3);
+
+            Assert.AreEqual(testParam3 , testOutput.Rotation);
+        }
+
 #pragma warning disable CA5394 // Do not use insecure randomness
 
         [TestMethod]

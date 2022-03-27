@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Unicorn.Base;
 using Unicorn.Images.Jpeg;
 
 namespace Unicorn.Tests.Unit.Images.Jpeg
@@ -87,6 +88,86 @@ namespace Unicorn.Tests.Unit.Images.Jpeg
             bool testOutput = testParam.IsQuarterRotated();
 
             Assert.IsTrue(testOutput);
+        }
+
+        [TestMethod]
+        public void ExifOrientationExtensionsClass_ToRightAngleRotationMethod_ReturnsClockwise90_IfParameterEqualsRotatedClockwise()
+        {
+            ExifOrientation testParam = ExifOrientation.RotatedClockwise;
+
+            RightAngleRotation testOutput = testParam.ToRightAngleRotation();
+
+            Assert.AreEqual(RightAngleRotation.Clockwise90, testOutput);
+        }
+
+        [TestMethod]
+        public void ExifOrientationExtensionsClass_ToRightAngleRotationMethod_ReturnsClockwise90_IfParameterEqualsRotatedClockwiseThenFlippedVertically()
+        {
+            ExifOrientation testParam = ExifOrientation.RotatedClockwiseThenFlippedVertically;
+
+            RightAngleRotation testOutput = testParam.ToRightAngleRotation();
+
+            Assert.AreEqual(RightAngleRotation.Clockwise90, testOutput);
+        }
+
+        [TestMethod]
+        public void ExifOrientationExtensionsClass_ToRightAngleRotationMethod_ReturnsAnticlockwise90_IfParameterEqualsRotatedAnticlockwise()
+        {
+            ExifOrientation testParam = ExifOrientation.RotatedAnticlockwise;
+
+            RightAngleRotation testOutput = testParam.ToRightAngleRotation();
+
+            Assert.AreEqual(RightAngleRotation.Anticlockwise90, testOutput);
+        }
+
+        [TestMethod]
+        public void ExifOrientationExtensionsClass_ToRightAngleRotationMethod_ReturnsAnticlockwise90_IfParameterEqualsRotatedAnticlockwiseThenFlippedVertically()
+        {
+            ExifOrientation testParam = ExifOrientation.RotatedAnticlockwiseThenFlippedVertically;
+
+            RightAngleRotation testOutput = testParam.ToRightAngleRotation();
+
+            Assert.AreEqual(RightAngleRotation.Anticlockwise90, testOutput);
+        }
+
+        [TestMethod]
+        public void ExifOrientationExtensionsClass_ToRightAngleRotationMethod_ReturnsFull180_IfParameterEqualsRotatedRotated180()
+        {
+            ExifOrientation testParam = ExifOrientation.Rotated180;
+
+            RightAngleRotation testOutput = testParam.ToRightAngleRotation();
+
+            Assert.AreEqual(RightAngleRotation.Full180, testOutput);
+        }
+
+        [TestMethod]
+        public void ExifOrientationExtensionsClass_ToRightAngleRotationMethod_ReturnsNone_IfParameterEqualsRotatedNormal()
+        {
+            ExifOrientation testParam = ExifOrientation.Normal;
+
+            RightAngleRotation testOutput = testParam.ToRightAngleRotation();
+
+            Assert.AreEqual(RightAngleRotation.None, testOutput);
+        }
+
+        [TestMethod]
+        public void ExifOrientationExtensionsClass_ToRightAngleRotationMethod_ReturnsNone_IfParameterEqualsRotatedFlippedHorizontally()
+        {
+            ExifOrientation testParam = ExifOrientation.FlippedHorizontally;
+
+            RightAngleRotation testOutput = testParam.ToRightAngleRotation();
+
+            Assert.AreEqual(RightAngleRotation.None, testOutput);
+        }
+
+        [TestMethod]
+        public void ExifOrientationExtensionsClass_ToRightAngleRotationMethod_ReturnsNone_IfParameterEqualsRotatedFlippedVerticallyl()
+        {
+            ExifOrientation testParam = ExifOrientation.FlippedVertically;
+
+            RightAngleRotation testOutput = testParam.ToRightAngleRotation();
+
+            Assert.AreEqual(RightAngleRotation.None, testOutput);
         }
 
 #pragma warning restore CA1707 // Identifiers should not contain underscores
