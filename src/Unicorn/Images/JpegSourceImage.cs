@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using Unicorn.Base;
 using Unicorn.Exceptions;
 using Unicorn.Images.Jpeg;
+using Unicorn.Writer;
 
 namespace Unicorn.Images
 {
@@ -47,6 +49,21 @@ namespace Unicorn.Images
         /// The encoding mode of the JPEG (sequential or progressive).
         /// </summary>
         public JpegEncodingMode EncodingMode => StartOfFrameSegment?.EncodingMode ?? JpegEncodingMode.Sequential;
+
+        /// <summary>
+        /// The raw data of the JPEG.
+        /// </summary>
+        public override IEnumerable<byte> RawData
+        {
+            get
+            {
+                if (Features.SelectedStreamFeatures.HasFlag(Features.StreamFeatures.RemoveExifDataFromJpegStreams))
+                {
+                    return new JpegSourceImageDataEnumerable(this);
+                }
+                return _dataStream.ToArray();
+            }
+        }
 
         /// <summary>
         /// Load a JPEG image from a stream.  The stream's current position should be the first byte of the JPEG data
@@ -179,6 +196,78 @@ namespace Unicorn.Images
             {
                 throw new InvalidImageException(ImageLoadResources.JpegSourceImage_SoiNotFound);
             }
+        }
+
+        internal class JpegSourceImageDataEnumerable : IEnumerable<byte>
+        {
+            private readonly JpegSourceImage _sourceImage;
+
+            internal JpegSourceImageDataEnumerable(JpegSourceImage source)
+            {
+                _sourceImage = source;
+            }
+
+            public IEnumerator<byte> GetEnumerator()
+                => new JpegSourceImageDataEnumerator(_sourceImage);
+
+            IEnumerator IEnumerable.GetEnumerator()
+                => new JpegSourceImageDataEnumerator(_sourceImage);
+        }
+
+        internal class JpegSourceImageDataEnumerator : IEnumerator<byte>
+        {
+            private readonly JpegSourceImage _sourceImage;
+            private readonly byte[] _rawData;
+            private int _position = -1;
+
+            internal JpegSourceImageDataEnumerator(JpegSourceImage source)
+            {
+                _sourceImage = source;
+                _rawData = _sourceImage._dataStream.ToArray();
+            }
+
+            public byte Current => _position >= 0 && _position < _rawData.Length ? _rawData[_position] : (byte)0;
+
+            object IEnumerator.Current => Current;
+
+            public void Dispose() { }
+
+            public bool MoveNext()
+            {
+                _position++;
+                SkipSignificantSegments();
+                return _position < _rawData.Length;
+            }
+
+            public void Reset()
+            {
+                _position = -1;
+            }
+
+            private void SkipSignificantSegments()
+            {
+                if (SkipSegment(_sourceImage.ExifSegment))
+                {
+                    SkipSignificantSegments();
+                }
+                if (SkipSegment(_sourceImage.JfifSegment))
+                {
+                    SkipSignificantSegments();
+                }
+            }
+            
+            private bool SkipSegment(JpegDataSegment segment)
+            {
+                if (WithinSegment(segment))
+                {
+                    _position += segment.Length;
+                    return true;
+                }
+                return false;
+            }
+
+            private bool WithinSegment(JpegDataSegment segment)
+                => segment != null && _position >= segment.StartOffset && _position < segment.StartOffset + segment.Length;
         }
     }
 }
