@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO.MemoryMappedFiles;
 using System.Linq;
+using Unicorn.Base.Helpers.Extensions;
 using Unicorn.FontTools.Extensions;
 using Unicorn.FontTools.OpenType.Interfaces;
 using Unicorn.FontTools.OpenType.Utility;

@@ -9,7 +9,7 @@ namespace Unicorn
     /// <summary>
     /// A paragraph of text, consisting of a number of lines.
     /// </summary>
-    public class Paragraph : IDrawable
+    public class Paragraph : ISplittable, ISplittable<Paragraph>
     {
         /// <summary>
         /// The ideal maximum width of this paragraph.
@@ -55,6 +55,11 @@ namespace Unicorn
         /// The computed height of the object: equal to the maximum height if that is set, or the sum of all line heights if not.
         /// </summary>
         public double ComputedHeight => MaximumHeight ?? ContentHeight;
+
+        /// <summary>
+        /// The total height of the object including margins.
+        /// </summary>
+        public double Height => ComputedHeight + Margins.Top + Margins.Bottom;
 
         /// <summary>
         /// The height of the content of this paragraph, being the sum of the individual line heights plus the height of the margins.  This may be less than the computed height if a height has 
@@ -254,6 +259,8 @@ namespace Unicorn
             }
             return SplitAt(splitIndex, maxHeight);
         }
+
+        ISplittable ISplittable.Split(double? maxHeight, WidowsAndOrphans waoControl) => Split(maxHeight, waoControl);
 
         /// <summary>
         /// Split this paragraph at the given line, which becomes the first line of the new paragraph.

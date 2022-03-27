@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unicorn.Helpers;
-using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
+using Unicorn.Writer.Streams;
 
 namespace Unicorn.Writer.Primitives
 {
@@ -72,11 +72,11 @@ namespace Unicorn.Writer.Primitives
         {
             if (objectId <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(objectId), Resources.Primitives_PdfIndirectObject_Invalid_ObjectId_Error);
+                throw new ArgumentOutOfRangeException(nameof(objectId), WriterResources.Primitives_PdfIndirectObject_Invalid_ObjectId_Error);
             }
             if (generation < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(generation), Resources.Primitives_PdfIndirectObject_Invalid_Generation_Error);
+                throw new ArgumentOutOfRangeException(nameof(generation), WriterResources.Primitives_PdfIndirectObject_Invalid_Generation_Error);
             }
 
             ObjectId = objectId;
@@ -96,7 +96,7 @@ namespace Unicorn.Writer.Primitives
         {
             if (contents is IPdfIndirectObject)
             {
-                throw new ArgumentException(Resources.Primitives_PdfIndirectObject_Nest_PdfIndirectObject_Error, nameof(contents));
+                throw new ArgumentException(WriterResources.Primitives_PdfIndirectObject_Nest_PdfIndirectObject_Error, nameof(contents));
             }
             if (contents == null)
             {
@@ -153,7 +153,7 @@ namespace Unicorn.Writer.Primitives
         /// <exception cref="InvalidOperationException">This exception is always thrown.</exception>
         public virtual int WriteTo(PdfStream stream)
         {
-            throw new InvalidOperationException(Resources.Primitives_PdfIndirectObject_Write_To_PdfStream_Error);
+            throw new InvalidOperationException(WriterResources.Primitives_PdfIndirectObject_Write_To_PdfStream_Error);
         }
 
         /// <summary>
@@ -259,7 +259,7 @@ namespace Unicorn.Writer.Primitives
         /// Get a <see cref="PdfReference" /> instance that refers to this object.
         /// </summary>
         /// <returns>A <see cref="PdfReference" /></returns>
-        public PdfReference GetReference()
+        public IPdfReference Reference()
         {
             return _reference ?? (_reference = new PdfReference(this));
         }

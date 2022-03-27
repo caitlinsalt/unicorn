@@ -8,6 +8,11 @@ namespace Unicorn.Base
     public interface IGraphicsContext
     {
         /// <summary>
+        /// Whether or not the parent page of this context is open for additional drawing, or completed.
+        /// </summary>
+        PageState PageState { get; }
+
+        /// <summary>
         /// Carry out any operations needed to cleanly close the content stream for this graphics context, such as balancing any unbalanced PDF operators.
         /// </summary>
         void CloseGraphics();
@@ -227,5 +232,18 @@ namespace Unicorn.Base
         /// <param name="font">Font to use when measuring what size the text will be on render.</param>
         /// <returns>The dimensions of the text's bounding box.</returns>
         UniTextSize MeasureString(string text, IFontDescriptor font);
+
+        /// <summary>
+        /// Draw an image at a location, scaled to a particular size.
+        /// </summary>
+        /// <remarks>
+        /// If the <c>image</c> parameter does not refer to the same page as the graphics context, you may get unexpected results.
+        /// </remarks>
+        /// <param name="image">The image to draw</param>
+        /// <param name="x">X coordinate of the top left corner of the image.</param>
+        /// <param name="y">Y coordinate of the top left corner of the image.</param>
+        /// <param name="width">Width of the image.</param>
+        /// <param name="height">Height of the image.</param>
+        void DrawImage(IImageDescriptor image, double x, double y, double width, double height);
     }
 }

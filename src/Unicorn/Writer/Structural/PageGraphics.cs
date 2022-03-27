@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Unicorn.Base;
+using Unicorn.Exceptions;
+using Unicorn.Images;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
@@ -23,6 +25,11 @@ namespace Unicorn.Writer.Structural
         private readonly Func<double, double> _yTransformer;
 
         private readonly Stack<GraphicsState> _stateStack = new Stack<GraphicsState>();
+
+        /// <summary>
+        /// Whether or not the page is open for further composition.
+        /// </summary>
+        public PageState PageState { get; private set; }
 
         /// <summary>
         /// Current path stroking width.
@@ -63,14 +70,17 @@ namespace Unicorn.Writer.Structural
             _yTransformer = yTransform ?? (x => x);
             CurrentLineWidth = -1;
             CurrentDashStyle = UniDashStyle.Solid;
+            PageState = PageState.Open;
         }
 
         /// <summary>
         /// Save the current state.
         /// </summary>
         /// <returns></returns>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public IGraphicsState Save()
         {
+            CheckState();
             lock (_stateStack)
             {
                 GraphicsState gs = new GraphicsState(CurrentLineWidth, CurrentDashStyle, CurrentFont);
@@ -84,11 +94,13 @@ namespace Unicorn.Writer.Structural
         /// Restore a previous state.
         /// </summary>
         /// <param name="state">The state to be restored.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void Restore(IGraphicsState state)
         {
+            CheckState();
             if (!(state is GraphicsState gs))
             {
-                throw new ArgumentException(Resources.Structural_PageGraphics_RestoreWrongTypeError);
+                throw new ArgumentException(WriterResources.Structural_PageGraphics_RestoreWrongTypeError);
             }
             lock (_stateStack)
             {
@@ -114,6 +126,11 @@ namespace Unicorn.Writer.Structural
         /// </summary>
         public void CloseGraphics()
         {
+            if (PageState == PageState.Closed)
+            {
+                return;
+            }
+            PageState = PageState.Closed;
             lock (_stateStack)
             {
                 while (_stateStack.Count > 0)
@@ -130,6 +147,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="angle">The angle to rotate by.</param>
         /// <param name="x">The X coordinate of the centre of rotation.</param>
         /// <param name="y">The Y coordinate of the centre of rotation.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void RotateAt(double angle, double x, double y) => RotateAt(angle, new UniPoint(x, y));
 
         /// <summary>
@@ -137,8 +155,10 @@ namespace Unicorn.Writer.Structural
         /// </summary>
         /// <param name="angle">The angle to rotate by.</param>
         /// <param name="around">The centre of rotation.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void RotateAt(double angle, UniPoint around)
         {
+            CheckState();
             PdfOperator.ApplyTransformation(UniMatrix.RotationAt(MathsHelpers.DegToRad(-angle), new UniPoint(_xTransformer(around.X), _yTransformer(around.Y))))
                 .WriteTo(_page.ContentStream);
         }
@@ -150,6 +170,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="y1">Y-coordinate of the starting point.</param>
         /// <param name="x2">X-coordinate of the ending point.</param>
         /// <param name="y2">Y-coordinate of the ending point.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawLine(double x1, double y1, double x2, double y2) => DrawLine(x1, y1, x2, y2, GreyscaleColour.Black, 1d, UniDashStyle.Solid);
 
         /// <summary>
@@ -160,6 +181,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="x2">X-coordinate of the ending point.</param>
         /// <param name="y2">Y-coordinate of the ending point.</param>
         /// <param name="colour">The line colour.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawLine(double x1, double y1, double x2, double y2, IUniColour colour) => DrawLine(x1, y1, x2, y2, colour, 1d, UniDashStyle.Solid);
 
         /// <summary>
@@ -170,6 +192,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="x2">X-coordinate of the ending point.</param>
         /// <param name="y2">Y-coordinate of the ending point.</param>
         /// <param name="width">Width of the line.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawLine(double x1, double y1, double x2, double y2, double width) => DrawLine(x1, y1, x2, y2, GreyscaleColour.Black, width, UniDashStyle.Solid);
 
         /// <summary>
@@ -181,6 +204,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="y2">Y-coordinate of the ending point.</param>
         /// <param name="colour">The line colour.</param>
         /// <param name="width">Width of the line.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawLine(double x1, double y1, double x2, double y2, IUniColour colour, double width) => DrawLine(x1, y1, x2, y2, colour, width, UniDashStyle.Solid);
 
         /// <summary>
@@ -192,6 +216,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="y2">Y-coordinate of the ending point.</param>
         /// <param name="width">Width of the line.</param>
         /// <param name="style">Dash pattern of the line.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawLine(double x1, double y1, double x2, double y2, double width, UniDashStyle style) 
             => DrawLine(x1, y1, x2, y2, GreyscaleColour.Black, width, style);
 
@@ -205,8 +230,10 @@ namespace Unicorn.Writer.Structural
         /// <param name="colour">The line colour.</param>
         /// <param name="width">Width of the line.</param>
         /// <param name="style">Dash pattern of the line.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawLine(double x1, double y1, double x2, double y2, IUniColour colour, double width, UniDashStyle style)
         {
+            CheckState();
             ChangeLineWidth(width);
             ChangeDashStyle(style);
             ChangeStrokingColour(colour);
@@ -219,6 +246,7 @@ namespace Unicorn.Writer.Structural
         /// Draw a filled polygon with black outline and white fill.
         /// </summary>
         /// <param name="vertexes">List of vertexes of the polygon.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawFilledPolygon(IEnumerable<UniPoint> vertexes) => DrawFilledPolygon(vertexes, GreyscaleColour.Black, GreyscaleColour.White);
 
         /// <summary>
@@ -227,9 +255,10 @@ namespace Unicorn.Writer.Structural
         /// <param name="vertexes"></param>
         /// <param name="strokeColour"></param>
         /// <param name="fillColour"></param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawFilledPolygon(IEnumerable<UniPoint> vertexes, IUniColour strokeColour, IUniColour fillColour)
         {
-
+            CheckState();
         }
 
         /// <summary>
@@ -239,6 +268,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="yTopLeft">Y-coordinate of the top left corner of the rectangle.</param>
         /// <param name="rectWidth">Width of the rectangle.</param>
         /// <param name="rectHeight">Height of the rectangle.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawRectangle(double xTopLeft, double yTopLeft, double rectWidth, double rectHeight) 
             => DrawRectangle(xTopLeft, yTopLeft, rectWidth, rectHeight, GreyscaleColour.Black, 1d);
 
@@ -250,6 +280,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="rectWidth">Width of the rectangle.</param>
         /// <param name="rectHeight">Height of the rectangle.</param>
         /// <param name="strokeColour">The rectangle's outline colour.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawRectangle(double xTopLeft, double yTopLeft, double rectWidth, double rectHeight, IUniColour strokeColour)
             => DrawRectangle(xTopLeft, yTopLeft, rectWidth, rectHeight, strokeColour, 1d);
 
@@ -261,6 +292,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="rectWidth">Width of the rectangle.</param>
         /// <param name="rectHeight">Height of the rectangle.</param>
         /// <param name="lineWidth">Stroke width.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawRectangle(double xTopLeft, double yTopLeft, double rectWidth, double rectHeight, double lineWidth)
             => DrawRectangle(xTopLeft, yTopLeft, rectWidth, rectHeight, GreyscaleColour.Black, lineWidth);
 
@@ -273,8 +305,10 @@ namespace Unicorn.Writer.Structural
         /// <param name="rectHeight">Height of the rectangle.</param>
         /// <param name="strokeColour">Colour of the rectangle's outline.</param>
         /// <param name="lineWidth">Stroke width.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawRectangle(double xTopLeft, double yTopLeft, double rectWidth, double rectHeight, IUniColour strokeColour, double lineWidth)
         {
+            CheckState();
             ChangeLineWidth(lineWidth);
             ChangeDashStyle(UniDashStyle.Solid);
             ChangeStrokingColour(strokeColour);
@@ -293,6 +327,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="rectHeight">Height of the rectangle.</param>
         /// <param name="strokeColour">Colour of the rectangle's outline.</param>
         /// <param name="fillColour">Colour of the rectangle's interior.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawRectangle(double xTopLeft, double yTopLeft, double rectWidth, double rectHeight, IUniColour strokeColour, IUniColour fillColour)
             => DrawRectangle(xTopLeft, yTopLeft, rectWidth, rectHeight, strokeColour, fillColour, 1d);
 
@@ -306,8 +341,10 @@ namespace Unicorn.Writer.Structural
         /// <param name="strokeColour">Colour of the rectangle's outline.</param>
         /// <param name="fillColour">Colour of the rectangle's interior.</param>
         /// <param name="lineWidth">Stroke width.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawRectangle(double xTopLeft, double yTopLeft, double rectWidth, double rectHeight, IUniColour strokeColour, IUniColour fillColour, double lineWidth)
         {
+            CheckState();
             ChangeLineWidth(lineWidth);
             ChangeDashStyle(UniDashStyle.Solid);
             ChangeStrokingColour(strokeColour);
@@ -325,6 +362,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="font">The font to use</param>
         /// <param name="x"></param>
         /// <param name="y"></param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawString(string text, IFontDescriptor font, double x, double y) => DrawString(text, font, x, y, GreyscaleColour.Black);
 
         /// <summary>
@@ -335,8 +373,10 @@ namespace Unicorn.Writer.Structural
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="colour">The text colour.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawString(string text, IFontDescriptor font, double x, double y, IUniColour colour)
         {
+            CheckState();
             if (font is null)
             {
                 throw new ArgumentNullException(nameof(font));
@@ -357,6 +397,7 @@ namespace Unicorn.Writer.Structural
         /// <param name="rect"></param>
         /// <param name="hAlign"></param>
         /// <param name="vAlign"></param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawString(string text, IFontDescriptor font, UniRectangle rect, HorizontalAlignment hAlign, VerticalAlignment vAlign)
             => DrawString(text, font, rect, hAlign, vAlign, GreyscaleColour.Black);
 
@@ -369,8 +410,10 @@ namespace Unicorn.Writer.Structural
         /// <param name="hAlign"></param>
         /// <param name="vAlign"></param>
         /// <param name="colour">The text colour.</param>
+        /// <exception cref="PageClosedException">The page has been closed.</exception>
         public void DrawString(string text, IFontDescriptor font, UniRectangle rect, HorizontalAlignment hAlign, VerticalAlignment vAlign, IUniColour colour)
         {
+            CheckState();
             if (font is null)
             {
                 throw new ArgumentNullException(nameof(font));
@@ -418,6 +461,63 @@ namespace Unicorn.Writer.Structural
                 throw new ArgumentNullException(nameof(font));
             }
             return font.MeasureString(text);
+        }
+
+        /// <summary>
+        /// Draw an image.
+        /// </summary>
+        /// <param name="image">The image to draw.</param>
+        /// <param name="x">The X-coordinate of the top left corner of the image.</param>
+        /// <param name="y">The Y-coordinate of the top left corner of the image.</param>
+        /// <param name="width">The width of the image.</param>
+        /// <param name="height">The height of the image.</param>
+        /// <exception cref="ArgumentNullException"><c>image</c> is <c>null</c>.</exception>
+        /// <exception cref="InvalidOperationException"><c>image</c> belongs to a different page to this context.</exception>
+        public void DrawImage(IImageDescriptor image, double x, double y, double width, double height)
+        {
+            CheckState();
+            if (image is null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+            string imageName = image.GetNameOnPage(_page);
+            if (imageName is null)
+            {
+                throw new InvalidOperationException(WriterResources.Structural_PageGraphics_DrawImage_Wrong_Page_Error);
+            }
+
+            UniMatrix transform = GetRotationTransform(image.Rotation);
+            transform = transform * UniMatrix.Scale(width, height) * UniMatrix.Translation(_xTransformer(x), _yTransformer(y + height));
+
+            PdfOperator.PushState().WriteTo(_page.ContentStream);
+            PdfOperator.ApplyTransformation(transform).WriteTo(_page.ContentStream);
+            PdfOperator.DrawObject(new PdfName(imageName)).WriteTo(_page.ContentStream);
+            PdfOperator.PopState().WriteTo(_page.ContentStream);
+        }
+
+        private UniMatrix GetRotationTransform(RightAngleRotation rotation)
+        {
+            if (rotation == RightAngleRotation.Clockwise90)
+            {
+                return UniMatrix.RotationAt(-Math.PI / 2, new UniPoint(0.5, 0.5));
+            }
+            if (rotation == RightAngleRotation.Anticlockwise90)
+            {
+                return UniMatrix.RotationAt(Math.PI / 2, new UniPoint(0.5, 0.5));
+            }
+            if (rotation == RightAngleRotation.Full180)
+            {
+                return UniMatrix.RotationAt(Math.PI, new UniPoint(0.5, 0.5));
+            }
+            return UniMatrix.Identity;
+        }
+
+        private void CheckState()
+        {
+            if (PageState != PageState.Open)
+            {
+                throw new PageClosedException(WriterResources.Structural_PageGraphics_Page_Closed_Error);
+            }
         }
 
         private void ChangeLineWidth(double width)

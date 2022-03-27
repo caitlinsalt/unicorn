@@ -55,7 +55,7 @@ namespace Unicorn.Writer.Structural
             PdfDictionary d = new PdfDictionary { { CommonPdfNames.Type, CommonPdfNames.Font } };
             if (_fontDescriptor != null)
             {
-                d.Add(_fontDescriptorName.Value, _fontDescriptor.GetReference());
+                d.Add(_fontDescriptorName.Value, _fontDescriptor.Reference());
             }
             d.Add(CommonPdfNames.BaseFont, new PdfName(_font.BaseFontName));
             d.Add(CommonPdfNames.Subtype, new PdfName(_font.Implementation.ToSubtypeName() ?? _font.GetSpecialSubtypeName()));

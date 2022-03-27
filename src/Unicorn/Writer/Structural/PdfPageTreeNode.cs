@@ -55,9 +55,9 @@ namespace Unicorn.Writer.Structural
             };
             if (Parent != null)
             {
-                dictionary.Add(CommonPdfNames.Parent, Parent.GetReference());
+                dictionary.Add(CommonPdfNames.Parent, Parent.Reference());
             }
-            dictionary.Add(CommonPdfNames.Kids, new PdfArray(Kids.Select(item => (IPdfPrimitiveObject)item.GetReference())));
+            dictionary.Add(CommonPdfNames.Kids, new PdfArray(Kids.Select(item => (IPdfPrimitiveObject)item.Reference())));
             return dictionary;
         }
     }

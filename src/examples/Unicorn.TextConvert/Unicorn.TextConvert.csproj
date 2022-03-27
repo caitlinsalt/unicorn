@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Version>0.1.0</Version>
     <Authors>Caitlin Salt</Authors>
     <Product>Unicorn</Product>
-    <Copyright>Copyright © 2021 Caitlin Salt</Copyright>
+    <Copyright>Copyright © 2021-2022 Caitlin Salt</Copyright>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -22,6 +22,21 @@
     <ProjectReference Include="..\..\Unicorn.FontTools.StandardFonts\Unicorn.FontTools.StandardFonts.csproj" />
     <ProjectReference Include="..\..\Unicorn.FontTools\Unicorn.FontTools.csproj" />
     <ProjectReference Include="..\..\Unicorn\Unicorn.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

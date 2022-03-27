@@ -54,12 +54,12 @@ namespace Unicorn.Writer.Primitives
             {
                 if (!(pattern[i] is PdfNumber))
                 {
-                    throw new ArgumentException(Resources.Primitives_PdfOperator_LineDashPattern_Content_Error, nameof(pattern));
+                    throw new ArgumentException(WriterResources.Primitives_PdfOperator_LineDashPattern_Content_Error, nameof(pattern));
                 }
             }
             if (start.Value > pattern.Length)
             {
-                throw new ArgumentException(Resources.Primitives_PdfOperator_LineDashPattern_Index_Too_High_Error);
+                throw new ArgumentException(WriterResources.Primitives_PdfOperator_LineDashPattern_Index_Too_High_Error);
             }
 
             return new PdfOperator("d").AddOperand(pattern, nameof(pattern)).AddOperand(start, nameof(start));
@@ -136,6 +136,13 @@ namespace Unicorn.Writer.Primitives
         /// <param name="str">The text to draw.</param>
         /// <returns>A <see cref="PdfOperator" /> instance representing a "Tj" operator and its operand.</returns>
         public static PdfOperator DrawText(PdfByteString str) => new PdfOperator("Tj").AddOperand(str, nameof(str));
+
+        /// <summary>
+        /// Create an instance of the "Do" operator, for drawing objects.
+        /// </summary>
+        /// <param name="objName">The name of the object to draw.</param>
+        /// <returns>A <see cref="PdfOperator"/> instance representing a "Do" operator and its operand.</returns>
+        public static PdfOperator DrawObject(PdfName objName) => new PdfOperator("Do").AddOperand(objName, nameof(objName));
 
         /// <summary>
         /// Create an instance of the "cm" operator, for applying a transformation matrix to the graphics state.

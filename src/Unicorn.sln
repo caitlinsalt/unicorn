@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn", "Unicorn\Unicorn.csproj", "{07F67EF4-5262-43D4-B7B5-4FC9B84025A4}"
 EndProject
@@ -44,6 +44,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{6F94852A-D60E-4FD1-83BE-37695FC82084}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.Documentation", "Unicorn.Documentation\Unicorn.Documentation.csproj", "{9FF71ADC-6738-4973-99A6-C37E43B5422A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration Tests", "Integration Tests", "{A0EEF4E9-536C-49D6-A790-86B280A675BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Tests.Integration", "Unicorn.Tests.Integration\Unicorn.Tests.Integration.csproj", "{78AF27F6-B9BF-4FC2-B655-40B5B7818263}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.ImageConvert", "examples\Unicorn.ImageConvert\Unicorn.ImageConvert.csproj", "{BE8B7AFD-8042-4401-A99C-B28170CE308F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,10 +113,21 @@ Global
 		{F7CF29D3-0523-498B-B2EC-EBCA56A72295}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7CF29D3-0523-498B-B2EC-EBCA56A72295}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7CF29D3-0523-498B-B2EC-EBCA56A72295}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 		{9FF71ADC-6738-4973-99A6-C37E43B5422A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9FF71ADC-6738-4973-99A6-C37E43B5422A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FF71ADC-6738-4973-99A6-C37E43B5422A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FF71ADC-6738-4973-99A6-C37E43B5422A}.Release|Any CPU.Build.0 = Release|Any CPU
+=======
+		{78AF27F6-B9BF-4FC2-B655-40B5B7818263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78AF27F6-B9BF-4FC2-B655-40B5B7818263}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78AF27F6-B9BF-4FC2-B655-40B5B7818263}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78AF27F6-B9BF-4FC2-B655-40B5B7818263}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE8B7AFD-8042-4401-A99C-B28170CE308F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE8B7AFD-8042-4401-A99C-B28170CE308F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE8B7AFD-8042-4401-A99C-B28170CE308F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE8B7AFD-8042-4401-A99C-B28170CE308F}.Release|Any CPU.Build.0 = Release|Any CPU
+>>>>>>> dev
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -128,7 +145,13 @@ Global
 		{0537FD55-B3EA-46D7-A8BC-4ACB9898ADFE} = {AAE79437-B436-422E-8837-C440A2BBC2B0}
 		{6516694D-F12B-4B5B-BCC4-2D9F402BBC15} = {08D1B1CB-E0E2-4489-B1BA-905C3136DC51}
 		{F7CF29D3-0523-498B-B2EC-EBCA56A72295} = {AAE79437-B436-422E-8837-C440A2BBC2B0}
+<<<<<<< HEAD
 		{9FF71ADC-6738-4973-99A6-C37E43B5422A} = {6F94852A-D60E-4FD1-83BE-37695FC82084}
+=======
+		{A0EEF4E9-536C-49D6-A790-86B280A675BB} = {67C12FC0-6769-445D-B469-27EECD3B683B}
+		{78AF27F6-B9BF-4FC2-B655-40B5B7818263} = {A0EEF4E9-536C-49D6-A790-86B280A675BB}
+		{BE8B7AFD-8042-4401-A99C-B28170CE308F} = {08D1B1CB-E0E2-4489-B1BA-905C3136DC51}
+>>>>>>> dev
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {96DF63C8-CE73-4BC5-B6B4-8C976B590604}

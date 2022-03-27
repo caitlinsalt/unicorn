@@ -22,6 +22,6 @@ namespace Unicorn.Writer.Interfaces
         /// Return a <see cref="PdfReference" /> which refers to this object.
         /// </summary>
         /// <returns>A <see cref="PdfReference" /> object which refers to this object.</returns>
-        PdfReference GetReference();
+        IPdfReference Reference();
     }
 }

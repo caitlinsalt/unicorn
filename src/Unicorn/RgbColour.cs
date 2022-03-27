@@ -32,6 +32,20 @@ namespace Unicorn
         public double Blue { get; private set; }
 
         /// <summary>
+        /// In general, in a PDF, the components of a colour are treated as continuous ranges between 0 and 1 inclusive.  The exception to this is when handling
+        /// rasterised image data, when the components are treated as unsigned integers.  When an instance of this colour is used in rasterised image data,
+        /// it is represented using 8 bits per component.
+        /// </summary>
+        public int BitsPerComponent => 8;
+
+        /// <summary>
+        /// In general, in a PDF, the components of a colour are treated as continuous ranges between 0 and 1 inclusive.  The exception to this is when handling
+        /// rasterised image data, when the components are treated as unsigned integers.  This property returns the value of this colour as an array of
+        /// three bytes, the bytes representing the three components (in order RGB) each quantised over the range 0 to 255 inclusive.
+        /// </summary>
+        public IEnumerable<byte> ComponentData => new[] { Red.ScaleToByte(), Green.ScaleToByte(), Blue.ScaleToByte() };
+
+        /// <summary>
         /// Construct an immutable <see cref="RgbColour" /> instance.
         /// </summary>
         /// <param name="red">The red component.</param>
@@ -40,9 +54,9 @@ namespace Unicorn
         /// <exception cref="ArgumentOutOfRangeException">Any of <c>red</c>, <c>green</c> or <c>blue</c> is less than zero or greater than one.</exception>
         public RgbColour(double red, double green, double blue)
         {
-            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(red, nameof(red), Resources.RgbColour_Error_ValueOutOfRange);
-            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(green, nameof(green), Resources.RgbColour_Error_ValueOutOfRange);
-            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(blue, nameof(blue), Resources.RgbColour_Error_ValueOutOfRange);
+            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(red, nameof(red), GeneralResources.RgbColour_Error_ValueOutOfRange);
+            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(green, nameof(green), GeneralResources.RgbColour_Error_ValueOutOfRange);
+            ParameterValidationHelper.CheckDoubleValueBetweenZeroAndOne(blue, nameof(blue), GeneralResources.RgbColour_Error_ValueOutOfRange);
 
             Red = red;
             Green = green;

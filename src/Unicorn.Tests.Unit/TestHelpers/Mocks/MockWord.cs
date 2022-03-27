@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unicorn.Base;
 
 namespace Unicorn.Tests.Unit.TestHelpers.Mocks
@@ -14,6 +10,10 @@ namespace Unicorn.Tests.Unit.TestHelpers.Mocks
         public double ContentAscent { get; set; }
 
         public double ContentDescent { get; set; }
+
+        public double ContentHeight => ContentAscent + ContentDescent;
+
+        public double Height => ContentHeight;
 
         public double MinWidth { get; set; }
 

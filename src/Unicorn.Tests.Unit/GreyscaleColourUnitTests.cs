@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
@@ -27,8 +28,6 @@ namespace Unicorn.Tests.Unit
             _otherColour = new Mock<IUniColour>();
             _testObject = new GreyscaleColour(_greyLevel);
         }
-
-#pragma warning restore CA5394 // Do not use insecure randomness
 
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 
@@ -63,6 +62,33 @@ namespace Unicorn.Tests.Unit
         {
             Assert.AreEqual("DeviceGrayscale", _testObject.ColourSpaceName);
         }
+
+        [TestMethod]
+        public void GreyscaleColourClass_BitsPerComponentProperty_Equals8()
+        {
+            Assert.AreEqual(8, _testObject.BitsPerComponent);
+        }
+
+        [TestMethod]
+        public void GreyscaleColourClass_ComponentDataProperty_HasOneElement()
+        {
+            IEnumerable<byte> testOutput = _testObject.ComponentData;
+
+            Assert.AreEqual(1, testOutput.Count());
+        }
+
+        [TestMethod]
+        public void GreyscaleColourClass_ComponentDataProperty_FirstElementEqualsExpectedValue()
+        {
+            int expectedValue = _rnd.Next(byte.MaxValue + 1);
+            GreyscaleColour testObject = new(expectedValue / 256d);
+
+            IEnumerable<byte> testOutput = testObject.ComponentData;
+
+            Assert.AreEqual(expectedValue, testOutput.First());
+        }
+
+#pragma warning restore CA5394 // Do not use insecure randomness
 
         [TestMethod]
         public void GreyscaleColourClass_StrokeSelectionOperatorsMethod_ReturnsEmptySequence_IfParameterIsThis()

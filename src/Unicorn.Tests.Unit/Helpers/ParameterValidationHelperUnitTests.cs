@@ -111,6 +111,70 @@ namespace Unicorn.Tests.Unit.Helpers
             }
         }
 
+        [TestMethod]
+        public void ParameterValidationHelpersClass_CheckBitCountIsValidMethod_DoesNotThrowException_IfParameterIsValid()
+        {
+            int[] validValues = new[] { 1, 2, 4, 8 };
+            int param0 = _rnd.FromSet(validValues);
+
+            ParameterValidationHelper.CheckBitCountIsValid(param0, _param1, _param2);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void ParameterValidationHelperClass_CheckBitCountIsValidMethod_ThrowsArgumentOutOfRangeException_IfParameterIsNotValid()
+        {
+            int param0;
+            do
+            {
+                param0 = _rnd.Next();
+            } while (param0 == 1 || param0 == 2 || param0 == 4 || param0 == 8);
+
+            ParameterValidationHelper.CheckBitCountIsValid(param0, _param1, _param2);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void ParameterValidationHelperClass_CheckBitCountIsValidMethod_ThrowsArgumentOutOfRangeExceptionWithParamNamePropertyEqualToSecondParameter_IfParameterIsNotValid()
+        {
+            int param0;
+            do
+            {
+                param0 = _rnd.Next();
+            } while (param0 == 1 || param0 == 2 || param0 == 4 || param0 == 8);
+
+            try
+            {
+                ParameterValidationHelper.CheckBitCountIsValid(param0, _param1, _param2);
+                Assert.Fail();
+            }
+            catch (ArgumentOutOfRangeException testOutput)
+            {
+                Assert.AreEqual(_param1, testOutput.ParamName);
+            }
+        }
+
+        [TestMethod]
+        public void ParameterValidationHelperClass_CheckBitCountIsValidMethod_ThrowsArgumentOutOfRangeExceptionWithMessagePropertyStartingWithThirdParameter_IfParameterIsNotValid()
+        {
+            int param0;
+            do
+            {
+                param0 = _rnd.Next();
+            } while (param0 == 1 || param0 == 2 || param0 == 4 || param0 == 8);
+
+            try
+            {
+                ParameterValidationHelper.CheckBitCountIsValid(param0, _param1, _param2);
+                Assert.Fail();
+            }
+            catch (ArgumentOutOfRangeException testOutput)
+            {
+                Assert.IsTrue(testOutput.Message.StartsWith(_param2, StringComparison.InvariantCulture));
+            }
+        }
+
 #pragma warning restore CA5394 // Do not use insecure randomness
 #pragma warning restore CA1707 // Identifiers should not contain underscores
 

@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using Unicorn.Base;
@@ -27,7 +28,7 @@ namespace Unicorn.TextConvert
             var font = fontFinder.FindFont(string.IsNullOrWhiteSpace(options.FontName) ? _defaultFontName : options.FontName, options.FontSize);
             if (font is null)
             {
-                Console.Error.WriteLine($"Font {options.FontName} not found.");
+                await Console.Error.WriteLineAsync(string.Format(CultureInfo.CurrentCulture, Resources.Program_FontNotFoundError, options.FontName)).ConfigureAwait(false);
                 return;
             }
             PdfDocument document = new();
@@ -35,43 +36,21 @@ namespace Unicorn.TextConvert
             page.CurrentVerticalCursor = page.TopMarginPosition;
             MarginSet margins = new(0, 0, 12, 0);
             using StreamReader inputReader = new(options.In);
+#pragma warning disable CA2007 // Consider calling ConfigureAwait on the awaited task
             await using StreamedParagraphProvider inputProvider = new(inputReader);
+#pragma warning restore CA2007 // Consider calling ConfigureAwait on the awaited task
             int pageCount = 0;
             int paraCount = 0;
             await foreach (var para in inputProvider.GetParagraphsAsync())
             {
-                Paragraph outputPara = new(page.PageAvailableWidth, page.BottomMarginPosition - page.CurrentVerticalCursor, Orientation.Normal, para.Alignment, 
+                Paragraph outputPara = new(page.PageAvailableWidth, page.PageAvailableHeight, Orientation.Normal, para.Alignment, 
                     VerticalAlignment.Top, margins);
                 outputPara.AddText(para.Content, font, page.PageGraphics);
-                if (outputPara.OverspillHeight)
+                var oldPage = page;
+                page = page.LayOut(outputPara, document);
+                if (page != oldPage && options.Verbose)
                 {
-                    if (options.Verbose)
-                    {
-                        Console.Out.WriteLine($"Adding page {pageCount++} (paragraph {paraCount})");
-                    }
-                    var newPage = document.AppendPage();
-                    newPage.CurrentVerticalCursor = newPage.TopMarginPosition;
-                    var newPara = outputPara.Split(newPage.BottomMarginPosition - newPage.CurrentVerticalCursor);
-                    if (!outputPara.OverspillHeight)
-                    {
-                        outputPara.DrawAt(page.PageGraphics, page.LeftMarginPosition, page.CurrentVerticalCursor);
-                    }
-                    else
-                    {
-                        outputPara.DrawAt(newPage.PageGraphics, newPage.LeftMarginPosition, newPage.CurrentVerticalCursor);
-                        newPage.CurrentVerticalCursor += outputPara.ContentHeight;
-                    }
-                    if (newPara != null)
-                    {
-                        newPara.DrawAt(newPage.PageGraphics, newPage.LeftMarginPosition, newPage.CurrentVerticalCursor);
-                        newPage.CurrentVerticalCursor += newPara.ContentHeight;
-                    }
-                    page = newPage;
-                }
-                else
-                {
-                    outputPara.DrawAt(page.PageGraphics, page.LeftMarginPosition, page.CurrentVerticalCursor);
-                    page.CurrentVerticalCursor += outputPara.ContentHeight;
+                    await Console.Out.WriteLineAsync(string.Format(CultureInfo.CurrentCulture, Resources.Program_NewPageMessage, pageCount++, paraCount)).ConfigureAwait(false);
                 }
                 paraCount++;
             }
