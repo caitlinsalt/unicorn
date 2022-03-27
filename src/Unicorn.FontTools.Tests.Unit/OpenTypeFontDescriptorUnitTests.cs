@@ -6,6 +6,7 @@ using System.Linq;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
 using Unicorn.Base;
+using Unicorn.FontTools.CharacterEncoding;
 using Unicorn.FontTools.OpenType;
 using Unicorn.FontTools.OpenType.Interfaces;
 using Unicorn.FontTools.Tests.Utility;
@@ -16,6 +17,111 @@ namespace Unicorn.FontTools.Tests.Unit
     public class OpenTypeFontDescriptorUnitTests
     {
         private static readonly Random _rnd = RandomProvider.Default;
+
+        private Mock<IOpenTypeFont> _mockFont;
+        private long _fontLength;
+        private string _mockFontFilename;
+        private double _mockPointSize;
+        private int _mockDesignScale;
+        private byte _firstDefinedGlyph;
+        private byte _lastDefinedGlyph;
+        private HorizontalHeaderTable _horizontalHeaderTable;
+        private OS2MetricsTable _oS2MetricsTable;
+        private Mock<IGraphicsContext> _mockGraphicsContext;
+        private int _mockCharacterWidth;
+        private HeaderTable _headerTable;
+        private short _xMin;
+        private short _xMax;
+        private short _yMin;
+        private short _yMax;
+        private PostScriptTable _postScriptTable;
+
+        private OpenTypeFontDescriptor _testObject;
+
+#pragma warning disable CA5394 // Do not use insecure randomness
+
+        [TestInitialize]
+        public void InitialiseTest()
+        {
+            _mockFont = new Mock<IOpenTypeFont>();
+            _fontLength = _rnd.Next();
+            _mockFont.Setup(f => f.Length).Returns(_fontLength);
+            _mockFontFilename = _rnd.NextString(_rnd.Next(1, 64));
+            _mockFont.Setup(f => f.Filename).Returns(_mockFontFilename);
+            _mockPointSize = _rnd.NextDouble() * 40;
+            _mockDesignScale = _rnd.Next(1, 16384);
+            _mockFont.Setup(f => f.DesignUnitsPerEm).Returns(_mockDesignScale);
+            _mockCharacterWidth = _rnd.Next();
+            _mockFont.Setup(f => f.AdvanceWidth(It.IsAny<PlatformId>(), It.IsAny<long>())).Returns(_mockCharacterWidth);
+            _firstDefinedGlyph = _rnd.NextByte(32, byte.MaxValue - 2);
+            _lastDefinedGlyph = _rnd.NextByte(_firstDefinedGlyph, byte.MaxValue);
+            NormaliseFirstAndLastGlyphs();
+            _mockFont.Setup(f => f.HasGlyphDefined(It.IsAny<PlatformId>(), It.IsAny<long>()))
+                .Returns<PlatformId, long>((p, cp) =>
+                {
+                    byte? reversed = ReverseMap(PdfCharacterMappingDictionary.WinAnsiEncoding, cp);
+                    return reversed.HasValue && reversed.Value >= _firstDefinedGlyph && reversed.Value <= _lastDefinedGlyph;
+                });
+
+            _horizontalHeaderTable = GetHheaTable();
+            _mockFont.Setup(f => f.HorizontalHeader).Returns(_horizontalHeaderTable);
+
+            _xMin = _rnd.NextShort();
+            _xMax = _rnd.NextShort();
+            _yMin = _rnd.NextShort();
+            _yMax = _rnd.NextShort();
+            _headerTable = GetHeaderTable();
+            _mockFont.Setup(f => f.Header).Returns(_headerTable);
+
+            _oS2MetricsTable = GetOS2MetricsTable();
+            _mockFont.Setup(f => f.OS2Metrics).Returns(() => _oS2MetricsTable);
+
+            _postScriptTable = GetPostScriptTable();
+            _mockFont.Setup(f => f.PostScriptData).Returns(_postScriptTable);
+
+            _mockGraphicsContext = new Mock<IGraphicsContext>();
+
+            _testObject = new OpenTypeFontDescriptor(_mockFont.Object, _mockPointSize) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+        }
+
+        private static byte? ReverseMap(PdfCharacterMappingDictionary map, long val) => map.Any(e => e.Value == val) ? map.First(e => e.Value == val).Key : null;
+
+        private static IEnumerable<byte> ReverseMapAll(PdfCharacterMappingDictionary map, byte val)
+        {
+            var mapped = map.Transform(val);
+            return map.Where(e => e.Value == mapped).Select(e => e.Key);
+        }
+
+        // This is required because the encoding maps several single-byte codepoints to the same Unicode codepoint.  Therefore, if the code arbitrarily decides that
+        // for a particular test the last mapped byte is, say, 127, the code will also say that byte 173 is mapped, because both map to Unicode codepoint 0x2022.
+        private void NormaliseFirstAndLastGlyphs()
+        {
+            NormaliseFirstAndLastGlyphsOnce();
+            NormaliseFirstAndLastGlyphsOnce();
+        }
+
+        private void NormaliseFirstAndLastGlyphsOnce()
+        {
+            IList<byte> allMappedBytes = AllMappedBytes();
+            _firstDefinedGlyph = allMappedBytes.Min();
+            allMappedBytes = AllMappedBytes();
+            _lastDefinedGlyph = allMappedBytes.Max();
+        }
+
+        private IEnumerable<byte> GetDefinedRange()
+        {
+            List<byte> bl = new();
+            byte b = _firstDefinedGlyph;
+            while (b <= _lastDefinedGlyph && b >= _firstDefinedGlyph)
+            {
+                bl.Add(b++);
+            }
+            return bl;
+        }
+
+        private IList<byte> AllMappedBytes() => GetDefinedRange().SelectMany(b => ReverseMapAll(PdfCharacterMappingDictionary.WinAnsiEncoding, b)).ToList();
+
+#pragma warning restore CA5394 // Do not use insecure randomness
 
         private static HorizontalHeaderTable GetHheaTable() => new(_rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), 
             _rnd.NextUShort(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(), _rnd.NextShort(),
@@ -37,17 +143,10 @@ namespace Unicorn.FontTools.Tests.Unit
                 _rnd.NextUShort());
         }
 
-        private static HeaderTable GetHeaderTable(short? xMin, short? xMax, short? yMin, short? yMax)
-        {
-            xMin ??= _rnd.NextShort();
-            xMax ??= _rnd.NextShort();
-            yMin ??= _rnd.NextShort();
-            yMax ??= _rnd.NextShort();
-
-            return new(_rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextDecimal(), _rnd.NextUInt(), _rnd.NextUInt(), _rnd.NextFontProperties(), _rnd.NextUShort(), 
-                _rnd.NextDateTime(), _rnd.NextDateTime(), xMin.Value, yMin.Value, xMax.Value, yMax.Value, _rnd.NextMacStyleProperties(), _rnd.NextUShort(), 
-                _rnd.NextFontDirectionHint(), _rnd.NextBoolean(), _rnd.NextShort());
-        }
+        private HeaderTable GetHeaderTable() 
+            => new(_rnd.NextUShort(), _rnd.NextUShort(), _rnd.NextDecimal(), _rnd.NextUInt(), _rnd.NextUInt(), _rnd.NextFontProperties(), _rnd.NextUShort(), 
+                _rnd.NextDateTime(), _rnd.NextDateTime(), _xMin, _yMin, _xMax, _yMax, _rnd.NextMacStyleProperties(), _rnd.NextUShort(), _rnd.NextFontDirectionHint(), 
+                _rnd.NextBoolean(), _rnd.NextShort());
 
         private static PostScriptTable GetPostScriptTable() => new(PostScriptTableVersion.One, _rnd.NextDecimal(), _rnd.NextShort(), _rnd.NextShort(), 
             _rnd.NextBoolean(), _rnd.NextUInt(), _rnd.NextUInt(), _rnd.NextUInt(), _rnd.NextUInt());
@@ -80,148 +179,154 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptor_UnderlyingKeyProperty_HasValueDerivedFromFilenamePropertyOfFirstParameterOfConstructor()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            string expectedData = _rnd.NextString(_rnd.Next(1, 64));
-            mockFont.Setup(f => f.Filename).Returns(expectedData);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1);
+            string testOutput = _testObject.UnderlyingKey;
 
-            string testOutput = testObject.UnderlyingKey;
-
-            Assert.AreEqual($"OpenType_{expectedData}", testOutput);
+            Assert.AreEqual($"OpenType_{_mockFontFilename}", testOutput);
         }
 
         [TestMethod]
         public void OpenTypeFontDescriptor_AscentProperty_HasValueDerivedFromAscenderPropertyOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintosh()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = testParam1 * mockHorizontalHeaderTable.Ascender / mockDesignUnits;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Macintosh };
+            double expectedValue = _mockPointSize * _horizontalHeaderTable.Ascender / _mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Macintosh;
 
-            double testOutput = testObject.Ascent;
+            double testOutput = _testObject.Ascent;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
 
         [TestMethod]
-        public void OpenTypeFontDescriptor_AscentProperty_HasValueDerivedFromAscenderPropertyOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintoshAndOS2MetricsTableDoesNotHaveAscenderPropertyPopulated()
+        public void OpenTypeFontDescriptor_AscentProperty_HasValueDerivedFromAscenderPropertyOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsWindowsAndOS2MetricsTableDoesNotHaveAscenderPropertyPopulated()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTableVersion0();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = testParam1 * mockHorizontalHeaderTable.Ascender / mockDesignUnits;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Windows };
+            _oS2MetricsTable = GetOS2MetricsTableVersion0();
+            double expectedValue = _mockPointSize * _horizontalHeaderTable.Ascender / _mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Windows;
 
-            double testOutput = testObject.Ascent;
+            double testOutput = _testObject.Ascent;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
 
         [TestMethod]
-        public void OpenTypeFontDescriptor_AscentProperty_HasValueDerivedFromAscenderPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintoshAndOS2MetricsTableHasAscenderPropertyPopulated()
+        public void OpenTypeFontDescriptor_AscentProperty_HasValueDerivedFromAscenderPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsWindowsAndOS2MetricsTableHasAscenderPropertyPopulated()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = testParam1 * mockOs2MetricsTable.Ascender.Value / mockDesignUnits;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Windows };
+            double expectedValue = _mockPointSize * _oS2MetricsTable.Ascender.Value / _mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Windows;
 
-            double testOutput = testObject.Ascent;
+            double testOutput = _testObject.Ascent;
 
             Assert.AreEqual(expectedValue, testOutput);
+        }
+
+        [TestMethod]
+        public void OpenTypeFontDescriptor_AscentGlyphUnitsProperty_HasValueDerivedFromAscenderPropertyOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintosh()
+        {
+            double expectedValue = 1000 * _horizontalHeaderTable.Ascender / (double)_mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Macintosh;
+
+            double testOutput = _testObject.AscentGlyphUnits;
+
+            Assert.AreEqual(expectedValue, testOutput, 0.000000001);
+        }
+
+        [TestMethod]
+        public void OpenTypeFontDescriptor_AscentGlyphUnitsProperty_HasValueDerivedFromAscenderPropertyOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsWindowsAndOS2MetricsTableDoesNotHaveAscenderPropertyPopulated()
+        {
+            _oS2MetricsTable = GetOS2MetricsTableVersion0();
+            double expectedValue = 1000 * _horizontalHeaderTable.Ascender / (double)_mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Windows;
+
+            double testOutput = _testObject.AscentGlyphUnits;
+
+            Assert.AreEqual(expectedValue, testOutput, 0.000000001);
+        }
+
+        [TestMethod]
+        public void OpenTypeFontDescriptor_AscentGlyphUnitsProperty_HasValueDerivedFromAscenderPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsWindowsAndOS2MetricsTableHasAscenderPropertyPopulated()
+        {
+            double expectedValue = 1000 * _oS2MetricsTable.Ascender.Value / (double)_mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Windows;
+
+            double testOutput = _testObject.AscentGlyphUnits;
+
+            Assert.AreEqual(expectedValue, testOutput, 0.000000001);
         }
 
         [TestMethod]
         public void OpenTypeFontDescriptor_DescentProperty_HasValueDerivedFromDescenderPropertyOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintosh()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = testParam1 * mockHorizontalHeaderTable.Descender / mockDesignUnits;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Macintosh };
+            double expectedValue = _mockPointSize * _horizontalHeaderTable.Descender / _mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Macintosh;
 
-            double testOutput = testObject.Descent;
+            double testOutput = _testObject.Descent;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
 
         [TestMethod]
-        public void OpenTypeFontDescriptor_DescentProperty_HasValueDerivedFromDescenderPropertyOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintoshAndOS2MetricsTableDoesNotHaveAscenderPropertyPopulated()
+        public void OpenTypeFontDescriptor_DescentProperty_HasValueDerivedFromDescenderPropertyOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsWindowsAndOS2MetricsTableDoesNotHaveAscenderPropertyPopulated()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTableVersion0();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = testParam1 * mockHorizontalHeaderTable.Descender / mockDesignUnits;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Windows };
+            _oS2MetricsTable = GetOS2MetricsTableVersion0();
+            double expectedValue = _mockPointSize * _horizontalHeaderTable.Descender / _mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Windows;
 
-            double testOutput = testObject.Descent;
+            double testOutput = _testObject.Descent;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
 
         [TestMethod]
-        public void OpenTypeFontDescriptor_DescentProperty_HasValueDerivedFromDescenderPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintoshAndOS2MetricsTableHasAscenderPropertyPopulated()
+        public void OpenTypeFontDescriptor_DescentProperty_HasValueDerivedFromDescenderPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsWindowsAndOS2MetricsTableHasAscenderPropertyPopulated()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = testParam1 * mockOs2MetricsTable.Descender.Value / mockDesignUnits;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Windows };
+            double expectedValue = _mockPointSize * _oS2MetricsTable.Descender.Value / _mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Windows;
 
-            double testOutput = testObject.Descent;
+            double testOutput = _testObject.Descent;
 
             Assert.AreEqual(expectedValue, testOutput);
+        }
+
+        [TestMethod]
+        public void OpenTypeFontDescriptor_DescentGlyphUnitsProperty_HasValueDerivedFromDescenderPropertyOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintosh()
+        {
+            double expectedValue = 1000 * _horizontalHeaderTable.Descender / (double)_mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Macintosh;
+
+            double testOutput = _testObject.DescentGlyphUnits;
+
+            Assert.AreEqual(expectedValue, testOutput, 0.000000001);
+        }
+
+        [TestMethod]
+        public void OpenTypeFontDescriptor_DescentGlyphUnitsProperty_HasValueDerivedFromDescenderPropertyOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsWindowsAndOS2MetricsTableDoesNotHaveAscenderPropertyPopulated()
+        {
+            _oS2MetricsTable = GetOS2MetricsTableVersion0();
+            double expectedValue = 1000 * _horizontalHeaderTable.Descender / (double)_mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Windows;
+
+            double testOutput = _testObject.DescentGlyphUnits;
+
+            Assert.AreEqual(expectedValue, testOutput, 0.000000001);
+        }
+
+        [TestMethod]
+        public void OpenTypeFontDescriptor_DescentGlyphUnitsProperty_HasValueDerivedFromDescenderPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsWindowsAndOS2MetricsTableHasAscenderPropertyPopulated()
+        {
+            double expectedValue = 1000 * _oS2MetricsTable.Descender.Value / (double)_mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Windows;
+
+            double testOutput = _testObject.DescentGlyphUnits;
+
+            Assert.AreEqual(expectedValue, testOutput, 0.000000001);
         }
 
         [TestMethod]
         public void OpenTypeFontDescriptor_InterlineSpacingProperty_HasValueDerivedFromAscenderAndDescenderPropertiesOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintosh()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = testParam1 - testParam1 * (mockHorizontalHeaderTable.Ascender - mockHorizontalHeaderTable.Descender) / mockDesignUnits;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Macintosh };
+            double expectedValue = _mockPointSize - _mockPointSize * (_horizontalHeaderTable.Ascender - _horizontalHeaderTable.Descender) / _mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Macintosh;
 
-            double testOutput = testObject.InterlineSpacing;
+            double testOutput = _testObject.InterlineSpacing;
 
             Assert.AreEqual(expectedValue, testOutput, 0.000000001);
         }
@@ -229,19 +334,11 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptor_InterlineSpacingProperty_HasValueDerivedFromAscenderAndDescenderPropertiesOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintoshAndOS2MetricsTableDoesNotHaveAscenderPropertyPopulated()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTableVersion0();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = testParam1 - testParam1 * (mockHorizontalHeaderTable.Ascender - mockHorizontalHeaderTable.Descender) / mockDesignUnits;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Windows };
+            _oS2MetricsTable = GetOS2MetricsTableVersion0();
+            double expectedValue = _mockPointSize - _mockPointSize * (_horizontalHeaderTable.Ascender - _horizontalHeaderTable.Descender) / _mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Windows;
 
-            double testOutput = testObject.InterlineSpacing;
+            double testOutput = _testObject.InterlineSpacing;
 
             Assert.AreEqual(expectedValue, testOutput, 0.000000001);
         }
@@ -249,19 +346,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptor_InterlineSpacingProperty_HasValueDerivedFromAscenderAndDescenderPropertiesOfOS2MetricsPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintoshAndOS2MetricsTableHasAscenderPropertyPopulated()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = testParam1 - testParam1 * (mockOs2MetricsTable.Ascender.Value - mockOs2MetricsTable.Descender.Value) / mockDesignUnits;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Windows };
+            double expectedValue = _mockPointSize - _mockPointSize * (_oS2MetricsTable.Ascender.Value - _oS2MetricsTable.Descender.Value) / _mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Windows;
 
-            double testOutput = testObject.InterlineSpacing;
+            double testOutput = _testObject.InterlineSpacing;
 
             Assert.AreEqual(expectedValue, testOutput, 0.000000001);
         }
@@ -269,19 +357,7 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptor_EmptyStringMetricsProperty_HasWidthPropertyEqualToZero()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = testParam1 - testParam1 * (mockOs2MetricsTable.Ascender.Value - mockOs2MetricsTable.Descender.Value) / mockDesignUnits;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
-
-            double testOutput = testObject.EmptyStringMetrics.Width;
+            double testOutput = _testObject.EmptyStringMetrics.Width;
 
             Assert.AreEqual(0d, testOutput);
         }
@@ -289,38 +365,19 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptor_EmptyStringMetricsProperty_HasTotalHeightPropertyEqualToSecondParameterOfConstructor()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = testParam1 - testParam1 * (mockOs2MetricsTable.Ascender.Value - mockOs2MetricsTable.Descender.Value) / mockDesignUnits;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            double testOutput = _testObject.EmptyStringMetrics.LineHeight;
 
-            double testOutput = testObject.EmptyStringMetrics.LineHeight;
-
-            Assert.AreEqual(testParam1, testOutput);
+            Assert.AreEqual(_mockPointSize, testOutput);
         }
 
         [TestMethod]
         public void OpenTypeFontDescriptor_HeightAboveBaselinePropertyOfEmptyStringMetricsProperty_HasValueDerivedFromAscenderAndDescenderPropertiesOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintosh()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = (testParam1 * mockHorizontalHeaderTable.Ascender / mockDesignUnits) +
-                (testParam1 - testParam1 * (mockHorizontalHeaderTable.Ascender - mockHorizontalHeaderTable.Descender) / mockDesignUnits) / 2;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Macintosh };
+            double expectedValue = (_mockPointSize * _horizontalHeaderTable.Ascender / _mockDesignScale) +
+                (_mockPointSize - _mockPointSize * (_horizontalHeaderTable.Ascender - _horizontalHeaderTable.Descender) / _mockDesignScale) / 2;
+            _testObject.CalculationStyle = CalculationStyle.Macintosh;
 
-            double testOutput = testObject.EmptyStringMetrics.HeightAboveBaseline;
+            double testOutput = _testObject.EmptyStringMetrics.HeightAboveBaseline;
 
             Assert.AreEqual(expectedValue, testOutput, 0.000000001);
         }
@@ -328,20 +385,12 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptor_HeightAboveBaselinePropertyOfEmptyStringMetricsProperty_HasValueDerivedFromAscenderAndDescenderPropertiesOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintoshAndOS2MetricsTableDoesNotHaveAscenderPropertyPopulated()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTableVersion0();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = (testParam1 * mockHorizontalHeaderTable.Ascender / mockDesignUnits) +
-                (testParam1 - testParam1 * (mockHorizontalHeaderTable.Ascender - mockHorizontalHeaderTable.Descender) / mockDesignUnits) / 2;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Windows };
+            _oS2MetricsTable = GetOS2MetricsTableVersion0();
+            double expectedValue = (_mockPointSize * _horizontalHeaderTable.Ascender / _mockDesignScale) +
+                (_mockPointSize - _mockPointSize * (_horizontalHeaderTable.Ascender - _horizontalHeaderTable.Descender) / _mockDesignScale) / 2;
+            _testObject.CalculationStyle = CalculationStyle.Windows;
 
-            double testOutput = testObject.EmptyStringMetrics.HeightAboveBaseline;
+            double testOutput = _testObject.EmptyStringMetrics.HeightAboveBaseline;
 
             Assert.AreEqual(expectedValue, testOutput, 0.000000001);
         }
@@ -349,20 +398,11 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptor_HeightAboveBaselinePropertyOfEmptyStringMetricsProperty_HasValueDerivedFromAscenderAndDescenderPropertiesOfOS2MetricsPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintoshAndOS2MetricsTableHasAscenderPropertyPopulated()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = (testParam1 * mockOs2MetricsTable.Ascender.Value / mockDesignUnits) +
-                (testParam1 - testParam1 * (mockOs2MetricsTable.Ascender.Value - mockOs2MetricsTable.Descender.Value) / mockDesignUnits) / 2;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Windows };
+            double expectedValue = (_mockPointSize * _oS2MetricsTable.Ascender.Value / _mockDesignScale) +
+                (_mockPointSize - _mockPointSize * (_oS2MetricsTable.Ascender.Value - _oS2MetricsTable.Descender.Value) / _mockDesignScale) / 2;
+            _testObject.CalculationStyle = CalculationStyle.Windows;
 
-            double testOutput = testObject.EmptyStringMetrics.HeightAboveBaseline;
+            double testOutput = _testObject.EmptyStringMetrics.HeightAboveBaseline;
 
             Assert.AreEqual(expectedValue, testOutput, 0.000000001);
         }
@@ -370,17 +410,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptor_AscenderHeightPropertyOfEmptyStringMetricsProperty_HasValueDerivedFromAscenderPropertyOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintosh()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = testParam1 * mockHorizontalHeaderTable.Ascender / mockDesignUnits;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Macintosh };
+            double expectedValue = _mockPointSize * _horizontalHeaderTable.Ascender / _mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Macintosh;
 
-            double testOutput = testObject.EmptyStringMetrics.AscenderHeight;
+            double testOutput = _testObject.EmptyStringMetrics.AscenderHeight;
 
             Assert.AreEqual(expectedValue, testOutput, 0.000000001);
         }
@@ -388,19 +421,11 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptor_AscenderHeightPropertyOfEmptyStringMetricsProperty_HasValueDerivedFromAscenderPropertyOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintoshAndOS2MetricsTableDoesNotHaveAscenderPropertyPopulated()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTableVersion0();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = testParam1 * mockHorizontalHeaderTable.Ascender / mockDesignUnits;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Windows };
+            _oS2MetricsTable = GetOS2MetricsTableVersion0();
+            double expectedValue = _mockPointSize * _horizontalHeaderTable.Ascender / _mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Windows;
 
-            double testOutput = testObject.EmptyStringMetrics.AscenderHeight;
+            double testOutput = _testObject.EmptyStringMetrics.AscenderHeight;
 
             Assert.AreEqual(expectedValue, testOutput, 0.000000001);
         }
@@ -408,19 +433,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptor_AscenderHeightPropertyOfEmptyStringMetricsProperty_HasValueDerivedFromAscenderPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintoshAndOS2MetricsTableHasAscenderPropertyPopulated()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = testParam1 * mockOs2MetricsTable.Ascender.Value / mockDesignUnits;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Windows };
+            double expectedValue = _mockPointSize * _oS2MetricsTable.Ascender.Value / _mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Windows;
 
-            double testOutput = testObject.EmptyStringMetrics.AscenderHeight;
+            double testOutput = _testObject.EmptyStringMetrics.AscenderHeight;
 
             Assert.AreEqual(expectedValue, testOutput, 0.000000001);
         }
@@ -428,17 +444,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptor_DescenderHeightPropertyOfEmptyStringMetricsProperty_HasValueDerivedFromDescenderPropertyOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintosh()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = -testParam1 * mockHorizontalHeaderTable.Descender / mockDesignUnits;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Macintosh };
+            double expectedValue = -_mockPointSize * _horizontalHeaderTable.Descender / _mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Macintosh;
 
-            double testOutput = testObject.EmptyStringMetrics.DescenderHeight;
+            double testOutput = _testObject.EmptyStringMetrics.DescenderHeight;
 
             Assert.AreEqual(expectedValue, testOutput, 0.000000001);
         }
@@ -446,19 +455,11 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptor_DescenderHeightPropertyOfEmptyStringMetricsProperty_HasValueDerivedFromDescenderPropertyOfHorizontalHeaderPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintoshAndOS2MetricsTableDoesNotHaveAscenderPropertyPopulated()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTableVersion0();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = -testParam1 * mockHorizontalHeaderTable.Descender / mockDesignUnits;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Windows };
+            _oS2MetricsTable = GetOS2MetricsTableVersion0();
+            double expectedValue = -_mockPointSize * _horizontalHeaderTable.Descender / _mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Windows;
 
-            double testOutput = testObject.EmptyStringMetrics.DescenderHeight;
+            double testOutput = _testObject.EmptyStringMetrics.DescenderHeight;
 
             Assert.AreEqual(expectedValue, testOutput, 0.000000001);
         }
@@ -466,19 +467,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptor_DescenderHeightPropertyOfEmptyStringMetricsProperty_HasValueDerivedFromDescenderPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfCalculationStylePropertyIsMacintoshAndOS2MetricsTableHasAscenderPropertyPopulated()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            HorizontalHeaderTable mockHorizontalHeaderTable = GetHheaTable();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.HorizontalHeader).Returns(mockHorizontalHeaderTable);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont testParam0 = mockFont.Object;
-            double testParam1 = _rnd.NextDouble() * 48;
-            double expectedValue = -testParam1 * mockOs2MetricsTable.Descender.Value / mockDesignUnits;
-            OpenTypeFontDescriptor testObject = new(testParam0, testParam1) { CalculationStyle = CalculationStyle.Windows };
+            double expectedValue = -_mockPointSize * _oS2MetricsTable.Descender.Value / _mockDesignScale;
+            _testObject.CalculationStyle = CalculationStyle.Windows;
 
-            double testOutput = testObject.EmptyStringMetrics.DescenderHeight;
+            double testOutput = _testObject.EmptyStringMetrics.DescenderHeight;
 
             Assert.AreEqual(expectedValue, testOutput, 0.000000001);
         }
@@ -486,74 +478,44 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptor_GetNormalSpaceWidthMethod_CallsAdvanceWidthMethodOfFirstParameterOfConstructor_IfOS2MetricsTableIsVersion0()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTableVersion0();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
-            IGraphicsContext testParam0 = new Mock<IGraphicsContext>().Object;
+            _oS2MetricsTable = GetOS2MetricsTableVersion0();
+            IGraphicsContext testParam0 = _mockGraphicsContext.Object;
 
-            _ = testObject.GetNormalSpaceWidth(testParam0);
+            _ = _testObject.GetNormalSpaceWidth(testParam0);
 
-            mockFont.Verify(f => f.AdvanceWidth(It.IsAny<PlatformId>(), It.IsAny<long>()), Times.Once());
+            _mockFont.Verify(f => f.AdvanceWidth(It.IsAny<PlatformId>(), It.IsAny<long>()), Times.Once());
         }
 
         [TestMethod]
         public void OpenTypeFontDescriptor_GetNormalSpaceWidthMethod_CallsAdvanceWidthMethodOfFirstParameterOfConstructorWithFirstParameterEqualToWindows_IfOS2MetricsTableIsVersion0()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTableVersion0();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
-            IGraphicsContext testParam0 = new Mock<IGraphicsContext>().Object;
+            _oS2MetricsTable = GetOS2MetricsTableVersion0();
+            IGraphicsContext testParam0 = _mockGraphicsContext.Object;
 
-            _ = testObject.GetNormalSpaceWidth(testParam0);
+            _ = _testObject.GetNormalSpaceWidth(testParam0);
 
-            mockFont.Verify(f => f.AdvanceWidth(PlatformId.Windows, It.IsAny<long>()), Times.Once());
+            _mockFont.Verify(f => f.AdvanceWidth(PlatformId.Windows, It.IsAny<long>()), Times.Once());
         }
 
         [TestMethod]
         public void OpenTypeFontDescriptor_GetNormalSpaceWidthMethod_CallsAdvanceWidthMethodOfFirstParameterOfConstructorWithSecondParameterEqualTo32_IfOS2MetricsTableIsVersion0()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTableVersion0();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
-            IGraphicsContext testParam0 = new Mock<IGraphicsContext>().Object;
+            _oS2MetricsTable = GetOS2MetricsTableVersion0();
+            IGraphicsContext testParam0 = _mockGraphicsContext.Object;
 
-            _ = testObject.GetNormalSpaceWidth(testParam0);
+            _ = _testObject.GetNormalSpaceWidth(testParam0);
 
-            mockFont.Verify(f => f.AdvanceWidth(It.IsAny<PlatformId>(), 32), Times.Once());
+            _mockFont.Verify(f => f.AdvanceWidth(It.IsAny<PlatformId>(), 32), Times.Once());
         }
 
         [TestMethod]
         public void OpenTypeFontDescriptor_GetNormalSpaceWidthMethod_ReturnsValueDerivedFromReturnValueOfAdvanceWidthMethodOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfOS2MetricsTableIsVersion0()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTableVersion0();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            int mockCharacterWidth = _rnd.Next();
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            mockFont.Setup(f => f.AdvanceWidth(It.IsAny<PlatformId>(), It.IsAny<long>())).Returns(mockCharacterWidth);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
-            IGraphicsContext testParam0 = new Mock<IGraphicsContext>().Object;
-            double expectedValue = constrParam1 * mockCharacterWidth / mockDesignUnits;
+            _oS2MetricsTable = GetOS2MetricsTableVersion0();
+            IGraphicsContext testParam0 = _mockGraphicsContext.Object;
+            double expectedValue = _mockPointSize * _mockCharacterWidth / _mockDesignScale;
 
-            double testOutput = testObject.GetNormalSpaceWidth(testParam0);
+            double testOutput = _testObject.GetNormalSpaceWidth(testParam0);
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -561,74 +523,40 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptor_GetNormalSpaceWidthMethod_CallsAdvanceWidthMethodOfFirstParameterOfConstructor_IfOS2MetricsTableIsVersion5()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
-            IGraphicsContext testParam0 = new Mock<IGraphicsContext>().Object;
+            IGraphicsContext testParam0 = _mockGraphicsContext.Object;
 
-            _ = testObject.GetNormalSpaceWidth(testParam0);
+            _ = _testObject.GetNormalSpaceWidth(testParam0);
 
-            mockFont.Verify(f => f.AdvanceWidth(It.IsAny<PlatformId>(), It.IsAny<long>()), Times.Once());
+            _mockFont.Verify(f => f.AdvanceWidth(It.IsAny<PlatformId>(), It.IsAny<long>()), Times.Once());
         }
 
         [TestMethod]
         public void OpenTypeFontDescriptor_GetNormalSpaceWidthMethod_CallsAdvanceWidthMethodOfFirstParameterOfConstructorWithFirstParameterEqualToWindows_IfOS2MetricsTableIsVersion5()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
-            IGraphicsContext testParam0 = new Mock<IGraphicsContext>().Object;
+            IGraphicsContext testParam0 = _mockGraphicsContext.Object;
 
-            _ = testObject.GetNormalSpaceWidth(testParam0);
+            _ = _testObject.GetNormalSpaceWidth(testParam0);
 
-            mockFont.Verify(f => f.AdvanceWidth(PlatformId.Windows, It.IsAny<long>()), Times.Once());
+            _mockFont.Verify(f => f.AdvanceWidth(PlatformId.Windows, It.IsAny<long>()), Times.Once());
         }
 
         [TestMethod]
         public void OpenTypeFontDescriptor_GetNormalSpaceWidthMethod_CallsAdvanceWidthMethodOfFirstParameterOfConstructorWithSecondParameterEqualToBreakCharPropertyOfOS2MetricsTable_IfOS2MetricsTableIsVersion5()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
-            IGraphicsContext testParam0 = new Mock<IGraphicsContext>().Object;
+            IGraphicsContext testParam0 = _mockGraphicsContext.Object;
 
-            _ = testObject.GetNormalSpaceWidth(testParam0);
+            _ = _testObject.GetNormalSpaceWidth(testParam0);
 
-            mockFont.Verify(f => f.AdvanceWidth(It.IsAny<PlatformId>(), mockOs2MetricsTable.BreakChar.Value), Times.Once());
+            _mockFont.Verify(f => f.AdvanceWidth(It.IsAny<PlatformId>(), _oS2MetricsTable.BreakChar.Value), Times.Once());
         }
 
         [TestMethod]
         public void OpenTypeFontDescriptor_GetNormalSpaceWidthMethod_ReturnsValueDerivedFromReturnValueOfAdvanceWidthMethodOfFirstParameterOfConstructorAndSecondParameterOfConstructor_IfOS2MetricsTableIsVersion5()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            OS2MetricsTable mockOs2MetricsTable = GetOS2MetricsTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            int mockCharacterWidth = _rnd.Next();
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOs2MetricsTable);
-            mockFont.Setup(f => f.AdvanceWidth(It.IsAny<PlatformId>(), It.IsAny<long>())).Returns(mockCharacterWidth);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
-            IGraphicsContext testParam0 = new Mock<IGraphicsContext>().Object;
-            double expectedValue = constrParam1 * mockCharacterWidth / mockDesignUnits;
+            IGraphicsContext testParam0 = _mockGraphicsContext.Object;
+            double expectedValue = _mockPointSize * _mockCharacterWidth / _mockDesignScale;
 
-            double testOutput = testObject.GetNormalSpaceWidth(testParam0);
+            double testOutput = _testObject.GetNormalSpaceWidth(testParam0);
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -636,18 +564,9 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_BoundingBoxProperty_HasValueWithMinXPropertyDerivedFromXMinPropertyOfHeaderPropertyOfFirstParameterOfConstructor()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            short mockXmin = _rnd.NextShort();
-            HeaderTable mockHeaderTable = GetHeaderTable(mockXmin, null, null, null);
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.Header).Returns(mockHeaderTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
-            double expectedValue = 1000 * mockXmin / (double)mockDesignUnits;
+            double expectedValue = 1000 * _xMin / (double)_mockDesignScale;
 
-            double testOutput = testObject.BoundingBox.MinX;
+            double testOutput = _testObject.BoundingBox.MinX;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -655,18 +574,9 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_BoundingBoxProperty_HasValueWithMinYPropertyDerivedFromYMinPropertyOfHeaderPropertyOfFirstParameterOfConstructor()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            short mockYmin = _rnd.NextShort();
-            HeaderTable mockHeaderTable = GetHeaderTable(null, null, mockYmin, null);
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.Header).Returns(mockHeaderTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
-            double expectedValue = 1000 * mockYmin / (double)mockDesignUnits;
+            double expectedValue = 1000 * _yMin / (double)_mockDesignScale;
 
-            double testOutput = testObject.BoundingBox.MinY;
+            double testOutput = _testObject.BoundingBox.MinY;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -674,19 +584,9 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_BoundingBoxProperty_HasValueWithWidthPropertyDerivedFromXMinAndXMaxPropertiesOfHeaderPropertyOfFirstParameterOfConstructor()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            short mockXmin = _rnd.NextShort();
-            short mockXmax = _rnd.NextShort();
-            HeaderTable mockHeaderTable = GetHeaderTable(mockXmin, mockXmax, null, null);
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.Header).Returns(mockHeaderTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
-            double expectedValue = 1000 * (mockXmax - mockXmin) / (double)mockDesignUnits;
+            double expectedValue = 1000 * (_xMax - _xMin) / (double)_mockDesignScale;
 
-            double testOutput = testObject.BoundingBox.Width;
+            double testOutput = _testObject.BoundingBox.Width;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -694,19 +594,9 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_BoundingBoxProperty_HasValueWithHeightPropertyDerivedFromYMinAndYMaxPropertiesOfHeaderPropertyOfFirstParameterOfConstructor()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            short mockYmin = _rnd.NextShort();
-            short mockYmax = _rnd.NextShort();
-            HeaderTable mockHeaderTable = GetHeaderTable(null, null, mockYmin, mockYmax);
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.Header).Returns(mockHeaderTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
-            double expectedValue = 1000 * (mockYmax - mockYmin) / (double)mockDesignUnits;
+            double expectedValue = 1000 * (_yMax - _yMin) / (double)_mockDesignScale;
 
-            double testOutput = testObject.BoundingBox.Height;
+            double testOutput = _testObject.BoundingBox.Height;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -714,17 +604,9 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_CapHeightProperty_HasValueDerivedFromCapHeightPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructor_IfCapHeightPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorIsPopulated()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            OS2MetricsTable mockOS2MetricsTable = GetOS2MetricsTable();
-            int mockDesignUnits = _rnd.Next(1, 16384);
-            mockFont.Setup(f => f.DesignUnitsPerEm).Returns(mockDesignUnits);
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockOS2MetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
-            decimal expectedValue = (decimal)(1000 * mockOS2MetricsTable.CapHeight.Value / (double)mockDesignUnits);
+            decimal expectedValue = (decimal)(1000 * _oS2MetricsTable.CapHeight.Value / (double)_mockDesignScale);
 
-            decimal testOutput = testObject.CapHeight;
+            decimal testOutput = _testObject.CapHeight;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -732,15 +614,9 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_ItalicAngleProperty_ReturnsValueOfItalicAnglePropertyOfPostScriptDatapropertyOfFirstParameterOfConstructor()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            PostScriptTable mockPostScriptData = GetPostScriptTable();
-            mockFont.Setup(f => f.PostScriptData).Returns(mockPostScriptData);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
-            decimal expectedValue = mockPostScriptData.ItalicAngle;
+            decimal expectedValue = _postScriptTable.ItalicAngle;
 
-            decimal testOutput = testObject.ItalicAngle;
+            decimal testOutput = _testObject.ItalicAngle;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -748,13 +624,9 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_VerticalStemThicknessProperty_ReturnsZero()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
             decimal expectedValue = 0m;
 
-            decimal testOutput = testObject.VerticalStemThickness;
+            decimal testOutput = _testObject.VerticalStemThickness;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -762,13 +634,9 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_RequiresFullDescriptionProperty_ReturnsTrue()
         {
-            Mock<IOpenTypeFont> mockFont = new();
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
             bool expectedValue = true;
 
-            bool testOutput = testObject.RequiresFullDescription;
+            bool testOutput = _testObject.RequiresFullDescription;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -776,15 +644,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_RequiresEmbeddingProperty_ReturnsTrue_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsInstallable()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Installable);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Installable);
             bool expectedValue = true;
 
-            bool testOutput = testObject.RequiresEmbedding;
+            bool testOutput = _testObject.RequiresEmbedding;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -792,15 +655,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_RequiresEmbeddingProperty_ReturnsFalse_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsBitMapOnly()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.BitmapOnly);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.BitmapOnly);
             bool expectedValue = false;
 
-            bool testOutput = testObject.RequiresEmbedding;
+            bool testOutput = _testObject.RequiresEmbedding;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -808,15 +666,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_RequiresEmbeddingProperty_ReturnsFalse_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsRestricted()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Restricted);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Restricted);
             bool expectedValue = false;
 
-            bool testOutput = testObject.RequiresEmbedding;
+            bool testOutput = _testObject.RequiresEmbedding;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -824,15 +677,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_RequiresEmbeddingProperty_ReturnsFalse_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsRestrictedAndBitMapOnly()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.BitmapOnly);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.BitmapOnly);
             bool expectedValue = false;
 
-            bool testOutput = testObject.RequiresEmbedding;
+            bool testOutput = _testObject.RequiresEmbedding;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -840,15 +688,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_RequiresEmbeddingProperty_ReturnsTrue_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsPrinting()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Printing);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Printing);
             bool expectedValue = true;
 
-            bool testOutput = testObject.RequiresEmbedding;
+            bool testOutput = _testObject.RequiresEmbedding;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -856,15 +699,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_RequiresEmbeddingProperty_ReturnsFalse_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsPrintingAndBitMapOnly()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Printing | EmbeddingPermissions.BitmapOnly);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Printing | EmbeddingPermissions.BitmapOnly);
             bool expectedValue = false;
 
-            bool testOutput = testObject.RequiresEmbedding;
+            bool testOutput = _testObject.RequiresEmbedding;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -872,15 +710,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_RequiresEmbeddingProperty_ReturnsTrue_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsEditable()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Editable);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Editable);
             bool expectedValue = true;
 
-            bool testOutput = testObject.RequiresEmbedding;
+            bool testOutput = _testObject.RequiresEmbedding;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -888,15 +721,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_RequiresEmbeddingProperty_ReturnsFalse_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsEditableAndBitMapOnly()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Editable | EmbeddingPermissions.BitmapOnly);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Editable | EmbeddingPermissions.BitmapOnly);
             bool expectedValue = false;
 
-            bool testOutput = testObject.RequiresEmbedding;
+            bool testOutput = _testObject.RequiresEmbedding;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -904,15 +732,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingKeyProperty_ReturnsFontFile2_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsInstallable()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Installable);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Installable);
             string expectedValue = "FontFile2";
 
-            string testOutput = testObject.EmbeddingKey;
+            string testOutput = _testObject.EmbeddingKey;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -920,15 +743,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingKeyProperty_ReturnsEmptyString_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsBitmapOnly()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.BitmapOnly);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.BitmapOnly);
             string expectedValue = "";
 
-            string testOutput = testObject.EmbeddingKey;
+            string testOutput = _testObject.EmbeddingKey;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -936,15 +754,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingKeyProperty_ReturnsFontFile2_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsPrinting()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Printing);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Printing);
             string expectedValue = "FontFile2";
 
-            string testOutput = testObject.EmbeddingKey;
+            string testOutput = _testObject.EmbeddingKey;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -952,15 +765,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingKeyProperty_ReturnsEmptyString_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsPrintingAndBitmapOnly()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Printing | EmbeddingPermissions.BitmapOnly);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Printing | EmbeddingPermissions.BitmapOnly);
             string expectedValue = "";
 
-            string testOutput = testObject.EmbeddingKey;
+            string testOutput = _testObject.EmbeddingKey;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -968,15 +776,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingKeyProperty_ReturnsFontFile2_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsEditable()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Editable);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Editable);
             string expectedValue = "FontFile2";
 
-            string testOutput = testObject.EmbeddingKey;
+            string testOutput = _testObject.EmbeddingKey;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -984,15 +787,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingKeyProperty_ReturnsEmptyString_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsEditableAndBitmapOnly()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Editable | EmbeddingPermissions.BitmapOnly);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Editable | EmbeddingPermissions.BitmapOnly);
             string expectedValue = "";
 
-            string testOutput = testObject.EmbeddingKey;
+            string testOutput = _testObject.EmbeddingKey;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -1000,15 +798,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingKeyProperty_ReturnsEmptyString_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsRestricted()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Restricted);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Restricted);
             string expectedValue = "";
 
-            string testOutput = testObject.EmbeddingKey;
+            string testOutput = _testObject.EmbeddingKey;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -1016,15 +809,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingKeyProperty_ReturnsEmptyString_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsRestrictedAndBitmapOnly()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Restricted | EmbeddingPermissions.BitmapOnly);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Restricted | EmbeddingPermissions.BitmapOnly);
             string expectedValue = "";
 
-            string testOutput = testObject.EmbeddingKey;
+            string testOutput = _testObject.EmbeddingKey;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -1032,16 +820,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingLengthProperty_ReturnsLengthPropertyOfFirstParameterOfConstructor_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsInstallable()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Installable);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            long expectedValue = _rnd.Next();
-            mockFont.Setup(f => f.Length).Returns(expectedValue);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Installable);
+            long expectedValue = _fontLength;
 
-            long testOutput = testObject.EmbeddingLength;
+            long testOutput = _testObject.EmbeddingLength;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -1049,16 +831,9 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingLengthProperty_ReturnsZero_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsBitmapOnly()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.BitmapOnly);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            long expectedValue = _rnd.Next();
-            mockFont.Setup(f => f.Length).Returns(expectedValue);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.BitmapOnly);
 
-            long testOutput = testObject.EmbeddingLength;
+            long testOutput = _testObject.EmbeddingLength;
 
             Assert.AreEqual(0, testOutput);
         }
@@ -1066,16 +841,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingLengthProperty_ReturnsLengthPropertyOfFirstParameterOfConstructor_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsPrinting()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Printing);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            long expectedValue = _rnd.Next();
-            mockFont.Setup(f => f.Length).Returns(expectedValue);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Printing);
+            long expectedValue = _fontLength;
 
-            long testOutput = testObject.EmbeddingLength;
+            long testOutput = _testObject.EmbeddingLength;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -1083,16 +852,9 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingLengthProperty_ReturnsZero_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsPrintingAndBitmapOnly()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Printing | EmbeddingPermissions.BitmapOnly);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            long expectedValue = _rnd.Next();
-            mockFont.Setup(f => f.Length).Returns(expectedValue);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Printing | EmbeddingPermissions.BitmapOnly);
 
-            long testOutput = testObject.EmbeddingLength;
+            long testOutput = _testObject.EmbeddingLength;
 
             Assert.AreEqual(0, testOutput);
         }
@@ -1100,16 +862,10 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingLengthProperty_ReturnsLengthPropertyOfFirstParameterOfConstructor_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsEditable()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Editable);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            long expectedValue = _rnd.Next();
-            mockFont.Setup(f => f.Length).Returns(expectedValue);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Editable);
+            long expectedValue = _fontLength;
 
-            long testOutput = testObject.EmbeddingLength;
+            long testOutput = _testObject.EmbeddingLength;
 
             Assert.AreEqual(expectedValue, testOutput);
         }
@@ -1117,16 +873,9 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingLengthProperty_ReturnsZero_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsEditableAndBitmapOnly()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Editable | EmbeddingPermissions.BitmapOnly);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            long expectedValue = _rnd.Next();
-            mockFont.Setup(f => f.Length).Returns(expectedValue);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Editable | EmbeddingPermissions.BitmapOnly);
 
-            long testOutput = testObject.EmbeddingLength;
+            long testOutput = _testObject.EmbeddingLength;
 
             Assert.AreEqual(0, testOutput);
         }
@@ -1134,16 +883,9 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingLengthProperty_ReturnsZero_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsRestricted()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Restricted);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            long expectedValue = _rnd.Next();
-            mockFont.Setup(f => f.Length).Returns(expectedValue);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Restricted);
 
-            long testOutput = testObject.EmbeddingLength;
+            long testOutput = _testObject.EmbeddingLength;
 
             Assert.AreEqual(0, testOutput);
         }
@@ -1151,16 +893,9 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingLengthProperty_ReturnsZero_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsRestrictedAndBitmapOnly()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Restricted | EmbeddingPermissions.BitmapOnly);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            long expectedValue = _rnd.Next();
-            mockFont.Setup(f => f.Length).Returns(expectedValue);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Restricted | EmbeddingPermissions.BitmapOnly);
 
-            long testOutput = testObject.EmbeddingLength;
+            long testOutput = _testObject.EmbeddingLength;
 
             Assert.AreEqual(0, testOutput);
         }
@@ -1168,126 +903,126 @@ namespace Unicorn.FontTools.Tests.Unit
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingDataProperty_ReturnsFirstParameterOfConstructor_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsInstallable()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Installable);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Installable);
 
-            IEnumerable<byte> testOutput = testObject.EmbeddingData;
+            IEnumerable<byte> testOutput = _testObject.EmbeddingData;
 
-            Assert.AreEqual(constrParam0, testOutput);
+            Assert.AreEqual(_mockFont.Object, testOutput);
         }
 
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingDataProperty_ReturnsEmptyArray_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsBitmapOnly()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.BitmapOnly);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.BitmapOnly);
 
-            IEnumerable<byte> testOutput = testObject.EmbeddingData;
+            IEnumerable<byte> testOutput = _testObject.EmbeddingData;
 
-            Assert.AreNotEqual(constrParam0, testOutput);
+            Assert.AreNotEqual(_mockFont, testOutput);
             Assert.AreEqual(0, testOutput.Count());
         }
 
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingDataProperty_ReturnsFirstParameterOfConstructor_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsEditable()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Editable);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Editable);
 
-            IEnumerable<byte> testOutput = testObject.EmbeddingData;
+            IEnumerable<byte> testOutput = _testObject.EmbeddingData;
 
-            Assert.AreEqual(constrParam0, testOutput);
+            Assert.AreEqual(_mockFont.Object, testOutput);
         }
 
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingDataProperty_ReturnsEmptyArray_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsEditableAndBitmapOnly()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Editable | EmbeddingPermissions.BitmapOnly);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Editable | EmbeddingPermissions.BitmapOnly);
 
-            IEnumerable<byte> testOutput = testObject.EmbeddingData;
+            IEnumerable<byte> testOutput = _testObject.EmbeddingData;
 
-            Assert.AreNotEqual(constrParam0, testOutput);
+            Assert.AreNotEqual(_mockFont, testOutput);
             Assert.AreEqual(0, testOutput.Count());
         }
 
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingDataProperty_ReturnsFirstParameterOfConstructor_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsPrinting()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Printing);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Printing);
 
-            IEnumerable<byte> testOutput = testObject.EmbeddingData;
+            IEnumerable<byte> testOutput = _testObject.EmbeddingData;
 
-            Assert.AreEqual(constrParam0, testOutput);
+            Assert.AreEqual(_mockFont.Object, testOutput);
         }
 
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingDataProperty_ReturnsEmptyArray_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsPrintingBitmapOnly()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Printing | EmbeddingPermissions.BitmapOnly);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Printing | EmbeddingPermissions.BitmapOnly);
 
-            IEnumerable<byte> testOutput = testObject.EmbeddingData;
+            IEnumerable<byte> testOutput = _testObject.EmbeddingData;
 
-            Assert.AreNotEqual(constrParam0, testOutput);
+            Assert.AreNotEqual(_mockFont, testOutput);
             Assert.AreEqual(0, testOutput.Count());
         }
 
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingDataProperty_ReturnsEmptyArray_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsRestricted()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Restricted);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Restricted);
 
-            IEnumerable<byte> testOutput = testObject.EmbeddingData;
+            IEnumerable<byte> testOutput = _testObject.EmbeddingData;
 
-            Assert.AreNotEqual(constrParam0, testOutput);
+            Assert.AreNotEqual(_mockFont, testOutput);
             Assert.AreEqual(0, testOutput.Count());
         }
 
         [TestMethod]
         public void OpenTypeFontDescriptorClass_EmbeddingDataProperty_ReturnsEmptyArray_IfEmbeddingFlagsPropertyOfOS2MetricsPropertyOfFirstParameterOfConstructorEqualsRestrictedAndBitmapOnly()
         {
-            OS2MetricsTable mockMetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Restricted | EmbeddingPermissions.BitmapOnly);
-            Mock<IOpenTypeFont> mockFont = new();
-            mockFont.Setup(f => f.OS2Metrics).Returns(mockMetricsTable);
-            IOpenTypeFont constrParam0 = mockFont.Object;
-            double constrParam1 = _rnd.NextDouble() * 48;
-            OpenTypeFontDescriptor testObject = new(constrParam0, constrParam1) { CalculationStyle = _rnd.NextOpenTypeCalculationStyle() };
+            _oS2MetricsTable = GetOS2MetricsTable(EmbeddingPermissions.Restricted | EmbeddingPermissions.BitmapOnly);
 
-            IEnumerable<byte> testOutput = testObject.EmbeddingData;
+            IEnumerable<byte> testOutput = _testObject.EmbeddingData;
 
-            Assert.AreNotEqual(constrParam0, testOutput);
+            Assert.AreNotEqual(_mockFont, testOutput);
             Assert.AreEqual(0, testOutput.Count());
+        }
+
+        [TestMethod]
+        public void OpenTypeFontDescriptorClass_ImplementationProperty_EqualsOpenType()
+        {
+            FontImplementation testOutput = _testObject.Implementation;
+
+            Assert.AreEqual(FontImplementation.OpenType, testOutput);
+        }
+
+        [TestMethod]
+        public void OpenTypeFontDescriptorClass_GetSpecialSubtypeMethod_ReturnsTrueType()
+        {
+            string testOutput = _testObject.GetSpecialSubtypeName();
+
+            Assert.AreEqual("TrueType", testOutput);
+        }
+
+        [TestMethod]
+        public void OpenTypeFontDescriptorClass_PreferredEncodingNameMethod_EqualsWinAnsiEncoding()
+        {
+            string testOutput = _testObject.PreferredEncodingName;
+
+            Assert.AreEqual("WinAnsiEncoding", testOutput);
+        }
+
+        [TestMethod]
+        public void OpenTypeFontDescriptorClass_FirstMappedByteMethod_ReturnsCorrectValueBasedOnUnderlyingFontData()
+        {
+            byte testOutput = _testObject.FirstMappedByte();
+
+            Assert.AreEqual(_firstDefinedGlyph, testOutput);
+        }
+
+        [TestMethod]
+        public void OpenTypeFontDescriptorClass_LastMappedByteMethod_ReturnsCorrectValueBasedOnUnderlyingFontData()
+        {
+            byte testOutput = _testObject.LastMappedByte();
+
+            Assert.AreEqual(_lastDefinedGlyph, testOutput);
         }
 
 #pragma warning restore CA5394 // Do not use insecure randomness

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Unicorn.Writer.Primitives;
+using Unicorn.Writer.Streams;
 
 namespace Unicorn.Tests.Unit.TestHelpers
 {

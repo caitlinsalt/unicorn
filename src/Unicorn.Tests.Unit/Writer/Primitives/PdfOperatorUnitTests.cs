@@ -9,6 +9,7 @@ using Unicorn.Base.Tests.Utility;
 using Unicorn.Tests.Unit.TestHelpers;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Primitives;
+using Unicorn.Writer.Streams;
 
 namespace Unicorn.Tests.Unit.Writer.Primitives
 {
@@ -870,6 +871,97 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
         }
 
         [TestMethod]
+        public void PdfOperatorClass_FillAndStrokePathMethod_CreatesObjectWithCorrectValueProperty()
+        {
+            PdfOperator testOutput = PdfOperator.FillAndStrokePath();
+
+            Assert.AreEqual("B", testOutput.Value);
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_FillAndStrokePathMethod_CreatesObjectWithCorrectByteLengthProperty()
+        {
+            PdfOperator testOutput = PdfOperator.FillAndStrokePath();
+
+            // The ByteLength of a "B" operator is one character for the operator and one for a space.
+            Assert.AreEqual(2, testOutput.ByteLength);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_FillAndStrokePathMethod_WriteToMethodWithListParameter_ThrowsExceptionIfParameterOfSecondMethodIsNull()
+        {
+            List<byte> testParam = null;
+
+            PdfOperator testOutput0 = PdfOperator.FillAndStrokePath();
+            _ = testOutput0.WriteTo(testParam);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_FillAndStrokePathMethod_WriteToMethodWithListParameter_WritesCorrectValueToList()
+        {
+            List<byte> testParam = new();
+            List<byte> expected = new() { 0x42, 0x20 };
+
+            PdfOperator testOutput0 = PdfOperator.FillAndStrokePath();
+            _ = testOutput0.WriteTo(testParam);
+
+            AssertionHelpers.AssertSameElements(expected, testParam);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_FillAndStrokePathMethod_WriteToMethodWithStreamParameter_ThrowsArgumentNullException_IfParameterOfSecondMethodIsNull()
+        {
+            Stream testParam = null;
+
+            PdfOperator testOutput0 = PdfOperator.FillAndStrokePath();
+            _ = testOutput0.WriteTo(testParam);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_FillAndStrokePathMethod_WriteToMethodWithStreamParameter_WritesCorrectValueToStream()
+        {
+            using MemoryStream testParam = new();
+            using MemoryStream expected = new();
+            expected.Write(new byte[] { 0x42, 0x20 }, 0, 2);
+
+            PdfOperator testOutput0 = PdfOperator.FillAndStrokePath();
+            _ = testOutput0.WriteTo(testParam);
+
+            AssertionHelpers.AssertSameElements(expected, testParam);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_FillAndStrokePathMethod_WriteToMethodWithPdfStreamParameter_ThrowsArgumentNullException_IfParameterToSecondMethodIsNull()
+        {
+            PdfStream testParam = null;
+
+            PdfOperator testOutput0 = PdfOperator.FillAndStrokePath();
+            _ = testOutput0.WriteTo(testParam);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_FillAndStrokePathMethod_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToStream()
+        {
+            PdfStream testParam = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
+            expected.AddRange(new byte[] { 0x42, 0x20 });
+
+            PdfOperator testOutput0 = PdfOperator.FillAndStrokePath();
+            _ = testOutput0.WriteTo(testParam);
+
+            AssertionHelpers.AssertSameElements(expected, testParam);
+        }
+
+        [TestMethod]
         public void PdfOperatorClass_StartTextMethod_CreatesObjectWithCorrectValueProperty()
         {
             PdfOperator testOutput = PdfOperator.StartText();
@@ -1550,6 +1642,956 @@ namespace Unicorn.Tests.Unit.Writer.Primitives
             _ = testOutput.WriteTo(testParam1);
 
             AssertionHelpers.AssertSameElements(expected, testParam1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceGreyscaleStrokingColourMethod_ThrowsArgumentNullException_IfParameterIsNull()
+        {
+            PdfNumber testParam0 = null;
+
+            _ = PdfOperator.SetDeviceGreyscaleStrokingColour(testParam0);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceGreyscaleStrokingColourMethod_CreatesObjectWithCorrectValueProperty()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfOperator testOutput = PdfOperator.SetDeviceGreyscaleStrokingColour(testParam0);
+
+            Assert.AreEqual("G", testOutput.Value);
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceGreyscaleStrokingColourMethod_CreatesObjectWithCorrectByteLengthProperty()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+
+            PdfOperator testOutput = PdfOperator.SetDeviceGreyscaleStrokingColour(testParam0);
+
+            // The ByteLength of a "G" operator is the lengths of the operands, one char for the operator, and a space.
+            Assert.AreEqual(testParam0.ByteLength + 2, testOutput.ByteLength);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceGreyscaleStrokingColourMethod_WriteToMethodWithListParameter_ThrowsExceptionIfParameterOfSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            List<byte> testParam1 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceGreyscaleStrokingColour(testParam0);
+            _ = testOutput0.WriteTo(testParam1);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceGreyscaleStrokingColourMethod_WriteToMethodWithListParameter_WritesCorrectValueToList()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            List<byte> testParam1 = new();
+            List<byte> expected = new();
+            testParam0.WriteTo(expected);
+            expected.AddRange(new byte[] { 0x47, 0x20 });
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceGreyscaleStrokingColour(testParam0);
+            _ = testOutput0.WriteTo(testParam1);
+
+            AssertionHelpers.AssertSameElements(expected, testParam1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceGreyscaleStrokingColourMethod_WriteToMethodWithStreamParameter_ThrowsArgumentNullException_IfParameterOfSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            Stream testParam1 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceGreyscaleStrokingColour(testParam0);
+            _ = testOutput0.WriteTo(testParam1);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceGreyscaleStrokingColourMethod_WriteToMethodWithStreamParameter_WritesCorrectValueToStream()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            using MemoryStream testParam4 = new();
+            using MemoryStream expected = new();
+            testParam0.WriteTo(expected);
+            expected.Write(new byte[] { 0x47, 0x20 }, 0, 2);
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceGreyscaleStrokingColour(testParam0);
+            _ = testOutput0.WriteTo(testParam4);
+
+            AssertionHelpers.AssertSameElements(expected, testParam4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceGreyscaleStrokingColourMethod_WriteToMethodWithPdfStreamParameter_ThrowsArgumentNullException_IfParameterToSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfStream testParam2 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceGreyscaleStrokingColour(testParam0);
+            _ = testOutput0.WriteTo(testParam2);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceGreyscaleStrokingColourMethod_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToStream()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfStream testParam2 = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
+            testParam0.WriteTo(expected);
+            expected.AddRange(new byte[] { 0x47, 0x20 });
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceGreyscaleStrokingColour(testParam0);
+            _ = testOutput0.WriteTo(testParam2);
+
+            AssertionHelpers.AssertSameElements(expected, testParam2);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceGreyscaleNonStrokingColourMethod_ThrowsArgumentNullException_IfParameterIsNull()
+        {
+            PdfNumber testParam0 = null;
+
+            _ = PdfOperator.SetDeviceGreyscaleNonStrokingColour(testParam0);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceGreyscaleNonStrokingColourMethod_CreatesObjectWithCorrectValueProperty()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfOperator testOutput = PdfOperator.SetDeviceGreyscaleNonStrokingColour(testParam0);
+
+            Assert.AreEqual("g", testOutput.Value);
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceGreyscaleNonStrokingColourMethod_CreatesObjectWithCorrectByteLengthProperty()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+
+            PdfOperator testOutput = PdfOperator.SetDeviceGreyscaleNonStrokingColour(testParam0);
+
+            // The ByteLength of a "g" operator is the lengths of the operands, one char for the operator, and a space.
+            Assert.AreEqual(testParam0.ByteLength + 2, testOutput.ByteLength);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceGreyscaleNonStrokingColourMethod_WriteToMethodWithListParameter_ThrowsExceptionIfParameterOfSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            List<byte> testParam1 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceGreyscaleNonStrokingColour(testParam0);
+            _ = testOutput0.WriteTo(testParam1);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceGreyscaleNonStrokingColourMethod_WriteToMethodWithListParameter_WritesCorrectValueToList()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            List<byte> testParam1 = new();
+            List<byte> expected = new();
+            testParam0.WriteTo(expected);
+            expected.AddRange(new byte[] { 0x67, 0x20 });
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceGreyscaleNonStrokingColour(testParam0);
+            _ = testOutput0.WriteTo(testParam1);
+
+            AssertionHelpers.AssertSameElements(expected, testParam1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceGreyscaleNonStrokingColourMethod_WriteToMethodWithStreamParameter_ThrowsArgumentNullException_IfParameterOfSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            Stream testParam1 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceGreyscaleNonStrokingColour(testParam0);
+            _ = testOutput0.WriteTo(testParam1);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceGreyscaleNonStrokingColourMethod_WriteToMethodWithStreamParameter_WritesCorrectValueToStream()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            using MemoryStream testParam4 = new();
+            using MemoryStream expected = new();
+            testParam0.WriteTo(expected);
+            expected.Write(new byte[] { 0x67, 0x20 }, 0, 2);
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceGreyscaleNonStrokingColour(testParam0);
+            _ = testOutput0.WriteTo(testParam4);
+
+            AssertionHelpers.AssertSameElements(expected, testParam4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceGreyscaleNonStrokingColourMethod_WriteToMethodWithPdfStreamParameter_ThrowsArgumentNullException_IfParameterToSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfStream testParam2 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceGreyscaleNonStrokingColour(testParam0);
+            _ = testOutput0.WriteTo(testParam2);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceGreyscaleNonStrokingColourMethod_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToStream()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfStream testParam2 = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
+            testParam0.WriteTo(expected);
+            expected.AddRange(new byte[] { 0x67, 0x20 });
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceGreyscaleNonStrokingColour(testParam0);
+            _ = testOutput0.WriteTo(testParam2);
+
+            AssertionHelpers.AssertSameElements(expected, testParam2);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceRgbStrokingColourMethod_ThrowsArgumentNullException_IfFirstParameterIsNull()
+        {
+            PdfNumber testParam0 = null;
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+
+            _ = PdfOperator.SetDeviceRgbStrokingColour(testParam0, testParam1, testParam2);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceRgbStrokingColourMethod_ThrowsArgumentNullException_IfSecondParameterIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = null;
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+
+            _ = PdfOperator.SetDeviceRgbStrokingColour(testParam0, testParam1, testParam2);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceRgbStrokingColourMethod_ThrowsArgumentNullException_IfThirdParameterIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = null;
+
+            _ = PdfOperator.SetDeviceRgbStrokingColour(testParam0, testParam1, testParam2);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceRgbStrokingColourMethod_CreatesObjectWithCorrectValueProperty()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+
+            PdfOperator testOutput = PdfOperator.SetDeviceRgbStrokingColour(testParam0, testParam1, testParam2);
+
+            Assert.AreEqual("RG", testOutput.Value);
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceRgbStrokingColourMethod_CreatesObjectWithCorrectByteLengthProperty()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+
+            PdfOperator testOutput = PdfOperator.SetDeviceRgbStrokingColour(testParam0, testParam1, testParam2);
+
+            // The ByteLength of an "RG" operator is the lengths of the operands, two chars for the operator, and a space.
+            Assert.AreEqual(testParam0.ByteLength + testParam1.ByteLength + testParam2.ByteLength + 3, testOutput.ByteLength);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceRgbStrokingColourMethod_WriteToMethodWithListParameter_ThrowsExceptionIfParameterOfSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            List<byte> testParam4 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceRgbStrokingColour(testParam0, testParam1, testParam2);
+            _ = testOutput0.WriteTo(testParam4);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceRgbStrokingColourMethod_WriteToMethodWithListParameter_WritesCorrectValueToList()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            List<byte> testParam4 = new();
+            List<byte> expected = new();
+            testParam0.WriteTo(expected);
+            testParam1.WriteTo(expected);
+            testParam2.WriteTo(expected);
+            expected.AddRange(new byte[] { 0x52, 0x47, 0x20 });
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceRgbStrokingColour(testParam0, testParam1, testParam2);
+            _ = testOutput0.WriteTo(testParam4);
+
+            AssertionHelpers.AssertSameElements(expected, testParam4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceRgbStrokingColourMethod_WriteToMethodWithStreamParameter_ThrowsArgumentNullException_IfParameterOfSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            Stream testParam4 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceRgbStrokingColour(testParam0, testParam1, testParam2);
+            _ = testOutput0.WriteTo(testParam4);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceRgbStrokingColourMethod_WriteToMethodWithStreamParameter_WritesCorrectValueToStream()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            using MemoryStream testParam4 = new();
+            using MemoryStream expected = new();
+            testParam0.WriteTo(expected);
+            testParam1.WriteTo(expected);
+            testParam2.WriteTo(expected);
+            expected.Write(new byte[] { 0x52, 0x47, 0x20 }, 0, 3);
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceRgbStrokingColour(testParam0, testParam1, testParam2);
+            _ = testOutput0.WriteTo(testParam4);
+
+            AssertionHelpers.AssertSameElements(expected, testParam4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceRgbStrokingColourMethod_WriteToMethodWithPdfStreamParameter_ThrowsArgumentNullException_IfParameterToSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfStream testParam4 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceRgbStrokingColour(testParam0, testParam1, testParam2);
+            _ = testOutput0.WriteTo(testParam4);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceRgbStrokingColourMethod_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToStream()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfStream testParam4 = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
+            testParam0.WriteTo(expected);
+            testParam1.WriteTo(expected);
+            testParam2.WriteTo(expected);
+            expected.AddRange(new byte[] { 0x52, 0x47, 0x20 });
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceRgbStrokingColour(testParam0, testParam1, testParam2);
+            _ = testOutput0.WriteTo(testParam4);
+
+            AssertionHelpers.AssertSameElements(expected, testParam4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceRgbNonStrokingColourMethod_ThrowsArgumentNullException_IfFirstParameterIsNull()
+        {
+            PdfNumber testParam0 = null;
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+
+            _ = PdfOperator.SetDeviceRgbNonStrokingColour(testParam0, testParam1, testParam2);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceRgbNonStrokingColourMethod_ThrowsArgumentNullException_IfSecondParameterIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = null;
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+
+            _ = PdfOperator.SetDeviceRgbNonStrokingColour(testParam0, testParam1, testParam2);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceRgbNonStrokingColourMethod_ThrowsArgumentNullException_IfThirdParameterIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = null;
+
+            _ = PdfOperator.SetDeviceRgbNonStrokingColour(testParam0, testParam1, testParam2);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceRgbNonStrokingColourMethod_CreatesObjectWithCorrectValueProperty()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+
+            PdfOperator testOutput = PdfOperator.SetDeviceRgbNonStrokingColour(testParam0, testParam1, testParam2);
+
+            Assert.AreEqual("rg", testOutput.Value);
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceRgbNonStrokingColourMethod_CreatesObjectWithCorrectByteLengthProperty()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+
+            PdfOperator testOutput = PdfOperator.SetDeviceRgbNonStrokingColour(testParam0, testParam1, testParam2);
+
+            // The ByteLength of an "rg" operator is the lengths of the operands, two chars for the operator, and a space.
+            Assert.AreEqual(testParam0.ByteLength + testParam1.ByteLength + testParam2.ByteLength + 3, testOutput.ByteLength);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceRgbNonStrokingColourMethod_WriteToMethodWithListParameter_ThrowsExceptionIfParameterOfSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            List<byte> testParam4 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceRgbNonStrokingColour(testParam0, testParam1, testParam2);
+            _ = testOutput0.WriteTo(testParam4);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceRgbNonStrokingColourMethod_WriteToMethodWithListParameter_WritesCorrectValueToList()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            List<byte> testParam4 = new();
+            List<byte> expected = new();
+            testParam0.WriteTo(expected);
+            testParam1.WriteTo(expected);
+            testParam2.WriteTo(expected);
+            expected.AddRange(new byte[] { 0x72, 0x67, 0x20 });
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceRgbNonStrokingColour(testParam0, testParam1, testParam2);
+            _ = testOutput0.WriteTo(testParam4);
+
+            AssertionHelpers.AssertSameElements(expected, testParam4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceRgbNonStrokingColourMethod_WriteToMethodWithStreamParameter_ThrowsArgumentNullException_IfParameterOfSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            Stream testParam4 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceRgbNonStrokingColour(testParam0, testParam1, testParam2);
+            _ = testOutput0.WriteTo(testParam4);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceRgbNonStrokingColourMethod_WriteToMethodWithStreamParameter_WritesCorrectValueToStream()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            using MemoryStream testParam4 = new();
+            using MemoryStream expected = new();
+            testParam0.WriteTo(expected);
+            testParam1.WriteTo(expected);
+            testParam2.WriteTo(expected);
+            expected.Write(new byte[] { 0x72, 0x67, 0x20 }, 0, 3);
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceRgbNonStrokingColour(testParam0, testParam1, testParam2);
+            _ = testOutput0.WriteTo(testParam4);
+
+            AssertionHelpers.AssertSameElements(expected, testParam4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceRgbNonStrokingColourMethod_WriteToMethodWithPdfStreamParameter_ThrowsArgumentNullException_IfParameterToSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfStream testParam4 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceRgbNonStrokingColour(testParam0, testParam1, testParam2);
+            _ = testOutput0.WriteTo(testParam4);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceRgbNonStrokingColourMethod_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToStream()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfStream testParam4 = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
+            testParam0.WriteTo(expected);
+            testParam1.WriteTo(expected);
+            testParam2.WriteTo(expected);
+            expected.AddRange(new byte[] { 0x72, 0x67, 0x20 });
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceRgbNonStrokingColour(testParam0, testParam1, testParam2);
+            _ = testOutput0.WriteTo(testParam4);
+
+            AssertionHelpers.AssertSameElements(expected, testParam4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceCmykStrokingColourMethod_ThrowsArgumentNullException_IfFirstParameterIsNull()
+        {
+            PdfNumber testParam0 = null;
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+
+            _ = PdfOperator.SetDeviceCmykStrokingColour(testParam0, testParam1, testParam2, testParam3);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceCmykStrokingColourMethod_ThrowsArgumentNullException_IfSecondParameterIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = null;
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+
+            _ = PdfOperator.SetDeviceCmykStrokingColour(testParam0, testParam1, testParam2, testParam3);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceCmykStrokingColourMethod_ThrowsArgumentNullException_IfThirdParameterIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = null;
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+
+            _ = PdfOperator.SetDeviceCmykStrokingColour(testParam0, testParam1, testParam2, testParam3);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceCmykStrokingColourMethod_ThrowsArgumentNullException_IfFourthParameterIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = null;
+
+            _ = PdfOperator.SetDeviceCmykStrokingColour(testParam0, testParam1, testParam2, testParam3);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceCmykStrokingColourMethod_CreatesObjectWithCorrectValueProperty()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+
+            PdfOperator testOutput = PdfOperator.SetDeviceCmykStrokingColour(testParam0, testParam1, testParam2, testParam3);
+
+            Assert.AreEqual("K", testOutput.Value);
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceCmykStrokingColourMethod_CreatesObjectWithCorrectByteLengthProperty()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+
+            PdfOperator testOutput = PdfOperator.SetDeviceCmykStrokingColour(testParam0, testParam1, testParam2, testParam3);
+
+            // The ByteLength of a "K" operator is the lengths of the operands, one char for the operator, and a space.
+            Assert.AreEqual(testParam0.ByteLength + testParam1.ByteLength + testParam2.ByteLength + testParam3.ByteLength + 2, testOutput.ByteLength);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceCmykStrokingColourMethod_WriteToMethodWithListParameter_ThrowsExceptionIfParameterOfSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+            List<byte> testParam4 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceCmykStrokingColour(testParam0, testParam1, testParam2, testParam3);
+            _ = testOutput0.WriteTo(testParam4);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceCmykStrokingColourMethod_WriteToMethodWithListParameter_WritesCorrectValueToList()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+            List<byte> testParam4 = new();
+            List<byte> expected = new();
+            testParam0.WriteTo(expected);
+            testParam1.WriteTo(expected);
+            testParam2.WriteTo(expected);
+            testParam3.WriteTo(expected);
+            expected.AddRange(new byte[] { 0x4b, 0x20 });
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceCmykStrokingColour(testParam0, testParam1, testParam2, testParam3);
+            _ = testOutput0.WriteTo(testParam4);
+
+            AssertionHelpers.AssertSameElements(expected, testParam4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceCmykStrokingColourMethod_WriteToMethodWithStreamParameter_ThrowsArgumentNullException_IfParameterOfSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+            Stream testParam4 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceCmykStrokingColour(testParam0, testParam1, testParam2, testParam3);
+            _ = testOutput0.WriteTo(testParam4);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceCmykStrokingColourMethod_WriteToMethodWithStreamParameter_WritesCorrectValueToStream()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+            using MemoryStream testParam4 = new();
+            using MemoryStream expected = new();
+            testParam0.WriteTo(expected);
+            testParam1.WriteTo(expected);
+            testParam2.WriteTo(expected);
+            testParam3.WriteTo(expected);
+            expected.Write(new byte[] { 0x4b, 0x20 }, 0, 2);
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceCmykStrokingColour(testParam0, testParam1, testParam2, testParam3);
+            _ = testOutput0.WriteTo(testParam4);
+
+            AssertionHelpers.AssertSameElements(expected, testParam4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceCmykStrokingColourMethod_WriteToMethodWithPdfStreamParameter_ThrowsArgumentNullException_IfParameterToSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+            PdfStream testParam4 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceCmykStrokingColour(testParam0, testParam1, testParam2, testParam3);
+            _ = testOutput0.WriteTo(testParam4);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceCmykStrokingColourMethod_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToStream()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+            PdfStream testParam4 = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
+            testParam0.WriteTo(expected);
+            testParam1.WriteTo(expected);
+            testParam2.WriteTo(expected);
+            testParam3.WriteTo(expected);
+            expected.AddRange(new byte[] { 0x4b, 0x20 });
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceCmykStrokingColour(testParam0, testParam1, testParam2, testParam3);
+            _ = testOutput0.WriteTo(testParam4);
+
+            AssertionHelpers.AssertSameElements(expected, testParam4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceCmykNonStrokingColourMethod_ThrowsArgumentNullException_IfFirstParameterIsNull()
+        {
+            PdfNumber testParam0 = null;
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+
+            _ = PdfOperator.SetDeviceCmykNonStrokingColour(testParam0, testParam1, testParam2, testParam3);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceCmykNonStrokingColourMethod_ThrowsArgumentNullException_IfSecondParameterIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = null;
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+
+            _ = PdfOperator.SetDeviceCmykNonStrokingColour(testParam0, testParam1, testParam2, testParam3);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceCmykNonStrokingColourMethod_ThrowsArgumentNullException_IfThirdParameterIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = null;
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+
+            _ = PdfOperator.SetDeviceCmykNonStrokingColour(testParam0, testParam1, testParam2, testParam3);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceCmykNonStrokingColourMethod_ThrowsArgumentNullException_IfFourthParameterIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = null;
+
+            _ = PdfOperator.SetDeviceCmykNonStrokingColour(testParam0, testParam1, testParam2, testParam3);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceCmykNonStrokingColourMethod_CreatesObjectWithCorrectValueProperty()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+
+            PdfOperator testOutput = PdfOperator.SetDeviceCmykNonStrokingColour(testParam0, testParam1, testParam2, testParam3);
+
+            Assert.AreEqual("k", testOutput.Value);
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceCmykNonStrokingColourMethod_CreatesObjectWithCorrectByteLengthProperty()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+
+            PdfOperator testOutput = PdfOperator.SetDeviceCmykNonStrokingColour(testParam0, testParam1, testParam2, testParam3);
+
+            // The ByteLength of a "k" operator is the lengths of the operands, one char for the operator, and a space.
+            Assert.AreEqual(testParam0.ByteLength + testParam1.ByteLength + testParam2.ByteLength + testParam3.ByteLength + 2, testOutput.ByteLength);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceCmykNonStrokingColourMethod_WriteToMethodWithListParameter_ThrowsExceptionIfParameterOfSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+            List<byte> testParam4 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceCmykNonStrokingColour(testParam0, testParam1, testParam2, testParam3);
+            _ = testOutput0.WriteTo(testParam4);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceCmykNonStrokingColourMethod_WriteToMethodWithListParameter_WritesCorrectValueToList()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+            List<byte> testParam4 = new();
+            List<byte> expected = new();
+            testParam0.WriteTo(expected);
+            testParam1.WriteTo(expected);
+            testParam2.WriteTo(expected);
+            testParam3.WriteTo(expected);
+            expected.AddRange(new byte[] { 0x6b, 0x20 });
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceCmykNonStrokingColour(testParam0, testParam1, testParam2, testParam3);
+            _ = testOutput0.WriteTo(testParam4);
+
+            AssertionHelpers.AssertSameElements(expected, testParam4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceCmykNonStrokingColourMethod_WriteToMethodWithStreamParameter_ThrowsArgumentNullException_IfParameterOfSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+            Stream testParam4 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceCmykNonStrokingColour(testParam0, testParam1, testParam2, testParam3);
+            _ = testOutput0.WriteTo(testParam4);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceCmykNonStrokingColourMethod_WriteToMethodWithStreamParameter_WritesCorrectValueToStream()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+            using MemoryStream testParam4 = new();
+            using MemoryStream expected = new();
+            testParam0.WriteTo(expected);
+            testParam1.WriteTo(expected);
+            testParam2.WriteTo(expected);
+            testParam3.WriteTo(expected);
+            expected.Write(new byte[] { 0x6b, 0x20 }, 0, 2);
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceCmykNonStrokingColour(testParam0, testParam1, testParam2, testParam3);
+            _ = testOutput0.WriteTo(testParam4);
+
+            AssertionHelpers.AssertSameElements(expected, testParam4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PdfOperatorClass_SetDeviceCmykNonStrokingColourMethod_WriteToMethodWithPdfStreamParameter_ThrowsArgumentNullException_IfParameterToSecondMethodIsNull()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+            PdfStream testParam4 = null;
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceCmykNonStrokingColour(testParam0, testParam1, testParam2, testParam3);
+            _ = testOutput0.WriteTo(testParam4);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void PdfOperatorClass_SetDeviceCmykNonStrokingColourMethod_WriteToMethodWithPdfStreamParameter_WritesCorrectValueToStream()
+        {
+            PdfNumber testParam0 = _rnd.NextPdfNumber();
+            PdfNumber testParam1 = _rnd.NextPdfNumber();
+            PdfNumber testParam2 = _rnd.NextPdfNumber();
+            PdfNumber testParam3 = _rnd.NextPdfNumber();
+            PdfStream testParam4 = new(_rnd.Next(1, int.MaxValue));
+            List<byte> expected = new();
+            testParam0.WriteTo(expected);
+            testParam1.WriteTo(expected);
+            testParam2.WriteTo(expected);
+            testParam3.WriteTo(expected);
+            expected.AddRange(new byte[] { 0x6b, 0x20 });
+
+            PdfOperator testOutput0 = PdfOperator.SetDeviceCmykNonStrokingColour(testParam0, testParam1, testParam2, testParam3);
+            _ = testOutput0.WriteTo(testParam4);
+
+            AssertionHelpers.AssertSameElements(expected, testParam4);
         }
 
         [TestMethod]

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
+using Unicorn.Base.Helpers.Extensions;
 using Unicorn.FontTools.Extensions;
 using Unicorn.FontTools.OpenType.Utility;
 
@@ -190,36 +192,33 @@ namespace Unicorn.FontTools.OpenType
         }
 
         /// <summary>
-        /// Dump contents of table to a <see cref="TextWriter" />.  Returns silently if the parameter is null.
+        /// Create a representation of the data in this table.
         /// </summary>
-        /// <param name="writer">The destination to dump to.</param>
-        public override void Dump(TextWriter writer)
-        {
-            if (writer is null)
-            {
-                return;
-            }
-            writer.WriteLine("head table contents:");
-            writer.WriteLine("Field                     | Value");
-            writer.WriteLine("--------------------------|-------------------------------------------");
-            writer.WriteLine($"MajorVersion              | {MajorVersion}");
-            writer.WriteLine($"MinorVersion              | {MinorVersion}");
-            writer.WriteLine($"Revision                  | {Revision}");
-            writer.WriteLine($"ChecksumAdjustment        | {ChecksumAdjustment}");
-            writer.WriteLine($"Magic                     | {Magic}");
-            writer.WriteLine($"Flags                     | {Flags}");
-            writer.WriteLine($"FontUnitScale             | {FontUnitScale}");
-            writer.WriteLine($"Created                   | {Created}");
-            writer.WriteLine($"Modified                  | {Modified}");
-            writer.WriteLine($"XMin                      | {XMin}");
-            writer.WriteLine($"YMin                      | {YMin}");
-            writer.WriteLine($"XMax                      | {XMax}");
-            writer.WriteLine($"YMax                      | {YMax}");
-            writer.WriteLine($"StyleFlags                | {StyleFlags}");
-            writer.WriteLine($"SmallestReadablePixelSize | {SmallestReadablePixelSize}");
-            writer.WriteLine($"DirectionHint             | {DirectionHint}");
-            writer.WriteLine($"UseLongOffsets            | {UseLongOffsets}");
-            writer.WriteLine($"GlyphDataFormat           | {GlyphDataFormat}");
-        }
+        /// <returns>A <see cref="DumpBlock" /> object containing the data from this table in textual form.</returns>
+        public override IDumpBlock Dump()
+            => new DumpBlock(
+                "head table contents:",
+                new DumpRecord[]
+                {
+                    new DumpRecord("MajorVersion", MajorVersion.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("MinorVersion", MinorVersion.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("Revision", Revision.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("ChecksumAdjustment", ChecksumAdjustment.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("Magic", Magic.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("Flags", Flags.ToString()),
+                    new DumpRecord("FontUnitScale", FontUnitScale.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("Created", Created.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("Modified", Modified.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("XMin", XMin.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("YMin", YMin.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("XMax", XMax.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("YMax", YMax.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("StyleFlags", StyleFlags.ToString()),
+                    new DumpRecord("SmallestReadablePixelSize", SmallestReadablePixelSize.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("DirectionHint", DirectionHint.ToString()),
+                    new DumpRecord("UseLongOffsets", UseLongOffsets.ToString()),
+                    new DumpRecord("GlyphDataFormat", GlyphDataFormat.ToString(CultureInfo.CurrentCulture)),
+                },
+                null);
     }
 }

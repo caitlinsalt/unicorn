@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn", "Unicorn\Unicorn.csproj", "{07F67EF4-5262-43D4-B7B5-4FC9B84025A4}"
 EndProject
@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Generation", "Code Gen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.FontTools.Afm2Cs", "Unicorn.FontTools.Afm2Cs\Unicorn.FontTools.Afm2Cs.csproj", "{81E09E34-8DC8-4A54-85AF-A2E096265FA3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{08D1B1CB-E0E2-4489-B1BA-905C3136DC51}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools and Examples", "Tools and Examples", "{08D1B1CB-E0E2-4489-B1BA-905C3136DC51}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.FontTools.OpenTool", "Unicorn.FontTools.OpenTool\Unicorn.FontTools.OpenTool.csproj", "{A5681DD1-A3AF-4D48-8934-A017CAF827D6}"
 EndProject
@@ -35,7 +35,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.FontTools.Tests.Uti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.FontTools.Tests.Unit", "Unicorn.FontTools.Tests.Unit\Unicorn.FontTools.Tests.Unit.csproj", "{0537FD55-B3EA-46D7-A8BC-4ACB9898ADFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.FontTools.StandardFonts", "Unicorn.FontTools.StandardFonts\Unicorn.FontTools.StandardFonts.csproj", "{34841A49-3D01-4EE5-97A1-7AF2B0C0557F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.FontTools.StandardFonts", "Unicorn.FontTools.StandardFonts\Unicorn.FontTools.StandardFonts.csproj", "{34841A49-3D01-4EE5-97A1-7AF2B0C0557F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.TextConvert", "examples\Unicorn.TextConvert\Unicorn.TextConvert.csproj", "{6516694D-F12B-4B5B-BCC4-2D9F402BBC15}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.FontTools.StandardFonts.Tests.Unit", "Unicorn.FontTools.StandardFonts.Tests.Unit\Unicorn.FontTools.StandardFonts.Tests.Unit.csproj", "{F7CF29D3-0523-498B-B2EC-EBCA56A72295}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration Tests", "Integration Tests", "{A0EEF4E9-536C-49D6-A790-86B280A675BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Tests.Integration", "Unicorn.Tests.Integration\Unicorn.Tests.Integration.csproj", "{78AF27F6-B9BF-4FC2-B655-40B5B7818263}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.ImageConvert", "examples\Unicorn.ImageConvert\Unicorn.ImageConvert.csproj", "{BE8B7AFD-8042-4401-A99C-B28170CE308F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +101,22 @@ Global
 		{34841A49-3D01-4EE5-97A1-7AF2B0C0557F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34841A49-3D01-4EE5-97A1-7AF2B0C0557F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34841A49-3D01-4EE5-97A1-7AF2B0C0557F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6516694D-F12B-4B5B-BCC4-2D9F402BBC15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6516694D-F12B-4B5B-BCC4-2D9F402BBC15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6516694D-F12B-4B5B-BCC4-2D9F402BBC15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6516694D-F12B-4B5B-BCC4-2D9F402BBC15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7CF29D3-0523-498B-B2EC-EBCA56A72295}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7CF29D3-0523-498B-B2EC-EBCA56A72295}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7CF29D3-0523-498B-B2EC-EBCA56A72295}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7CF29D3-0523-498B-B2EC-EBCA56A72295}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78AF27F6-B9BF-4FC2-B655-40B5B7818263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78AF27F6-B9BF-4FC2-B655-40B5B7818263}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78AF27F6-B9BF-4FC2-B655-40B5B7818263}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78AF27F6-B9BF-4FC2-B655-40B5B7818263}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE8B7AFD-8042-4401-A99C-B28170CE308F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE8B7AFD-8042-4401-A99C-B28170CE308F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE8B7AFD-8042-4401-A99C-B28170CE308F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE8B7AFD-8042-4401-A99C-B28170CE308F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,6 +132,11 @@ Global
 		{FA993EF3-D507-42C1-948D-3673FF09E50A} = {02FA682A-A079-4F2A-9C26-FA856FD76C98}
 		{D48A6625-B8B2-48A3-96B8-E33FA23CEE54} = {02FA682A-A079-4F2A-9C26-FA856FD76C98}
 		{0537FD55-B3EA-46D7-A8BC-4ACB9898ADFE} = {AAE79437-B436-422E-8837-C440A2BBC2B0}
+		{6516694D-F12B-4B5B-BCC4-2D9F402BBC15} = {08D1B1CB-E0E2-4489-B1BA-905C3136DC51}
+		{F7CF29D3-0523-498B-B2EC-EBCA56A72295} = {AAE79437-B436-422E-8837-C440A2BBC2B0}
+		{A0EEF4E9-536C-49D6-A790-86B280A675BB} = {67C12FC0-6769-445D-B469-27EECD3B683B}
+		{78AF27F6-B9BF-4FC2-B655-40B5B7818263} = {A0EEF4E9-536C-49D6-A790-86B280A675BB}
+		{BE8B7AFD-8042-4401-A99C-B28170CE308F} = {08D1B1CB-E0E2-4489-B1BA-905C3136DC51}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {96DF63C8-CE73-4BC5-B6B4-8C976B590604}

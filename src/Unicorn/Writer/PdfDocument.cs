@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Unicorn.Base;
+using Unicorn.Helpers;
+using Unicorn.Images;
 using Unicorn.Writer.Filters;
 using Unicorn.Writer.Interfaces;
 using Unicorn.Writer.Primitives;
+using Unicorn.Writer.Streams;
 using Unicorn.Writer.Structural;
 
 namespace Unicorn.Writer
@@ -20,6 +24,7 @@ namespace Unicorn.Writer
         private readonly PdfCatalogue _root;
         private readonly PdfPageTreeNode _pageRoot;
         private readonly Dictionary<string, PdfFont> _fontCache = new Dictionary<string, PdfFont>();
+        private readonly Dictionary<string, IImageDescriptor> _imageCache = new Dictionary<string, IImageDescriptor>();
 
         /// <summary>
         /// The default size of new pages added to the document.
@@ -40,6 +45,11 @@ namespace Unicorn.Writer
         /// The default size of each top and bottom margin, as a proportion of the total page height.
         /// </summary>
         public double DefaultVerticalMarginProportion { get; set; }
+
+        /// <summary>
+        /// The current active page in this document.
+        /// </summary>
+        public IPageDescriptor CurrentPage { get; private set; }
 
         /// <summary>
         /// Default constructor.  Creates a document which defaults to A4 portrait pages with all margins 6% of the page dimensions.
@@ -101,9 +111,26 @@ namespace Unicorn.Writer
         /// Append a new page to the document, with default size, orientation and margins.
         /// </summary>
         /// <returns>An <see cref="IPageDescriptor" /> describing the new page.</returns>
-        public IPageDescriptor AppendPage()
+        public IPageDescriptor AppendDefaultPage()
         {
             return AppendPage(DefaultPhysicalPageSize, DefaultPageOrientation, DefaultHorizontalMarginProportion, DefaultVerticalMarginProportion);
+        }
+
+        /// <summary>
+        /// Append a new page to the document.  If the document was not empty, the new page will duplicate the previous page's size, orientation and margin.
+        /// If the document was empty, the new page will have the default size, orientation and margin.
+        /// </summary>
+        /// <returns>An <see cref="IPageDescriptor" /> describing the new page.</returns>
+        public IPageDescriptor AppendPage()
+            => CurrentPage is null ? AppendDefaultPage() : AppendPage(CurrentPage.PageSize, CurrentPage.PageOrientation, CurrentPage.HorizontalMarginProportion, CurrentPage.VerticalMarginProportion);
+
+        /// <summary>
+        /// Write the document to a stream.
+        /// </summary>
+        /// <param name="destination">The stream to write to.</param>
+        public async Task WriteAsync(Stream destination)
+        {
+            await WriteToAsync(destination).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -120,13 +147,13 @@ namespace Unicorn.Writer
         /// </summary>
         /// <param name="stream">The stream to write to.</param>
         /// <returns>The number of bytes written.</returns>
-        public int WriteTo(Stream stream)
+        public async Task<int> WriteToAsync(Stream stream)
         {
             if (stream == null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }
-            int written = PdfHeader.Value.WriteTo(stream);
+            int written = await PdfHeader.Value.WriteToAsync(stream).ConfigureAwait(false);
             CloseAllPages();
             foreach (IPdfIndirectObject indirectObject in _bodyObjects)
             {
@@ -136,10 +163,17 @@ namespace Unicorn.Writer
 
             PdfTrailer trailer = new PdfTrailer(_root, _xrefTable);
             trailer.SetCrossReferenceTableLocation(written);
-            written += _xrefTable.WriteTo(stream);
+            written += await _xrefTable.WriteToAsync(stream).ConfigureAwait(false);
             written += trailer.WriteTo(stream);
             return written;
         }
+
+        /// <summary>
+        /// Write the document to a stream.
+        /// </summary>
+        /// <param name="stream">The stream to write to.</param>
+        /// <returns>The number of bytes written.</returns>
+        public int WriteTo(Stream stream) => TaskHelper.UnwrapTask(WriteToAsync, stream);
 
         /// <summary>
         /// Register that a font is likely to be used in the document.  If of a type that supports it, it will be embedded.
@@ -168,7 +202,7 @@ namespace Unicorn.Writer
                     if (font.RequiresEmbedding)
                     {
                         PdfDictionary meta = new PdfDictionary { { new PdfName("Length1"), new PdfInteger((int)font.EmbeddingLength) } };
-                        embed = new PdfStream(_xrefTable.ClaimSlot(), GetFontEncoders(), meta);
+                        embed = new PdfStream(_xrefTable.ClaimSlot(), GetBinaryStreamEncoders(), meta);
                         embed.AddBytes(font.EmbeddingData);
                         embeddingKey = font.EmbeddingKey;
                         _bodyObjects.Add(embed);
@@ -183,7 +217,33 @@ namespace Unicorn.Writer
             }
         }
 
-        private static IEnumerable<IPdfFilterEncoder> GetFontEncoders()
+        /// <summary>
+        /// Embed an image stream into the document.
+        /// </summary>
+        /// <param name="image">The source image data to be embedded.</param>
+        /// <returns>A reference to the embedded image data within the document.</returns>
+        public IImageDescriptor UseImage(ISourceImage image)
+        {
+            if (image is null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+            lock (_imageCache)
+            {
+                if (_imageCache.TryGetValue(image.Fingerprint, out IImageDescriptor cachedImage))
+                {
+                    return cachedImage;
+                }
+                PdfImageStream imageStream = ImageStreamFactory.CreateImageStream(image, _xrefTable.ClaimSlot(), GetBinaryStreamEncoders());
+                _bodyObjects.Add(imageStream);
+                IPdfInternalReference reference = new PdfReference(imageStream);
+                ImageDescriptor descriptor = new ImageDescriptor(this, reference, image.Fingerprint, image.DrawingRotation);
+                _imageCache.Add(image.Fingerprint, descriptor);
+                return descriptor;
+            }
+        }
+
+        private static IEnumerable<IPdfFilterEncoder> GetBinaryStreamEncoders()
         {
             if (Features.SelectedStreamFeatures.HasFlag(Features.StreamFeatures.CompressBinaryStreams))
             {

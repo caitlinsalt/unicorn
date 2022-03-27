@@ -2,8 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
+using Unicorn.Helpers;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
+using Unicorn.Writer.Streams;
 
 namespace Unicorn.Writer.Primitives
 {
@@ -75,7 +78,7 @@ namespace Unicorn.Writer.Primitives
                     {
                         return _contents[key];
                     }
-                    throw new KeyNotFoundException(Resources.Primitives_PdfDictionary_Indexer_Key_Not_Found_Error);
+                    throw new KeyNotFoundException(WriterResources.Primitives_PdfDictionary_Indexer_Key_Not_Found_Error);
                 }
             }
             set
@@ -130,7 +133,7 @@ namespace Unicorn.Writer.Primitives
             {
                 if (_contents.ContainsKey(key))
                 {
-                    throw new ArgumentException(Resources.Primitives_PdfDictionary_Add_Duplicate_Key_Error, nameof(key));
+                    throw new ArgumentException(WriterResources.Primitives_PdfDictionary_Add_Duplicate_Key_Error, nameof(key));
                 }
                 _contents.Add(key, value);
             }
@@ -154,7 +157,7 @@ namespace Unicorn.Writer.Primitives
                 {
                     if (_contents.ContainsKey(item.Key))
                     {
-                        throw new ArgumentException(Resources.Primitives_PdfDictionary_Add_Duplicate_Key_Error, nameof(data));
+                        throw new ArgumentException(WriterResources.Primitives_PdfDictionary_Add_Duplicate_Key_Error, nameof(data));
                     }
                     _contents.Add(item.Key, item.Value);
                 }
@@ -181,19 +184,24 @@ namespace Unicorn.Writer.Primitives
         /// <param name="stream">The stream to write to.</param>
         /// <returns>The number of bytes written.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the stream parameter is null.</exception>
-        public int WriteTo(Stream stream)
+        public async Task<int> WriteToAsync(Stream stream)
         {
             if (stream == null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }
-            return Write(WriteToStream, stream);
+            return await WriteAsync(WriteToStreamAsync, stream).ConfigureAwait(false);
         }
 
-        internal static int WriteTo(PdfDictionary dict, Stream stream)
-        {
-            return dict.WriteTo(stream);
-        }
+        /// <summary>
+        /// Write the current contents of the dictionary to a <see cref="Stream" />.
+        /// </summary>
+        /// <param name="stream">The stream to write to.</param>
+        /// <returns>The number of bytes written.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the stream parameter is null.</exception>
+        public int WriteTo(Stream stream) => TaskHelper.UnwrapTask(WriteToAsync, stream);
+
+        internal static async Task<int> WriteToAsync(PdfDictionary dict, Stream stream) => await dict.WriteToAsync(stream).ConfigureAwait(false);
 
         /// <summary>
         /// Convert the current contents of the dictionary to bytes and append them to a list.
@@ -210,10 +218,7 @@ namespace Unicorn.Writer.Primitives
             return Write(WriteToList, bytes);
         }
 
-        internal static int WriteTo(PdfDictionary dict, IList<byte> list)
-        {
-            return dict.WriteTo(list);
-        }
+        internal static int WriteTo(PdfDictionary dict, IList<byte> list) => dict.WriteTo(list);
 
         /// <summary>
         /// Write the current contents of the dictionary to a <see cref="PdfStream" />.
@@ -228,6 +233,21 @@ namespace Unicorn.Writer.Primitives
                 throw new ArgumentNullException(nameof(stream));
             }
             return Write(WriteToPdfStream, stream);
+        }
+
+        private async Task<int> WriteAsync<T>(Func<T, byte[], Task> writer, T dest)
+        {
+            byte[] currentBytes;
+            lock (_contents)
+            {
+                if (cachedBytes == null)
+                {
+                    GenerateBytes();
+                }
+                currentBytes = cachedBytes;
+            }
+            await writer(dest, currentBytes).ConfigureAwait(false);
+            return currentBytes.Length;
         }
 
         private int Write<T>(Action<T, byte[]> writer, T dest)
@@ -245,9 +265,9 @@ namespace Unicorn.Writer.Primitives
             return currentBytes.Length;
         }
 
-        private static void WriteToStream(Stream str, byte[] bytes)
+        private static async Task WriteToStreamAsync(Stream str, byte[] bytes)
         {
-            str.Write(bytes, 0, bytes.Length);
+            await str.WriteAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
         }
 
         private static void WriteToList(IList<byte> list, byte[] bytes)

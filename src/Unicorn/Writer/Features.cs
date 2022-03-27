@@ -31,7 +31,12 @@ namespace Unicorn.Writer
             /// will be compressed and then encoded.
             /// </summary>
             CompressPageContentStreams = 4,
-        }
+
+            /// <summary>
+            /// Remove EXIF data from JPEG files when embedding.
+            /// </summary>
+            RemoveExifDataFromJpegStreams = 8,
+        }   
 
         /// <summary>
         /// Feature toggles for writing PDF streams.

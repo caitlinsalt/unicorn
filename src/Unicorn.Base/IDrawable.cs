@@ -6,6 +6,17 @@
     public interface IDrawable
     {
         /// <summary>
+        /// The height of this drawable.  For some hypothetical drawables this may potentially change if the 
+        /// drawable's other properties change.
+        /// </summary>
+        double ContentHeight { get; }
+
+        /// <summary>
+        /// The height of this drawable, including any margin at top and bottom.
+        /// </summary>
+        double Height { get; }
+
+        /// <summary>
         /// Draw this object.
         /// </summary>
         /// <param name="context">The context to use for drawing.</param>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using Tests.Utility.Extensions;
 
 namespace Unicorn.Base.Tests.Utility
 {
@@ -21,8 +22,8 @@ namespace Unicorn.Base.Tests.Utility
         /// <param name="rnd">The random generator.</param>
         /// <returns>A valid <see cref="UniDashStyle" /> value.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the <c>rnd</c> parameter is <c>null</c>.</exception>
-        public static UniDashStyle NextUniDashStyle(this Random rnd) 
-            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : _dashStyles[rnd.Next(_dashStyles.Length)];
+        public static UniDashStyle NextUniDashStyle(this Random rnd)
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_dashStyles);
 
         /// <summary>
         /// Return a random <see cref="UniFontStyles" /> value.
@@ -48,13 +49,9 @@ namespace Unicorn.Base.Tests.Utility
         /// <returns>A <see cref="UniTextSize" /> value.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the <c>rnd</c> parameter is <c>null</c>.</exception>
         public static UniTextSize NextUniTextSize(this Random rnd)
-        {
-            if (rnd is null)
-            {
-                throw new ArgumentNullException(nameof(rnd));
-            }
-            return new UniTextSize(rnd.NextDouble() * 500, rnd.NextDouble() * 500, rnd.NextDouble() * 500, rnd.NextDouble() * 500, rnd.NextDouble() * 500);
-        }
+            => rnd is null ? 
+                throw new ArgumentNullException(nameof(rnd)) : 
+                new UniTextSize(rnd.NextDouble() * 500, rnd.NextDouble() * 500, rnd.NextDouble() * 500, rnd.NextDouble() * 500, rnd.NextDouble() * 500);
 
         private static readonly PhysicalPageSize[] _physicalPageSizes 
             = new[] { PhysicalPageSize.A1, PhysicalPageSize.A2, PhysicalPageSize.A3, PhysicalPageSize.A4, PhysicalPageSize.A5, PhysicalPageSize.A6 };
@@ -66,7 +63,7 @@ namespace Unicorn.Base.Tests.Utility
         /// <returns>A valid <see cref="PhysicalPageSize" /> value.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the <c>rnd</c> parameter is <c>null</c>.</exception>
         public static PhysicalPageSize NextPhysicalPageSize(this Random rnd) 
-            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : _physicalPageSizes[rnd.Next(_physicalPageSizes.Length)];
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_physicalPageSizes);
 
         private static readonly PageOrientation[] _pageOrientations = new[] { PageOrientation.Portrait, PageOrientation.Landscape, PageOrientation.Arbitrary };
 
@@ -77,7 +74,7 @@ namespace Unicorn.Base.Tests.Utility
         /// <returns>A valid <see cref="PageOrientation" /> value.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the <c>rnd</c> parameter is <c>null</c>.</exception>
         public static PageOrientation NextPageOrientation(this Random rnd) 
-            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : _pageOrientations[rnd.Next(_pageOrientations.Length)];
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_pageOrientations);
 
         /// <summary>
         /// Returns a random <see cref="UniPoint" /> value with coordinates between 0 and 1000.
@@ -110,7 +107,59 @@ namespace Unicorn.Base.Tests.Utility
         /// <returns>A random valid <see cref="FlateCompressionLevel" /> value.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the <c>rnd</c> parameter is <c>null</c>.</exception>
         public static FlateCompressionLevel NextFlateCompressionLevel(this Random rnd) 
-            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : _compressionLevels[rnd.Next(_compressionLevels.Length)];
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_compressionLevels);
+
+        private static readonly HorizontalAlignment[] _validHorizontalAlignments = 
+            new[] { HorizontalAlignment.Left, HorizontalAlignment.Centred, HorizontalAlignment.Right, HorizontalAlignment.Justified };
+
+        /// <summary>
+        /// Return a random <see cref="HorizontalAlignment" /> value.
+        /// </summary>
+        /// <param name="rnd">The random generator.</param>
+        /// <returns>A random <see cref="HorizontalAlignment" /> value.</returns>
+        /// <exception cref="ArgumentNullException">The <c>rnd</c> parameter is <c>null</c>.</exception>
+        public static HorizontalAlignment NextHorizontalAlignment(this Random rnd)
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_validHorizontalAlignments);
+
+        private static readonly VerticalAlignment[] _validVerticalAlignments =
+            new[] { VerticalAlignment.Bottom, VerticalAlignment.Baseline, VerticalAlignment.Centred, VerticalAlignment.Top };
+
+        /// <summary>
+        /// Return a random <see cref="VerticalAlignment" /> value.
+        /// </summary>
+        /// <param name="rnd">The random generator.</param>
+        /// <returns>A random <see cref="VerticalAlignment" /> value.</returns>
+        /// <exception cref="ArgumentNullException">The <c>rnd</c> parameter is <c>null</c>.</exception>
+        public static VerticalAlignment NextVerticalAlignment(this Random rnd)
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_validVerticalAlignments);
+
+        private static readonly WidowsAndOrphans[] _validWidowsAndOrphans = new[] { WidowsAndOrphans.Prevent, WidowsAndOrphans.Avoid, WidowsAndOrphans.Allow };
+
+        /// <summary>
+        /// Return a random <see cref="WidowsAndOrphans" /> value.
+        /// </summary>
+        /// <param name="rnd">The random generator.</param>
+        /// <returns>A random <see cref="WidowsAndOrphans" /> value.</returns>
+        /// <exception cref="ArgumentNullException">The <c>rnd</c> parameter is <c>null</c>.</exception>
+        public static WidowsAndOrphans NextWidowsAndOrphans(this Random rnd)
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_validWidowsAndOrphans);
+
+        private static readonly RightAngleRotation[] _validRightAngleRotations = new[] 
+        { 
+            RightAngleRotation.None, 
+            RightAngleRotation.Clockwise90, 
+            RightAngleRotation.Full180, 
+            RightAngleRotation.Anticlockwise90 
+        };
+
+        /// <summary>
+        /// Return a random <see cref="RightAngleRotation" /> value.
+        /// </summary>
+        /// <param name="rnd">The random generator.</param>
+        /// <returns>A random <see cref="RightAngleRotation"/> value.</returns>
+        /// <exception cref="ArgumentNullException">The <c>rnd</c> parameter is <c>null</c>.</exception>
+        public static RightAngleRotation NextRightAngleRotation(this Random rnd)
+            => rnd is null ? throw new ArgumentNullException(nameof(rnd)) : rnd.FromSet(_validRightAngleRotations);
     }
 
 #pragma warning restore CA5394 // Do not use insecure randomness

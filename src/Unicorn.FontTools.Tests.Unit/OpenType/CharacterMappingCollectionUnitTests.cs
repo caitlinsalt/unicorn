@@ -4,10 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
+using Unicorn.FontTools.OpenType;
 using Unicorn.FontTools.Tests.Unit.TestHelpers.Mocks;
 using Unicorn.FontTools.Tests.Utility;
 
-namespace Unicorn.FontTools.OpenType.Tests.Unit
+namespace Unicorn.FontTools.Tests.Unit.OpenType
 {
     [TestClass]
     public class CharacterMappingCollectionUnitTests
@@ -63,7 +64,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             CharacterMapping[] testData = GetTestData();
             CharacterMappingCollection testObject = new(testData);
 
-            for(int i = 0; i < testObject.Count; ++i)
+            for (int i = 0; i < testObject.Count; ++i)
             {
                 Assert.AreSame(testData[i], testObject[i]);
             }

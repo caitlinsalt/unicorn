@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Version>0.1.0</Version>
+    <Authors>Caitlin Salt</Authors>
+    <Product>Unicorn</Product>
+    <Copyright>Copyright © 2020-2022 Caitlin Salt</Copyright>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <NeutralLanguage>en-GB</NeutralLanguage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
+    <PackageReference Include="coverlet.collector" Version="3.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tests.Utility\Tests.Utility.csproj" />
+    <ProjectReference Include="..\Unicorn.Base\Unicorn.Base.csproj" />
+    <ProjectReference Include="..\Unicorn.FontTools.StandardFonts\Unicorn.FontTools.StandardFonts.csproj" />
+    <ProjectReference Include="..\Unicorn.FontTools.Tests.Utility\Unicorn.FontTools.Tests.Utility.csproj" />
+    <ProjectReference Include="..\Unicorn.FontTools\Unicorn.FontTools.csproj" />
+  </ItemGroup>
+
+</Project>

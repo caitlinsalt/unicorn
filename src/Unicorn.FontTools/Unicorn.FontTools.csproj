@@ -5,7 +5,7 @@
     <Version>0.1.0</Version>
     <Authors>Caitlin Salt</Authors>
     <Product>Unicorn</Product>
-    <Copyright>Copyright © 2020-2021 Caitlin Salt</Copyright>
+    <Copyright>Copyright © 2020-2022 Caitlin Salt</Copyright>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -13,10 +13,16 @@
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <NeutralLanguage>en-GB</NeutralLanguage>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Description>Unicorn.FontTools is a .NET Standard library for reading AFM and OpenType or TrueType files, specifically for the purpose of computing character and string metrics.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/willsalt/unicorn/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/willsalt/unicorn.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>ttf afm TrueType OpenType fonts</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

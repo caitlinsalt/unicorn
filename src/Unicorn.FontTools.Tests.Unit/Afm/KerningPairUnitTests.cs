@@ -7,6 +7,7 @@ using Tests.Utility.Providers;
 using Unicorn.FontTools.Afm;
 using Unicorn.FontTools.Tests.Utility;
 using System.Globalization;
+using System.Linq;
 
 namespace Unicorn.FontTools.Tests.Unit.Afm
 {
@@ -39,11 +40,11 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             {
                 if (char1 is null)
                 {
-                    char1 = "<" + _rnd.NextShort().ToString("X4", CultureInfo.InvariantCulture) + ">";
+                    char1 = HexCode(_rnd.NextShort());
                 }
                 if (char2 is null)
                 {
-                    char2 = "<" + _rnd.NextShort().ToString("X4", CultureInfo.InvariantCulture) + ">";
+                    char2 = HexCode(_rnd.NextShort());
                 }
             }
             if (x is null)
@@ -87,6 +88,32 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             KerningPair testOutput = new();
 
             Assert.AreEqual(default, testOutput.KerningVector);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void KerningPairStruct_ConstructorWithCharacterCharacterAndVectorParameters_ThrowsArgumentNullException_IfFirstParameterIsNull()
+        {
+            Character testParam0 = null;
+            Character testParam1 = _rnd.NextAfmCharacter();
+            Vector testParam2 = _rnd.NextAfmVector();
+
+            _ = new KerningPair(testParam0, testParam1, testParam2);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void KerningPairStruct_ConstructorWithCharacterCharacterAndVectorParameters_ThrowsArgumentNullException_IfSecondParameterIsNull()
+        {
+            Character testParam0 = _rnd.NextAfmCharacter();
+            Character testParam1 = null;
+            Vector testParam2 = _rnd.NextAfmVector();
+
+            _ = new KerningPair(testParam0, testParam1, testParam2);
+
+            Assert.Fail();
         }
 
         [TestMethod]
@@ -514,8 +541,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [ExpectedException(typeof(AfmFormatException))]
         public void KerningPairStruct_FromStringMethod_ThrowsAfmFormatException_IfFirstPartOfStringIsNotRecognised()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             Character char1 = _rnd.NextAfmCharacter(charName1);
             string testParam0 = GenerateRandomValidStringInput(_rnd.NextString("ABCDEFGHIJLMNOPQRSTUVWXYZ", _rnd.Next(1, 3)), charName0, charName1);
@@ -531,8 +559,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [ExpectedException(typeof(AfmFormatException))]
         public void KerningPairStruct_FromStringMethod_ThrowsAfmFormatException_IfCodeIsKPAndFirstCharacterIsNotListedInSecondParameter()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char1 = _rnd.NextAfmCharacter(charName1);
             string testParam0 = GenerateRandomValidStringInput("KP", charName0, charName1);
             IDictionary<string, Character> testParam1 = new Dictionary<string, Character> { { charName1, char1 } };
@@ -545,14 +574,29 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
 
         [TestMethod]
         [ExpectedException(typeof(AfmFormatException))]
+        public void KerningPairStruct_FromtStringMethod_ThrowsAfmFormatException_IfCodeIsKPAndSecondPartOfVectorIsMissing()
+        {
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
+            Character char0 = _rnd.NextAfmCharacter(charName0);
+            Character char1 = _rnd.NextAfmCharacter(charName1);
+            string testParam0 = GenerateRandomValidStringInput("KP", charName0, charName1, null, "");
+            IDictionary<string, Character> testParam1 = new Dictionary<string, Character> { { charName0, char0 }, { charName1, char1 } };
+            IDictionary<short, Character> testParam2 = new Dictionary<short, Character>();
+
+            _ = KerningPair.FromString(testParam0, testParam1, testParam2);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AfmFormatException))]
         public void KerningPairStruct_FromStringMethod_ThrowsAfmFormatException_IfCodeIsKPAndSecondCharacterIsNotListedInSecondParameter()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1;
-            do
-            {
-                charName1 = _rnd.NextString(_rnd.Next(1, 10));
-            } while (charName0 == charName1);
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             string testParam0 = GenerateRandomValidStringInput("KP", charName0, charName1);
             IDictionary<string, Character> testParam1 = new Dictionary<string, Character> { { charName0, char0 } };
@@ -567,8 +611,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [ExpectedException(typeof(AfmFormatException))]
         public void KerningPairStruct_FromStringMethod_ThrowsAfmFormatException_IfCodeIsKPAndFirstPartOfVectorIsNotANumber()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             Character char1 = _rnd.NextAfmCharacter(charName1);
             string testParam0 = GenerateRandomValidStringInput("KP", charName0, charName1, 
@@ -585,8 +630,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [ExpectedException(typeof(AfmFormatException))]
         public void KerningPairStruct_FromStringMethod_ThrowsAfmFormatException_IfCodeIsKPAndSecondPartOfVectorIsNotANumber()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             Character char1 = _rnd.NextAfmCharacter(charName1);
             string testParam0 = GenerateRandomValidStringInput("KP", charName0, charName1, null,
@@ -602,8 +648,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void KerningPairStruct_FromStringMethod_ReturnsValueWithCorrectFirstProperty_IfCodeIsKPAndDataIsValid()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             Character char1 = _rnd.NextAfmCharacter(charName1);
             decimal xVector = _rnd.NextDecimal();
@@ -621,8 +668,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void KerningPairStruct_FromStringMethod_ReturnsValueWithCorrectSecondProperty_IfCodeIsKPAndDataIsValid()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             Character char1 = _rnd.NextAfmCharacter(charName1);
             decimal xVector = _rnd.NextDecimal();
@@ -640,8 +688,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void KerningPairStruct_FromStringMethod_ReturnsValueWithKerningVectorPropertyWithCorrectXProperty_IfCodeIsKPAndDataIsValid()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             Character char1 = _rnd.NextAfmCharacter(charName1);
             decimal xVector = _rnd.NextDecimal();
@@ -659,8 +708,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void KerningPairStruct_FromStringMethod_ReturnsValueWithKerningVectorPropertyWithCorrectYProperty_IfCodeIsKPAndDataIsValid()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             Character char1 = _rnd.NextAfmCharacter(charName1);
             decimal xVector = _rnd.NextDecimal();
@@ -679,8 +729,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [ExpectedException(typeof(AfmFormatException))]
         public void KerningPairStruct_FromStringMethod_ThrowsAfmFormatException_IfCodeIsKPXAndFirstCharacterIsNotListedInSecondParameter()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char1 = _rnd.NextAfmCharacter(charName1);
             string testParam0 = GenerateRandomValidStringInput("KPX", charName0, charName1);
             IDictionary<string, Character> testParam1 = new Dictionary<string, Character> { { charName1, char1 } };
@@ -695,8 +746,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [ExpectedException(typeof(AfmFormatException))]
         public void KerningPairStruct_FromStringMethod_ThrowsAfmFormatException_IfCodeIsKPXAndSecondCharacterIsNotListedInSecondParameter()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             string testParam0 = GenerateRandomValidStringInput("KPX", charName0, charName1);
             IDictionary<string, Character> testParam1 = new Dictionary<string, Character> { { charName0, char0 } };
@@ -711,8 +763,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [ExpectedException(typeof(AfmFormatException))]
         public void KerningPairStruct_FromStringMethod_ThrowsAfmFormatException_IfCodeIsKPXAndVectorIsNotANumber()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             Character char1 = _rnd.NextAfmCharacter(charName1);
             string testParam0 = GenerateRandomValidStringInput("KPX", charName0, charName1,
@@ -728,8 +781,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void KerningPairStruct_FromStringMethod_ReturnsValueWithCorrectFirstProperty_IfCodeIsKPXAndDataIsValid()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             Character char1 = _rnd.NextAfmCharacter(charName1);
             decimal xVector = _rnd.NextDecimal();
@@ -745,8 +799,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void KerningPairStruct_FromStringMethod_ReturnsValueWithCorrectSecondProperty_IfCodeIsKPXAndDataIsValid()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             Character char1 = _rnd.NextAfmCharacter(charName1);
             decimal xVector = _rnd.NextDecimal();
@@ -762,8 +817,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void KerningPairStruct_FromStringMethod_ReturnsValueWithKerningVectorPropertyWithCorrectXProperty_IfCodeIsKPXAndDataIsValid()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             Character char1 = _rnd.NextAfmCharacter(charName1);
             decimal xVector = _rnd.NextDecimal();
@@ -779,8 +835,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void KerningPairStruct_FromStringMethod_ReturnsValueWithKerningVectorPropertyWithYPropertyEqualToZero_IfCodeIsKPXAndDataIsValid()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             Character char1 = _rnd.NextAfmCharacter(charName1);
             decimal xVector = _rnd.NextDecimal();
@@ -797,8 +854,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [ExpectedException(typeof(AfmFormatException))]
         public void KerningPairStruct_FromStringMethod_ThrowsAfmFormatException_IfCodeIsKPYAndFirstCharacterIsNotListedInSecondParameter()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char1 = _rnd.NextAfmCharacter(charName1);
             string testParam0 = GenerateRandomValidStringInput("KPY", charName0, charName1);
             IDictionary<string, Character> testParam1 = new Dictionary<string, Character> { { charName1, char1 } };
@@ -813,8 +871,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [ExpectedException(typeof(AfmFormatException))]
         public void KerningPairStruct_FromStringMethod_ThrowsAfmFormatException_IfCodeIsKPYAndSecondCharacterIsNotListedInSecondParameter()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             string testParam0 = GenerateRandomValidStringInput("KPY", charName0, charName1);
             IDictionary<string, Character> testParam1 = new Dictionary<string, Character> { { charName0, char0 } };
@@ -829,8 +888,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [ExpectedException(typeof(AfmFormatException))]
         public void KerningPairStruct_FromStringMethod_ThrowsAfmFormatException_IfCodeIsKPYAndFirstPartOfVectorIsNotANumber()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             Character char1 = _rnd.NextAfmCharacter(charName1);
             string testParam0 = GenerateRandomValidStringInput("KPY", charName0, charName1,
@@ -846,8 +906,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void KerningPairStruct_FromStringMethod_ReturnsValueWithCorrectFirstProperty_IfCodeIsKPYAndDataIsValid()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             Character char1 = _rnd.NextAfmCharacter(charName1);
             decimal yVector = _rnd.NextDecimal();
@@ -863,8 +924,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void KerningPairStruct_FromStringMethod_ReturnsValueWithCorrectSecondProperty_IfCodeIsKPYAndDataIsValid()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             Character char1 = _rnd.NextAfmCharacter(charName1);
             decimal yVector = _rnd.NextDecimal();
@@ -880,8 +942,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void KerningPairStruct_FromStringMethod_ReturnsValueWithKerningVectorPropertyWithXPropertyEqualToZero_IfCodeIsKPYAndDataIsValid()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             Character char1 = _rnd.NextAfmCharacter(charName1);
             decimal yVector = _rnd.NextDecimal();
@@ -897,8 +960,9 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
         [TestMethod]
         public void KerningPairStruct_FromStringMethod_ReturnsValueWithKerningVectorPropertyWithCorrectYProperty_IfCodeIsKPYAndDataIsValid()
         {
-            string charName0 = _rnd.NextString(_rnd.Next(1, 10));
-            string charName1 = _rnd.NextString(_rnd.Next(1, 10));
+            var charNameSet = _rnd.NextStringSet(() => _rnd.Next(1, 10), 2).ToArray();
+            string charName0 = charNameSet[0];
+            string charName1 = charNameSet[1];
             Character char0 = _rnd.NextAfmCharacter(charName0);
             Character char1 = _rnd.NextAfmCharacter(charName1);
             decimal yVector = _rnd.NextDecimal();
@@ -975,6 +1039,28 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
 
         [TestMethod]
         [ExpectedException(typeof(AfmFormatException))]
+        public void KerningPairStruct_FromStringMethod_ThrowsAfmFormatException_IfCodeIsKPHAndFirstCharacterIsNotValidHexCodeButHasAngleBrackets()
+        {
+            short charCode0 = _rnd.NextShort();
+            short charCode1;
+            do
+            {
+                charCode1 = _rnd.NextShort();
+            } while (charCode1 == charCode0);
+            string charName = "<" + _rnd.NextString(TestUtilities.Extensions.RandomExtensions.NonHexAlphabeticalCharacters, _rnd.Next(1, 10)) + ">";
+            Character char0 = _rnd.NextAfmCharacter(charName, charCode0);
+            Character char1 = _rnd.NextAfmCharacter(charCode1);
+            string testParam0 = GenerateRandomValidStringInput("KPH", charName, HexCode(charCode1));
+            IDictionary<string, Character> testParam1 = new Dictionary<string, Character>();
+            IDictionary<short, Character> testParam2 = new Dictionary<short, Character> { { charCode0, char0 }, { charCode1, char1 } };
+
+            _ = KerningPair.FromString(testParam0, testParam1, testParam2);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AfmFormatException))]
         public void KerningPairStruct_FromStringMethod_ThrowsAfmFormatException_IfCodeIsKPHAndSecondCharacterIsNotValidHexCode()
         {
             short charCode0 = _rnd.NextShort();
@@ -984,6 +1070,28 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
                 charCode1 = _rnd.NextShort();
             } while (charCode1 == charCode0);
             string charName = _rnd.NextString(TestUtilities.Extensions.RandomExtensions.AlphabeticalCharacters, _rnd.Next(1, 10));
+            Character char0 = _rnd.NextAfmCharacter(charCode0);
+            Character char1 = _rnd.NextAfmCharacter(charName, charCode1);
+            string testParam0 = GenerateRandomValidStringInput("KPH", HexCode(charCode0), charName);
+            IDictionary<string, Character> testParam1 = new Dictionary<string, Character>();
+            IDictionary<short, Character> testParam2 = new Dictionary<short, Character> { { charCode0, char0 }, { charCode1, char1 } };
+
+            _ = KerningPair.FromString(testParam0, testParam1, testParam2);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AfmFormatException))]
+        public void KerningPairStruct_FromStringMethod_ThrowsAfmFormatException_IfCodeIsKPHAndSecondCharacterIsNotValidHexCodeButHasAngleBrackets()
+        {
+            short charCode0 = _rnd.NextShort();
+            short charCode1;
+            do
+            {
+                charCode1 = _rnd.NextShort();
+            } while (charCode1 == charCode0);
+            string charName = "<" + _rnd.NextString(TestUtilities.Extensions.RandomExtensions.NonHexAlphabeticalCharacters, _rnd.Next(1, 10)) + ">";
             Character char0 = _rnd.NextAfmCharacter(charCode0);
             Character char1 = _rnd.NextAfmCharacter(charName, charCode1);
             string testParam0 = GenerateRandomValidStringInput("KPH", HexCode(charCode0), charName);
@@ -1031,6 +1139,27 @@ namespace Unicorn.FontTools.Tests.Unit.Afm
             Character char1 = _rnd.NextAfmCharacter(charCode1);
             string testParam0 = GenerateRandomValidStringInput("KPH", HexCode(charCode0), HexCode(charCode1), null,
                 _rnd.NextString(TestUtilities.Extensions.RandomExtensions.AlphabeticalCharacters, _rnd.Next(1, 10)));
+            IDictionary<string, Character> testParam1 = new Dictionary<string, Character>();
+            IDictionary<short, Character> testParam2 = new Dictionary<short, Character> { { charCode0, char0 }, { charCode1, char1 } };
+
+            _ = KerningPair.FromString(testParam0, testParam1, testParam2);
+
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AfmFormatException))]
+        public void KerningPairStruct_FromStringMethod_ThrowsAfmFormatException_IfCodeIsKPHAndSecondPartOfVectorIsMissing()
+        {
+            short charCode0 = _rnd.NextShort();
+            short charCode1;
+            do
+            {
+                charCode1 = _rnd.NextShort();
+            } while (charCode1 == charCode0);
+            Character char0 = _rnd.NextAfmCharacter(charCode0);
+            Character char1 = _rnd.NextAfmCharacter(charCode1);
+            string testParam0 = GenerateRandomValidStringInput("KPH", HexCode(charCode0), HexCode(charCode1), null, "");
             IDictionary<string, Character> testParam1 = new Dictionary<string, Character>();
             IDictionary<short, Character> testParam2 = new Dictionary<short, Character> { { charCode0, char0 }, { charCode1, char1 } };
 

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
+using Unicorn.Helpers;
 using Unicorn.Writer.Extensions;
 using Unicorn.Writer.Interfaces;
+using Unicorn.Writer.Streams;
 
 namespace Unicorn.Writer.Primitives
 {
@@ -31,15 +34,23 @@ namespace Unicorn.Writer.Primitives
         /// <param name="stream">The stream to write to.</param>
         /// <returns>The number of bytes written.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the parameter is null.</exception>
-        public int WriteTo(Stream stream)
+        public async Task<int> WriteToAsync(Stream stream)
         {
             if (stream == null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }
-            stream.Write(_bytes, 0, _bytes.Length);
+            await stream.WriteAsync(_bytes, 0, _bytes.Length).ConfigureAwait(false);
             return _bytes.Length;
         }
+
+        /// <summary>
+        /// Write this object to a <see cref="Stream" />.
+        /// </summary>
+        /// <param name="stream">The stream to write to.</param>
+        /// <returns>The number of bytes written.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the parameter is null.</exception>
+        public int WriteTo(Stream stream) => TaskHelper.UnwrapTask(WriteToAsync, stream);
 
         /// <summary>
         /// Convert this object to bytes and append them to a list.

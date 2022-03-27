@@ -34,7 +34,7 @@ namespace Unicorn.Writer.Structural
             PdfDictionary d = new PdfDictionary
             {
                 { CommonPdfNames.Type, CommonPdfNames.Catalog },
-                { CommonPdfNames.Pages, PageRoot.GetReference() }
+                { CommonPdfNames.Pages, PageRoot.Reference() }
             };
             return d;
         }

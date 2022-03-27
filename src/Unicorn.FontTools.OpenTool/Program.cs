@@ -48,7 +48,10 @@ namespace Unicorn.FontTools.OpenTool
             }
             else
             {
-                t.Dump(Console.Out);
+                foreach (var str in t.Dump().FormatBlock())
+                {
+                    Console.Out.WriteLine(str);
+                }
             }
         }
     }

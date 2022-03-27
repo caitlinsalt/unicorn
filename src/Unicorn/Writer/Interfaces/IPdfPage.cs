@@ -1,5 +1,6 @@
 ﻿using Unicorn.Base;
 using Unicorn.Writer.Primitives;
+using Unicorn.Writer.Streams;
 using Unicorn.Writer.Structural;
 
 namespace Unicorn.Writer.Interfaces
@@ -8,7 +9,7 @@ namespace Unicorn.Writer.Interfaces
     /// Interface defining the <see cref="PdfPage" /> functionality not inherited from other classes, to make testing of <see cref="PdfPage" />'s consumers more
     /// straightforward.
     /// </summary>
-    public interface IPdfPage
+    public interface IPdfPage : IPdfIndirectObject, IPageDescriptor
     {
         /// <summary>
         /// The stream which contains the page's content.

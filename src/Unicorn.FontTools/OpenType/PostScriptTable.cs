@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Text;
+using Unicorn.Base.Helpers.Extensions;
 using Unicorn.FontTools.Extensions;
 using Unicorn.FontTools.OpenType.Utility;
 
@@ -560,39 +560,41 @@ namespace Unicorn.FontTools.OpenType
         }
 
         /// <summary>
-        /// Dump the content of this table to a <see cref="TextWriter" />.  Ignored if the parameter is <c>null</c>.
+        /// Dump this table's content.
         /// </summary>
-        /// <param name="writer">The <see cref="TextWriter" /> to send output to.</param>
-        public override void Dump(TextWriter writer)
+        public override IDumpBlock Dump()
         {
-            if (writer is null)
-            {
-                return;
-            }
-            writer.WriteLine("post table content:");
-            writer.WriteLine("Field              | Value");
-            writer.WriteLine("-------------------|--------------------------");
-            writer.WriteLine($"Version            | {Version}");
-            writer.WriteLine($"ItalicAngle        | {ItalicAngle}");
-            writer.WriteLine($"UnderlinePosition  | {UnderlinePosition}");
-            writer.WriteLine($"UnderlineThickness | {UnderlineThickness}");
-            writer.WriteLine($"IsFixedPitch       | {IsFixedPitch}");
-            writer.WriteLine($"MinMemoryType42    | {MinMemoryType42}");
-            writer.WriteLine($"MaxMemoryType42    | {MaxMemoryType42}");
-            writer.WriteLine($"MinMemoryType1     | {MinMemoryType1}");
-            writer.WriteLine($"MaxMemoryType1     | {MaxMemoryType1}");
+            DumpBlock[] child;
             if (Version == PostScriptTableVersion.Two || Version == PostScriptTableVersion.TwoPointFive)
             {
-                int longestName = _overriddenGlyphsByName.Keys.Max(n => n.Length);
-                string breakline = new string('-', longestName);
-                writer.WriteLine("This font uses a custom glyph name table.");
-                writer.WriteLine("Name             |  Glyph");
-                writer.WriteLine($"{breakline}-|-------");
-                foreach (KeyValuePair<string, int> pair in _overriddenGlyphsByName.OrderBy(p => p.Value))
+                child = new[]
                 {
-                    writer.WriteLine($"{pair.Key.PadRight(longestName)} | {pair.Value,6}");
-                }
+                    new DumpBlock(
+                        "This font uses a custom glyph name table.",
+                        new DumpBlockHeader(new DumpColumn("Name"), new DumpColumn("Glyph")),
+                        _overriddenGlyphsByName.OrderBy(p => p.Value).Select(p => new DumpRecord(p.Key, p.Value.ToString(CultureInfo.CurrentCulture))),
+                        null)
+                };
             }
+            else
+            {
+                child = Array.Empty<DumpBlock>();
+            }
+            return new DumpBlock(
+                "post table content:", 
+                new DumpRecord[]
+                {
+                    new DumpRecord("Version", Version.ToString()),
+                    new DumpRecord("ItalicAngle", ItalicAngle.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("UnderlinePosition", UnderlinePosition.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("UnderlineThickness", UnderlineThickness.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("IsFixedPitch", IsFixedPitch.ToString()),
+                    new DumpRecord("MinMemoryType42", MinMemoryType42.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("MaxMemoryType42", MaxMemoryType42.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("MinMemoryType1", MinMemoryType1.ToString(CultureInfo.CurrentCulture)),
+                    new DumpRecord("MaxMemoryType1", MaxMemoryType1.ToString(CultureInfo.CurrentCulture)),
+                },
+                child);
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Unicorn.Base;
 using Unicorn.Writer.Interfaces;
 
 namespace Unicorn.Writer.Primitives
@@ -7,12 +8,22 @@ namespace Unicorn.Writer.Primitives
     /// <summary>
     /// Immutable class representing a reference to a PDF indirect object.
     /// </summary>
-    public class PdfReference : PdfSimpleObject, IEquatable<PdfReference>
+    public class PdfReference : PdfSimpleObject, IPdfReference, IPdfInternalReference, IEquatable<PdfReference>
     {
         /// <summary>
-        /// The object this reference refers to.
+        /// The ID of the object that this reference refers to.
         /// </summary>
-        public IPdfIndirectObject Value { get; }
+        public int ObjectId { get; }
+
+        /// <summary>
+        /// The generation number of the object that this reference refers to.
+        /// </summary>
+        public int Generation { get; }
+
+        /// <summary>
+        /// The generation number of the object that this reference refers to.
+        /// </summary>
+        public int Version => Generation;
         
         /// <summary>
         /// Value-setting constructor.
@@ -21,7 +32,39 @@ namespace Unicorn.Writer.Primitives
         /// <exception cref="ArgumentNullException">Thrown if the referent parameter is null.</exception>
         public PdfReference(IPdfIndirectObject referent)
         {
-            Value = referent ?? throw new ArgumentNullException(nameof(referent));
+            if (referent is null)
+            {
+                throw new ArgumentNullException(nameof(referent));
+            }
+            ObjectId = referent.ObjectId;
+            Generation = referent.Generation;
+        }
+
+        private PdfReference(int objectId, int generation)
+        {
+            ObjectId = objectId;
+            Generation = generation;
+        }
+
+        /// <summary>
+        /// Convert any <see cref="IPdfInternalReference"/> implementation into a <see cref="PdfReference"/>
+        /// </summary>
+        /// <param name="reference">An <see cref="IPdfInternalReference"/>.</param>
+        /// <returns>
+        /// A <see cref="PdfReference"/> referring to the same PDF object as the parameter.  
+        /// If the paraeter is a <see cref="PdfReference"/> instance, it may itself be returned.
+        /// </returns>
+        public static PdfReference FromInternalReference(IPdfInternalReference reference)
+        {
+            if (reference is null)
+            {
+                return null;
+            }
+            if (reference is PdfReference pdfReference)
+            {
+                return pdfReference;
+            }
+            return new PdfReference(reference.ObjectId, reference.Version);
         }
 
         /// <summary>
@@ -30,7 +73,7 @@ namespace Unicorn.Writer.Primitives
         /// <returns>An array of bytes representing this object.</returns>
         protected override byte[] FormatBytes()
         {
-            return Encoding.ASCII.GetBytes($"{Value.ObjectId} {Value.Generation} R\xa");
+            return Encoding.ASCII.GetBytes($"{ObjectId} {Generation} R\xa");
         }
 
         /// <summary>
@@ -44,7 +87,7 @@ namespace Unicorn.Writer.Primitives
             {
                 return false;
             }
-            return Value.ObjectId == other.Value.ObjectId && Value.Generation == other.Value.Generation;
+            return ObjectId == other.ObjectId && Generation == other.Generation;
         }
 
         /// <summary>
@@ -68,7 +111,7 @@ namespace Unicorn.Writer.Primitives
         /// <returns>A hash code derived from the value of this object.</returns>
         public override int GetHashCode()
         {
-            return Value.ObjectId.GetHashCode() ^ Value.Generation.GetHashCode();
+            return ObjectId.GetHashCode() ^ Generation.GetHashCode();
         }
 
         /// <summary>

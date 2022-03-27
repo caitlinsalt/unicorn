@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Unicorn.Helpers;
 using Unicorn.Writer.Interfaces;
 
 namespace Unicorn.Writer.Structural
@@ -49,7 +52,7 @@ namespace Unicorn.Writer.Structural
             }
             if (value.ObjectId >= _contents.Count || value.ObjectId < 0)
             {
-                throw new ArgumentException(Resources.Structural_PdfCrossRefTable_SetSlot_Invalid_ObjectId_Error, nameof(value));
+                throw new ArgumentException(WriterResources.Structural_PdfCrossRefTable_SetSlot_Invalid_ObjectId_Error, nameof(value));
             }
             PdfCrossRefTableEntry entry = new PdfCrossRefTableEntry(value, offset);
             _contents[value.ObjectId] = entry;
@@ -61,45 +64,51 @@ namespace Unicorn.Writer.Structural
         /// <param name="stream">The strean to write to.</param>
         /// <returns>The number of bytes written.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the stream parameter is null.</exception>
-        public int WriteTo(Stream stream)
+        public async Task<int> WriteToAsync(Stream stream)
         {
             if (stream == null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }
             int written = 0;
-            lock (_contents)
+            var safeContents = _contents.ToList();
+            byte[] prologueLineOne = new byte[] { 0x78, 0x72, 0x65, 0x66, 0xa };
+            string prologueLineTwoStr = $"0 {safeContents.Count - 1}\xa";
+            byte[] prologueLineTwo = Encoding.ASCII.GetBytes(prologueLineTwoStr);
+            await stream.WriteAsync(prologueLineOne, 0, prologueLineOne.Length).ConfigureAwait(false);
+            written += prologueLineOne.Length;
+            await stream.WriteAsync(prologueLineTwo, 0, prologueLineTwo.Length).ConfigureAwait(false);
+            written += prologueLineTwo.Length;
+            for (int i = 0; i < safeContents.Count; ++i)
             {
-                byte[] prologueLineOne = new byte[] { 0x78, 0x72, 0x65, 0x66, 0xa };
-                string prologueLineTwoStr = $"0 {_contents.Count - 1}\xa";
-                byte[] prologueLineTwo = Encoding.ASCII.GetBytes(prologueLineTwoStr);
-                stream.Write(prologueLineOne, 0, prologueLineOne.Length);
-                written += prologueLineOne.Length;
-                stream.Write(prologueLineTwo, 0, prologueLineTwo.Length);
-                written += prologueLineTwo.Length;
-                for (int i = 0; i < _contents.Count; ++i)
+                if (safeContents[i] == null)
                 {
-                    if (_contents[i] == null)
-                    {
-                        written += WriteNullEntry(i, stream);
-                    }
-                    else
-                    {
-                        written += WriteEntry(_contents[i], stream);
-                    }
+                    written += await WriteNullEntryAsync(i, stream).ConfigureAwait(false);
                 }
-                return written;
+                else
+                {
+                    written += await WriteEntryAsync(safeContents[i], stream).ConfigureAwait(false);
+                }
             }
+            return written;
         }
 
-        private static int WriteEntry(PdfCrossRefTableEntry entry, Stream stream)
+        /// <summary>
+        /// Write this table to a <see cref="Stream" />.
+        /// </summary>
+        /// <param name="stream">The strean to write to.</param>
+        /// <returns>The number of bytes written.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the stream parameter is null.</exception>
+        public int WriteTo(Stream stream) => TaskHelper.UnwrapTask(WriteToAsync, stream);
+
+        private static async Task<int> WriteEntryAsync(PdfCrossRefTableEntry entry, Stream stream)
         {
             byte[] bytes = Encoding.ASCII.GetBytes(string.Format(CultureInfo.InvariantCulture, "{0:d10} {1:d5} n \xa", entry.Offset, entry.Value.Generation));
-            stream.Write(bytes, 0, bytes.Length);
+            await stream.WriteAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
             return bytes.Length;
         }
 
-        private int WriteNullEntry(int i, Stream stream)
+        private async Task<int> WriteNullEntryAsync(int i, Stream stream)
         {
             int nextItem = i < _contents.Count - 1 ? _contents.FindIndex(i + 1, e => e == null) : 0;
             if (nextItem < 0)
@@ -107,7 +116,7 @@ namespace Unicorn.Writer.Structural
                 nextItem = 0;
             }
             byte[] bytes = Encoding.ASCII.GetBytes(string.Format(CultureInfo.InvariantCulture, "{0:d10} {1:d5} f \xa", nextItem, i == 0 ? 65535 : 0));
-            stream.Write(bytes, 0, bytes.Length);
+            await stream.WriteAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
             return bytes.Length;
         }
     }

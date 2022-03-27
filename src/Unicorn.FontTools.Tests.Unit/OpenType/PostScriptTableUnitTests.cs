@@ -1,12 +1,14 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Tests.Utility.Extensions;
 using Tests.Utility.Providers;
+using Unicorn.FontTools.OpenType;
 using Unicorn.FontTools.Tests.Utility;
 
-namespace Unicorn.FontTools.OpenType.Tests.Unit
+namespace Unicorn.FontTools.Tests.Unit.OpenType
 {
     [TestClass]
     public class PostScriptTableUnitTests
@@ -16,9 +18,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
 #pragma warning disable CA5394 // Do not use insecure randomness
 
         private static PostScriptTableVersion GetTableVersionNumberForOverrideMapping()
-        {
-            return _rnd.NextBoolean() ? PostScriptTableVersion.Two : PostScriptTableVersion.TwoPointFive;
-        }
+            => _rnd.NextBoolean() ? PostScriptTableVersion.Two : PostScriptTableVersion.TwoPointFive;
 
         private static PostScriptTableVersion GetTableVersionNumberForStandardMapping()
         {
@@ -27,20 +27,19 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         }
 
         private static PostScriptTable GetTestObject(IEnumerable<KeyValuePair<string, int>> mapping)
-        {
-            return new PostScriptTable(GetTableVersionNumberForOverrideMapping(), _rnd.NextDecimal() * 360, _rnd.NextShort(), _rnd.NextShort(), _rnd.NextBoolean(),
-                _rnd.NextUInt(), _rnd.NextUInt(), _rnd.NextUInt(), _rnd.NextUInt(), mapping);
-        }
+            => new(GetTableVersionNumberForOverrideMapping(), _rnd.NextDecimal() * 360, _rnd.NextShort(), _rnd.NextShort(), _rnd.NextBoolean(), _rnd.NextUInt(),
+                _rnd.NextUInt(), _rnd.NextUInt(), _rnd.NextUInt(), mapping);
+
+        private static PostScriptTable GetTestObjectForStandardMapping()
+            => new(GetTableVersionNumberForStandardMapping(), _rnd.NextDecimal() * 360, _rnd.NextShort(), _rnd.NextShort(), _rnd.NextBoolean(), _rnd.NextUInt(),
+                _rnd.NextUInt(), _rnd.NextUInt(), _rnd.NextUInt());
 
         private static PostScriptTable GetTestObject()
-        {
-            return new PostScriptTable(GetTableVersionNumberForStandardMapping(), _rnd.NextDecimal() * 360, _rnd.NextShort(), _rnd.NextShort(), _rnd.NextBoolean(),
-                _rnd.NextUInt(), _rnd.NextUInt(), _rnd.NextUInt(), _rnd.NextUInt());
-        }
+            => _rnd.NextBoolean() ? GetTestObjectForStandardMapping() : GetTestObject(GetTestCharacterMap());
 
         private static List<KeyValuePair<string, int>> GetTestCharacterMap()
         {
-            int count = _rnd.Next(256);
+            int count = _rnd.Next(1, 256);
             List<KeyValuePair<string, int>> testData = new(count);
             for (int i = 0; i < count; ++i)
             {
@@ -709,7 +708,7 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
         {
             int expectedResult = _rnd.Next(_standardCharacterMap.Length);
             string testParam = _standardCharacterMap[expectedResult];
-            PostScriptTable testObject = GetTestObject();
+            PostScriptTable testObject = GetTestObjectForStandardMapping();
 
             int? testOutput = testObject.GetGlyphByName(testParam);
 
@@ -725,11 +724,267 @@ namespace Unicorn.FontTools.OpenType.Tests.Unit
             {
                 testParam = _rnd.NextString(_rnd.Next(1, 25));
             } while (_standardCharacterMap.Contains(testParam));
-            PostScriptTable testObject = GetTestObject();
+            PostScriptTable testObject = GetTestObjectForStandardMapping();
 
             int? testOutput = testObject.GetGlyphByName(testParam);
 
             Assert.IsFalse(testOutput.HasValue);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObject()
+        {
+            var testObject = GetTestObject();
+
+            var testOutput = testObject.Dump();
+
+            Assert.IsNotNull(testOutput);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithInfoPropertyContainingNameOfTable()
+        {
+            var testObject = GetTestObject();
+
+            var testOutput = testObject.Dump();
+
+            Assert.IsTrue(testOutput.Info.Contains("post", StringComparison.InvariantCulture));
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithBlockHeaderWithTwoColumns()
+        {
+            var testObject = GetTestObject();
+
+            var testOutput = testObject.Dump();
+
+            Assert.AreEqual(2, testOutput.BlockHeader.Count);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithBlockHeaderWithFirstColumnNamedField()
+        {
+            var testObject = GetTestObject();
+
+            var testOutput = testObject.Dump();
+
+            Assert.AreEqual("Field", testOutput.BlockHeader[0].HeaderText);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithBlockHeaderWithSecondColumnNamedValue()
+        {
+            var testObject = GetTestObject();
+
+            var testOutput = testObject.Dump();
+
+            Assert.AreEqual("Value", testOutput.BlockHeader[1].HeaderText);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithBlockDataContaining9Records()
+        {
+            var testObject = GetTestObject();
+
+            var testOutput = testObject.Dump();
+
+            Assert.AreEqual(9, testOutput.BlockData.Count);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithBlockDataWithRecordContainingCorrectVersion()
+        {
+            var testObject = GetTestObject();
+
+            var testOutput = testObject.Dump();
+
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "Version");
+            Assert.AreEqual(testObject.Version.ToString(), testRecord[1]);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithBlockDataWithRecordContainingCorrectItalicAngle()
+        {
+            var testObject = GetTestObject();
+
+            var testOutput = testObject.Dump();
+
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "ItalicAngle");
+            Assert.AreEqual(testObject.ItalicAngle.ToString(CultureInfo.CurrentCulture), testRecord[1]);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithBlockDataWithRecordContainingCorrectUnderlinePosition()
+        {
+            var testObject = GetTestObject();
+
+            var testOutput = testObject.Dump();
+
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "UnderlinePosition");
+            Assert.AreEqual(testObject.UnderlinePosition.ToString(CultureInfo.CurrentCulture), testRecord[1]);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithBlockDataWithRecordContainingCorrectUnderlineThickness()
+        {
+            var testObject = GetTestObject();
+
+            var testOutput = testObject.Dump();
+
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "UnderlineThickness");
+            Assert.AreEqual(testObject.UnderlineThickness.ToString(CultureInfo.CurrentCulture), testRecord[1]);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithBlockDataWithRecordContainingCorrectIsFixedPitch()
+        {
+            var testObject = GetTestObject();
+
+            var testOutput = testObject.Dump();
+
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "IsFixedPitch");
+            Assert.AreEqual(testObject.IsFixedPitch.ToString(), testRecord[1]);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithBlockDataWithRecordContainingCorrectMinMemoryType42()
+        {
+            var testObject = GetTestObject();
+
+            var testOutput = testObject.Dump();
+
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "MinMemoryType42");
+            Assert.AreEqual(testObject.MinMemoryType42.ToString(CultureInfo.CurrentCulture), testRecord[1]);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithBlockDataWithRecordContainingCorrectMaxMemoryType42()
+        {
+            var testObject = GetTestObject();
+
+            var testOutput = testObject.Dump();
+
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "MaxMemoryType42");
+            Assert.AreEqual(testObject.MaxMemoryType42.ToString(CultureInfo.CurrentCulture), testRecord[1]);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithBlockDataWithRecordContainingCorrectMinMemoryType1()
+        {
+            var testObject = GetTestObject();
+
+            var testOutput = testObject.Dump();
+
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "MinMemoryType1");
+            Assert.AreEqual(testObject.MinMemoryType1.ToString(CultureInfo.CurrentCulture), testRecord[1]);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithBlockDataWithRecordContainingCorrectMaxMemoryType1()
+        {
+            var testObject = GetTestObject();
+
+            var testOutput = testObject.Dump();
+
+            var testRecord = testOutput.BlockData.Single(r => r[0] == "MaxMemoryType1");
+            Assert.AreEqual(testObject.MaxMemoryType1.ToString(CultureInfo.CurrentCulture), testRecord[1]);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithNoNestedBlocks_IfVersionIsOneThreeOrFour()
+        {
+            var testObject = GetTestObjectForStandardMapping();
+
+            var testOutput = testObject.Dump();
+
+            Assert.AreEqual(0, testOutput.NestedData.Count());
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithOneNestedBlock_IfVersionIsTwoOrTwoPointFive()
+        {
+            var glyphData = GetTestCharacterMap();
+            var testObject = GetTestObject(glyphData);
+
+            var testOutput = testObject.Dump();
+
+            Assert.AreEqual(1, testOutput.NestedData.Count());
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithNestedBlockWithBlockHeaderWithTwoColumns()
+        {
+            var glyphData = GetTestCharacterMap();
+            var testObject = GetTestObject(glyphData);
+
+            var testOutput = testObject.Dump();
+
+            var nestedOutput = testOutput.NestedData.First();
+            Assert.AreEqual(2, nestedOutput.BlockHeader.Count);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithNestedBlockWithBlockHeaderWithFirstColumnNamedName()
+        {
+            var glyphData = GetTestCharacterMap();
+            var testObject = GetTestObject(glyphData);
+
+            var testOutput = testObject.Dump();
+
+            var nestedOutput = testOutput.NestedData.First();
+            Assert.AreEqual("Name", nestedOutput.BlockHeader[0].HeaderText);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithNestedBlockWithBlockHeaderWithSecondColumnNamedGlyph()
+        {
+            var glyphData = GetTestCharacterMap();
+            var testObject = GetTestObject(glyphData);
+
+            var testOutput = testObject.Dump();
+
+            var nestedOutput = testOutput.NestedData.First();
+            Assert.AreEqual("Glyph", nestedOutput.BlockHeader[1].HeaderText);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithNestedBlockWithNoNestedBlocks()
+        {
+            var glyphData = GetTestCharacterMap();
+            var testObject = GetTestObject(glyphData);
+
+            var testOutput = testObject.Dump();
+
+            var nestedOutput = testOutput.NestedData.First();
+            Assert.AreEqual(0, nestedOutput.NestedData.Count());
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithNestedBlockWithBlockDataContainingOneElementPerOverriddenCharacter()
+        {
+            var glyphData = GetTestCharacterMap();
+            var testObject = GetTestObject(glyphData);
+
+            var testOutput = testObject.Dump();
+
+            var nestedOutput = testOutput.NestedData.First();
+            Assert.AreEqual(glyphData.Count, nestedOutput.BlockData.Count);
+        }
+
+        [TestMethod]
+        public void PostScriptTableClass_DumpMethod_ReturnsObjectWithNestedBlockWithBlockDataContainingOneRecordPerOverriddenCharacterWithCorrectData()
+        {
+            var glyphData = GetTestCharacterMap();
+            var testObject = GetTestObject(glyphData);
+
+            var testOutput = testObject.Dump();
+
+            var nestedOutput = testOutput.NestedData.First();
+            foreach (var glyphRecord in glyphData)
+            {
+                var testRecord = nestedOutput.BlockData.Single(r => r[0] == glyphRecord.Key);
+                Assert.AreEqual(glyphRecord.Value.ToString(CultureInfo.CurrentCulture), testRecord[1]);
+            }
         }
 
 #pragma warning restore CA5394 // Do not use insecure randomness

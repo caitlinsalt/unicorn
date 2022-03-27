@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Globalization;
 using System.Linq;
+using Unicorn.Base.Helpers.Extensions;
 using Unicorn.FontTools.Extensions;
 using Unicorn.FontTools.OpenType.Utility;
 
@@ -133,22 +134,13 @@ namespace Unicorn.FontTools.OpenType
         }
 
         /// <summary>
-        /// Dump the content of this mapping to a <see cref="TextWriter" />.
+        /// Dump this table's content.
         /// </summary>
-        /// <param name="writer">The writer to dump to.</param>
-        public override void Dump(TextWriter writer)
-        {
-            if (writer is null)
-            {
-                return;
-            }
-            writer.WriteLine($"Character mapping for {Platform} encoding {Encoding} language {Language} (type 6)");
-            writer.WriteLine("Code point | Glyph");
-            writer.WriteLine("-----------|------");
-            for (int i = 0; i < _arr.Length; ++i)
-            {
-                writer.WriteLine($"     {i + FirstCodePoint,5} | {_arr[i],5}");
-            }
-        }
+        public override IDumpBlock Dump()
+            => new DumpBlock(
+                $"Character mapping for {Platform} encoding {Encoding} language {Language} (type 6)",
+                new DumpBlockHeader(new DumpColumn("Code point", DumpAlignment.Right), new DumpColumn("Glyph", DumpAlignment.Right)),
+                _arr.Select((a, i) => new DumpRecord((i + FirstCodePoint).ToString(CultureInfo.CurrentCulture), a.ToString(CultureInfo.CurrentCulture))),
+                null);
     }
 }

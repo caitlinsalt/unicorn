@@ -1,4 +1,5 @@
 ﻿using System;
+using Unicorn.Base.Helpers.Extensions;
 using Unicorn.FontTools.Extensions;
 using Unicorn.FontTools.OpenType.Utility;
 

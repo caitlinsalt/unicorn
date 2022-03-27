@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using Unicorn.Base.Helpers.Extensions;
 using Unicorn.FontTools.Extensions;
 using Unicorn.FontTools.OpenType.Utility;
 
@@ -42,25 +43,19 @@ namespace Unicorn.FontTools.OpenType
         }
 
         /// <summary>
-        /// Dump the content of this table to a <see cref="TextWriter" />.  Returns silently if the parameter is <c>null</c>.
+        /// Dump this table's content.
         /// </summary>
-        /// <param name="writer">The writer to dump output to.</param>
-        public override void Dump(TextWriter writer)
-        {
-            if (writer is null)
-            {
-                return;
-            }
-            writer.WriteLine("name table content:");
-            writer.WriteLine($"Version {Version}");
-            writer.WriteLine($"{Names.Count} names.");
-            writer.WriteLine("Platform  | Encoding | Language | Name                   | Text");
-            writer.WriteLine("----------|----------|----------|------------------------|------------------------------");
-            foreach (NameRecord name in Names)
-            {
-                writer.WriteLine($"{name.PlatformId,9} |   {name.EncodingId,6} |   {name.LanguageId,6} | {name.NameId,22} | {name.Content}");
-            }
-        }
+        public override IDumpBlock Dump()
+            => new DumpBlock(
+                $"name table content:\nVersion {Version}\n{Names.Count} names.",
+                new DumpBlockHeader(new DumpColumn("Platform"), new DumpColumn("Encoding"), new DumpColumn("Language"), new DumpColumn("Name"), new DumpColumn("Text")),
+                Names.Select(n => new DumpRecord(
+                    n.PlatformId.ToString(), 
+                    n.EncodingId.ToString(CultureInfo.CurrentCulture), 
+                    n.LanguageId.ToString(CultureInfo.CurrentCulture), 
+                    n.NameId.ToString(), 
+                    n.Content)),
+                null);
 
         /// <summary>
         /// Load a 'name' table from an array of bytes.

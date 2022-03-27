@@ -7,7 +7,7 @@ namespace Unicorn
     /// <summary>
     /// Represents a word - a block of characters that must not be separated.
     /// </summary>
-    public class Word : IDrawable
+    public class Word : IWord
     {
         /// <summary>
         /// The textual content of this word.
@@ -52,7 +52,12 @@ namespace Unicorn
         /// <summary>
         /// The height of this word.
         /// </summary>
-        public double MinHeight => ContentAscent + ContentDescent;
+        public double ContentHeight => ContentAscent + ContentDescent;
+
+        /// <summary>
+        /// The height of this word.
+        /// </summary>
+        public double Height => ContentHeight;
 
         /// <summary>
         /// Construct a <see cref="Word" /> instance. 

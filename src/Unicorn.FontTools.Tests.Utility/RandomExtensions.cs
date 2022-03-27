@@ -5,6 +5,7 @@ using System.Text;
 using Tests.Utility.Extensions;
 using Unicorn.FontTools.Afm;
 using Unicorn.FontTools.OpenType;
+using Unicorn.FontTools.OpenType.Utility;
 
 namespace Unicorn.FontTools.Tests.Utility
 {
@@ -24,8 +25,7 @@ namespace Unicorn.FontTools.Tests.Utility
         /// <param name="random">The random generator.</param>
         /// <returns>A random <see cref="PlatformId" /> value.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the <c>random</c> parameter is <c>null</c>.</exception>
-        public static PlatformId NextPlatformId(this Random random) 
-            => random is null ? throw new ArgumentNullException(nameof(random)) : _platformIds[random.Next(_platformIds.Length)];
+        public static PlatformId NextPlatformId(this Random random) => random is null ? throw new ArgumentNullException(nameof(random)) : random.FromSet(_platformIds);
 
         /// <summary>
         /// Returns a random <see cref="FontProperties" /> value.
@@ -110,8 +110,7 @@ namespace Unicorn.FontTools.Tests.Utility
         /// <param name="random">The random generator.</param>
         /// <returns>A random valid <see cref="NameField" /> value.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the <c>random</c> parameter is <c>null</c>.</exception>
-        public static NameField NextNameField(this Random random) 
-            => random is null ? throw new ArgumentNullException(nameof(random)) : _nameFields[random.Next(_nameFields.Length)];
+        public static NameField NextNameField(this Random random) => random is null ? throw new ArgumentNullException(nameof(random)) : random.FromSet(_nameFields);
 
         /// <summary>
         /// Return a random <see cref="NameRecord" /> value.
@@ -134,7 +133,7 @@ namespace Unicorn.FontTools.Tests.Utility
         /// <returns>A valid random <see cref="FontKind" /> value.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the <c>random</c> parameter is <c>null</c>.</exception>
         public static FontKind NextFontKind(this Random random) 
-            => random is null ? throw new ArgumentNullException(nameof(random)) : _validFontKindValues[random.Next(_validFontKindValues.Length)];
+            => random is null ? throw new ArgumentNullException(nameof(random)) : random.FromSet(_validFontKindValues);
 
         private static readonly PostScriptTableVersion[] _validPostScriptTableVersions = new[]
         {
@@ -151,7 +150,7 @@ namespace Unicorn.FontTools.Tests.Utility
         /// <param name="random">The random generator.</param>
         /// <returns>A valid random <see cref="PostScriptTableVersion" /> value.</returns>
         public static PostScriptTableVersion NextPostScriptTableVersion(this Random random)
-            => random is null ? throw new ArgumentNullException(nameof(random)) : _validPostScriptTableVersions[random.Next(_validPostScriptTableVersions.Length)];
+            => random is null ? throw new ArgumentNullException(nameof(random)) : random.FromSet(_validPostScriptTableVersions);
 
         /// <summary>
         /// Return a random <see cref="SegmentSubheaderRecord" /> value.
@@ -447,8 +446,8 @@ namespace Unicorn.FontTools.Tests.Utility
         public static EmbeddingPermissions NextOpenTypeEmbeddingPermissionsFlags(this Random random)
             => random is null ? 
                 throw new ArgumentNullException(nameof(random)) : 
-                _exclusiveEmbeddingPermissionsFlags[random.Next(_exclusiveEmbeddingPermissionsFlags.Length)] | 
-                    (random.NextBoolean() ? EmbeddingPermissions.BitmapOnly : 0) | (random.NextBoolean() ? EmbeddingPermissions.NoSubsetting : 0);
+                random.FromSet(_exclusiveEmbeddingPermissionsFlags) | (random.NextBoolean() ? EmbeddingPermissions.BitmapOnly : 0) | 
+                    (random.NextBoolean() ? EmbeddingPermissions.NoSubsetting : 0);
         
 
         private static readonly IBMFamily[] _validIBMFamilyValues = new[]
@@ -530,8 +529,8 @@ namespace Unicorn.FontTools.Tests.Utility
         /// <param name="random">The random generator.</param>
         /// <returns>A randomly-generated <see cref="IBMFamily" /> value.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the <c>random</c> parameter is <c>null</c>.</exception>
-        public static IBMFamily NextOpenTypeIBMFamily(this Random random)
-            => random is null ? throw new ArgumentNullException(nameof(random)) : _validIBMFamilyValues[random.Next(_validIBMFamilyValues.Length)];
+        public static IBMFamily NextOpenTypeIBMFamily(this Random random) 
+            => random is null ? throw new ArgumentNullException(nameof(random)) : random.FromSet(_validIBMFamilyValues);
 
         /// <summary>
         /// Generate a random <see cref="PanoseFamily" /> value.
@@ -599,6 +598,35 @@ namespace Unicorn.FontTools.Tests.Utility
             random.NextBytes(data);
             return SupportedCodePages.FromBytes(data, 0);
         }
+
+        private static readonly DumpAlignment[] _validDumpAlignments = new[] { DumpAlignment.Left, DumpAlignment.Right };
+
+        /// <summary>
+        /// Generate a random <see cref="DumpAlignment" /> value.
+        /// </summary>
+        /// <param name="random">Random generator.</param>
+        /// <returns>A randomly-selected valid <see cref="DumpAlignment" /> value.</returns>
+        /// <exception cref="ArgumentNullException"><c>random</c> is <c>null</c>.</exception>
+        public static DumpAlignment NextDumpAlignment(this Random random) 
+            => random is null ? throw new ArgumentNullException(nameof(random)) : random.FromSet(_validDumpAlignments);
+
+        /// <summary>
+        /// Generate a random <see cref="DumpColumn" /> instance.
+        /// </summary>
+        /// <param name="random">Random generator.</param>
+        /// <returns>A <see cref="DumpColumn" /> instance with randomly-generated properties.</returns>
+        /// <exception cref="ArgumentNullException"><c>random</c> is <c>null</c>.</exception>
+        public static DumpColumn NextDumpColumn(this Random random)
+            => random is null ? throw new ArgumentNullException(nameof(random)) : new DumpColumn(random.NextString(random.Next(1, 20)), random.NextDumpAlignment());
+
+        /// <summary>
+        /// Generate a random <see cref="SequentialMapGroupRecord" /> value.
+        /// </summary>
+        /// <param name="random">Random generator.</param>
+        /// <returns>A randomly-generated <see cref="SequentialMapGroupRecord" /> value.</returns>
+        /// <exception cref="ArgumentNullException"><c>random</c> is <c>null</c>.</exception>
+        public static SequentialMapGroupRecord NextOpenTypeSequentialMapGroupRecord(this Random random)
+            => random is null ? throw new ArgumentNullException(nameof(random)) : new SequentialMapGroupRecord(random.NextUInt(), random.NextUInt(), random.NextUShort());
 
 #pragma warning restore CA5394 // Do not use insecure randomness
 

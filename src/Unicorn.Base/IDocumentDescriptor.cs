@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace Unicorn.Base
 {
@@ -28,9 +29,21 @@ namespace Unicorn.Base
         double DefaultVerticalMarginProportion { get; set; }
 
         /// <summary>
+        /// The current page of the document.  May be null if no pages have been added to the document.
+        /// </summary>
+        IPageDescriptor CurrentPage { get; }
+
+        /// <summary>
         /// Create a new page with the default physical size and orientation and append it to the document.
         /// </summary>
         /// <returns>A page descriptor for the new page.</returns>
+        IPageDescriptor AppendDefaultPage();
+
+        /// <summary>
+        /// Create a new page with the same dimensions as the current page (if there is one), or with the default
+        /// physical size and orientation if there is no current page, and append it to the document.
+        /// </summary>
+        /// <returns>A page descriptor for the new page</returns>
         IPageDescriptor AppendPage();
 
         /// <summary>
@@ -55,5 +68,11 @@ namespace Unicorn.Base
         /// </summary>
         /// <param name="destination">The <see cref="Stream" /> to write the document content to.</param>
         void Write(Stream destination);
+
+        /// <summary>
+        /// Write a copy of the document content to the given stream, asynchronously.
+        /// </summary>
+        /// <param name="destination">The <see cref="Stream" /> to write the document content to.</param>
+        Task WriteAsync(Stream destination);
     }
 }

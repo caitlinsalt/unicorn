@@ -62,9 +62,9 @@ namespace Unicorn.FontTools.OpenType.Utility
         [CLSCompliant(false)]
         public static ushort[] ValidateAndCastIEnumerableOfUShortParameter(IEnumerable<int> values, string name)
         {
-            int[] tmpArray = values.ToArray();
+            int[] tmpArray = values?.ToArray();
             ValidateArrayOfUShortParameter(tmpArray, name);
-            return tmpArray.Cast<ushort>().ToArray();
+            return tmpArray.Select(v => (ushort)v).ToArray();
         }
 
         /// <summary>

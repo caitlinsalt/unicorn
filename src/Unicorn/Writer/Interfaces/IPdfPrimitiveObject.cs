@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Unicorn.Writer.Primitives;
+using Unicorn.Writer.Streams;
 
 namespace Unicorn.Writer.Interfaces
 {
