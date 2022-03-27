@@ -27,6 +27,16 @@ namespace Unicorn.Images
         public virtual int DotHeight { get; protected set; }
 
         /// <summary>
+        /// The image width in pixels, before any necessary rotation transformation.
+        /// </summary>
+        public virtual int RawDotWidth { get; protected set; }
+
+        /// <summary>
+        /// The image height in pixels, before any necessary rotation transformation.
+        /// </summary>
+        public virtual int RawDotHeight { get; protected set; }
+
+        /// <summary>
         /// The image aspect ratio, as a width-over-height fraction.
         /// </summary>
         public virtual double AspectRatio => (double)DotWidth / DotHeight;

@@ -169,6 +169,8 @@ namespace Unicorn.Images
             {
                 PopulateDotsPerPoint();
             }
+            RawDotWidth = StartOfFrameSegment.DotWidth;
+            RawDotHeight = StartOfFrameSegment.DotHeight;
             if (ExifSegment?.Orientation != null && ExifSegment.Orientation.Value.IsQuarterRotated())
             {
                 DotWidth = StartOfFrameSegment.DotHeight;

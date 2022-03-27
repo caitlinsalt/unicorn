@@ -21,10 +21,20 @@ namespace Unicorn.Images
         public int DotWidth { get; private set; }
 
         /// <summary>
+        /// Width of the image per its data stream.  Single colour images are stored as a single pixel.
+        /// </summary>
+        public int RawDotWidth => 1;
+
+        /// <summary>
         /// Height of the image.  This is only provided in order to set the aspect ratio, as a single-colour
         /// rectangle can be scaled to any size.
         /// </summary>
         public int DotHeight { get; private set; }
+
+        /// <summary>
+        /// Width of the image per its data stream.  Single colour images are stored as a single pixel.
+        /// </summary>
+        public int RawDotHeight => 1;
 
         /// <summary>
         /// Aspect ratio of the image (width divided by height).

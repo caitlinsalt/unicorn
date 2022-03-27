@@ -31,8 +31,8 @@ namespace Unicorn.Writer.Streams
             {
                 throw new ArgumentNullException(nameof(sourceImage));
             }
-            MetaDictionary.Add(CommonPdfNames.Width, new PdfInteger(sourceImage.DotWidth));
-            MetaDictionary.Add(CommonPdfNames.Height, new PdfInteger(sourceImage.DotHeight));
+            MetaDictionary.Add(CommonPdfNames.Width, new PdfInteger(sourceImage.RawDotWidth));
+            MetaDictionary.Add(CommonPdfNames.Height, new PdfInteger(sourceImage.RawDotHeight));
             MetaDictionary.Add(CommonPdfNames.ColourSpace, new PdfName("DeviceRGB"));
             MetaDictionary.Add(CommonPdfNames.BitsPerComponent, new PdfInteger(8));
             InternalContents.AddRange(sourceImage.RawData);

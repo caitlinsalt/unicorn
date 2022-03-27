@@ -21,6 +21,16 @@
         int DotHeight { get; }
 
         /// <summary>
+        /// Width of the image in data stream samples.
+        /// </summary>
+        int RawDotWidth { get; }
+
+        /// <summary>
+        /// Height of the image in data stream samples.
+        /// </summary>
+        int RawDotHeight { get; }
+
+        /// <summary>
         /// Aspect ratio of the image, as the width divided by the height.
         /// </summary>
         double AspectRatio { get; }

@@ -485,32 +485,31 @@ namespace Unicorn.Writer.Structural
             {
                 throw new InvalidOperationException(WriterResources.Structural_PageGraphics_DrawImage_Wrong_Page_Error);
             }
-            UniMatrix transform;
-            if (image.Rotation == RightAngleRotation.Clockwise90)
-            {
-                transform = UniMatrix.RotationAt(-Math.PI / 2, new UniPoint(0.5, 0.5));
-            }
-            else if (image.Rotation == RightAngleRotation.Anticlockwise90)
-            {
-                transform = UniMatrix.RotationAt(Math.PI / 2, new UniPoint(0.5, 0.5));
-            }
-            else if (image.Rotation == RightAngleRotation.Full180)
-            {
-                transform = UniMatrix.RotationAt(Math.PI, new UniPoint(0.5, 0.5));
-            }
-            else
-            {
-                transform = UniMatrix.Identity;
-            }
-            //transform = transform * UniMatrix.Scale(width, height) * UniMatrix.Translation(_xTransformer(x), _yTransformer(y + height));
 
-            transform = /* transform * */ UniMatrix.Scale(72);
-            //transform = UniMatrix.Identity;
+            UniMatrix transform = GetRotationTransform(image.Rotation);
+            transform = transform * UniMatrix.Scale(width, height) * UniMatrix.Translation(_xTransformer(x), _yTransformer(y + height));
 
             PdfOperator.PushState().WriteTo(_page.ContentStream);
             PdfOperator.ApplyTransformation(transform).WriteTo(_page.ContentStream);
             PdfOperator.DrawObject(new PdfName(imageName)).WriteTo(_page.ContentStream);
             PdfOperator.PopState().WriteTo(_page.ContentStream);
+        }
+
+        private UniMatrix GetRotationTransform(RightAngleRotation rotation)
+        {
+            if (rotation == RightAngleRotation.Clockwise90)
+            {
+                return UniMatrix.RotationAt(-Math.PI / 2, new UniPoint(0.5, 0.5));
+            }
+            if (rotation == RightAngleRotation.Anticlockwise90)
+            {
+                return UniMatrix.RotationAt(Math.PI / 2, new UniPoint(0.5, 0.5));
+            }
+            if (rotation == RightAngleRotation.Full180)
+            {
+                return UniMatrix.RotationAt(Math.PI, new UniPoint(0.5, 0.5));
+            }
+            return UniMatrix.Identity;
         }
 
         private void CheckState()
