@@ -1,17 +1,14 @@
-﻿using NLog;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 
 namespace Unicorn
 {
     /// <summary>
     /// Represents a word - a block of characters that must not be separated.
     /// </summary>
-    public class Word : IDrawable
+    public class Word : IWord
     {
-        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-
         /// <summary>
         /// The textual content of this word.
         /// </summary>
@@ -40,7 +37,7 @@ namespace Unicorn
         /// <summary>
         /// The distance between the top line and baseline of the word, equal to the ascent.
         /// </summary>
-        public double ComputedBaseline { get { return ContentAscent; } }
+        public double ComputedBaseline => ContentAscent;
 
         /// <summary>
         /// The minimum amount of space to add after the word.  This space may be skipped at the end of a line.
@@ -50,18 +47,17 @@ namespace Unicorn
         /// <summary>
         /// The minimum width of the word and any necessary space after it.
         /// </summary>
-        public double MinWidth
-        {
-            get
-            {
-                return ContentWidth + PostWordSpace;
-            }
-        }
+        public double MinWidth => ContentWidth + PostWordSpace;
 
         /// <summary>
         /// The height of this word.
         /// </summary>
-        public double MinHeight { get { return ContentAscent + ContentDescent; } }
+        public double ContentHeight => ContentAscent + ContentDescent;
+
+        /// <summary>
+        /// The height of this word.
+        /// </summary>
+        public double Height => ContentHeight;
 
         /// <summary>
         /// Construct a <see cref="Word" /> instance. 
@@ -107,7 +103,6 @@ namespace Unicorn
                 throw new ArgumentNullException(nameof(context));
             }
             double computedY = y + ComputedBaseline;
-            Log.Trace("Drawing '{0}' at {1}, {2}", Content, x, computedY);
             context.DrawString(Content, Font, x, computedY);
         }
 
@@ -130,7 +125,6 @@ namespace Unicorn
             }
             double wordSpace = font.GetNormalSpaceWidth(graphicsContext);
             string[] words = text.Split(null);
-            Log.Trace("Split text '{0}' into {1} words.", text, words.Length);
             foreach (string word in words)
             {
                 if (string.IsNullOrEmpty(word))

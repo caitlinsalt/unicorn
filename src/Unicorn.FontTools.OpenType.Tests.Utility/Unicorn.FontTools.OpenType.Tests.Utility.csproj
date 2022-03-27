@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.1.0</Version>
+    <Authors>Caitlin Salt</Authors>
+    <Product>Unicorn</Product>
+    <Copyright>Copyright © 2020-2021 Caitlin Salt</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tests.Utility\Tests.Utility.csproj" />
-    <ProjectReference Include="..\Unicorn.FontTools.OpenType\Unicorn.FontTools.OpenType.csproj" />
+    <ProjectReference Include="..\Unicorn.FontTools\Unicorn.FontTools.csproj" />
   </ItemGroup>
 
 </Project>

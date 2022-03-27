@@ -33,7 +33,15 @@ namespace Unicorn.FontTools.Afm
         /// </summary>
         public bool IsFixedPitch { get; private set; }
 
-        internal DirectionMetrics(decimal? underlinePos, decimal? underlineThickness, decimal? italicAngle, Vector? charWidth, bool? fixedPitch)
+        /// <summary>
+        /// Property-setting constructor.
+        /// </summary>
+        /// <param name="underlinePos">The suggested height of the underline stroke.</param>
+        /// <param name="underlineThickness">The suggested thickness of the underline stroke.</param>
+        /// <param name="italicAngle">The typical italic angle of the font.</param>
+        /// <param name="charWidth">The width of a typical character.</param>
+        /// <param name="fixedPitch">Fixed-pitch font flag.</param>
+        public DirectionMetrics(decimal? underlinePos, decimal? underlineThickness, decimal? italicAngle, Vector? charWidth, bool? fixedPitch)
         {
             UnderlinePosition = underlinePos;
             UnderlineThickness = underlineThickness;
@@ -47,33 +55,21 @@ namespace Unicorn.FontTools.Afm
         /// </summary>
         /// <param name="other">Another <see cref="DirectionMetrics" /> value to compare against.</param>
         /// <returns><c>true</c> if all properties of the two values are equal, <c>false</c> if not.</returns>
-        public bool Equals(DirectionMetrics other)
-        {
-            return this == other;
-        }
+        public bool Equals(DirectionMetrics other) => this == other;
 
         /// <summary>
         /// Equality-testing method.
         /// </summary>
         /// <param name="obj">Another object or value.</param>
         /// <returns><c>true</c> if the parameter is another <see cref="DirectionMetrics" /> value that is equal to this one; <c>false</c> otherwise.</returns>
-        public override bool Equals(object obj)
-        {
-            if (!(obj is DirectionMetrics other))
-            {
-                return false;
-            }
-            return Equals(other);
-        }
+        public override bool Equals(object obj) => (obj is DirectionMetrics other) && this == other;
 
         /// <summary>
         /// Generate a hash code for this value.
         /// </summary>
         /// <returns>A hash code derived from this value.</returns>
-        public override int GetHashCode()
-        {
-            return UnderlinePosition.GetHashCode() ^ UnderlineThickness.GetHashCode() ^ ItalicAngle.GetHashCode() ^ CharWidth.GetHashCode() ^ IsFixedPitch.GetHashCode();
-        }
+        public override int GetHashCode() 
+            => UnderlinePosition.GetHashCode() ^ UnderlineThickness.GetHashCode() ^ ItalicAngle.GetHashCode() ^ CharWidth.GetHashCode() ^ IsFixedPitch.GetHashCode();
 
         /// <summary>
         /// Equality operator.
@@ -81,11 +77,9 @@ namespace Unicorn.FontTools.Afm
         /// <param name="a">A <see cref="DirectionMetrics"/> value.</param>
         /// <param name="b">Another <see cref="DirectionMetrics" /> value.</param>
         /// <returns><c>true</c> if the operands are equal, <c>false</c> otherwise.</returns>
-        public static bool operator ==(DirectionMetrics a, DirectionMetrics b)
-        {
-            return a.UnderlineThickness == b.UnderlineThickness && a.UnderlinePosition == b.UnderlinePosition && a.ItalicAngle == b.ItalicAngle && 
+        public static bool operator ==(DirectionMetrics a, DirectionMetrics b) 
+            => a.UnderlineThickness == b.UnderlineThickness && a.UnderlinePosition == b.UnderlinePosition && a.ItalicAngle == b.ItalicAngle && 
                 a.CharWidth == b.CharWidth && a.IsFixedPitch == b.IsFixedPitch;
-        }
 
         /// <summary>
         /// Inequality operator.
@@ -94,10 +88,8 @@ namespace Unicorn.FontTools.Afm
         /// <param name="b">Another <see cref="DirectionMetrics"/> value.</param>
         /// <returns><c>true</c> if the operands are not equal, <c>false</c> if they are.</returns>
         public static bool operator !=(DirectionMetrics a, DirectionMetrics b)
-        {
-            return a.UnderlineThickness != b.UnderlineThickness || a.UnderlinePosition != b.UnderlinePosition || a.ItalicAngle != b.ItalicAngle ||
+            => a.UnderlineThickness != b.UnderlineThickness || a.UnderlinePosition != b.UnderlinePosition || a.ItalicAngle != b.ItalicAngle || 
                 a.CharWidth != b.CharWidth || a.IsFixedPitch != b.IsFixedPitch;
-        }
 
         /// <summary>
         /// Create a <see cref="DirectionMetrics" /> value from a set of lines each consisting of a key and a value.

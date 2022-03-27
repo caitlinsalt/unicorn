@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 
 namespace Unicorn
 {
@@ -31,32 +31,17 @@ namespace Unicorn
         /// <summary>
         /// The width of the entire table when drawn.
         /// </summary>
-        public double ComputedWidth
-        {
-            get
-            {
-                if (_rows.Count == 0)
-                {
-                    return 0;
-                }
-                return _rows.First(r => r != null).ComputedWidth;
-            }
-        }
+        public double ContentWidth => _rows.Any() ? _rows.First(r => r != null).ComputedWidth : 0;
 
         /// <summary>
         /// The height of this table when drawn.
         /// </summary>
-        public double ComputedHeight
-        {
-            get
-            {
-                if (_columns.Count == 0)
-                {
-                    return 0;
-                }
-                return _columns.First(c => c != null).ComputedHeight;
-            }
-        }
+        public double ContentHeight => _columns.Any() ? _columns.First(c => c != null).ComputedHeight : 0;
+
+        /// <summary>
+        /// The total height of the table.
+        /// </summary>
+        public double Height => ContentHeight;
 
         /// <summary>
         /// Default constructor.
@@ -73,13 +58,7 @@ namespace Unicorn
         /// </summary>
         /// <param name="index">The zero-based index of the row to get.</param>
         /// <returns>The row at the specified index.</returns>
-        public TableRow this[int index]
-        {
-            get
-            {
-                return _rows[index];
-            }
-        }
+        public TableRow this[int index] => _rows[index];
 
         /// <summary>
         /// Add a <see cref="TableRow"/> to the table.
@@ -245,25 +224,25 @@ namespace Unicorn
             double lineWidthOffset = RuleWidth / 2;
 
             // Left border.
-            graphicsContext.DrawLine(x + lineWidthOffset, y, x + lineWidthOffset, y + ComputedHeight, RuleWidth);
+            graphicsContext.DrawLine(x + lineWidthOffset, y, x + lineWidthOffset, y + ContentHeight, RuleWidth);
 
             // Right edges of columns.
             double xOffset = lineWidthOffset;
             foreach (TableColumn column in _columns)
             {
                 xOffset += column.ComputedWidth + RuleWidth;
-                graphicsContext.DrawLine(x + xOffset, y, x + xOffset, y + ComputedHeight, RuleWidth);
+                graphicsContext.DrawLine(x + xOffset, y, x + xOffset, y + ContentHeight, RuleWidth);
             }
 
             // Top border.
-            graphicsContext.DrawLine(x, y + lineWidthOffset, x + ComputedWidth, y + lineWidthOffset, RuleWidth);
+            graphicsContext.DrawLine(x, y + lineWidthOffset, x + ContentWidth, y + lineWidthOffset, RuleWidth);
 
             // Bottom edges of rows.
             double yOffset = lineWidthOffset;
             foreach (TableRow row in _rows)
             {
                 yOffset += row.ComputedHeight + RuleWidth;
-                graphicsContext.DrawLine(x, y + yOffset, x + ComputedWidth, y + yOffset, RuleWidth);
+                graphicsContext.DrawLine(x, y + yOffset, x + ContentWidth, y + yOffset, RuleWidth);
             }
         }
 
@@ -272,7 +251,7 @@ namespace Unicorn
             double lineWidthOffset = RuleWidth / 2;
 
             // Left border.
-            graphicsContext.DrawLine(x + lineWidthOffset, y, x + lineWidthOffset, y + ComputedHeight, RuleWidth);
+            graphicsContext.DrawLine(x + lineWidthOffset, y, x + lineWidthOffset, y + ContentHeight, RuleWidth);
 
             // Lines at right-hand edges of columns.
             double xOffset = lineWidthOffset;
@@ -284,11 +263,11 @@ namespace Unicorn
                     rgs = 0d;
                 }
                 xOffset += _columns[i].ComputedWidth + RuleWidth;
-                graphicsContext.DrawLine(x + xOffset, y + rgs, x + xOffset, y + ComputedHeight - rgs, RuleWidth);
+                graphicsContext.DrawLine(x + xOffset, y + rgs, x + xOffset, y + ContentHeight - rgs, RuleWidth);
             }
 
             // Top border
-            graphicsContext.DrawLine(x, y + lineWidthOffset, x + ComputedWidth, y + lineWidthOffset, RuleWidth);
+            graphicsContext.DrawLine(x, y + lineWidthOffset, x + ContentWidth, y + lineWidthOffset, RuleWidth);
 
             // Lines between rows
             double yOffset = lineWidthOffset;
@@ -304,7 +283,7 @@ namespace Unicorn
             }
 
             // Bottom border
-            graphicsContext.DrawLine(x, y + ComputedHeight - lineWidthOffset, x + ComputedWidth, y + ComputedHeight - lineWidthOffset, RuleWidth);
+            graphicsContext.DrawLine(x, y + ContentHeight - lineWidthOffset, x + ContentWidth, y + ContentHeight - lineWidthOffset, RuleWidth);
         }
 
         private void DrawSolidRowGrid(IGraphicsContext graphicsContext, double x, double y)
@@ -312,7 +291,7 @@ namespace Unicorn
             double lineWidthOffset = RuleWidth / 2;
 
             // Top border.
-            graphicsContext.DrawLine(x, y + lineWidthOffset, x + ComputedWidth, y + lineWidthOffset, RuleWidth);
+            graphicsContext.DrawLine(x, y + lineWidthOffset, x + ContentWidth, y + lineWidthOffset, RuleWidth);
 
             // Lines underneath rows.
             double yOffset = lineWidthOffset;
@@ -324,11 +303,11 @@ namespace Unicorn
                     rgs = 0d;
                 }
                 yOffset += _rows[i].ComputedHeight + RuleWidth;
-                graphicsContext.DrawLine(x + rgs, y + yOffset, x + ComputedWidth - rgs, y + yOffset, RuleWidth);
+                graphicsContext.DrawLine(x + rgs, y + yOffset, x + ContentWidth - rgs, y + yOffset, RuleWidth);
             }
 
             // Left border.
-            graphicsContext.DrawLine(x + lineWidthOffset, y, x + lineWidthOffset, y + ComputedHeight, RuleWidth);
+            graphicsContext.DrawLine(x + lineWidthOffset, y, x + lineWidthOffset, y + ContentHeight, RuleWidth);
 
             // Lines between columns.
             double xOffset = lineWidthOffset;
@@ -344,7 +323,7 @@ namespace Unicorn
             }
 
             // Right border.
-            graphicsContext.DrawLine(x + ComputedWidth - lineWidthOffset, y, x + ComputedWidth - lineWidthOffset, y + ComputedHeight, RuleWidth);
+            graphicsContext.DrawLine(x + ContentWidth - lineWidthOffset, y, x + ContentWidth - lineWidthOffset, y + ContentHeight, RuleWidth);
         }
     }
 }

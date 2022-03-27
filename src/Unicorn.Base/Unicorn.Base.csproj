@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.1.0</Version>
+    <Authors>Caitlin Salt</Authors>
+    <Product>Unicorn</Product>
+    <Copyright>Copyright © 2017-2022 Caitlin Salt</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Description>Unicorn is a .NET Standard library for writing PDF documents.  This package contains various base classes and interfaces used by the main Unicorn package and other associated packages.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/willsalt/unicorn/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/willsalt/unicorn.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>pdf</PackageTags>
+  </PropertyGroup>
+
+</Project>

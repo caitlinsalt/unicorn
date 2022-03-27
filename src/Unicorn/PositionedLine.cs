@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 
 namespace Unicorn
 {
     /// <summary>
     /// A <see cref="Line" /> of words which has a set location within its context or container.
     /// </summary>
-    public class PositionedLine : Line, IPositionedKnownSizeDrawable
+    public class PositionedLine : Line, IPositionedFixedSizeDrawable
     {
         /// <summary>
         /// The X-coordinate of the start of the line.
@@ -32,18 +32,14 @@ namespace Unicorn
         /// Default constructor.
         /// </summary>
         public PositionedLine() : base()
-        {
-
-        }
+        { }
 
         /// <summary>
         /// Constructor which sets initial contents.
         /// </summary>
         /// <param name="words">The words which make up the content of the line.</param>
         public PositionedLine(IEnumerable<Word> words) : base(words)
-        {
-
-        }
+        { }
 
         /// <summary>
         /// Draw the line of words, assuming that the line's coordinates are relative to the given context.

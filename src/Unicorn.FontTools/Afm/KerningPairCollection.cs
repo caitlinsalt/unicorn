@@ -53,12 +53,9 @@ namespace Unicorn.FontTools.Afm
         /// </summary>
         /// <param name="i">The index of the item to retrieve.</param>
         /// <returns>The specified item in the collection.</returns>
-        /// <exception cref="IndexOutOfRangeException">Thrown if the index is negative, or is equal to or greater than the <see cref="KerningPairCollection.Count" />
+        /// <exception cref="IndexOutOfRangeException">Thrown if the index is negative, or is equal to or greater than the <see cref="Count" />
         /// property.</exception>
-        public KerningPair this[int i]
-        {
-            get => _list[i];
-        }
+        public KerningPair this[int i] => _list[i];
 
         /// <summary>
         /// String indexer.  Searches for a kerning pair whose <see cref="KerningPair.Second" /> character has the given name.

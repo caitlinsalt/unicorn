@@ -1,0 +1,213 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Unicorn.Exceptions;
+using Unicorn.Images.Jpeg;
+
+namespace Unicorn.Tests.Integration.Images.Jpeg
+{
+    [TestClass]
+    public class ExifSegmentIntegrationTests
+    {
+        private readonly string _sourceImage01Path = Path.Combine("TestData", "exampleJpegImage01.jpg");
+        private const int _sourceImage01ExifSegmentOffset = 0x14;
+        private const int _sourceImage01ExifSegmentLength = 0x2a88;
+        private const string _sourceImage01Maker = "samsung";
+        private const string _sourceImage01Model = "SM-A127F";
+        private const string _sourceImage01Software = "GIMP 2.10.28";
+        private const decimal _sourceImage01FNumber = 2m;
+        private const int _sourceImage01Saturation = 0;
+
+        private readonly string _sourceImage03Path = Path.Combine("TestData", "exampleJpegImage03.jpg");
+        private const int _sourceImage03ExifSegmentOffset = 0x2;
+        private const int _sourceImage03ExifSegmentLength = 0x94a8;
+        private const string _sourceImage03Maker = "NIKON CORPORATION";
+        private const string _sourceImage03Model = "NIKON D200";
+        private const decimal _sourceImage03FNumber = 6.3m;
+        private const int _sourceImage03Saturation = 2;
+
+        private readonly string _sourceImage04Path = Path.Combine("TestData", "exampleJpegImage04BadExifData.jpg");
+        private const int _sourceImage04ExifSegmentOffset = 0x14;
+        private const int _sourceImage04ExifSegmentLength = 0x2a88;
+
+        private readonly string _sourceImage05Path = Path.Combine("TestData", "exampleJpegImage05BadExifData.jpg");
+        private const int _sourceImage05ExifSegmentOffset = 0x14;
+        private const int _sourceImage05ExifSegmentLength = 0x2a88;
+
+        private readonly string _sourceImage06Path = Path.Combine("TestData", "exampleJpegImage06BadExifData.jpg");
+        private const int _sourceImage06ExifSegmentOffset = 0x14;
+        private const int _sourceImage06ExifSegmentLength = 0x2a88;
+
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+
+        [TestMethod]
+        public async Task ExifSegmentClass_PopulateSegmentAsyncMethod_LoadsMakerTagWithCorrectValue_IfTestFileIsExampleJpegImage01()
+        {
+            using FileStream sourceDataStream = new(_sourceImage01Path, FileMode.Open, FileAccess.Read);
+            ExifSegment testObject = new(_sourceImage01ExifSegmentOffset, _sourceImage01ExifSegmentLength);
+
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
+
+            var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.Make);
+            Assert.IsNotNull(tag);
+            Assert.AreEqual(typeof(string), tag.Value.GetType());
+            Assert.AreEqual(_sourceImage01Maker, tag.Value as string);
+        }
+
+        [TestMethod]
+        public async Task ExifSegmentClass_PopulateSegmentAsyncMethod_LoadsModelTagWithCorrectValue_IfTestFileIsExampleJpegImage01()
+        {
+            using FileStream sourceDataStream = new(_sourceImage01Path, FileMode.Open, FileAccess.Read);
+            ExifSegment testObject = new(_sourceImage01ExifSegmentOffset, _sourceImage01ExifSegmentLength);
+
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
+
+            var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.Model);
+            Assert.IsNotNull(tag);
+            Assert.AreEqual(typeof(string), tag.Value.GetType());
+            Assert.AreEqual(_sourceImage01Model, tag.Value as string);
+        }
+
+        [TestMethod]
+        public async Task ExifSegmentClass_PopulateSegmentAsyncMethod_LoadsSoftwareTagWithCorrectValue_IfTestFileIsExampleJpegImage01()
+        {
+            using FileStream sourceDataStream = new(_sourceImage01Path, FileMode.Open, FileAccess.Read);
+            ExifSegment testObject = new(_sourceImage01ExifSegmentOffset, _sourceImage01ExifSegmentLength);
+
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
+
+            var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.Software);
+            Assert.IsNotNull(tag);
+            Assert.AreEqual(typeof(string), tag.Value.GetType());
+            Assert.AreEqual(_sourceImage01Software, tag.Value as string);
+        }
+
+        [TestMethod]
+        public async Task ExifSegmentClass_PopulateSegmentAsyncMethod_LoadsFNumberTagWithCorrectValue_IfTestFileIsExampleJpegImage01()
+        {
+            using FileStream sourceDataStream = new(_sourceImage01Path, FileMode.Open, FileAccess.Read);
+            ExifSegment testObject = new(_sourceImage01ExifSegmentOffset, _sourceImage01ExifSegmentLength);
+
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
+
+            var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.FNumber);
+            Assert.IsNotNull(tag);
+            Assert.AreEqual(typeof(decimal), tag.Value.GetType());
+            Assert.AreEqual(_sourceImage01FNumber, (decimal)tag.Value);
+        }
+
+        [TestMethod]
+        public async Task ExifSegmentClass_PopulateSegmentAsyncMethod_LoadsSaturationTagWithCorrectValue_IfTestFileIsExampleJpegImage01()
+        {
+            using FileStream sourceDataStream = new(_sourceImage01Path, FileMode.Open, FileAccess.Read);
+            ExifSegment testObject = new(_sourceImage01ExifSegmentOffset, _sourceImage01ExifSegmentLength);
+
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
+
+            var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.Saturation);
+            Assert.IsNotNull(tag);
+            Assert.AreEqual(typeof(int), tag.Value.GetType());
+            Assert.AreEqual(_sourceImage01Saturation, (int)tag.Value);
+        }
+
+        [TestMethod]
+        public async Task ExifSegmentClass_PopulateSegmentAsyncMethod_LoadsMakerTagWithCorrectValue_IfTestFileIsExampleJpegImage03()
+        {
+            using FileStream sourceDataStream = new(_sourceImage03Path, FileMode.Open, FileAccess.Read);
+            ExifSegment testObject = new(_sourceImage03ExifSegmentOffset, _sourceImage03ExifSegmentLength);
+
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
+
+            var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.Make);
+            Assert.IsNotNull(tag);
+            Assert.AreEqual(typeof(string), tag.Value.GetType());
+            Assert.AreEqual(_sourceImage03Maker, tag.Value as string);
+        }
+
+        [TestMethod]
+        public async Task ExifSegmentClass_PopulateSegmentAsyncMethod_LoadsModelTagWithCorrectValue_IfTestFileIsExampleJpegImage03()
+        {
+            using FileStream sourceDataStream = new(_sourceImage03Path, FileMode.Open, FileAccess.Read);
+            ExifSegment testObject = new(_sourceImage03ExifSegmentOffset, _sourceImage03ExifSegmentLength);
+
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
+
+            var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.Model);
+            Assert.IsNotNull(tag);
+            Assert.AreEqual(typeof(string), tag.Value.GetType());
+            Assert.AreEqual(_sourceImage03Model, tag.Value as string);
+        }
+
+        [TestMethod]
+        public async Task ExifSegmentClass_PopulateSegmentAsyncMethod_LoadsFNumberTagWithCorrectValue_IfTestFileIsExampleJpegImage03()
+        {
+            using FileStream sourceDataStream = new(_sourceImage03Path, FileMode.Open, FileAccess.Read);
+            ExifSegment testObject = new(_sourceImage03ExifSegmentOffset, _sourceImage03ExifSegmentLength);
+
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
+
+            var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.FNumber);
+            Assert.IsNotNull(tag);
+            Assert.AreEqual(typeof(decimal), tag.Value.GetType());
+            Assert.AreEqual(_sourceImage03FNumber, (decimal)tag.Value);
+        }
+
+        [TestMethod]
+        public async Task ExifSegmentClass_PopulateSegmentAsyncMethod_LoadsSaturationTagWithCorrectValue_IfTestFileIsExampleJpegImage03()
+        {
+            using FileStream sourceDataStream = new(_sourceImage03Path, FileMode.Open, FileAccess.Read);
+            ExifSegment testObject = new(_sourceImage03ExifSegmentOffset, _sourceImage03ExifSegmentLength);
+
+            await testObject.PopulateSegmentAsync(sourceDataStream).ConfigureAwait(false);
+
+            var tag = testObject.Tags.FirstOrDefault(t => t.Id == ExifTagId.Saturation);
+            Assert.IsNotNull(tag);
+            Assert.AreEqual(typeof(int), tag.Value.GetType());
+            Assert.AreEqual(_sourceImage03Saturation, (int)tag.Value);
+        }
+
+        // Test image 04 has an EXIF segment whose ExifPointer tag is corrupt - it points to a value outside the EXIF segment.
+        [TestMethod]
+        [ExpectedException(typeof(InvalidImageException))]
+        public async Task ExifSegmentClass_PopulateSegmentAsyncMethod_ThrowsInvalidImageException_IfTestFileIsExampleJpegImage04()
+        {
+            using FileStream soureDataStream = new(_sourceImage04Path, FileMode.Open, FileAccess.Read);
+            ExifSegment testObject = new(_sourceImage04ExifSegmentOffset, _sourceImage04ExifSegmentLength);
+
+            await testObject.PopulateSegmentAsync(soureDataStream).ConfigureAwait(false);
+
+            Assert.Fail();
+        }
+
+        // Test image 05 has an EXIF segment with a tag whose data pointer points outside the bounds of the segment.
+        [TestMethod]
+        [ExpectedException(typeof(InvalidImageException))]
+        public async Task ExifSegmentClass_PopulateSegmentAsyncMethod_ThrowsInvalidImageException_IfTestFileIsExampleJpegImage05()
+        {
+            using FileStream soureDataStream = new(_sourceImage05Path, FileMode.Open, FileAccess.Read);
+            ExifSegment testObject = new(_sourceImage05ExifSegmentOffset, _sourceImage05ExifSegmentLength);
+
+            await testObject.PopulateSegmentAsync(soureDataStream).ConfigureAwait(false);
+
+            Assert.Fail();
+        }
+
+        // Test image 06 has an EXIF segment with a tag whose data pointer points outside the bounds of the file.
+        [TestMethod]
+        [ExpectedException(typeof(InvalidImageException))]
+        public async Task ExifSegmentClass_PopulateSegmentAsyncMethod_ThrowsInvalidImageException_IfTestFileIsExampleJpegImage65()
+        {
+            using FileStream soureDataStream = new(_sourceImage06Path, FileMode.Open, FileAccess.Read);
+            ExifSegment testObject = new(_sourceImage06ExifSegmentOffset, _sourceImage06ExifSegmentLength);
+
+            await testObject.PopulateSegmentAsync(soureDataStream).ConfigureAwait(false);
+
+            Assert.Fail();
+        }
+
+#pragma warning restore CA1707 // Identifiers should not contain underscores
+
+    }
+}

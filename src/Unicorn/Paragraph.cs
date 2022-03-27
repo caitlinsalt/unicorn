@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
+using Unicorn.Helpers;
 
 namespace Unicorn
 {
     /// <summary>
     /// A paragraph of text, consisting of a number of lines.
     /// </summary>
-    public class Paragraph : IDrawable
+    public class Paragraph : ISplittable, ISplittable<Paragraph>
     {
         /// <summary>
         /// The ideal maximum width of this paragraph.
@@ -53,25 +54,18 @@ namespace Unicorn
         /// <summary>
         /// The computed height of the object: equal to the maximum height if that is set, or the sum of all line heights if not.
         /// </summary>
-        public double ComputedHeight
-        {
-            get
-            {
-                return MaximumHeight ?? ContentHeight;
-            }
-        }
+        public double ComputedHeight => MaximumHeight ?? ContentHeight;
+
+        /// <summary>
+        /// The total height of the object including margins.
+        /// </summary>
+        public double Height => ComputedHeight + Margins.Top + Margins.Bottom;
 
         /// <summary>
         /// The height of the content of this paragraph, being the sum of the individual line heights plus the height of the margins.  This may be less than the computed height if a height has 
         /// been manually set, and may be more than the computed height if there is vertical overspill.
         /// </summary>
-        public double ContentHeight
-        {
-            get
-            {
-                return _lines.Sum(l => l.ContentHeight) + Margins.Top + Margins.Bottom;
-            }
-        }
+        public double ContentHeight => _lines.Sum(l => l.ContentHeight) + Margins.Top + Margins.Bottom;
 
         /// <summary>
         /// The width of the content of this paragraph, being the minimum width of the widest line.
@@ -81,7 +75,7 @@ namespace Unicorn
             get
             {
                 double marginSum = Margins.Left + Margins.Right;
-                if (_lines != null)
+                if (_lines != null && _lines.Any())
                 {
                     return _lines.Max(l => l.MinWidth) + marginSum;
                 }
@@ -92,7 +86,7 @@ namespace Unicorn
         /// <summary>
         /// The paragraph content.
         /// </summary>
-        public IList<Line> Lines => _lines;
+        public IReadOnlyList<Line> Lines => _lines;
 
         private readonly List<Line> _lines = new List<Line>();
 
@@ -109,14 +103,15 @@ namespace Unicorn
         }
 
         /// <summary>
-        /// Constructor with all available parameters.
+        /// Constructor with maximun size, orientation and alignment parameters.
         /// </summary>
         /// <param name="maxWidth">The ideal paragraph width.</param>
         /// <param name="maxHeight">The ideal paragraph height, or null if not specified.</param>
         /// <param name="orientation">The orientation of the paragraph.</param>
         /// <param name="hAlignment">The horizontal alignment of the paragraph content.</param>
         /// <param name="vAlignment">The vertical alignment of the paragraph content.</param>
-        public Paragraph(double maxWidth, double? maxHeight, Orientation orientation, HorizontalAlignment hAlignment, VerticalAlignment vAlignment) : this(maxWidth, maxHeight)
+        public Paragraph(double maxWidth, double? maxHeight, Orientation orientation, HorizontalAlignment hAlignment, VerticalAlignment vAlignment) 
+            : this(maxWidth, maxHeight)
         {
             Orientation = orientation;
             VerticalAlignment = vAlignment;
@@ -148,14 +143,17 @@ namespace Unicorn
         {
             var words = Word.MakeWords(text, font, graphicsContext);
             _lines.AddRange(Line.MakeLines(words, MaximumWidth - (Margins.Left + Margins.Right)));
-            if (_lines.Any(l => l.OverspillWidth))
-            {
-                OverspillWidth = true;
-            }
-            if (_lines.Sum(l => l.ContentHeight) > MaximumHeight)
-            {
-                OverspillHeight = true;
-            }
+            TestOverspills();
+        }
+
+        /// <summary>
+        /// Add text to this paragraph, in the form of preformatted lines.
+        /// </summary>
+        /// <param name="lines">The lines to append to the paragraph.</param>
+        public void AddLines(IEnumerable<Line> lines)
+        {
+            _lines.AddRange(lines);
+            TestOverspills();
         }
 
         /// <summary>
@@ -211,6 +209,93 @@ namespace Unicorn
             }
         }
 
+        /// <summary>
+        /// Split an overflowing paragraph in two.  If the paragraph is split, this object will be modified in-place and will contain the start of the original
+        /// paragraph, and the returned object will contain the end of the original paragraph.  The paragraph will not be split if it is not overspilling, if it
+        /// already consists of a single line, or in various situations where the  <c>waoControl</c> parameter is set to <see cref="WidowsAndOrphans.Prevent" />.
+        /// In these cases, <c>null</c> will be returned.
+        /// </summary>
+        /// <remarks>
+        /// <para>There are various situations when an overflowing paragraph will not be split by this routine, depending on the length of the paragraph,
+        /// the position of the split, and the value of the <c>waoControl</c> paramter.</para>
+        /// <list type="bullet">
+        /// <item><description>A one-line paragraph can never be split.</description></item>
+        /// <item><description>A two-line paragraph can only be split if <c>waoControl</c> equals <see cref="WidowsAndOrphans.Allow"/>.</description></item>
+        /// <item><description>A paragraph can only be split between the first and second lines if <c>waoControl</c> equals <see cref="WidowsAndOrphans.Allow"/> 
+        /// or <see cref="WidowsAndOrphans.Avoid"/>.</description></item>
+        /// </list>
+        /// <para>In each of the above cases, if the paragraph cannot be split it will still be overflowing.</para>
+        /// <list type="bullet">
+        /// <item><description>A paragraph can only be split between the penultimate and last lines if <c>waoControl</c> equals <see cref="WidowsAndOrphans.Allow"/>.</description></item>
+        /// </list>
+        /// <para>In this case, if the paragraph cannot be split between the penultimate and last lines, the split will be made before the penultimate line,
+        /// so that the new paragraph contains two lines of text.</para>
+        /// <para>In all cases, if the paragraph is split then the original paragraph object will no longer be overflowing.  However, the new paragraph may be
+        /// already overflowing, depending on the value of the <c>maxheight</c> parameter.  The calling code should always check the <see cref="OverspillHeight" />
+        /// property of the new paragraph to determine if it needs to be split further.</para>
+        /// </remarks>
+        /// <param name="maxHeight">The maximum content height of the second paragraph, if one is created.</param>
+        /// <param name="waoControl">Whether to permit, prevent or avoid creating "widow" or "orphan" paragraphs: part-paragraphs consisting of a single line.</param>
+        /// <returns>A partial paragraph containing the second portion of a split paragraph, or <c>null</c> if no split occurred.  Any paragraph returned may
+        /// also be overflowing.</returns>
+        public Paragraph Split(double? maxHeight, WidowsAndOrphans waoControl = WidowsAndOrphans.Prevent)
+        {
+            if (!OverspillHeight || _lines.Count < 2)
+            {
+                return null;
+            }
+            if (waoControl != WidowsAndOrphans.Allow && _lines.Count < 3)
+            {
+                return null;
+            }
+            int splitIndex = FindOverspillLine();
+            if (splitIndex == 1 && waoControl == WidowsAndOrphans.Prevent)
+            {
+                return null;
+            }
+            if (splitIndex == _lines.Count - 1 && waoControl != WidowsAndOrphans.Allow)
+            {
+                splitIndex--;
+            }
+            return SplitAt(splitIndex, maxHeight);
+        }
+
+        ISplittable ISplittable.Split(double? maxHeight, WidowsAndOrphans waoControl) => Split(maxHeight, waoControl);
+
+        /// <summary>
+        /// Split this paragraph at the given line, which becomes the first line of the new paragraph.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// If the <c>idx</c> parameter is 0, this object is not modified and <c>null</c> is returned.  If it is not but is within range, this object is modified
+        /// in-place with line <c>idx</c> and those after it removed, and a new paragraph is returned with the line at <c>idx</c> as its first line.  This object
+        /// will have its overspill flags reset, but either paragraph may still be overspilling.
+        /// </para>
+        /// <para>
+        /// Unlike the <see cref="Split(double?, WidowsAndOrphans)" /> method, this method does not prevent single-line paragraphs being created.
+        /// </para>
+        /// </remarks>
+        /// <param name="idx">The index of the line which will become the first line of the new paragraph.</param>
+        /// <param name="maxHeight">The maximum height of the new paragraph.</param>
+        /// <returns>A new paragraph split from this one, or <c>null</c> if the paragraph is not split.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">The <c>idx</c> parameter is less than 0, or greater than or equal to the number of lines in the paragraph.</exception>
+        public Paragraph SplitAt(int idx, double? maxHeight)
+        {
+            if (idx < 0 || idx >= _lines.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(idx));
+            }
+            if (idx == 0)
+            {
+                return null;
+            }
+            var newParagraph = new Paragraph(MaximumWidth, maxHeight, Orientation, HorizontalAlignment, VerticalAlignment, Margins.Clone());
+            newParagraph.AddLines(_lines.Skip(idx));
+            _lines.RemoveAfter(idx);
+            RetestOverspills();
+            return newParagraph;
+        }
+
         private void Reorientate(IGraphicsContext context, double x, double y, bool reverse)
         {
             double xRotate;
@@ -238,6 +323,39 @@ namespace Unicorn
             }
 
             context.RotateAt(reverse ? -angle : angle, xRotate, yRotate);
+        }
+
+        private int FindOverspillLine()
+        {
+            double runningTotalHeight = 0;
+            for (int i = 0; i < _lines.Count; ++i)
+            {
+                runningTotalHeight += _lines[i].ContentHeight;
+                if (runningTotalHeight > MaximumHeight)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        private void TestOverspills()
+        {
+            if (_lines.Any(l => l.OverspillWidth) || _lines.Any(l => l.MinWidth > MaximumWidth))
+            {
+                OverspillWidth = true;
+            }
+            if (_lines.Sum(l => l.ContentHeight) > MaximumHeight)
+            {
+                OverspillHeight = true;
+            }
+        }
+
+        private void RetestOverspills()
+        {
+            OverspillWidth = false;
+            OverspillHeight = false;
+            TestOverspills();
         }
     }
 }

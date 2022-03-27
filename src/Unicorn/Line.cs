@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 
 namespace Unicorn
 {
@@ -12,7 +12,7 @@ namespace Unicorn
         /// <summary>
         /// The words making up this line.
         /// </summary>
-        public IList<Word> Content { get; } = new List<Word>();
+        public IList<IWord> Content { get; } = new List<IWord>();
 
         /// <summary>
         /// The minimum width of this line.
@@ -30,9 +30,14 @@ namespace Unicorn
         public double ContentDescent => Content.Max(w => w.ContentDescent);
 
         /// <summary>
-        /// The total height of the line.
+        /// The drawable height of the line.
         /// </summary>
         public double ContentHeight => ContentAscent + ContentDescent;
+
+        /// <summary>
+        /// The total height of the line.
+        /// </summary>
+        public double Height => ContentHeight;
 
         /// <summary>
         /// The distance from the baseline to the top of the line, equal to the ascent.
@@ -48,15 +53,13 @@ namespace Unicorn
         /// Default constructor.
         /// </summary>
         public Line()
-        {
-            
-        }
+        { }
 
         /// <summary>
         /// Constructor with line content.
         /// </summary>
         /// <param name="words">The words which make up the initial content of the line.</param>
-        public Line(IEnumerable<Word> words)
+        public Line(IEnumerable<IWord> words)
         {
             Content = words.ToList();
         }
@@ -67,14 +70,14 @@ namespace Unicorn
         /// <param name="words">The <see cref="Word" />s to assemble into a line.</param>
         /// <param name="idealMaxLineWidth">The maximum width of the line.  This may be exceeded if and only if it is shorter than the length of any given word that has to be fitted.</param>
         /// <returns>An enumeration of <see cref="Line" />s.</returns>
-        public static IEnumerable<Line> MakeLines(IEnumerable<Word> words, double idealMaxLineWidth)
+        public static IEnumerable<Line> MakeLines(IEnumerable<IWord> words, double idealMaxLineWidth)
         {
             List<Line> lines = new List<Line>();
             if (words == null)
             {
                 return lines;
             }
-            Word[] wordsArr = words.ToArray();
+            IWord[] wordsArr = words.ToArray();
             if (wordsArr.Length == 0)
             {
                 return lines;
@@ -110,7 +113,7 @@ namespace Unicorn
         /// <param name="y">The Y-coordinate of the top left corner of the line.</param>
         public void DrawAt(IGraphicsContext context, double x, double y)
         {
-            foreach (Word word in Content)
+            foreach (IWord word in Content)
             {
                 word.DrawAt(context, x, y + ContentAscent - word.ContentAscent);
                 x += word.MinWidth;

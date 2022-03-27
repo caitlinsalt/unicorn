@@ -1,0 +1,36 @@
+﻿using System;
+using Unicorn.Base;
+
+namespace Unicorn.Tests.Unit.TestHelpers.Mocks
+{
+    public class MockWord : IWord
+    {
+        public double ContentWidth { get; set; }
+
+        public double ContentAscent { get; set; }
+
+        public double ContentDescent { get; set; }
+
+        public double ContentHeight => ContentAscent + ContentDescent;
+
+        public double Height => ContentHeight;
+
+        public double MinWidth { get; set; }
+
+        public void DrawAt(IGraphicsContext context, double x, double y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public MockWord()
+        { }
+
+        public MockWord(double contentWidth, double minWidth, double ascent, double descent)
+        {
+            ContentWidth = contentWidth;
+            MinWidth = minWidth;
+            ContentAscent = ascent;
+            ContentDescent = descent;
+        }
+    }
+}

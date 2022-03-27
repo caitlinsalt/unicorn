@@ -1,0 +1,295 @@
+﻿using System;
+
+namespace Unicorn.Images.Jpeg
+{
+    internal static class ExifTagIdExtensions
+    {
+        /// <summary>
+        /// Storage type of each type of EXIF tag.  This is as per the spec; real files do not
+        /// necessarily follow it!
+        /// </summary>
+        /// <param name="tagId">A type of EXIF tag.</param>
+        /// <returns>The EXIF data type of the give tag.</returns>
+        internal static ExifStorageType StorageType(this ExifTagId tagId)
+        {
+            switch (tagId)
+            {
+                default:
+                case ExifTagId.ImageWidth:
+                case ExifTagId.ImageLength:
+                case ExifTagId.StripOffsets:
+                case ExifTagId.RowsPerStrip:
+                case ExifTagId.StripByteCounts:
+                case ExifTagId.PixelXDimension:
+                case ExifTagId.PixelYDimension:
+                    return ExifStorageType.ReadFromFile;
+                case ExifTagId.ExifVersion:
+                case ExifTagId.FlashpixVersion:
+                case ExifTagId.ComponentsConfiguration:
+                case ExifTagId.MakerNote:
+                case ExifTagId.UserComment:
+                case ExifTagId.OECF:
+                case ExifTagId.SpatialFrequencyResponse:
+                case ExifTagId.FileSource:
+                case ExifTagId.SceneType:
+                case ExifTagId.CFAPattern:
+                case ExifTagId.DeviceSettingDescription:
+                case ExifTagId.GpsProcessingMethod:
+                case ExifTagId.GpsAreaInformation:
+                    return ExifStorageType.Undefined;
+                case ExifTagId.BitsPerSample:
+                case ExifTagId.Compression:
+                case ExifTagId.PhotometricInterpretation:
+                case ExifTagId.Orientation:
+                case ExifTagId.SamplesPerPixel:
+                case ExifTagId.PlanarConfiguration:
+                case ExifTagId.YCbCrPositioning:
+                case ExifTagId.YCbCrSubSampling:
+                case ExifTagId.ResolutionUnit:
+                case ExifTagId.TransferFunction:
+                case ExifTagId.ColorSpace:
+                case ExifTagId.ExposureProgram:
+                case ExifTagId.ISOSpeedRatings:
+                case ExifTagId.MeteringMode:
+                case ExifTagId.LightSource:
+                case ExifTagId.Flash:
+                case ExifTagId.SubjectArea:
+                case ExifTagId.FocalPlaneResolutionUnit:
+                case ExifTagId.SubjectLocation:
+                case ExifTagId.SensingMethod:
+                case ExifTagId.CustomRendered:
+                case ExifTagId.ExposureMode:
+                case ExifTagId.WhiteBalance:
+                case ExifTagId.FocalLengthIn35mmFilm:
+                case ExifTagId.SceneCaptureType:
+                case ExifTagId.Contrast:
+                case ExifTagId.Saturation:
+                case ExifTagId.Sharpness:
+                case ExifTagId.SubjectDistanceRange:
+                case ExifTagId.GpsDifferential:
+                    return ExifStorageType.Short;
+                case ExifTagId.ExifPointer:
+                case ExifTagId.GpsPointer:
+                case ExifTagId.InteroperabilityPointer:
+                case ExifTagId.JPEGInterchangeFormat:
+                case ExifTagId.JPEGInterchangeFormatLength:
+                    return ExifStorageType.Long;
+                case ExifTagId.XResolution:
+                case ExifTagId.YResolution:
+                case ExifTagId.WhitePoint:
+                case ExifTagId.PrimaryChromaticities:
+                case ExifTagId.YCbCrCoefficients:
+                case ExifTagId.ReferenceBlackWhite:
+                case ExifTagId.CompressedBitsPerPixel:
+                case ExifTagId.ExposureTime:
+                case ExifTagId.FNumber:
+                case ExifTagId.ApertureValue:
+                case ExifTagId.MaxApertureValue:
+                case ExifTagId.SubjectDistance:
+                case ExifTagId.FocalLength:
+                case ExifTagId.FlashEnergy:
+                case ExifTagId.FocalPlaneXResolution:
+                case ExifTagId.FocalPlaneYResolution:
+                case ExifTagId.ExposureIndex:
+                case ExifTagId.DigitalZoomRatio:
+                case ExifTagId.GpsLatitude:
+                case ExifTagId.GpsLongitude:
+                case ExifTagId.GpsAltitude:
+                case ExifTagId.GpsTimeStamp:
+                case ExifTagId.GpsDOP:
+                case ExifTagId.GpsSpeed:
+                case ExifTagId.GpsTrack:
+                case ExifTagId.GpsImgDirection:
+                case ExifTagId.GpsDestLatitude:
+                case ExifTagId.GpsDestLongitude:
+                case ExifTagId.GpsDestBearing:
+                case ExifTagId.GpsDestDistance:
+                    return ExifStorageType.Rational;
+                case ExifTagId.DateTime:
+                case ExifTagId.ImageDescription:
+                case ExifTagId.Make:
+                case ExifTagId.Model:
+                case ExifTagId.Software:
+                case ExifTagId.Artist:
+                case ExifTagId.Copyright:
+                case ExifTagId.RelatedSoundFile:
+                case ExifTagId.DateTimeOriginal:
+                case ExifTagId.DateTimeDigitized:
+                case ExifTagId.SubSecTime:
+                case ExifTagId.SubSecTimeOriginal:
+                case ExifTagId.SubSecTimeDigitized:
+                case ExifTagId.ImageUniqueId:
+                case ExifTagId.SpectralSensitivity:
+                case ExifTagId.GainControl:
+                case ExifTagId.GpsLatitudeRef:
+                case ExifTagId.GpsLongitudeRef:
+                case ExifTagId.GpsSatellites:
+                case ExifTagId.GpsStatus:
+                case ExifTagId.GpsMeasureMode:
+                case ExifTagId.GpsSpeedRef:
+                case ExifTagId.GpsTrackRef:
+                case ExifTagId.GpsImgDirectionRef:
+                case ExifTagId.GpsMapDatum:
+                case ExifTagId.GpsDestLatitudeRef:
+                case ExifTagId.GpsDestLongitudeRef:
+                case ExifTagId.GpsDestBearingRef:
+                case ExifTagId.GpsDestDistanceRef:
+                case ExifTagId.GpsDateStamp:
+                    return ExifStorageType.Ascii;
+                case ExifTagId.ShutterSpeedValue:
+                case ExifTagId.BrightnessValue:
+                case ExifTagId.ExposureBiasValue:
+                    return ExifStorageType.Srational;
+                case ExifTagId.GpsVersionId:
+                case ExifTagId.GpsAltitudeRef:
+                    return ExifStorageType.Byte;
+            }
+        }
+
+        /// <summary>
+        /// Get the C# data type of a given EXIF tag, assuming the EXIF tag follows the spec.  This
+        /// method is used to distinguish between scalar-valued tags and tags containing single-element
+        /// arrays.
+        /// </summary>
+        /// <param name="tagId">A type of EXIF tag.</param>
+        /// <returns>
+        /// The C# type that the tag reading code will return, if the tag is written with
+        /// the EXIF data type given in the specification.
+        /// </returns>
+        internal static Type DataType(this ExifTagId tagId)
+        {
+            switch (tagId)
+            {
+                case ExifTagId.FileSource:
+                case ExifTagId.SceneType:
+                case ExifTagId.GpsAltitudeRef:
+                    return typeof(byte);
+                default:
+                case ExifTagId.ExifVersion:
+                case ExifTagId.FlashpixVersion:
+                case ExifTagId.ComponentsConfiguration:
+                case ExifTagId.MakerNote:
+                case ExifTagId.UserComment:
+                case ExifTagId.OECF:
+                case ExifTagId.SpatialFrequencyResponse:
+                case ExifTagId.CFAPattern:
+                case ExifTagId.DeviceSettingDescription:
+                case ExifTagId.GpsVersionId:
+                case ExifTagId.GpsProcessingMethod:
+                case ExifTagId.GpsAreaInformation:
+                    return typeof(byte[]);
+                case ExifTagId.Compression:
+                case ExifTagId.PhotometricInterpretation:
+                case ExifTagId.Orientation:
+                case ExifTagId.SamplesPerPixel:
+                case ExifTagId.PlanarConfiguration:
+                case ExifTagId.YCbCrPositioning:
+                case ExifTagId.ResolutionUnit:
+                case ExifTagId.ColorSpace:
+                case ExifTagId.ExposureProgram:
+                case ExifTagId.MeteringMode:
+                case ExifTagId.LightSource:
+                case ExifTagId.Flash:
+                case ExifTagId.FocalPlaneResolutionUnit:
+                case ExifTagId.SensingMethod:
+                case ExifTagId.CustomRendered:
+                case ExifTagId.ExposureMode:
+                case ExifTagId.WhiteBalance:
+                case ExifTagId.FocalLengthIn35mmFilm:
+                case ExifTagId.SceneCaptureType:
+                case ExifTagId.Contrast:
+                case ExifTagId.Saturation:
+                case ExifTagId.Sharpness:
+                case ExifTagId.SubjectDistanceRange:
+                case ExifTagId.GpsDifferential:
+                    return typeof(int);
+                case ExifTagId.BitsPerSample:
+                case ExifTagId.YCbCrSubSampling:
+                case ExifTagId.TransferFunction:
+                case ExifTagId.ISOSpeedRatings:
+                case ExifTagId.SubjectArea:
+                case ExifTagId.SubjectLocation:
+                    return typeof(int[]);
+                case ExifTagId.ExifPointer:
+                case ExifTagId.GpsPointer:
+                case ExifTagId.ImageWidth:
+                case ExifTagId.ImageLength:
+                case ExifTagId.RowsPerStrip:
+                case ExifTagId.JPEGInterchangeFormat:
+                case ExifTagId.JPEGInterchangeFormatLength:
+                case ExifTagId.PixelXDimension:
+                case ExifTagId.PixelYDimension:
+                    return typeof(long);
+                case ExifTagId.StripOffsets:
+                case ExifTagId.StripByteCounts:
+                    return typeof(long[]);
+                case ExifTagId.XResolution:
+                case ExifTagId.YResolution:
+                case ExifTagId.CompressedBitsPerPixel:
+                case ExifTagId.ExposureTime:
+                case ExifTagId.FNumber:
+                case ExifTagId.ShutterSpeedValue:
+                case ExifTagId.ApertureValue:
+                case ExifTagId.BrightnessValue:
+                case ExifTagId.ExposureBiasValue:
+                case ExifTagId.MaxApertureValue:
+                case ExifTagId.SubjectDistance:
+                case ExifTagId.FocalLength:
+                case ExifTagId.FlashEnergy:
+                case ExifTagId.FocalPlaneXResolution:
+                case ExifTagId.FocalPlaneYResolution:
+                case ExifTagId.ExposureIndex:
+                case ExifTagId.DigitalZoomRatio:
+                case ExifTagId.GainControl:
+                case ExifTagId.GpsAltitude:
+                case ExifTagId.GpsDOP:
+                case ExifTagId.GpsSpeed:
+                case ExifTagId.GpsTrack:
+                case ExifTagId.GpsImgDirection:
+                case ExifTagId.GpsDestBearing:
+                case ExifTagId.GpsDestDistance:
+                    return typeof(decimal);
+                case ExifTagId.WhitePoint:
+                case ExifTagId.PrimaryChromaticities:
+                case ExifTagId.YCbCrCoefficients:
+                case ExifTagId.ReferenceBlackWhite:
+                case ExifTagId.GpsLatitude:
+                case ExifTagId.GpsLongitude:
+                case ExifTagId.GpsTimeStamp:
+                case ExifTagId.GpsDestLatitude:
+                case ExifTagId.GpsDestLongitude:
+                    return typeof(decimal[]);
+                case ExifTagId.DateTime:
+                case ExifTagId.ImageDescription:
+                case ExifTagId.Make:
+                case ExifTagId.Model:
+                case ExifTagId.Software:
+                case ExifTagId.Artist:
+                case ExifTagId.Copyright:
+                case ExifTagId.RelatedSoundFile:
+                case ExifTagId.DateTimeOriginal:
+                case ExifTagId.DateTimeDigitized:
+                case ExifTagId.SubSecTime:
+                case ExifTagId.SubSecTimeOriginal:
+                case ExifTagId.SubSecTimeDigitized:
+                case ExifTagId.ImageUniqueId:
+                case ExifTagId.SpectralSensitivity:
+                case ExifTagId.GpsLatitudeRef:
+                case ExifTagId.GpsLongitudeRef:
+                case ExifTagId.GpsSatellites:
+                case ExifTagId.GpsStatus:
+                case ExifTagId.GpsMeasureMode:
+                case ExifTagId.GpsSpeedRef:
+                case ExifTagId.GpsTrackRef:
+                case ExifTagId.GpsImgDirectionRef:
+                case ExifTagId.GpsMapDatum:
+                case ExifTagId.GpsDestLatitudeRef:
+                case ExifTagId.GpsDestLongitudeRef:
+                case ExifTagId.GpsDestBearingRef:
+                case ExifTagId.GpsDestDistanceRef:
+                case ExifTagId.GpsDateStamp:
+                    return typeof(string);
+            }
+        }
+    }
+}

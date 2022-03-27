@@ -100,24 +100,14 @@ namespace Unicorn.FontTools.CharacterEncoding
         /// <param name="key">The byte to be mapped.</param>
         /// <param name="value">The variable into which to place the mapped codepoint.</param>
         /// <returns><c>true</c> if the byte could be mapped successfully, <c>false</c> if not.</returns>
-        public bool TryGetValue(byte key, out int value)
-        {
-            return _conts.TryGetValue(key, out value);
-        }
+        public bool TryGetValue(byte key, out int value) => _conts.TryGetValue(key, out value);
 
         /// <summary>
         /// Safely map a byte, returning zero if no mapping is available.
         /// </summary>
         /// <param name="b">The byte to be mapped.</param>
         /// <returns>The codepoint that the parameter maps to, or zero if there is no mapping for the given byte.</returns>
-        public int Transform(byte b)
-        {
-            if (_conts.TryGetValue(b, out int v))
-            {
-                return v;
-            }
-            return 0;
-        }
+        public int Transform(byte b) => _conts.TryGetValue(b, out int v) ? v : 0;
 
         IEnumerator IEnumerable.GetEnumerator() => _conts.GetEnumerator();
 

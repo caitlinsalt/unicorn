@@ -25,10 +25,7 @@ namespace Unicorn.FontTools.Afm
             return val;
         }
 
-        internal static string LoadKeyedString(string input, string key)
-        {
-            return GetTrimmedInput(input, key);
-        }
+        internal static string LoadKeyedString(string input, string key) => GetTrimmedInput(input, key);
 
         internal static Vector LoadKeyedVector(string input, string key)
         {

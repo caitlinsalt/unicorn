@@ -88,20 +88,11 @@ namespace Unicorn.FontTools {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No font name specified..
+        ///   Looks up a localized string similar to Encoded value is too large to be converted to a timestamp..
         /// </summary>
-        internal static string PdfStandardFontDescriptor_GetByName_EmptyStringParameter {
+        internal static string Extensions_ByteArrayExtensions_ToDateTime_OutOfRangeError {
             get {
-                return ResourceManager.GetString("PdfStandardFontDescriptor_GetByName_EmptyStringParameter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Built-in font property StandardFontMetrics.{0} not found..
-        /// </summary>
-        internal static string PdfStandardFontDescriptor_GetByName_FontNotFoundByReflection {
-            get {
-                return ResourceManager.GetString("PdfStandardFontDescriptor_GetByName_FontNotFoundByReflection", resourceCulture);
+                return ResourceManager.GetString("Extensions_ByteArrayExtensions_ToDateTime_OutOfRangeError", resourceCulture);
             }
         }
         

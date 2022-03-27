@@ -348,3 +348,5 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/src/examples/Unicorn.ImageConvert/Properties/launchSettings.json
+/src/examples/Unicorn.TextConvert/Properties/launchSettings.json

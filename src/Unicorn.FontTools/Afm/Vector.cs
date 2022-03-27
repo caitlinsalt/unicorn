@@ -34,33 +34,20 @@ namespace Unicorn.FontTools.Afm
         /// </summary>
         /// <param name="other">Another <see cref="Vector" /> value.</param>
         /// <returns><c>true</c> if the values are equal, <c>false</c> if not.</returns>
-        public bool Equals(Vector other)
-        {
-            return this == other;
-        }
+        public bool Equals(Vector other) => this == other;
 
         /// <summary>
         /// Equality-test method.
         /// </summary>
         /// <param name="obj">Another object or value.</param>
         /// <returns><c>true</c> if the parameter is a <see cref="Vector" /> value equal to this one, <c>false</c> otherwise.</returns>
-        public override bool Equals(object obj)
-        {
-            if (!(obj is Vector vector))
-            {
-                return false;
-            }
-            return Equals(vector);
-        }
+        public override bool Equals(object obj) => (obj is Vector vector) && this == vector;
 
         /// <summary>
         /// Returns a hash code value.
         /// </summary>
         /// <returns>An integer representing a hash of this value.</returns>
-        public override int GetHashCode()
-        {
-            return X.GetHashCode() ^ (2 * Y).GetHashCode();
-        }
+        public override int GetHashCode() => X.GetHashCode() ^ (17 * Y).GetHashCode();
 
         /// <summary>
         /// Equality operator.
@@ -68,10 +55,7 @@ namespace Unicorn.FontTools.Afm
         /// <param name="a">A <see cref="Vector" /> value.</param>
         /// <param name="b">A <see cref="Vector" /> value.</param>
         /// <returns><c>true</c> if the two values are equal, false if not.</returns>
-        public static bool operator ==(Vector a, Vector b)
-        {
-            return a.X == b.X && a.Y == b.Y;
-        }
+        public static bool operator ==(Vector a, Vector b) => a.X == b.X && a.Y == b.Y;
 
         /// <summary>
         /// Inequality operator.
@@ -79,10 +63,7 @@ namespace Unicorn.FontTools.Afm
         /// <param name="a">A <see cref="Vector" /> value.</param>
         /// <param name="b">A <see cref="Vector" /> value.</param>
         /// <returns><c>true</c> if the two values are not equal, <c>false</c> if they are.</returns>
-        public static bool operator !=(Vector a, Vector b)
-        {
-            return a.X != b.X || a.Y != b.Y;
-        }
+        public static bool operator !=(Vector a, Vector b) => a.X != b.X || a.Y != b.Y;
 
         /// <summary>
         /// Convert two input strings into a <see cref="Vector" /> value.
@@ -138,9 +119,6 @@ namespace Unicorn.FontTools.Afm
         /// Convert this value to a string.
         /// </summary>
         /// <returns>A string containing a representation of this value.</returns>
-        public override string ToString()
-        {
-            return $"{X.ToString(CultureInfo.InvariantCulture)} {Y.ToString(CultureInfo.InvariantCulture)}";
-        }
+        public override string ToString() => $"{X.ToString(CultureInfo.InvariantCulture)} {Y.ToString(CultureInfo.InvariantCulture)}";
     }
 }

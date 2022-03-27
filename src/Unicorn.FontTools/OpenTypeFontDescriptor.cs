@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Unicorn.CoreTypes;
+using Unicorn.Base;
 using Unicorn.FontTools.CharacterEncoding;
 using Unicorn.FontTools.Extensions;
 using Unicorn.FontTools.OpenType;
@@ -16,6 +16,17 @@ namespace Unicorn.FontTools
     public class OpenTypeFontDescriptor : IFontDescriptor
     {
         private readonly IOpenTypeFont _underlyingFont;
+
+        /// <summary>
+        /// The kind of font implementation this descriptor represents: OpenType/TrueType.
+        /// </summary>
+        public FontImplementation Implementation => FontImplementation.OpenType;
+
+        /// <summary>
+        /// This value is not strictly speaking required, as it is implied by the <see cref="Implementation" /> property.
+        /// </summary>
+        /// <returns>The string <c>TrueType</c></returns>
+        public string GetSpecialSubtypeName() => "TrueType";
 
         /// <summary>
         /// The PostScript font name of the underlying font.
@@ -73,34 +84,34 @@ namespace Unicorn.FontTools
         /// <summary>
         /// Flags describing this font's visual style.
         /// </summary>
-        public CoreTypes.FontProperties Flags
+        public Base.FontProperties Flags
         {
             get
             {
-                CoreTypes.FontProperties output;
+                Base.FontProperties output;
                 if (CalculationStyle == CalculationStyle.Windows)
                 {
                     bool isSymbolic = _underlyingFont.CharacterMapping.SelectExactMapping(PlatformId.Windows, 0) != null;
                     output = _underlyingFont.OS2Metrics.FontSelection.ToFontDescriptorFlags(isSymbolic, _underlyingFont.PostScriptData.IsFixedPitch);
                     if (_underlyingFont.OS2Metrics.IBMFontFamily >= IBMFamily.OldstyleSerif_None && _underlyingFont.OS2Metrics.IBMFontFamily < IBMFamily.SansSerif_None)
                     {
-                        output |= CoreTypes.FontProperties.Serif;
+                        output |= Base.FontProperties.Serif;
                     }
                     if (_underlyingFont.OS2Metrics.IBMFontFamily >= IBMFamily.Scripts_None && _underlyingFont.OS2Metrics.IBMFontFamily < IBMFamily.Symbolic_None)
                     {
-                        output |= CoreTypes.FontProperties.Script;
+                        output |= Base.FontProperties.Script;
                     }
                 }
                 else
                 {
-                    output = CoreTypes.FontProperties.Nonsymbolic;
+                    output = Base.FontProperties.Nonsymbolic;
                     if (_underlyingFont.Header.StyleFlags.HasFlag(MacStyleProperties.Italic))
                     {
-                        output |= CoreTypes.FontProperties.Italic;
+                        output |= Base.FontProperties.Italic;
                     }
                     if (_underlyingFont.PostScriptData.IsFixedPitch)
                     {
-                        output |= CoreTypes.FontProperties.FixedPitch;
+                        output |= Base.FontProperties.FixedPitch;
                     }
                 }
                 return output;
@@ -137,6 +148,11 @@ namespace Unicorn.FontTools
         /// font resource table
         /// </summary>
         public Encoding PreferredEncoding => Encoding.GetEncoding(1252);
+
+        /// <summary>
+        /// The encoding name that should be set in PDF file font dictionaries for this font.
+        /// </summary>
+        public string PreferredEncodingName => "WinAnsiEncoding";
 
         /// <summary>
         /// The point size to render this font in.
@@ -284,6 +300,10 @@ namespace Unicorn.FontTools
             while (!_underlyingFont.HasGlyphDefined(PlatformId.Windows, (uint)PdfCharacterMappingDictionary.WinAnsiEncoding.Transform(b)))
             {
                 ++b;
+                if (b == 0)
+                {
+                    break;
+                }
             }
             return b;
         }
@@ -298,6 +318,10 @@ namespace Unicorn.FontTools
             while (!_underlyingFont.HasGlyphDefined(PlatformId.Windows, (uint)PdfCharacterMappingDictionary.WinAnsiEncoding.Transform(b)))
             {
                 --b;
+                if (b == 255)
+                {
+                    break;
+                }
             }
             return b;
         }
@@ -308,7 +332,7 @@ namespace Unicorn.FontTools
         /// </summary>
         /// <returns>An <see cref="IEnumerable{Double}" /> whose first element is the width of the character represented by the codepoint returned by the 
         /// <see cref="FirstMappedByte" /> method.</returns>
-        public IEnumerable<double> CharWidths()
+        public IEnumerable<double> CharacterWidths()
         {
             byte start = FirstMappedByte();
             byte end = LastMappedByte();

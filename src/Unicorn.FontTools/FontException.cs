@@ -11,16 +11,14 @@ namespace Unicorn.FontTools
         /// Parameterless constructor.
         /// </summary>
         public FontException()
-        {
-        }
+        { }
 
         /// <summary>
         /// Constructor which sets the <see cref="Exception.Message" /> property.
         /// </summary>
         /// <param name="message">The exception message.</param>
         public FontException(string message) : base(message)
-        {
-        }
+        { }
 
         /// <summary>
         /// Constructor which sets the <see cref="Exception.Message" /> and <see cref="Exception.InnerException" /> properties.
@@ -28,7 +26,6 @@ namespace Unicorn.FontTools
         /// <param name="message">The exception message.</param>
         /// <param name="innerException">The inner exception.</param>
         public FontException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
+        { }
     }
 }

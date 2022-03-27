@@ -35,14 +35,15 @@ namespace Unicorn.FontTools.Afm2Cs
                 }
                 output += "// Please regenerate this file instead of editing it by hand." + _rn + _rn;
             }
-            return output + $"using System.Collections.Generic;{_rn}{_rn}namespace {Namespace}{_rn}{{{_rn}    /// <summary>{_rn}    " +
+            output += "#pragma warning disable CA1024" + _rn + _rn;
+            return output + $"using System.Collections.Generic;{_rn}using Unicorn.FontTools.Afm;{_rn}{_rn}namespace {Namespace}{_rn}{{{_rn}    /// <summary>{_rn}    " +
                 $"/// Embedded font metrics generated from AFM files at or before build time.{_rn}    /// </summary>{_rn}" +
                 $"    public static class {ClassName}{_rn}    {{{_rn}";
         }
 
         internal static string OutputSupportedFonts(IEnumerable<string> fontNames, int indentLen)
         {
-            string indent = new string(' ', indentLen);
+            string indent = new(' ', indentLen);
             const string tab = "    ";
             return $"{indent}/// <summary>{_rn}{indent}/// Lists the built-in font metrics.{_rn}{indent}/// </summary>{_rn}" + 
                 $"{indent}/// <returns>An enumeration of the known font names (in the form defined in the AFM file.</returns>{_rn}" +
@@ -52,7 +53,7 @@ namespace Unicorn.FontTools.Afm2Cs
 
         internal static string OutputEnd()
         {
-            return $"    }}{_rn}}}{_rn}";
+            return $"    }}{_rn}}}{_rn}{_rn}#pragma warning restore CA1024{_rn}";
         }
     }
 }
