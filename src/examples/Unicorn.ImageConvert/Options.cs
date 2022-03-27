@@ -19,6 +19,9 @@ namespace Unicorn.ImageConvert
         [Option('r', "recursive", Required = false, Default = false, HelpText = "Recurse into subfolders")]
         public bool Recursive { get; set; }
 
+        [Option('x', "strip-exif", Required = false, Default = false, HelpText = "Strip EXIF data")]
+        public bool StripExif { get; set; }
+
         [Value(0)]
         public IEnumerable<string> InputFiles { get; set; }
     }
