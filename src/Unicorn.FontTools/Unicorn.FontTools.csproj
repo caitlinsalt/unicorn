@@ -19,6 +19,7 @@
     <RepositoryUrl>https://github.com/willsalt/unicorn.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>ttf afm TrueType OpenType fonts</PackageTags>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <ItemGroup>

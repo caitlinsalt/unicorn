@@ -18,6 +18,7 @@
     <PackageProjectUrl>https://github.com/willsalt/unicorn/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/willsalt/unicorn.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
   </PropertyGroup>
   
   <ItemGroup>

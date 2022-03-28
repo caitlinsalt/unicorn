@@ -18,6 +18,7 @@
     <RepositoryUrl>https://github.com/willsalt/unicorn.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>pdf</PackageTags>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
   </PropertyGroup>
 
 </Project>

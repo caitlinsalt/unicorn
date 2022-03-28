@@ -10,6 +10,10 @@
     name: GreyscaleColour
   - uid: Unicorn.IColour
     name: IColour
+  - uid: Unicorn.Image
+    name: Image
+  - uid: Unicorn.ImageWireframe
+    name: ImageWireframe
   - uid: Unicorn.IWord
     name: IWord
   - uid: Unicorn.Line
@@ -40,8 +44,6 @@
     name: TableRow
   - uid: Unicorn.TableRuleStyle
     name: TableRuleStyle
-  - uid: Unicorn.WidowsAndOrphans
-    name: WidowsAndOrphans
   - uid: Unicorn.Word
     name: Word
 - uid: Unicorn.Base
@@ -65,6 +67,8 @@
     name: IDocumentDescriptor
   - uid: Unicorn.Base.IDrawable
     name: IDrawable
+  - uid: Unicorn.Base.IFixedSizeDrawable
+    name: IFixedSizeDrawable
   - uid: Unicorn.Base.IFontDescriptor
     name: IFontDescriptor
   - uid: Unicorn.Base.IFontLoader
@@ -73,24 +77,37 @@
     name: IGraphicsContext
   - uid: Unicorn.Base.IGraphicsState
     name: IGraphicsState
-  - uid: Unicorn.Base.IKnownSizeDrawable
-    name: IKnownSizeDrawable
+  - uid: Unicorn.Base.IImageDescriptor
+    name: IImageDescriptor
   - uid: Unicorn.Base.IPageDescriptor
     name: IPageDescriptor
+  - uid: Unicorn.Base.IPdfInternalReference
+    name: IPdfInternalReference
   - uid: Unicorn.Base.IPositionedDrawable
     name: IPositionedDrawable
-  - uid: Unicorn.Base.IPositionedKnownSizeDrawable
-    name: IPositionedKnownSizeDrawable
+  - uid: Unicorn.Base.IPositionedFixedSizeDrawable
+    name: IPositionedFixedSizeDrawable
+  - uid: Unicorn.Base.ISourceImage
+    name: ISourceImage
+  - uid: Unicorn.Base.ISplittable
+    name: ISplittable
+  - uid: Unicorn.Base.ISplittable`1
+    name: ISplittable<T>
+    name.vb: ISplittable(Of T)
   - uid: Unicorn.Base.IUniColour
     name: IUniColour
   - uid: Unicorn.Base.MathsHelpers
     name: MathsHelpers
   - uid: Unicorn.Base.PageOrientation
     name: PageOrientation
+  - uid: Unicorn.Base.PageState
+    name: PageState
   - uid: Unicorn.Base.PhysicalPageSize
     name: PhysicalPageSize
   - uid: Unicorn.Base.PhysicalPageSizeExtensions
     name: PhysicalPageSizeExtensions
+  - uid: Unicorn.Base.RightAngleRotation
+    name: RightAngleRotation
   - uid: Unicorn.Base.UniDashStyle
     name: UniDashStyle
   - uid: Unicorn.Base.UniFontStyles
@@ -109,6 +126,22 @@
     name: UniTextSize
   - uid: Unicorn.Base.VerticalAlignment
     name: VerticalAlignment
+  - uid: Unicorn.Base.WidowsAndOrphans
+    name: WidowsAndOrphans
+- uid: Unicorn.Base.Helpers.Extensions
+  name: Unicorn.Base.Helpers.Extensions
+  items:
+  - uid: Unicorn.Base.Helpers.Extensions.ByteArrayExtensions
+    name: ByteArrayExtensions
+- uid: Unicorn.Exceptions
+  name: Unicorn.Exceptions
+  items:
+  - uid: Unicorn.Exceptions.DrawableSplitException
+    name: DrawableSplitException
+  - uid: Unicorn.Exceptions.InvalidImageException
+    name: InvalidImageException
+  - uid: Unicorn.Exceptions.PageClosedException
+    name: PageClosedException
 - uid: Unicorn.FontTools
   name: Unicorn.FontTools
   items:
@@ -294,10 +327,28 @@
 - uid: Unicorn.Helpers
   name: Unicorn.Helpers
   items:
+  - uid: Unicorn.Helpers.DoubleExtensions
+    name: DoubleExtensions
   - uid: Unicorn.Helpers.ListExtensions
     name: ListExtensions
   - uid: Unicorn.Helpers.TaskHelper
     name: TaskHelper
+- uid: Unicorn.Images
+  name: Unicorn.Images
+  items:
+  - uid: Unicorn.Images.BaseSourceImage
+    name: BaseSourceImage
+  - uid: Unicorn.Images.ImageDescriptor
+    name: ImageDescriptor
+  - uid: Unicorn.Images.JpegSourceImage
+    name: JpegSourceImage
+  - uid: Unicorn.Images.SingleColourSourceImage
+    name: SingleColourSourceImage
+- uid: Unicorn.Images.Jpeg
+  name: Unicorn.Images.Jpeg
+  items:
+  - uid: Unicorn.Images.Jpeg.JpegEncodingMode
+    name: JpegEncodingMode
 - uid: Unicorn.Shapes
   name: Unicorn.Shapes
   items:
@@ -317,8 +368,6 @@
   items:
   - uid: Unicorn.Writer.Extensions.FlateCompressionLevelExtensions
     name: FlateCompressionLevelExtensions
-  - uid: Unicorn.Writer.Extensions.IListExtensions
-    name: IListExtensions
   - uid: Unicorn.Writer.Extensions.PhysicalPageSizeExtensions
     name: PhysicalPageSizeExtensions
   - uid: Unicorn.Writer.Extensions.UniDashStyleExtensions
@@ -334,6 +383,8 @@
     name: Ascii85Encoder
   - uid: Unicorn.Writer.Filters.FlateEncoder
     name: FlateEncoder
+  - uid: Unicorn.Writer.Filters.JpegFakeEncoder
+    name: JpegFakeEncoder
 - uid: Unicorn.Writer.Interfaces
   name: Unicorn.Writer.Interfaces
   items:
@@ -347,6 +398,8 @@
     name: IPdfPage
   - uid: Unicorn.Writer.Interfaces.IPdfPrimitiveObject
     name: IPdfPrimitiveObject
+  - uid: Unicorn.Writer.Interfaces.IPdfReference
+    name: IPdfReference
   - uid: Unicorn.Writer.Interfaces.IPdfWriteable
     name: IPdfWriteable
 - uid: Unicorn.Writer.Primitives
@@ -384,10 +437,19 @@
     name: PdfSimpleObject
   - uid: Unicorn.Writer.Primitives.PdfSpecialisedDictionary
     name: PdfSpecialisedDictionary
-  - uid: Unicorn.Writer.Primitives.PdfStream
-    name: PdfStream
   - uid: Unicorn.Writer.Primitives.PdfString
     name: PdfString
+- uid: Unicorn.Writer.Streams
+  name: Unicorn.Writer.Streams
+  items:
+  - uid: Unicorn.Writer.Streams.PdfImageStream
+    name: PdfImageStream
+  - uid: Unicorn.Writer.Streams.PdfJpegImageStream
+    name: PdfJpegImageStream
+  - uid: Unicorn.Writer.Streams.PdfMockImageStream
+    name: PdfMockImageStream
+  - uid: Unicorn.Writer.Streams.PdfStream
+    name: PdfStream
 - uid: Unicorn.Writer.Structural
   name: Unicorn.Writer.Structural
   items:
