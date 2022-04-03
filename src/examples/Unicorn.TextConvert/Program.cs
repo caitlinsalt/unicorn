@@ -33,7 +33,6 @@ namespace Unicorn.TextConvert
             }
             PdfDocument document = new();
             var page = document.AppendPage();
-            page.CurrentVerticalCursor = page.TopMarginPosition;
             MarginSet margins = new(0, 0, 12, 0);
             using StreamReader inputReader = new(options.In);
 #pragma warning disable CA2007 // Consider calling ConfigureAwait on the awaited task
